@@ -9,6 +9,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { cn } from "@/utils/style";
 
 interface ConfirmOptions {
 	description?: string;
@@ -71,7 +72,9 @@ export function ConfirmDialogProvider({ children }: { children: React.ReactNode 
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>{state.title}</AlertDialogTitle>
-						<AlertDialogDescription>{state.description}</AlertDialogDescription>
+						<AlertDialogDescription className={cn(!state.description && "sr-only")}>
+							{state.description}
+						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
 						<AlertDialogCancel onClick={handleCancel}>{state.cancelText ?? "Cancel"}</AlertDialogCancel>

@@ -5,6 +5,7 @@ import { EnableTwoFactorDialog } from "./auth/enable-two-factor";
 import { CreateResumeDialog, DuplicateResumeDialog, UpdateResumeDialog } from "./resume";
 import { CreateAwardDialog, UpdateAwardDialog } from "./resume/sections/award";
 import { CreateCertificationDialog, UpdateCertificationDialog } from "./resume/sections/certification";
+import { CreateCustomSectionDialog, UpdateCustomSectionDialog } from "./resume/sections/custom";
 import { CreateEducationDialog, UpdateEducationDialog } from "./resume/sections/education";
 import { CreateExperienceDialog, UpdateExperienceDialog } from "./resume/sections/experience";
 import { CreateInterestDialog, UpdateInterestDialog } from "./resume/sections/interest";
@@ -104,6 +105,12 @@ export function DialogManager() {
 		))
 		.with({ type: "resume.sections.references.update" }, ({ data }) => (
 			<UpdateReferenceDialog open={open} onOpenChange={onOpenChange} data={data} />
+		))
+		.with({ type: "resume.sections.custom.create" }, ({ data }) => (
+			<CreateCustomSectionDialog open={open} onOpenChange={onOpenChange} data={data} />
+		))
+		.with({ type: "resume.sections.custom.update" }, ({ data }) => (
+			<UpdateCustomSectionDialog open={open} onOpenChange={onOpenChange} data={data} />
 		))
 		.exhaustive();
 }

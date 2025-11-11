@@ -123,7 +123,7 @@ export function UpdateInterestDialog({ open, onOpenChange, data }: DialogProps<"
 							</Button>
 
 							<Button type="submit" disabled={form.formState.isSubmitting}>
-								<Trans>Create</Trans>
+								<Trans>Save Changes</Trans>
 							</Button>
 						</DialogFooter>
 					</form>

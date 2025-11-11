@@ -133,7 +133,7 @@ export function UpdatePublicationDialog({
 							</Button>
 
 							<Button type="submit" disabled={form.formState.isSubmitting}>
-								<Trans>Create</Trans>
+								<Trans>Save Changes</Trans>
 							</Button>
 						</DialogFooter>
 					</form>

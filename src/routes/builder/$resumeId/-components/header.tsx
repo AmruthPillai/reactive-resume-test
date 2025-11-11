@@ -24,14 +24,18 @@ import {
 import { useDialogStore } from "@/dialogs/store";
 import { useConfirm } from "@/hooks/use-confirm";
 import { orpc } from "@/integrations/orpc/client";
-import { useBuilderSidebar } from "../-context/builder";
 import { useResumeStore } from "../-store/resume";
+import { useBuilderSidebar } from "../-store/sidebar";
 
 export function BuilderHeader() {
 	const resumeId = useResumeStore((state) => state.resume?.id);
 	const resumeName = useResumeStore((state) => state.resume?.name ?? "");
 	const isLocked = useResumeStore((state) => Boolean(state.resume?.isLocked));
-	const { toggleLeftSidebar, toggleRightSidebar } = useBuilderSidebar();
+
+	const { toggleLeftSidebar, toggleRightSidebar } = useBuilderSidebar((state) => ({
+		toggleLeftSidebar: state.toggleLeftSidebar,
+		toggleRightSidebar: state.toggleRightSidebar,
+	}));
 
 	return (
 		<div className="absolute inset-x-0 top-0 z-10 flex h-14 items-center justify-between bg-popover px-1.5 shadow">

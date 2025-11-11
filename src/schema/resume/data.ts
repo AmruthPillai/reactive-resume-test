@@ -1,8 +1,6 @@
 import z from "zod";
 import type { IconName } from "@/components/input/icon-picker";
 
-export const iconSchema = z.custom<IconName>().or(z.literal(""));
-
 export const urlSchema = z.object({
 	url: z.url().or(z.literal("")),
 	label: z.string(),
@@ -25,7 +23,7 @@ export const pictureSchema = z.object({
 
 export const customFieldSchema = z.object({
 	id: z.string(),
-	icon: iconSchema,
+	icon: z.custom<IconName>(),
 	text: z.string(),
 });
 
@@ -88,7 +86,7 @@ export const experienceItemSchema = baseItemSchema.extend({
 });
 
 export const interestItemSchema = baseItemSchema.extend({
-	icon: iconSchema,
+	icon: z.custom<IconName>(),
 	name: z.string().min(1),
 	keywords: z.array(z.string()).catch([]),
 });
@@ -100,7 +98,7 @@ export const languageItemSchema = baseItemSchema.extend({
 });
 
 export const profileItemSchema = baseItemSchema.extend({
-	icon: iconSchema,
+	icon: z.custom<IconName>(),
 	network: z.string().min(1),
 	username: z.string(),
 	website: urlSchema,
@@ -127,7 +125,7 @@ export const referenceItemSchema = baseItemSchema.extend({
 });
 
 export const skillItemSchema = baseItemSchema.extend({
-	icon: iconSchema,
+	icon: z.custom<IconName>(),
 	name: z.string().min(1),
 	proficiency: z.string(),
 	level: z.number().min(0).max(5).catch(0),
@@ -212,6 +210,8 @@ export const sectionsSchema = z.object({
 });
 
 export type SectionType = keyof z.infer<typeof sectionsSchema>;
+export type ExtendedSectionType = "basics" | "summary" | SectionType | "custom";
+
 export type SectionData = z.infer<typeof sectionsSchema>[SectionType];
 export type SectionItem = SectionData["items"][number];
 
@@ -219,6 +219,8 @@ export const customSectionSchema = baseSectionSchema.extend({
 	id: z.string(),
 	content: z.string(),
 });
+
+export type CustomSection = z.infer<typeof customSectionSchema>;
 
 export const customSectionsSchema = z.array(customSectionSchema);
 
@@ -958,7 +960,24 @@ export const sampleResumeData: ResumeData = {
 			],
 		},
 	},
-	customSections: [],
+	customSections: [
+		{
+			id: "custom-1",
+			title: "Volunteer Projects",
+			columns: 1,
+			hidden: false,
+			content:
+				"<p>Organized local hackathons for high school students and mentored teams on web development basics.</p>",
+		},
+		{
+			id: "custom-2",
+			title: "Internships",
+			columns: 1,
+			hidden: false,
+			content:
+				"<p>Completed a 6-month remote internship at Open Source Initiative. Contributed bug fixes and helped review community pull requests.</p>",
+		},
+	],
 	metadata: {
 		template: "modern",
 		layout: {

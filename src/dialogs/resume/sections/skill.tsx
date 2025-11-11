@@ -129,7 +129,7 @@ export function UpdateSkillDialog({ open, onOpenChange, data }: DialogProps<"res
 							</Button>
 
 							<Button type="submit" disabled={form.formState.isSubmitting}>
-								<Trans>Create</Trans>
+								<Trans>Save Changes</Trans>
 							</Button>
 						</DialogFooter>
 					</form>

@@ -5,7 +5,6 @@ import { useForm, useFormContext } from "react-hook-form";
 import type z from "zod";
 import { useResumeStore } from "@/builder/-store/resume";
 import { RichInput } from "@/components/input/rich-input";
-import { URLInput } from "@/components/input/url-input";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -18,36 +17,30 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import type { DialogProps } from "@/dialogs/store";
-import { certificationItemSchema } from "@/schema/resume/data";
+import { customSectionSchema } from "@/schema/resume/data";
 import { generateId } from "@/utils/string";
 
-const formSchema = certificationItemSchema;
+const formSchema = customSectionSchema;
 
 type FormValues = z.infer<typeof formSchema>;
 
-export function CreateCertificationDialog({
-	open,
-	onOpenChange,
-	data,
-}: DialogProps<"resume.sections.certifications.create">) {
+export function CreateCustomSectionDialog({ open, onOpenChange, data }: DialogProps<"resume.sections.custom.create">) {
 	const updateResume = useResumeStore((state) => state.updateResume);
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			id: generateId(),
-			hidden: data?.hidden ?? false,
 			title: data?.title ?? "",
-			issuer: data?.issuer ?? "",
-			date: data?.date ?? "",
-			website: data?.website ?? { url: "", label: "" },
-			description: data?.description ?? "",
+			columns: data?.columns ?? 1,
+			hidden: data?.hidden ?? false,
+			content: data?.content ?? "",
 		},
 	});
 
-	const onSubmit = (values: FormValues) => {
+	const onSubmit = (data: FormValues) => {
 		updateResume((draft) => {
-			draft.sections.certifications.items.push(values);
+			draft.customSections.push(data);
 		});
 		onOpenChange(false);
 	};
@@ -58,14 +51,14 @@ export function CreateCertificationDialog({
 				<DialogHeader>
 					<DialogTitle className="flex items-center gap-x-2">
 						<PlusIcon />
-						<Trans>Create a new certification</Trans>
+						<Trans>Create a new custom section</Trans>
 					</DialogTitle>
 					<DialogDescription />
 				</DialogHeader>
 
 				<Form {...form}>
 					<form className="grid gap-4 sm:grid-cols-2" onSubmit={form.handleSubmit(onSubmit)}>
-						<CertificationForm />
+						<CustomSectionForm />
 
 						<DialogFooter className="sm:col-span-full">
 							<Button variant="ghost" onClick={() => onOpenChange(false)}>
@@ -83,31 +76,25 @@ export function CreateCertificationDialog({
 	);
 }
 
-export function UpdateCertificationDialog({
-	open,
-	onOpenChange,
-	data,
-}: DialogProps<"resume.sections.certifications.update">) {
+export function UpdateCustomSectionDialog({ open, onOpenChange, data }: DialogProps<"resume.sections.custom.update">) {
 	const updateResume = useResumeStore((state) => state.updateResume);
 
 	const form = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			id: data.id,
-			hidden: data.hidden,
 			title: data.title,
-			issuer: data.issuer,
-			date: data.date,
-			website: data.website,
-			description: data.description,
+			columns: data.columns,
+			hidden: data.hidden,
+			content: data.content,
 		},
 	});
 
-	const onSubmit = (values: FormValues) => {
+	const onSubmit = (data: FormValues) => {
 		updateResume((draft) => {
-			const index = draft.sections.certifications.items.findIndex((item) => item.id === values.id);
+			const index = draft.customSections.findIndex((item) => item.id === data.id);
 			if (index === -1) return;
-			draft.sections.certifications.items[index] = values;
+			draft.customSections[index] = data;
 		});
 		onOpenChange(false);
 	};
@@ -118,14 +105,14 @@ export function UpdateCertificationDialog({
 				<DialogHeader>
 					<DialogTitle className="flex items-center gap-x-2">
 						<PencilSimpleLineIcon />
-						<Trans>Update an existing certification</Trans>
+						<Trans>Update an existing custom section</Trans>
 					</DialogTitle>
 					<DialogDescription />
 				</DialogHeader>
 
 				<Form {...form}>
 					<form className="grid gap-4 sm:grid-cols-2" onSubmit={form.handleSubmit(onSubmit)}>
-						<CertificationForm />
+						<CustomSectionForm />
 
 						<DialogFooter className="sm:col-span-full">
 							<Button variant="ghost" onClick={() => onOpenChange(false)}>
@@ -143,7 +130,7 @@ export function UpdateCertificationDialog({
 	);
 }
 
-export function CertificationForm() {
+export function CustomSectionForm() {
 	const form = useFormContext<FormValues>();
 
 	return (
@@ -152,7 +139,7 @@ export function CertificationForm() {
 				control={form.control}
 				name="title"
 				render={({ field }) => (
-					<FormItem>
+					<FormItem className="sm:col-span-full">
 						<FormLabel>
 							<Trans>Title</Trans>
 						</FormLabel>
@@ -166,59 +153,11 @@ export function CertificationForm() {
 
 			<FormField
 				control={form.control}
-				name="issuer"
-				render={({ field }) => (
-					<FormItem>
-						<FormLabel>
-							<Trans>Issuer</Trans>
-						</FormLabel>
-						<FormControl>
-							<Input {...field} />
-						</FormControl>
-						<FormMessage />
-					</FormItem>
-				)}
-			/>
-
-			<FormField
-				control={form.control}
-				name="date"
-				render={({ field }) => (
-					<FormItem>
-						<FormLabel>
-							<Trans>Date</Trans>
-						</FormLabel>
-						<FormControl>
-							<Input {...field} />
-						</FormControl>
-						<FormMessage />
-					</FormItem>
-				)}
-			/>
-
-			<FormField
-				control={form.control}
-				name="website"
-				render={({ field }) => (
-					<FormItem>
-						<FormLabel>
-							<Trans>Website</Trans>
-						</FormLabel>
-						<FormControl>
-							<URLInput {...field} value={field.value} onChange={field.onChange} />
-						</FormControl>
-						<FormMessage />
-					</FormItem>
-				)}
-			/>
-
-			<FormField
-				control={form.control}
-				name="description"
+				name="content"
 				render={({ field }) => (
 					<FormItem className="sm:col-span-full">
 						<FormLabel>
-							<Trans>Description</Trans>
+							<Trans>Content</Trans>
 						</FormLabel>
 						<FormControl>
 							<RichInput {...field} value={field.value} onChange={field.onChange} />

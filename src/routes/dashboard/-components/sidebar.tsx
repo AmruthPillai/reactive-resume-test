@@ -168,6 +168,7 @@ export function DashboardSidebar() {
 				<AnimatePresence presenceAffectsLayout>
 					{state === "expanded" && (
 						<motion.div
+							key="copyright"
 							initial={{ y: 50, height: 0, opacity: 0 }}
 							animate={{ y: 0, height: "auto", opacity: 1 }}
 							exit={{ y: 50, height: 0, opacity: 0 }}

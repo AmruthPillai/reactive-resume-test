@@ -11,6 +11,7 @@ import {
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/utils/style";
 
 interface PromptOptions {
 	description?: string;
@@ -103,7 +104,9 @@ export function PromptDialogProvider({ children }: { children: React.ReactNode }
 				<AlertDialogContent>
 					<AlertDialogHeader>
 						<AlertDialogTitle>{state.title}</AlertDialogTitle>
-						{state.description && <AlertDialogDescription>{state.description}</AlertDialogDescription>}
+						<AlertDialogDescription className={cn(!state.description && "sr-only")}>
+							{state.description}
+						</AlertDialogDescription>
 					</AlertDialogHeader>
 
 					<Input

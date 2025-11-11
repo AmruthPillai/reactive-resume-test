@@ -4,6 +4,7 @@ import { resumeSchema } from "@/integrations/drizzle/schema";
 import {
 	awardItemSchema,
 	certificationItemSchema,
+	customSectionSchema,
 	educationItemSchema,
 	experienceItemSchema,
 	interestItemSchema,
@@ -50,6 +51,8 @@ const dialogTypeSchema = z.discriminatedUnion("type", [
 	z.object({ type: z.literal("resume.sections.volunteer.update"), data: volunteerItemSchema }),
 	z.object({ type: z.literal("resume.sections.references.create"), data: referenceItemSchema.optional() }),
 	z.object({ type: z.literal("resume.sections.references.update"), data: referenceItemSchema }),
+	z.object({ type: z.literal("resume.sections.custom.create"), data: customSectionSchema.optional() }),
+	z.object({ type: z.literal("resume.sections.custom.update"), data: customSectionSchema }),
 ]);
 
 type DialogType = z.infer<typeof dialogTypeSchema>;

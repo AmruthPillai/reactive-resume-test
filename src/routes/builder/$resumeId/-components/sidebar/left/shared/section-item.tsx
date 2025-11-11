@@ -62,12 +62,12 @@ export function SectionItem<T extends SectionItemType>({ type, item, title, subt
 		<Reorder.Item
 			key={item.id}
 			value={item}
-			initial={{ opacity: 0, y: -10 }}
+			dragListener={false}
+			dragControls={controls}
+			initial={{ opacity: 1, y: -10 }}
 			animate={{ opacity: 1, y: 0 }}
 			exit={{ opacity: 0, y: -10 }}
 			className="group flex h-18 select-none border-b"
-			dragListener={false}
-			dragControls={controls}
 		>
 			<div
 				className="flex cursor-ns-resize items-center px-1.5 opacity-40 transition-[background-color,opacity] hover:bg-secondary/20 group-hover:opacity-100"
@@ -77,7 +77,7 @@ export function SectionItem<T extends SectionItemType>({ type, item, title, subt
 			</div>
 
 			<button
-				className="flex flex-1 flex-col items-start justify-center space-y-0.5 pl-3 text-left hover:bg-secondary/20 focus:outline-none focus-visible:ring-1"
+				className="flex flex-1 flex-col items-start justify-center space-y-0.5 pl-1.5 text-left hover:bg-secondary/20 focus:outline-none focus-visible:ring-1"
 				onClick={onUpdate}
 			>
 				<div className="line-clamp-1 font-medium">{title}</div>

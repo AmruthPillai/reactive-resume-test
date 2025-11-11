@@ -1,18 +1,19 @@
 import { useCallback, useRef } from "react";
-import { useBuilderSidebar } from "@/builder/-context/builder";
 import { useResumeData } from "@/builder/-hooks/resume";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { UserDropdownMenu } from "@/components/user/dropdown-menu";
-import type { SectionType } from "@/schema/resume/data";
+import type { ExtendedSectionType, SectionType } from "@/schema/resume/data";
 import { getSectionIcon, getSectionTitle } from "@/utils/resume/section";
 import { getInitials } from "@/utils/string";
+import { useBuilderSidebar, useBuilderSidebarStore } from "../../../-store/sidebar";
 import { BuilderSidebarEdge } from "../edge";
 import { AwardsSectionBuilder } from "./sections/awards";
 import { BasicsSectionBuilder } from "./sections/basics";
 import { CertificationsSectionBuilder } from "./sections/certifications";
+import { CustomSectionBuilder } from "./sections/custom";
 import { EducationSectionBuilder } from "./sections/education";
 import { ExperienceSectionBuilder } from "./sections/experience";
 import { InterestsSectionBuilder } from "./sections/interests";
@@ -29,13 +30,14 @@ export function BuilderSidebarLeft() {
 	const scrollAreaRef = useRef<HTMLDivElement | null>(null);
 
 	const sections = useResumeData((data) => data.sections);
-	const { leftSidebar, toggleLeftSidebar } = useBuilderSidebar();
+	const leftSidebar = useBuilderSidebarStore((state) => state.leftSidebar);
+	const toggleLeftSidebar = useBuilderSidebar((state) => state.toggleLeftSidebar);
 
 	const scrollToSection = useCallback(
-		(section: "basics" | "summary" | SectionType) => {
-			if (!scrollAreaRef.current || !leftSidebar.current) return;
+		(section: ExtendedSectionType) => {
+			if (!scrollAreaRef.current || !leftSidebar) return;
 
-			if (leftSidebar.current.isCollapsed()) toggleLeftSidebar();
+			if (leftSidebar.isCollapsed()) toggleLeftSidebar();
 
 			const sectionElement = scrollAreaRef.current.querySelector(`#sidebar-${section}`);
 			sectionElement?.scrollIntoView({ behavior: "smooth" });
@@ -78,6 +80,15 @@ export function BuilderSidebarLeft() {
 							{getSectionIcon(key as SectionType)}
 						</Button>
 					))}
+
+					<Button
+						size="icon"
+						variant="ghost"
+						title={getSectionTitle("custom")}
+						onClick={() => scrollToSection("custom")}
+					>
+						{getSectionIcon("custom")}
+					</Button>
 				</div>
 
 				<UserDropdownMenu>
@@ -121,6 +132,8 @@ export function BuilderSidebarLeft() {
 					<VolunteerSectionBuilder />
 					<Separator />
 					<ReferencesSectionBuilder />
+					<Separator />
+					<CustomSectionBuilder />
 				</div>
 			</ScrollArea>
 		</>

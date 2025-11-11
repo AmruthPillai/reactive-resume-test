@@ -154,6 +154,7 @@ function ResumeLockOverlay({ isLocked }: { isLocked: boolean }) {
 		<AnimatePresence>
 			{isLocked && (
 				<motion.div
+					key="resume-lock-overlay"
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 0.6 }}
 					exit={{ opacity: 0 }}

@@ -1,5 +1,5 @@
 import { debounce } from "es-toolkit";
-import { produce, type WritableDraft } from "immer";
+import type { WritableDraft } from "immer";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import type { RouterOutput } from "@/integrations/orpc/client";
@@ -31,7 +31,7 @@ const syncResume = async (id: string, data: ResumeData) => {
 const debouncedSyncResume = debounce(syncResume, 500);
 
 export const useResumeStore = create<ResumeStore>()(
-	immer((set) => ({
+	immer((set, get) => ({
 		isReady: false,
 		resume: null as unknown as Resume,
 
@@ -43,12 +43,15 @@ export const useResumeStore = create<ResumeStore>()(
 		},
 
 		updateResume: (fn) => {
-			return set((state) => {
+			set((state) => {
 				if (!state.resume) return state;
-				const updatedData = produce(state.resume.data, fn);
-				debouncedSyncResume(state.resume.id, updatedData);
-				state.resume.data = updatedData;
+				fn(state.resume.data as WritableDraft<ResumeData>);
 			});
+
+			const resume = get().resume;
+			if (!resume) return;
+
+			debouncedSyncResume(resume.id, resume.data);
 		},
 	})),
 );

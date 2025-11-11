@@ -1,4 +1,5 @@
 import { t } from "@lingui/core/macro";
+import { ProhibitIcon } from "@phosphor-icons/react";
 import Fuse from "fuse.js";
 import { memo, useCallback, useMemo, useState } from "react";
 import { type CellComponentProps, Grid } from "react-window";
@@ -20,14 +21,14 @@ type IconSearchInputProps = {
 function _IconSearchInput(props: IconSearchInputProps) {
 	return (
 		<Input
-			className={cn("rounded-none border-0 focus-visible:ring-0", props.className)}
-			placeholder={t`Search for an icon`}
 			autoFocus
 			spellCheck={false}
 			inputMode="search"
 			value={props.value}
-			onChange={(e) => props.onChange(e.currentTarget.value)}
 			aria-label={t`Search for an icon`}
+			placeholder={t`Search for an icon`}
+			onChange={(e) => props.onChange(e.currentTarget.value)}
+			className={cn("rounded-none border-0 focus-visible:ring-0", props.className)}
 		/>
 	);
 }
@@ -38,15 +39,12 @@ IconSearchInput.displayName = "IconSearchInput";
 
 type IconCellComponentProps = CellComponentProps & {
 	icons: IconName[];
-	onChange: (icon: IconName | "") => void;
+	onChange: (icon: IconName) => void;
 };
 
 function IconCellComponent({ columnIndex, rowIndex, style, icons, onChange }: IconCellComponentProps) {
 	const index = rowIndex * columnCount + columnIndex;
 	const icon = icons[index];
-
-	// biome-ignore lint/complexity/noUselessFragments: fragment is required
-	if (!icon) return <></>;
 
 	return (
 		<button
@@ -57,7 +55,7 @@ function IconCellComponent({ columnIndex, rowIndex, style, icons, onChange }: Ic
 			onClick={() => onChange(icon)}
 			className="flex size-full items-center justify-center hover:bg-accent"
 		>
-			<i className={cn("ph text-base", `ph-${icon}`)} />
+			{icon ? <i className={cn("ph text-base", `ph-${icon}`)} /> : <ProhibitIcon />}
 		</button>
 	);
 }
@@ -77,8 +75,8 @@ function useIconSearch() {
 }
 
 type IconPickerProps = Omit<React.ComponentProps<typeof Button>, "value" | "onChange"> & {
-	value: IconName | "";
-	onChange: (icon: IconName | "") => void;
+	value: IconName;
+	onChange: (icon: IconName) => void;
 	popoverProps?: React.ComponentProps<typeof Popover>;
 };
 
@@ -104,10 +102,10 @@ export function IconPicker({ value, onChange, popoverProps, ...props }: IconPick
 				<div className="size-[290px]">
 					<Grid
 						key={search}
-						columnCount={columnCount}
-						columnWidth={columnWidth}
 						rowCount={rowCount}
 						rowHeight={rowHeight}
+						columnCount={columnCount}
+						columnWidth={columnWidth}
 						cellComponent={IconCellComponent}
 						cellProps={{ icons: searchedIcons, onChange }}
 					/>
@@ -118,6 +116,7 @@ export function IconPicker({ value, onChange, popoverProps, ...props }: IconPick
 }
 
 const icons = [
+	"",
 	"acorn",
 	"address-book",
 	"address-book-tabs",

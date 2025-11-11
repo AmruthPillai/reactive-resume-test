@@ -1,7 +1,9 @@
 import handler, { type ServerEntry } from "@tanstack/react-start/server-entry";
 import { migrateDatabase } from "@/scripts/database/migrate";
 
-await migrateDatabase();
+if (process.env.NODE_ENV === "production") {
+	await migrateDatabase();
+}
 
 export default {
 	fetch(request) {

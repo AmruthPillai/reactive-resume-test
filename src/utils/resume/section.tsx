@@ -12,15 +12,16 @@ import {
 	type IconProps,
 	MessengerLogoIcon,
 	PhoneIcon,
+	StarIcon,
 	TranslateIcon,
 	TrophyIcon,
 	UserIcon,
 } from "@phosphor-icons/react";
 import { match } from "ts-pattern";
-import type { SectionType } from "@/schema/resume/data";
+import type { ExtendedSectionType } from "@/schema/resume/data";
 import { cn } from "../style";
 
-export const getSectionTitle = (type: "basics" | "summary" | SectionType): string => {
+export const getSectionTitle = (type: ExtendedSectionType): string => {
 	return match(type)
 		.with("basics", () => t`Basics`)
 		.with("summary", () => t`Summary`)
@@ -36,10 +37,11 @@ export const getSectionTitle = (type: "basics" | "summary" | SectionType): strin
 		.with("publications", () => t`Publications`)
 		.with("volunteer", () => t`Volunteer`)
 		.with("references", () => t`References`)
+		.with("custom", () => t`Custom Sections`)
 		.exhaustive();
 };
 
-export const getSectionIcon = (type: "basics" | "summary" | SectionType, props?: IconProps): React.ReactNode => {
+export const getSectionIcon = (type: ExtendedSectionType, props?: IconProps): React.ReactNode => {
 	const iconProps = { ...props, className: cn("shrink-0", props?.className) };
 
 	return match(type)
@@ -57,5 +59,6 @@ export const getSectionIcon = (type: "basics" | "summary" | SectionType, props?:
 		.with("publications", () => <BooksIcon {...iconProps} />)
 		.with("volunteer", () => <HandHeartIcon {...iconProps} />)
 		.with("references", () => <PhoneIcon {...iconProps} />)
+		.with("custom", () => <StarIcon {...iconProps} />)
 		.exhaustive();
 };

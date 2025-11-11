@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { getCookie, setCookie } from "@tanstack/react-start/server";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import z from "zod";
 import { LoadingScreen } from "@/components/layout/loading-screen";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
@@ -10,9 +10,9 @@ import { cn } from "@/utils/style";
 import { BuilderHeader } from "./-components/header";
 import { BuilderSidebarLeft } from "./-components/sidebar/left";
 import { BuilderSidebarRight } from "./-components/sidebar/right";
-import { BuilderProvider, useBuilderContext } from "./-context/builder";
 import { useResume } from "./-hooks/resume";
 import { useResumeStore } from "./-store/resume";
+import { useBuilderSidebar, useBuilderSidebarStore } from "./-store/sidebar";
 
 export const Route = createFileRoute("/builder/$resumeId")({
 	component: RouteComponent,
@@ -28,23 +28,24 @@ export const Route = createFileRoute("/builder/$resumeId")({
 
 function RouteComponent() {
 	const resume = useResume();
+	const { layout: initialLayout } = Route.useLoaderData();
 	const isResumeReady = useResumeStore((state) => state.isReady);
 
 	if (!resume || !isResumeReady) return <LoadingScreen />;
 
-	return (
-		<BuilderProvider>
-			<BuilderLayout />
-		</BuilderProvider>
-	);
+	return <BuilderLayout initialLayout={initialLayout} />;
 }
 
-function BuilderLayout() {
+function BuilderLayout({ initialLayout }: { initialLayout: number[] }) {
 	const isMobile = useIsMobile();
-	const { layout: initialLayout } = Route.useLoaderData();
+	const [isDragging, setDragging] = useState(false);
 
-	const { leftSidebar, rightSidebar, isDragging, setDragging, maxSidebarSize, collapsedSidebarSize } =
-		useBuilderContext();
+	const setLeftSidebar = useBuilderSidebarStore((state) => state.setLeftSidebar);
+	const setRightSidebar = useBuilderSidebarStore((state) => state.setRightSidebar);
+	const { maxSidebarSize, collapsedSidebarSize } = useBuilderSidebar((state) => ({
+		maxSidebarSize: state.maxSidebarSize,
+		collapsedSidebarSize: state.collapsedSidebarSize,
+	}));
 
 	const onLayout = useCallback((layout: number[]) => {
 		setBuilderLayoutServerFn({ data: layout });
@@ -59,7 +60,7 @@ function BuilderLayout() {
 					<ResizablePanel
 						collapsible
 						id="left-sidebar"
-						ref={leftSidebar}
+						ref={setLeftSidebar}
 						maxSize={maxSidebarSize}
 						minSize={collapsedSidebarSize}
 						collapsedSize={collapsedSidebarSize}
@@ -80,7 +81,7 @@ function BuilderLayout() {
 					<ResizablePanel
 						collapsible
 						id="right-sidebar"
-						ref={rightSidebar}
+						ref={setRightSidebar}
 						maxSize={maxSidebarSize}
 						minSize={collapsedSidebarSize}
 						collapsedSize={collapsedSidebarSize}
