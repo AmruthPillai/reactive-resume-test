@@ -28,7 +28,9 @@ import { useBuilderSidebar } from "../-context/builder";
 import { useResumeStore } from "../-store/resume";
 
 export function BuilderHeader() {
-	const resume = useResumeStore((state) => state.resume);
+	const resumeId = useResumeStore((state) => state.resume?.id);
+	const resumeName = useResumeStore((state) => state.resume?.name ?? "");
+	const isLocked = useResumeStore((state) => Boolean(state.resume?.isLocked));
 	const { toggleLeftSidebar, toggleRightSidebar } = useBuilderSidebar();
 
 	return (
@@ -44,9 +46,9 @@ export function BuilderHeader() {
 					</Link>
 				</Button>
 				<span className="mr-2.5 text-muted-foreground">/</span>
-				<h2 className="font-medium">{resume?.name}</h2>
-				{resume?.isLocked && <LockSimpleIcon className="ml-2 text-muted-foreground" />}
-				<BuilderHeaderDropdown />
+				<h2 className="font-medium">{resumeName}</h2>
+				{isLocked && <LockSimpleIcon className="ml-2 text-muted-foreground" />}
+				<BuilderHeaderDropdown resumeId={resumeId} isLocked={isLocked} />
 			</div>
 
 			<Button size="icon" variant="ghost" onClick={toggleRightSidebar}>
@@ -56,28 +58,34 @@ export function BuilderHeader() {
 	);
 }
 
-function BuilderHeaderDropdown() {
+interface BuilderHeaderDropdownProps {
+	resumeId?: string;
+	isLocked: boolean;
+}
+
+function BuilderHeaderDropdown({ resumeId, isLocked }: BuilderHeaderDropdownProps) {
 	const confirm = useConfirm();
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const { openDialog } = useDialogStore();
-	const resume = useResumeStore((state) => state.resume);
 
 	const { mutate: deleteResume } = useMutation(orpc.resume.delete.mutationOptions());
 	const { mutate: setLockedResume } = useMutation(orpc.resume.setLocked.mutationOptions());
 
-	if (!resume) return null;
+	if (!resumeId) return null;
 
 	const handleUpdate = () => {
+		const resume = useResumeStore.getState().resume;
 		openDialog("resume.update", resume);
 	};
 
 	const handleDuplicate = () => {
+		const resume = useResumeStore.getState().resume;
 		openDialog("resume.duplicate", { ...resume, shouldRedirect: true });
 	};
 
 	const handleToggleLock = async () => {
-		if (!resume.isLocked) {
+		if (!isLocked) {
 			const confirmation = await confirm(t`Are you sure you want to lock this resume?`, {
 				description: t`When locked, the resume cannot be updated or deleted.`,
 			});
@@ -86,7 +94,7 @@ function BuilderHeaderDropdown() {
 		}
 
 		setLockedResume(
-			{ id: resume.id, isLocked: !resume.isLocked },
+			{ id: resumeId, isLocked: !isLocked },
 			{
 				onSuccess: () => {
 					queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
@@ -108,7 +116,7 @@ function BuilderHeaderDropdown() {
 		const toastId = toast.loading(t`Deleting your resume...`);
 
 		deleteResume(
-			{ id: resume.id },
+			{ id: resumeId },
 			{
 				onSuccess: () => {
 					toast.success(t`Your resume has been deleted successfully.`, { id: toastId });
@@ -131,24 +139,24 @@ function BuilderHeaderDropdown() {
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent>
-				<DropdownMenuItem disabled={resume.isLocked} onSelect={handleUpdate}>
+				<DropdownMenuItem disabled={isLocked} onSelect={handleUpdate}>
 					<PencilSimpleLineIcon className="mr-2" />
 					<Trans>Update</Trans>
 				</DropdownMenuItem>
 
-				<DropdownMenuItem disabled={resume.isLocked} onSelect={handleDuplicate}>
+				<DropdownMenuItem disabled={isLocked} onSelect={handleDuplicate}>
 					<CopySimpleIcon className="mr-2" />
 					<Trans>Duplicate</Trans>
 				</DropdownMenuItem>
 
 				<DropdownMenuItem onSelect={handleToggleLock}>
-					{resume.isLocked ? <LockSimpleOpenIcon className="mr-2" /> : <LockSimpleIcon className="mr-2" />}
-					{resume.isLocked ? <Trans>Unlock</Trans> : <Trans>Lock</Trans>}
+					{isLocked ? <LockSimpleOpenIcon className="mr-2" /> : <LockSimpleIcon className="mr-2" />}
+					{isLocked ? <Trans>Unlock</Trans> : <Trans>Lock</Trans>}
 				</DropdownMenuItem>
 
 				<DropdownMenuSeparator />
 
-				<DropdownMenuItem variant="destructive" disabled={resume.isLocked} onSelect={handleDelete}>
+				<DropdownMenuItem variant="destructive" disabled={isLocked} onSelect={handleDelete}>
 					<TrashSimpleIcon className="mr-2" />
 					<Trans>Delete</Trans>
 				</DropdownMenuItem>

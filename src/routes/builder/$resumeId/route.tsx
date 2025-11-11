@@ -28,9 +28,9 @@ export const Route = createFileRoute("/builder/$resumeId")({
 
 function RouteComponent() {
 	const resume = useResume();
-	const resumeFromStore = useResumeStore((state) => state.resume);
+	const isResumeReady = useResumeStore((state) => state.isReady);
 
-	if (!resume || !resumeFromStore) return <LoadingScreen />;
+	if (!resume || !isResumeReady) return <LoadingScreen />;
 
 	return (
 		<BuilderProvider>
