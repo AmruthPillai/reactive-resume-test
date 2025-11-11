@@ -1,4 +1,3 @@
-import { useRouteContext } from "@tanstack/react-router";
 import { useCallback, useRef } from "react";
 import { useBuilderSidebar } from "@/builder/-context/builder";
 import { useResumeData } from "@/builder/-hooks/resume";
@@ -29,9 +28,8 @@ import { VolunteerSectionBuilder } from "./sections/volunteer";
 export function BuilderSidebarLeft() {
 	const scrollAreaRef = useRef<HTMLDivElement | null>(null);
 
-	const { leftSidebar, toggleLeftSidebar } = useBuilderSidebar();
 	const sections = useResumeData((data) => data.sections);
-	const { session } = useRouteContext({ from: "/builder/$resumeId" });
+	const { leftSidebar, toggleLeftSidebar } = useBuilderSidebar();
 
 	const scrollToSection = useCallback(
 		(section: "basics" | "summary" | SectionType) => {
@@ -69,26 +67,28 @@ export function BuilderSidebarLeft() {
 						{getSectionIcon("summary")}
 					</Button>
 
-					{Object.keys(sections).map((section) => (
+					{Object.entries(sections).map(([key, section]) => (
 						<Button
-							key={section}
+							key={key}
 							size="icon"
 							variant="ghost"
-							title={getSectionTitle(section as SectionType)}
-							onClick={() => scrollToSection(section as SectionType)}
+							title={section.title}
+							onClick={() => scrollToSection(key as SectionType)}
 						>
-							{getSectionIcon(section as SectionType)}
+							{getSectionIcon(key as SectionType)}
 						</Button>
 					))}
 				</div>
 
 				<UserDropdownMenu>
-					<Button size="icon" variant="ghost">
-						<Avatar className="size-6">
-							<AvatarImage src={session.user.image ?? undefined} />
-							<AvatarFallback className="text-[0.5rem]">{getInitials(session.user.name)}</AvatarFallback>
-						</Avatar>
-					</Button>
+					{({ session }) => (
+						<Button size="icon" variant="ghost">
+							<Avatar className="size-6">
+								<AvatarImage src={session.user.image ?? undefined} />
+								<AvatarFallback className="text-[0.5rem]">{getInitials(session.user.name)}</AvatarFallback>
+							</Avatar>
+						</Button>
+					)}
 				</UserDropdownMenu>
 			</BuilderSidebarEdge>
 

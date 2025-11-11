@@ -1,22 +1,22 @@
 import { Trans } from "@lingui/react/macro";
 import { KeyIcon, LockOpenIcon } from "@phosphor-icons/react";
-import { useRouteContext } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { match } from "ts-pattern";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useDialogStore } from "@/dialogs/store";
+import { authClient } from "@/integrations/auth/client";
 
 type TwoFactorSectionProps = {
 	hasPassword: boolean;
 };
 
 export function TwoFactorSection({ hasPassword }: TwoFactorSectionProps) {
-	const { session } = useRouteContext({ from: "/dashboard" });
 	const { openDialog } = useDialogStore();
+	const { data: session } = authClient.useSession();
 
-	const twoFactorEnabled = session.user.twoFactorEnabled ?? false;
+	const twoFactorEnabled = useMemo(() => session?.user.twoFactorEnabled ?? false, [session]);
 
 	const handleTwoFactorAction = useCallback(() => {
 		if (twoFactorEnabled) {

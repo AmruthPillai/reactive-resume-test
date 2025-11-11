@@ -100,6 +100,7 @@ export const languageItemSchema = baseItemSchema.extend({
 });
 
 export const profileItemSchema = baseItemSchema.extend({
+	icon: iconSchema,
 	network: z.string().min(1),
 	username: z.string(),
 	website: urlSchema,
@@ -450,6 +451,7 @@ export const sampleResumeData: ResumeData = {
 				{
 					id: "profile-1",
 					hidden: false,
+					icon: "linkedin-logo",
 					network: "LinkedIn",
 					username: "sarahchen",
 					website: {
@@ -460,6 +462,7 @@ export const sampleResumeData: ResumeData = {
 				{
 					id: "profile-2",
 					hidden: false,
+					icon: "github-logo",
 					network: "GitHub",
 					username: "sarahchen",
 					website: {
@@ -470,6 +473,7 @@ export const sampleResumeData: ResumeData = {
 				{
 					id: "profile-3",
 					hidden: false,
+					icon: "twitter-logo",
 					network: "Twitter",
 					username: "@sarahcodes",
 					website: {

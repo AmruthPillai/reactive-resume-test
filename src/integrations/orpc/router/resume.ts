@@ -5,7 +5,7 @@ import z from "zod";
 import { schema } from "@/integrations/drizzle";
 import { db } from "@/integrations/drizzle/client";
 import { resumeSchema } from "@/integrations/drizzle/schema";
-import { defaultResumeData, resumeDataSchema } from "@/schema/resume/data";
+import { defaultResumeData, resumeDataSchema, sampleResumeData } from "@/schema/resume/data";
 import { generateId } from "@/utils/string";
 import { protectedProcedure } from "../context";
 
@@ -73,20 +73,22 @@ export const resumeRouter = {
 		return resume;
 	}),
 
-	create: protectedProcedure.input(resumeSchema.omit({ id: true })).handler(async ({ context, input }) => {
-		const id = generateId();
+	create: protectedProcedure
+		.input(resumeSchema.omit({ id: true }).extend({ withSampleData: z.boolean().default(false) }))
+		.handler(async ({ context, input }) => {
+			const id = generateId();
 
-		await db.insert(schema.resume).values({
-			id,
-			name: input.name,
-			slug: input.slug,
-			tags: input.tags,
-			userId: context.user.id,
-			data: defaultResumeData,
-		});
+			await db.insert(schema.resume).values({
+				id,
+				name: input.name,
+				slug: input.slug,
+				tags: input.tags,
+				userId: context.user.id,
+				data: input.withSampleData ? sampleResumeData : defaultResumeData,
+			});
 
-		return id;
-	}),
+			return id;
+		}),
 
 	update: protectedProcedure.input(resumeSchema).handler(async ({ context, input }) => {
 		await db

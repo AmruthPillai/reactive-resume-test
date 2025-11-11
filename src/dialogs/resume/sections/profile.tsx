@@ -1,9 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trans } from "@lingui/react/macro";
 import { AtIcon, PencilSimpleLineIcon, PlusIcon } from "@phosphor-icons/react";
-import { useForm, useFormContext } from "react-hook-form";
+import { useMemo } from "react";
+import { useForm, useFormContext, useFormState } from "react-hook-form";
 import type z from "zod";
 import { useResumeStore } from "@/builder/-store/resume";
+import { IconPicker } from "@/components/input/icon-picker";
 import { URLInput } from "@/components/input/url-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +22,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/
 import type { DialogProps } from "@/dialogs/store";
 import { profileItemSchema } from "@/schema/resume/data";
 import { generateId } from "@/utils/string";
+import { cn } from "@/utils/style";
 
 const formSchema = profileItemSchema;
 
@@ -33,6 +36,7 @@ export function CreateProfileDialog({ open, onOpenChange, data }: DialogProps<"r
 		defaultValues: {
 			id: generateId(),
 			hidden: data?.hidden ?? false,
+			icon: data?.icon ?? "",
 			network: data?.network ?? "",
 			username: data?.username ?? "",
 			website: data?.website ?? { url: "", label: "" },
@@ -85,6 +89,7 @@ export function UpdateProfileDialog({ open, onOpenChange, data }: DialogProps<"r
 		defaultValues: {
 			id: data.id,
 			hidden: data.hidden,
+			icon: data.icon,
 			network: data.network,
 			username: data.username,
 			website: data.website,
@@ -133,24 +138,43 @@ export function UpdateProfileDialog({ open, onOpenChange, data }: DialogProps<"r
 
 export function ProfileForm() {
 	const form = useFormContext<FormValues>();
+	const networkState = useFormState({ control: form.control, name: "network" });
+
+	const isNetworkInvalid = useMemo(() => {
+		return networkState.errors && Object.keys(networkState.errors).length > 0;
+	}, [networkState]);
 
 	return (
 		<>
-			<FormField
-				control={form.control}
-				name="network"
-				render={({ field }) => (
-					<FormItem>
-						<FormLabel>
-							<Trans>Network</Trans>
-						</FormLabel>
-						<FormControl>
-							<Input {...field} />
-						</FormControl>
-						<FormMessage />
-					</FormItem>
-				)}
-			/>
+			<div className={cn("flex items-end", isNetworkInvalid && "items-center")}>
+				<FormField
+					control={form.control}
+					name={"icon"}
+					render={({ field }) => (
+						<FormItem className="shrink-0">
+							<FormControl>
+								<IconPicker {...field} popoverProps={{ modal: true }} className="rounded-r-none! border-r-0!" />
+							</FormControl>
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="network"
+					render={({ field }) => (
+						<FormItem className="flex-1">
+							<FormLabel>
+								<Trans>Network</Trans>
+							</FormLabel>
+							<FormControl>
+								<Input className="rounded-l-none!" {...field} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+			</div>
 
 			<FormField
 				control={form.control}

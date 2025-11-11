@@ -58,7 +58,6 @@ function RouteComponent() {
 					toast.success(t`Your password has been reset successfully. You can now sign in with your new password.`, {
 						id: toastId,
 					});
-
 					navigate({ to: "/auth/login" });
 				},
 				onError: ({ error }) => {

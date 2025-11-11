@@ -10,7 +10,7 @@ import {
 	UserCircleIcon,
 	WarningIcon,
 } from "@phosphor-icons/react";
-import { Link, useRouteContext } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BrandIcon } from "@/components/ui/brand-icon";
@@ -102,7 +102,6 @@ function SidebarItemList({ items }: SidebarItemListProps) {
 
 export function DashboardSidebar() {
 	const { state } = useSidebarState();
-	const { session } = useRouteContext({ from: "/dashboard" });
 
 	return (
 		<Sidebar variant="floating" collapsible="icon">
@@ -147,19 +146,21 @@ export function DashboardSidebar() {
 				<SidebarMenu>
 					<SidebarMenuItem>
 						<UserDropdownMenu>
-							<SidebarMenuButton className="h-auto gap-x-3 group-data-[collapsible=icon]:p-1!">
-								<Avatar className="size-8 shrink-0 transition-all group-data-[collapsible=icon]:size-6">
-									<AvatarImage src={session.user.image ?? undefined} />
-									<AvatarFallback className="group-data-[collapsible=icon]:text-[0.5rem]">
-										{getInitials(session.user.name)}
-									</AvatarFallback>
-								</Avatar>
+							{({ session }) => (
+								<SidebarMenuButton className="h-auto gap-x-3 group-data-[collapsible=icon]:p-1!">
+									<Avatar className="size-8 shrink-0 transition-all group-data-[collapsible=icon]:size-6">
+										<AvatarImage src={session.user.image ?? undefined} />
+										<AvatarFallback className="group-data-[collapsible=icon]:text-[0.5rem]">
+											{getInitials(session.user.name)}
+										</AvatarFallback>
+									</Avatar>
 
-								<div className="group-data-[collapsible=icon]:-ml-8 transition-[margin,opacity] duration-200 ease-in-out group-data-[collapsible=icon]:opacity-0">
-									<p className="font-medium">{session.user.name}</p>
-									<p className="text-muted-foreground text-xs">{session.user.email}</p>
-								</div>
-							</SidebarMenuButton>
+									<div className="group-data-[collapsible=icon]:-ml-8 transition-[margin,opacity] duration-200 ease-in-out group-data-[collapsible=icon]:opacity-0">
+										<p className="font-medium">{session.user.name}</p>
+										<p className="text-muted-foreground text-xs">{session.user.email}</p>
+									</div>
+								</SidebarMenuButton>
+							)}
 						</UserDropdownMenu>
 					</SidebarMenuItem>
 				</SidebarMenu>

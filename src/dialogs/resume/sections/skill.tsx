@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { PencilSimpleLineIcon, PlusIcon } from "@phosphor-icons/react";
+import { useMemo } from "react";
 import { useForm, useFormContext, useFormState } from "react-hook-form";
 import type z from "zod";
 import { useResumeStore } from "@/builder/-store/resume";
@@ -142,9 +143,13 @@ export function SkillForm() {
 	const form = useFormContext<FormValues>();
 	const nameState = useFormState({ control: form.control, name: "name" });
 
+	const isNameInvalid = useMemo(() => {
+		return nameState.errors && Object.keys(nameState.errors).length > 0;
+	}, [nameState]);
+
 	return (
 		<>
-			<div className={cn("flex items-end", !nameState.isValid && "items-center")}>
+			<div className={cn("flex items-end", isNameInvalid && "items-center")}>
 				<FormField
 					control={form.control}
 					name={"icon"}

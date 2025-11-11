@@ -73,10 +73,10 @@ export function useAuthProviderActions() {
 				provider,
 				callbackURL: "/dashboard/settings/authentication",
 				fetchOptions: {
-					onSuccess: async () => {
-						await queryClient.invalidateQueries({ queryKey: ["auth", "accounts"] });
+					onSuccess: () => {
 						toast.dismiss(toastId);
 						toast.success(t`Your ${providerName} account has been linked successfully.`);
+						queryClient.invalidateQueries({ queryKey: ["auth", "accounts"] });
 					},
 					onError: ({ error }) => {
 						toast.error(error.message, { id: toastId });
@@ -96,10 +96,10 @@ export function useAuthProviderActions() {
 				providerId: provider,
 				accountId,
 				fetchOptions: {
-					onSuccess: async () => {
-						await queryClient.invalidateQueries({ queryKey: ["auth", "accounts"] });
+					onSuccess: () => {
 						toast.dismiss(toastId);
 						toast.success(t`Your ${providerName} account has been unlinked successfully.`);
+						queryClient.invalidateQueries({ queryKey: ["auth", "accounts"] });
 					},
 					onError: ({ error }) => {
 						toast.error(error.message, { id: toastId });

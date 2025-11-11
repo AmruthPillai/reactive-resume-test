@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { CaretDownIcon, MagicWandIcon, PencilSimpleLineIcon, PlusIcon } from "@phosphor-icons/react";
-import { useMutation } from "@tanstack/react-query";
-import { useRouteContext } from "@tanstack/react-router";
+import { CaretDownIcon, MagicWandIcon, PencilSimpleLineIcon, PlusIcon, TestTubeIcon } from "@phosphor-icons/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
 import { toast } from "sonner";
@@ -19,9 +19,16 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
+import { authClient } from "@/integrations/auth/client";
 import { resumeSchema } from "@/integrations/drizzle/schema";
 import { orpc } from "@/integrations/orpc/client";
 import { generateId, generateRandomName, slugify } from "@/utils/string";
@@ -32,8 +39,8 @@ const formSchema = resumeSchema;
 type FormValues = z.infer<typeof formSchema>;
 
 export function CreateResumeDialog({ open, onOpenChange }: DialogProps<"resume.create">) {
+	const queryClient = useQueryClient();
 	const { closeDialog } = useDialogStore();
-	const { queryClient } = useRouteContext({ from: "/dashboard" });
 
 	const { mutate: createResume, isPending } = useMutation(orpc.resume.create.mutationOptions());
 
@@ -57,10 +64,27 @@ export function CreateResumeDialog({ open, onOpenChange }: DialogProps<"resume.c
 		const toastId = toast.loading(t`Creating your resume...`);
 
 		createResume(data, {
-			onSuccess: async () => {
-				await queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
+			onSuccess: () => {
 				toast.success(t`Your resume has been created successfully.`, { id: toastId });
 				closeDialog();
+				queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
+			},
+			onError: (error) => {
+				toast.error(error.message, { id: toastId });
+			},
+		});
+	};
+
+	const onCreateSampleResume = () => {
+		const toastId = toast.loading(t`Creating your resume...`);
+
+		const data = { ...form.getValues(), withSampleData: true };
+
+		createResume(data, {
+			onSuccess: () => {
+				toast.success(t`Your resume has been created successfully.`, { id: toastId });
+				closeDialog();
+				queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
 			},
 			onError: (error) => {
 				toast.error(error.message, { id: toastId });
@@ -90,9 +114,21 @@ export function CreateResumeDialog({ open, onOpenChange }: DialogProps<"resume.c
 								<Button type="submit" disabled={isPending}>
 									Create
 								</Button>
-								<Button size="icon" disabled={isPending}>
-									<CaretDownIcon />
-								</Button>
+
+								<DropdownMenu>
+									<DropdownMenuTrigger asChild>
+										<Button size="icon" disabled={isPending}>
+											<CaretDownIcon />
+										</Button>
+									</DropdownMenuTrigger>
+
+									<DropdownMenuContent align="end">
+										<DropdownMenuItem onSelect={onCreateSampleResume}>
+											<TestTubeIcon />
+											<Trans>Create a Sample Resume</Trans>
+										</DropdownMenuItem>
+									</DropdownMenuContent>
+								</DropdownMenu>
 							</ButtonGroup>
 						</DialogFooter>
 					</form>
@@ -103,8 +139,8 @@ export function CreateResumeDialog({ open, onOpenChange }: DialogProps<"resume.c
 }
 
 export function UpdateResumeDialog({ open, onOpenChange, data }: DialogProps<"resume.update">) {
+	const queryClient = useQueryClient();
 	const { closeDialog } = useDialogStore();
-	const { queryClient } = useRouteContext({ from: "/dashboard" });
 
 	const { mutate: updateResume, isPending } = useMutation(orpc.resume.update.mutationOptions());
 
@@ -129,10 +165,10 @@ export function UpdateResumeDialog({ open, onOpenChange, data }: DialogProps<"re
 		const toastId = toast.loading(t`Updating your resume...`);
 
 		updateResume(data, {
-			onSuccess: async () => {
-				await queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
+			onSuccess: () => {
 				toast.success(t`Your resume has been updated successfully.`, { id: toastId });
 				closeDialog();
+				queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
 			},
 			onError: (error) => {
 				toast.error(error.message, { id: toastId });
@@ -170,8 +206,9 @@ export function UpdateResumeDialog({ open, onOpenChange, data }: DialogProps<"re
 }
 
 export function DuplicateResumeDialog({ open, onOpenChange, data }: DialogProps<"resume.duplicate">) {
+	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 	const { closeDialog } = useDialogStore();
-	const { queryClient } = useRouteContext({ from: "/dashboard" });
 
 	const { mutate: duplicateResume, isPending } = useMutation(orpc.resume.duplicate.mutationOptions());
 
@@ -192,14 +229,18 @@ export function DuplicateResumeDialog({ open, onOpenChange, data }: DialogProps<
 		form.setValue("slug", slugify(name), { shouldDirty: true });
 	}, [form, name]);
 
-	const onSubmit = (data: FormValues) => {
+	const onSubmit = (values: FormValues) => {
 		const toastId = toast.loading(t`Duplicating your resume...`);
 
-		duplicateResume(data, {
-			onSuccess: async () => {
+		duplicateResume(values, {
+			onSuccess: async (id) => {
 				await queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
 				toast.success(t`Your resume has been duplicated successfully.`, { id: toastId });
 				closeDialog();
+
+				if (data.shouldRedirect) {
+					navigate({ to: `/builder/$resumeId`, params: { resumeId: id } });
+				}
 			},
 			onError: (error) => {
 				toast.error(error.message, { id: toastId });
@@ -238,11 +279,11 @@ export function DuplicateResumeDialog({ open, onOpenChange, data }: DialogProps<
 
 export function ResumeForm() {
 	const form = useFormContext<FormValues>();
-	const { session } = useRouteContext({ from: "/dashboard" });
+	const { data: session } = authClient.useSession();
 
 	const slugPrefix = useMemo(() => {
-		return `${window.location.origin}/${session.user.username}/`;
-	}, [session.user.username]);
+		return `${window.location.origin}/${session?.user.username ?? ""}/`;
+	}, [session]);
 
 	const onGenerateName = () => {
 		form.setValue("name", generateRandomName(), { shouldDirty: true });

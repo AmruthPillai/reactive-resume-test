@@ -141,8 +141,9 @@ function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
 
 	return (
 		<p
-			data-slot="form-message"
 			id={formMessageId}
+			data-error={!!error}
+			data-slot="form-message"
 			className={cn("line-clamp-1 text-xs", error ? "text-destructive" : "text-muted-foreground", className)}
 			{...props}
 		>

@@ -19,17 +19,19 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { authClient } from "@/integrations/auth/client";
+import type { Session } from "@/integrations/auth/types";
 import { isLocale, loadLocale, localeMap, setLocaleServerFn } from "@/utils/locale";
 import { isTheme } from "@/utils/theme";
 
 type Props = {
-	children: React.ReactNode;
+	children: ({ session }: { session: Session }) => React.ReactNode;
 };
 
 export function UserDropdownMenu({ children }: Props) {
 	const router = useRouter();
 	const { i18n } = useLingui();
 	const { theme, setTheme } = useTheme();
+	const { data: session } = authClient.useSession();
 
 	function handleThemeChange(value: string) {
 		if (!isTheme(value)) return;
@@ -49,8 +51,8 @@ export function UserDropdownMenu({ children }: Props) {
 		authClient.signOut({
 			fetchOptions: {
 				onSuccess: () => {
-					router.invalidate();
 					toast.dismiss(toastId);
+					router.invalidate();
 				},
 				onError: ({ error }) => {
 					toast.error(error.message, { id: toastId });
@@ -59,9 +61,11 @@ export function UserDropdownMenu({ children }: Props) {
 		});
 	}
 
+	if (!session) return null;
+
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
+			<DropdownMenuTrigger asChild>{children({ session })}</DropdownMenuTrigger>
 
 			<DropdownMenuContent align="start" side="top">
 				<DropdownMenuGroup>

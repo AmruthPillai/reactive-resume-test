@@ -77,11 +77,11 @@ export function SectionItem<T extends SectionItemType>({ type, item, title, subt
 			</div>
 
 			<button
-				className="flex flex-1 flex-col items-start justify-center space-y-0.5 pl-3 hover:bg-secondary/20 focus:outline-none focus-visible:ring-1"
+				className="flex flex-1 flex-col items-start justify-center space-y-0.5 pl-3 text-left hover:bg-secondary/20 focus:outline-none focus-visible:ring-1"
 				onClick={onUpdate}
 			>
-				<div className="font-medium">{title}</div>
-				{subtitle && <div className="text-muted-foreground text-xs">{subtitle}</div>}
+				<div className="line-clamp-1 font-medium">{title}</div>
+				{subtitle && <div className="line-clamp-1 text-muted-foreground text-xs">{subtitle}</div>}
 			</button>
 
 			<DropdownMenu>

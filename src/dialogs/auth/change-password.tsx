@@ -34,8 +34,9 @@ const formSchema = z
 type FormValues = z.infer<typeof formSchema>;
 
 export function ChangePasswordDialog({ open, onOpenChange }: DialogProps<"auth.change-password">) {
-	const { closeDialog } = useDialogStore();
 	const queryClient = useQueryClient();
+	const { closeDialog } = useDialogStore();
+
 	const [showCurrentPassword, toggleShowCurrentPassword] = useToggle(false);
 	const [showNewPassword, toggleShowNewPassword] = useToggle(false);
 
@@ -54,11 +55,10 @@ export function ChangePasswordDialog({ open, onOpenChange }: DialogProps<"auth.c
 			currentPassword: data.currentPassword,
 			newPassword: data.newPassword,
 			fetchOptions: {
-				onSuccess: async () => {
-					await queryClient.invalidateQueries({ queryKey: ["auth", "accounts"] });
+				onSuccess: () => {
 					toast.success(t`Your password has been updated successfully.`, { id: toastId });
 					closeDialog();
-					form.reset();
+					queryClient.invalidateQueries({ queryKey: ["auth", "accounts"] });
 				},
 				onError: ({ error }: { error: { message: string } }) => {
 					toast.error(error.message, { id: toastId });

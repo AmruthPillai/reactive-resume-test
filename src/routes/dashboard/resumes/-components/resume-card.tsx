@@ -8,8 +8,8 @@ import {
 	PencilSimpleLineIcon,
 	TrashSimpleIcon,
 } from "@phosphor-icons/react";
-import { useMutation } from "@tanstack/react-query";
-import { Link, useRouteContext } from "@tanstack/react-router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { useMemo } from "react";
 import { toast } from "sonner";
@@ -32,8 +32,8 @@ type ResumeCardProps = React.ComponentProps<"div"> & {
 
 export function ResumeCard({ resume, ...props }: ResumeCardProps) {
 	const confirm = useConfirm();
+	const queryClient = useQueryClient();
 	const { openDialog } = useDialogStore();
-	const { queryClient } = useRouteContext({ from: "/dashboard" });
 
 	const { mutate: deleteResume } = useMutation(orpc.resume.delete.mutationOptions());
 	const { mutate: setLockedResume } = useMutation(orpc.resume.setLocked.mutationOptions());
@@ -62,8 +62,8 @@ export function ResumeCard({ resume, ...props }: ResumeCardProps) {
 		setLockedResume(
 			{ id: resume.id, isLocked: !resume.isLocked },
 			{
-				onSuccess: async () => {
-					await queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
+				onSuccess: () => {
+					queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
 				},
 				onError: (error) => {
 					toast.error(error.message);
@@ -84,9 +84,9 @@ export function ResumeCard({ resume, ...props }: ResumeCardProps) {
 		deleteResume(
 			{ id: resume.id },
 			{
-				onSuccess: async () => {
-					await queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
+				onSuccess: () => {
 					toast.success(t`Your resume has been deleted successfully.`, { id: toastId });
+					queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
 				},
 				onError: (error) => {
 					toast.error(error.message, { id: toastId });
