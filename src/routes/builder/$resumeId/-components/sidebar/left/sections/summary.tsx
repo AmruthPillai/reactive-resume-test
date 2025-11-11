@@ -1,6 +1,14 @@
 import { t } from "@lingui/core/macro";
 import { Plural, Trans } from "@lingui/react/macro";
-import { ColumnsIcon, EyeClosedIcon, EyeIcon, ListIcon, PencilSimpleLineIcon } from "@phosphor-icons/react";
+import {
+	CaretDownIcon,
+	ColumnsIcon,
+	EyeClosedIcon,
+	EyeIcon,
+	ListIcon,
+	PencilSimpleLineIcon,
+} from "@phosphor-icons/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useResumeData } from "@/builder/-hooks/resume";
 import { useResumeStore } from "@/builder/-store/resume";
 import { RichInput } from "@/components/input/rich-input";
@@ -18,12 +26,17 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { usePrompt } from "@/hooks/use-prompt";
+import { useSectionStore } from "@/routes/builder/$resumeId/-store/section";
 import { getSectionIcon, getSectionTitle } from "@/utils/resume/section";
+import { cn } from "@/utils/style";
 import { SectionMask } from "../shared/section-mask";
 
 export function SummarySectionBuilder() {
 	const section = useResumeData((state) => state.summary);
 	const updateResume = useResumeStore((state) => state.updateResume);
+
+	const collapsed = useSectionStore((state) => state.sections.summary?.collapsed ?? false);
+	const toggleCollapsed = useSectionStore((state) => state.toggleCollapsed);
 
 	const onChange = (value: string) => {
 		updateResume((draft) => {
@@ -33,8 +46,12 @@ export function SummarySectionBuilder() {
 
 	return (
 		<div id="sidebar-summary" className="space-y-4">
-			<div className="flex items-center justify-between">
-				<div className="flex items-center gap-x-4">
+			<div className="flex items-center">
+				<Button size="icon" variant="ghost" className="mr-1.5" onClick={() => toggleCollapsed("summary")}>
+					<CaretDownIcon className={cn("transition-transform", collapsed && "-rotate-90")} />
+				</Button>
+
+				<div className="flex flex-1 items-center gap-x-4">
 					{getSectionIcon("summary")}
 					<h2 className="line-clamp-1 font-bold text-2xl tracking-tight">{section.title}</h2>
 				</div>
@@ -42,11 +59,20 @@ export function SummarySectionBuilder() {
 				<SummaryDropdownMenu />
 			</div>
 
-			<div className="relative flex flex-col gap-4">
-				<SectionMask hidden={section.hidden} />
+			<AnimatePresence>
+				{!collapsed && (
+					<motion.div
+						initial={{ opacity: 0, y: -10 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: -10, transition: { duration: 0.15 } }}
+						className="relative flex flex-col gap-4"
+					>
+						<SectionMask hidden={section.hidden} />
 
-				<RichInput value={section.content} onChange={onChange} />
-			</div>
+						<RichInput value={section.content} onChange={onChange} />
+					</motion.div>
+				)}
+			</AnimatePresence>
 		</div>
 	);
 }
