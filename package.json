@@ -13,7 +13,7 @@
 	"scripts": {
 		"dev": "vite dev --port 3200",
 		"build": "vite build",
-		"start": "bun run .output/server/index.mjs",
+		"start": "bun --bun run server.ts",
 		"test": "vitest run",
 		"typecheck": "tsc --noEmit",
 		"check": "biome check --write",

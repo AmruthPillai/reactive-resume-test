@@ -1,5 +1,3 @@
-import "dotenv/config";
-
 import { createServerOnlyFn } from "@tanstack/react-start";
 import { drizzle } from "drizzle-orm/bun-sql";
 import { schema } from "@/integrations/drizzle";

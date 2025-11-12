@@ -16,3 +16,4 @@ compose.yml
 dist
 Dockerfile
 node_modules
+vercel.json
