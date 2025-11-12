@@ -4,7 +4,6 @@
 .nitro
 .output
 .tanstack
+/data
 dist
 node_modules
-*storybook.log
-storybook-static

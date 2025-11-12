@@ -18,6 +18,7 @@ import { EducationSectionBuilder } from "./sections/education";
 import { ExperienceSectionBuilder } from "./sections/experience";
 import { InterestsSectionBuilder } from "./sections/interests";
 import { LanguagesSectionBuilder } from "./sections/languages";
+import { PictureSectionBuilder } from "./sections/picture";
 import { ProfilesSectionBuilder } from "./sections/profiles";
 import { ProjectsSectionBuilder } from "./sections/projects";
 import { PublicationsSectionBuilder } from "./sections/publications";
@@ -51,6 +52,15 @@ export function BuilderSidebarLeft() {
 				<div />
 
 				<div className="flex flex-col justify-center gap-y-2">
+					<Button
+						size="icon"
+						variant="ghost"
+						title={getSectionTitle("picture")}
+						onClick={() => scrollToSection("picture")}
+					>
+						{getSectionIcon("picture")}
+					</Button>
+
 					<Button
 						size="icon"
 						variant="ghost"
@@ -105,6 +115,8 @@ export function BuilderSidebarLeft() {
 
 			<ScrollArea ref={scrollAreaRef} className="@container h-full sm:ml-12">
 				<div className="flex flex-col space-y-4 p-4">
+					<PictureSectionBuilder />
+					<Separator />
 					<BasicsSectionBuilder />
 					<Separator />
 					<SummarySectionBuilder />

@@ -1,0 +1,386 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { t } from "@lingui/core/macro";
+import { Trans } from "@lingui/react/macro";
+import { ORPCError } from "@orpc/client";
+import { ApertureIcon, CaretDownIcon, TrashSimpleIcon, UploadSimpleIcon } from "@phosphor-icons/react";
+import { useMutation } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "motion/react";
+import { useRef } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import type z from "zod";
+import { flattenError } from "zod";
+import { useResumeData } from "@/builder/-hooks/resume";
+import { useResumeStore } from "@/builder/-store/resume";
+import { Button } from "@/components/ui/button";
+import { ButtonGroup } from "@/components/ui/button-group";
+import {
+	DropdownMenu,
+	DropdownMenuCheckboxItem,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
+import { orpc } from "@/integrations/orpc/client";
+import { useSectionStore } from "@/routes/builder/$resumeId/-store/section";
+import { pictureSchema } from "@/schema/resume/data";
+import { getSectionIcon, getSectionTitle } from "@/utils/resume/section";
+import { cn } from "@/utils/style";
+
+export function PictureSectionBuilder() {
+	const collapsed = useSectionStore((state) => state.sections.picture?.collapsed ?? false);
+	const toggleCollapsed = useSectionStore((state) => state.toggleCollapsed);
+
+	return (
+		<div id="sidebar-picture" className="space-y-4">
+			<div className="flex items-center">
+				<Button size="icon" variant="ghost" className="mr-1.5" onClick={() => toggleCollapsed("picture")}>
+					<CaretDownIcon className={cn("transition-transform", collapsed && "-rotate-90")} />
+				</Button>
+
+				<div className="flex flex-1 items-center gap-x-4">
+					{getSectionIcon("picture")}
+					<h2 className="line-clamp-1 font-bold text-2xl tracking-tight">{getSectionTitle("picture")}</h2>
+				</div>
+			</div>
+
+			<AnimatePresence>
+				{!collapsed && (
+					<motion.div
+						initial={{ opacity: 0, y: -10 }}
+						animate={{ opacity: 1, y: 0 }}
+						exit={{ opacity: 0, y: -10, transition: { duration: 0.15 } }}
+					>
+						<PictureSectionForm />
+					</motion.div>
+				)}
+			</AnimatePresence>
+		</div>
+	);
+}
+
+function PictureSectionForm() {
+	const fileInputRef = useRef<HTMLInputElement>(null);
+
+	const picture = useResumeData((state) => state.picture);
+	const updateResume = useResumeStore((state) => state.updateResume);
+
+	const { mutate: uploadImage } = useMutation(orpc.storage.uploadImage.mutationOptions());
+	const { mutate: deleteFile } = useMutation(orpc.storage.deleteFile.mutationOptions());
+
+	const form = useForm({
+		resolver: zodResolver(pictureSchema),
+		defaultValues: picture,
+		mode: "onChange",
+	});
+
+	const onSubmit = (data: z.infer<typeof pictureSchema>) => {
+		updateResume((draft) => {
+			draft.picture = data;
+		});
+	};
+
+	const onSelectPicture = () => {
+		if (!fileInputRef.current) return;
+		fileInputRef.current?.click();
+	};
+
+	const onDeletePicture = () => {
+		const filename = picture.url.split("/").pop();
+		if (!filename) return;
+
+		const toastId = toast.loading(t`Deleting picture...`);
+
+		deleteFile(
+			{ filename },
+			{
+				onSuccess: () => {
+					toast.dismiss(toastId);
+				},
+				onError: (error) => {
+					toast.error(error.message, { id: toastId });
+				},
+			},
+		);
+
+		form.setValue("url", "", { shouldDirty: true });
+		form.handleSubmit(onSubmit)();
+	};
+
+	const onUploadPicture = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (!file) return;
+
+		const toastId = toast.loading(t`Uploading picture...`);
+
+		uploadImage(file, {
+			onSuccess: (url) => {
+				form.setValue("url", url, { shouldDirty: true });
+				form.handleSubmit(onSubmit)();
+				toast.dismiss(toastId);
+			},
+			onError: (error) => {
+				if (error instanceof ORPCError && "data" in error) {
+					const { formErrors: errors } = flattenError(error.data);
+					toast.error(errors[0], { id: toastId });
+					return;
+				}
+
+				toast.error(error.message, { id: toastId });
+			},
+		});
+	};
+
+	return (
+		<Form {...form}>
+			<form onChange={form.handleSubmit(onSubmit)} className="space-y-4">
+				<div className="flex items-center gap-x-4">
+					<input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={onUploadPicture} />
+
+					<div
+						onClick={picture.url ? onDeletePicture : onSelectPicture}
+						className="group relative size-18 cursor-pointer overflow-hidden rounded-md bg-secondary transition-colors hover:bg-secondary/50"
+					>
+						{picture.url && (
+							<img
+								alt=""
+								src={picture.url}
+								className="fade-in relative z-10 size-full animate-in rounded-md object-cover transition-opacity duration-300 group-hover:opacity-20"
+							/>
+						)}
+
+						<div className="absolute inset-0 z-0 flex size-full items-center justify-center">
+							{picture.url ? <TrashSimpleIcon className="size-6" /> : <UploadSimpleIcon className="size-6" />}
+						</div>
+					</div>
+
+					<FormField
+						control={form.control}
+						name="url"
+						render={({ field }) => (
+							<FormItem className="flex-1">
+								<FormLabel>
+									<Trans>URL</Trans>
+								</FormLabel>
+								<FormControl>
+									<Input {...field} />
+								</FormControl>
+							</FormItem>
+						)}
+					/>
+
+					<div className="-ml-2 flex h-[58px] items-end">
+						<DropdownMenu>
+							<DropdownMenuTrigger asChild>
+								<Button size="icon" variant="ghost">
+									<ApertureIcon />
+								</Button>
+							</DropdownMenuTrigger>
+
+							<DropdownMenuContent align="end">
+								<DropdownMenuCheckboxItem
+									checked={form.watch("hidden")}
+									onCheckedChange={(value) => {
+										form.setValue("hidden", value, { shouldDirty: true });
+										form.handleSubmit(onSubmit)();
+									}}
+								>
+									<Trans>Hidden</Trans>
+								</DropdownMenuCheckboxItem>
+
+								<DropdownMenuSeparator />
+
+								<DropdownMenuGroup>
+									<DropdownMenuLabel>
+										<Trans>Effects</Trans>
+									</DropdownMenuLabel>
+
+									<DropdownMenuCheckboxItem
+										checked={form.watch("border")}
+										onCheckedChange={(value) => {
+											form.setValue("border", value, { shouldDirty: true });
+											form.handleSubmit(onSubmit)();
+										}}
+									>
+										<Trans>Border</Trans>
+									</DropdownMenuCheckboxItem>
+
+									<DropdownMenuCheckboxItem
+										checked={form.watch("shadow")}
+										onCheckedChange={(value) => {
+											form.setValue("shadow", value, { shouldDirty: true });
+											form.handleSubmit(onSubmit)();
+										}}
+									>
+										<Trans>Shadow</Trans>
+									</DropdownMenuCheckboxItem>
+
+									<DropdownMenuCheckboxItem
+										checked={form.watch("grayscale")}
+										onCheckedChange={(value) => {
+											form.setValue("grayscale", value, { shouldDirty: true });
+											form.handleSubmit(onSubmit)();
+										}}
+									>
+										<Trans>Grayscale</Trans>
+									</DropdownMenuCheckboxItem>
+								</DropdownMenuGroup>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					</div>
+				</div>
+
+				<div className="grid @md:grid-cols-2 grid-cols-1 gap-4">
+					<FormField
+						control={form.control}
+						name="size"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>
+									<Trans>Size</Trans>
+								</FormLabel>
+								<InputGroup>
+									<FormControl>
+										<InputGroupInput
+											{...field}
+											type="number"
+											min={32}
+											max={128}
+											step={1}
+											onChange={(e) => {
+												const value = e.target.value;
+												if (value === "") field.onChange("");
+												else field.onChange(Number(value));
+											}}
+										/>
+									</FormControl>
+									<InputGroupAddon align="inline-end">
+										<InputGroupText>px</InputGroupText>
+									</InputGroupAddon>
+								</InputGroup>
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="rotation"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>
+									<Trans>Rotation</Trans>
+								</FormLabel>
+								<InputGroup>
+									<FormControl>
+										<InputGroupInput
+											{...field}
+											type="number"
+											min={0}
+											max={360}
+											step={5}
+											onChange={(e) => {
+												const value = e.target.value;
+												if (value === "") field.onChange("");
+												else field.onChange(Number(value));
+											}}
+										/>
+									</FormControl>
+									<InputGroupAddon align="inline-end">
+										<InputGroupText>°</InputGroupText>
+									</InputGroupAddon>
+								</InputGroup>
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="aspectRatio"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>
+									<Trans>Aspect Ratio</Trans>
+								</FormLabel>
+								<div className="flex items-center gap-x-2">
+									<FormControl>
+										<Input
+											{...field}
+											type="number"
+											min={0.5}
+											max={2.5}
+											step={0.1}
+											onChange={(e) => {
+												const value = e.target.value;
+												if (value === "") field.onChange("");
+												else field.onChange(Number(value));
+											}}
+										/>
+									</FormControl>
+
+									<ButtonGroup className="shrink-0">
+										<Button size="icon" variant="outline" title={t`Square`} onClick={() => field.onChange(1)}>
+											<div className="aspect-square min-h-3 min-w-3 border border-primary" />
+										</Button>
+										<Button size="icon" variant="outline" title={t`Landscape`} onClick={() => field.onChange(1.5)}>
+											<div className="aspect-[1.5/1] min-h-3 min-w-3 border border-primary" />
+										</Button>
+										<Button size="icon" variant="outline" title={t`Portrait`} onClick={() => field.onChange(0.5)}>
+											<div className="aspect-[1/1.5] min-h-3 min-w-3 border border-primary" />
+										</Button>
+									</ButtonGroup>
+								</div>
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="borderRadius"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>
+									<Trans>Border Radius</Trans>
+								</FormLabel>
+								<div className="flex items-center gap-x-2">
+									<InputGroup>
+										<FormControl>
+											<InputGroupInput
+												{...field}
+												type="number"
+												min={0}
+												max={100}
+												step={5}
+												onChange={(e) => {
+													const value = Number(e.target.value);
+													field.onChange(value);
+												}}
+											/>
+										</FormControl>
+										<InputGroupAddon align="inline-end">%</InputGroupAddon>
+									</InputGroup>
+
+									<ButtonGroup className="shrink-0">
+										<Button size="icon" variant="outline" title={t`0%`} onClick={() => field.onChange(0)}>
+											<div className="size-3 rounded-none border border-primary" />
+										</Button>
+										<Button size="icon" variant="outline" title={t`20%`} onClick={() => field.onChange(20)}>
+											<div className="size-3 rounded-[20%] border border-primary" />
+										</Button>
+										<Button size="icon" variant="outline" title={t`100%`} onClick={() => field.onChange(100)}>
+											<div className="size-3 rounded-[100%] border border-primary" />
+										</Button>
+									</ButtonGroup>
+								</div>
+							</FormItem>
+						)}
+					/>
+				</div>
+			</form>
+		</Form>
+	);
+}

@@ -9,16 +9,13 @@ export const urlSchema = z.object({
 export const pictureSchema = z.object({
 	url: z.url().or(z.literal("")),
 	size: z.number(),
+	rotation: z.number(),
 	aspectRatio: z.number(),
 	borderRadius: z.number(),
 	hidden: z.boolean(),
+	border: z.boolean(),
 	shadow: z.boolean(),
 	grayscale: z.boolean(),
-	border: z.object({
-		width: z.number(),
-		color: z.string(),
-		style: z.enum(["solid", "dashed", "dotted"]),
-	}),
 });
 
 export const customFieldSchema = z.object({
@@ -210,7 +207,7 @@ export const sectionsSchema = z.object({
 });
 
 export type SectionType = keyof z.infer<typeof sectionsSchema>;
-export type ExtendedSectionType = "basics" | "summary" | SectionType | "custom";
+export type ExtendedSectionType = "picture" | "basics" | "summary" | SectionType | "custom";
 
 export type SectionData = z.infer<typeof sectionsSchema>[SectionType];
 export type SectionItem = SectionData["items"][number];
@@ -273,12 +270,13 @@ export const defaultResumeData: ResumeData = {
 	picture: {
 		url: "",
 		size: 64,
+		rotation: 0,
 		aspectRatio: 1,
 		borderRadius: 0,
 		hidden: false,
+		border: false,
 		shadow: false,
 		grayscale: false,
-		border: { width: 4, color: "rgba(0, 0, 0, 1)", style: "solid" },
 	},
 	basics: {
 		name: "",
@@ -398,16 +396,13 @@ export const sampleResumeData: ResumeData = {
 	picture: {
 		url: "https://i.pravatar.cc/300",
 		size: 64,
+		rotation: 0,
 		aspectRatio: 1,
-		borderRadius: 50,
+		borderRadius: 20,
 		hidden: false,
+		border: false,
 		shadow: false,
 		grayscale: false,
-		border: {
-			width: 2,
-			color: "rgba(59, 130, 246, 1)",
-			style: "solid",
-		},
 	},
 	basics: {
 		name: "Sarah Chen",

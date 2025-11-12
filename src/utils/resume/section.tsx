@@ -10,6 +10,7 @@ import {
 	GraduationCapIcon,
 	HandHeartIcon,
 	type IconProps,
+	ImageIcon,
 	MessengerLogoIcon,
 	PhoneIcon,
 	StarIcon,
@@ -23,6 +24,7 @@ import { cn } from "../style";
 
 export const getSectionTitle = (type: ExtendedSectionType): string => {
 	return match(type)
+		.with("picture", () => t`Picture`)
 		.with("basics", () => t`Basics`)
 		.with("summary", () => t`Summary`)
 		.with("profiles", () => t`Profiles`)
@@ -45,6 +47,7 @@ export const getSectionIcon = (type: ExtendedSectionType, props?: IconProps): Re
 	const iconProps = { ...props, className: cn("shrink-0", props?.className) };
 
 	return match(type)
+		.with("picture", () => <ImageIcon {...iconProps} />)
 		.with("basics", () => <UserIcon {...iconProps} />)
 		.with("summary", () => <ArticleIcon {...iconProps} />)
 		.with("profiles", () => <MessengerLogoIcon {...iconProps} />)

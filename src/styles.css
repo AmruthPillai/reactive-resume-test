@@ -131,6 +131,11 @@
 	body {
 		@apply bg-background text-foreground text-sm font-sans proportional-nums antialiased;
 	}
+
+	input[type="number"] {
+		margin: 0;
+		@apply [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none;
+	}
 }
 
 .tiptap-content {
