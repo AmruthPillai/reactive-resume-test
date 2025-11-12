@@ -1,6 +1,6 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { FingerprintIcon, GithubLogoIcon, GoogleLogoIcon } from "@phosphor-icons/react";
+import { FingerprintSimpleIcon, GithubLogoIcon, GoogleLogoIcon, VaultIcon } from "@phosphor-icons/react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -12,8 +12,6 @@ import { cn } from "@/utils/style";
 export function SocialAuth() {
 	const router = useRouter();
 	const { data: authProviders } = useSuspenseQuery(orpc.auth.listProviders.queryOptions());
-
-	const socialProviders = authProviders.filter((provider) => provider !== "credential");
 
 	const handlePasskeyLogin = async () => {
 		const toastId = toast.loading(t`Signing in...`);
@@ -31,7 +29,7 @@ export function SocialAuth() {
 		});
 	};
 
-	const handleSocialLogin = async (provider: (typeof socialProviders)[number]) => {
+	const handleSocialLogin = async (provider: string) => {
 		const toastId = toast.loading(t`Signing in...`);
 
 		await authClient.signIn.social({
@@ -40,6 +38,23 @@ export function SocialAuth() {
 			fetchOptions: {
 				onSuccess: () => {
 					toast.dismiss(toastId);
+					router.invalidate();
+				},
+				onError: ({ error }) => {
+					toast.error(error.message, { id: toastId });
+				},
+			},
+		});
+	};
+
+	const handleOAuthLogin = async () => {
+		const toastId = toast.loading(t`Signing in...`);
+
+		await authClient.signIn.oauth2({
+			providerId: "custom",
+			callbackURL: "/dashboard",
+			fetchOptions: {
+				onSuccess: () => {
 					router.invalidate();
 				},
 				onError: ({ error }) => {
@@ -63,16 +78,29 @@ export function SocialAuth() {
 
 			<div>
 				<div className="grid grid-cols-2 gap-4">
-					<Button variant="secondary" onClick={handlePasskeyLogin} className="col-span-full">
-						<FingerprintIcon />
+					<Button
+						variant="secondary"
+						onClick={handlePasskeyLogin}
+						className={cn("col-span-full", "custom" in authProviders && "col-span-1")}
+					>
+						<FingerprintSimpleIcon />
 						Passkey
+					</Button>
+
+					<Button
+						variant="secondary"
+						onClick={handleOAuthLogin}
+						className={cn("hidden", "custom" in authProviders && "inline-flex")}
+					>
+						<VaultIcon />
+						{authProviders.custom}
 					</Button>
 
 					<Button
 						onClick={() => handleSocialLogin("google")}
 						className={cn(
 							"hidden flex-1 bg-[#4285F4] text-white hover:bg-[#4285F4]/80",
-							socialProviders.includes("google") && "inline-flex",
+							"google" in authProviders && "inline-flex",
 						)}
 					>
 						<GoogleLogoIcon />
@@ -83,7 +111,7 @@ export function SocialAuth() {
 						onClick={() => handleSocialLogin("github")}
 						className={cn(
 							"hidden flex-1 bg-[#2b3137] text-white hover:bg-[#2b3137]/80",
-							socialProviders.includes("github") && "inline-flex",
+							"github" in authProviders && "inline-flex",
 						)}
 					>
 						<GithubLogoIcon />

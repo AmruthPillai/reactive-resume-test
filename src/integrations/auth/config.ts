@@ -1,7 +1,7 @@
 import { createServerOnlyFn } from "@tanstack/react-start";
-import { betterAuth } from "better-auth";
+import { BetterAuthError, betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { twoFactor } from "better-auth/plugins";
+import { type GenericOAuthConfig, genericOAuth, twoFactor } from "better-auth/plugins";
 import { passkey } from "better-auth/plugins/passkey";
 import { username } from "better-auth/plugins/username";
 import { reactStartCookies } from "better-auth/react-start";
@@ -10,7 +10,52 @@ import { env } from "@/utils/env";
 import { generateId, toUsername } from "@/utils/string";
 import { schema } from "../drizzle";
 
+function isCustomOAuthProviderEnabled() {
+	return (
+		env.OAUTH_CLIENT_ID &&
+		env.OAUTH_CLIENT_SECRET &&
+		env.OAUTH_DISCOVERY_URL &&
+		env.OAUTH_AUTHORIZATION_URL &&
+		env.OAUTH_REDIRECT_URI
+	);
+}
+
 const getAuthServerFn = createServerOnlyFn(() => {
+	const authConfigs: GenericOAuthConfig[] = [];
+
+	if (isCustomOAuthProviderEnabled()) {
+		authConfigs.push({
+			providerId: "custom",
+			clientId: env.OAUTH_CLIENT_ID as string,
+			clientSecret: env.OAUTH_CLIENT_SECRET,
+			discoveryUrl: env.OAUTH_DISCOVERY_URL,
+			authorizationUrl: env.OAUTH_AUTHORIZATION_URL,
+			redirectURI: env.OAUTH_REDIRECT_URI,
+			mapProfileToUser: async (profile) => {
+				if (!profile.email) {
+					throw new BetterAuthError(
+						"OAuth Provider did not return an email address. This is required for user creation.",
+						"EMAIL_REQUIRED",
+					);
+				}
+
+				const email = profile.email;
+				const name = profile.name ?? profile.preferred_username ?? email.split("@")[0];
+				const username = profile.preferred_username ?? email.split("@")[0];
+				const image = profile.image ?? profile.picture ?? profile.avatar_url;
+
+				return {
+					name,
+					email,
+					image,
+					username,
+					displayUsername: username,
+					emailVerified: true,
+				};
+			},
+		});
+	}
+
 	return betterAuth({
 		appName: "Reactive Resume",
 		secret: env.AUTH_SECRET,
@@ -112,6 +157,7 @@ const getAuthServerFn = createServerOnlyFn(() => {
 			}),
 			twoFactor({ issuer: "Reactive Resume" }),
 			passkey({ rpName: "Reactive Resume", rpID: "localhost" }),
+			genericOAuth({ config: authConfigs }),
 			reactStartCookies(),
 		],
 	});

@@ -15,6 +15,7 @@ import { Route as HomeRouteRouteImport } from "./routes/_home/route";
 import { Route as DashboardIndexRouteImport } from "./routes/dashboard/index";
 import { Route as AuthIndexRouteImport } from "./routes/auth/index";
 import { Route as HomeIndexRouteImport } from "./routes/_home/index";
+import { Route as AuthVerify2faBackupRouteImport } from "./routes/auth/verify-2fa-backup";
 import { Route as AuthVerify2faRouteImport } from "./routes/auth/verify-2fa";
 import { Route as AuthResetPasswordRouteImport } from "./routes/auth/reset-password";
 import { Route as AuthRegisterRouteImport } from "./routes/auth/register";
@@ -62,6 +63,11 @@ const HomeIndexRoute = HomeIndexRouteImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => HomeRouteRoute,
+} as any);
+const AuthVerify2faBackupRoute = AuthVerify2faBackupRouteImport.update({
+  id: "/verify-2fa-backup",
+  path: "/verify-2fa-backup",
+  getParentRoute: () => AuthRouteRoute,
 } as any);
 const AuthVerify2faRoute = AuthVerify2faRouteImport.update({
   id: "/verify-2fa",
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   "/auth/register": typeof AuthRegisterRoute;
   "/auth/reset-password": typeof AuthResetPasswordRoute;
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
+  "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
   "/": typeof HomeIndexRoute;
   "/auth/": typeof AuthIndexRoute;
   "/dashboard/": typeof DashboardIndexRoute;
@@ -191,6 +198,7 @@ export interface FileRoutesByTo {
   "/auth/register": typeof AuthRegisterRoute;
   "/auth/reset-password": typeof AuthResetPasswordRoute;
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
+  "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
   "/": typeof HomeIndexRoute;
   "/auth": typeof AuthIndexRoute;
   "/dashboard": typeof DashboardIndexRoute;
@@ -218,6 +226,7 @@ export interface FileRoutesById {
   "/auth/register": typeof AuthRegisterRoute;
   "/auth/reset-password": typeof AuthResetPasswordRoute;
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
+  "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
   "/_home/": typeof HomeIndexRoute;
   "/auth/": typeof AuthIndexRoute;
   "/dashboard/": typeof DashboardIndexRoute;
@@ -245,6 +254,7 @@ export interface FileRouteTypes {
     | "/auth/register"
     | "/auth/reset-password"
     | "/auth/verify-2fa"
+    | "/auth/verify-2fa-backup"
     | "/"
     | "/auth/"
     | "/dashboard/"
@@ -267,6 +277,7 @@ export interface FileRouteTypes {
     | "/auth/register"
     | "/auth/reset-password"
     | "/auth/verify-2fa"
+    | "/auth/verify-2fa-backup"
     | "/"
     | "/auth"
     | "/dashboard"
@@ -293,6 +304,7 @@ export interface FileRouteTypes {
     | "/auth/register"
     | "/auth/reset-password"
     | "/auth/verify-2fa"
+    | "/auth/verify-2fa-backup"
     | "/_home/"
     | "/auth/"
     | "/dashboard/"
@@ -363,6 +375,13 @@ declare module "@tanstack/react-router" {
       fullPath: "/";
       preLoaderRoute: typeof HomeIndexRouteImport;
       parentRoute: typeof HomeRouteRoute;
+    };
+    "/auth/verify-2fa-backup": {
+      id: "/auth/verify-2fa-backup";
+      path: "/verify-2fa-backup";
+      fullPath: "/auth/verify-2fa-backup";
+      preLoaderRoute: typeof AuthVerify2faBackupRouteImport;
+      parentRoute: typeof AuthRouteRoute;
     };
     "/auth/verify-2fa": {
       id: "/auth/verify-2fa";
@@ -511,6 +530,7 @@ interface AuthRouteRouteChildren {
   AuthRegisterRoute: typeof AuthRegisterRoute;
   AuthResetPasswordRoute: typeof AuthResetPasswordRoute;
   AuthVerify2faRoute: typeof AuthVerify2faRoute;
+  AuthVerify2faBackupRoute: typeof AuthVerify2faBackupRoute;
   AuthIndexRoute: typeof AuthIndexRoute;
 }
 
@@ -520,6 +540,7 @@ const AuthRouteRouteChildren: AuthRouteRouteChildren = {
   AuthRegisterRoute: AuthRegisterRoute,
   AuthResetPasswordRoute: AuthResetPasswordRoute,
   AuthVerify2faRoute: AuthVerify2faRoute,
+  AuthVerify2faBackupRoute: AuthVerify2faBackupRoute,
   AuthIndexRoute: AuthIndexRoute,
 };
 

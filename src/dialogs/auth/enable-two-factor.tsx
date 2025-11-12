@@ -3,6 +3,8 @@ import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { ArrowDownIcon, CopyIcon, EyeIcon, EyeSlashIcon } from "@phosphor-icons/react";
 import { useRouter } from "@tanstack/react-router";
+import { REGEXP_ONLY_DIGITS } from "input-otp";
+import { QRCodeSVG } from "qrcode.react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -35,15 +37,6 @@ const verifyFormSchema = z.object({
 });
 
 type VerifyFormValues = z.infer<typeof verifyFormSchema>;
-
-function extractSecretFromTotpUri(totpUri: string): string | null {
-	try {
-		const url = new URL(totpUri);
-		return url.searchParams.get("secret");
-	} catch {
-		return null;
-	}
-}
 
 export function EnableTwoFactorDialog({ open, onOpenChange }: DialogProps<"auth.two-factor.enable">) {
 	const router = useRouter();
@@ -168,8 +161,8 @@ export function EnableTwoFactorDialog({ open, onOpenChange }: DialogProps<"auth.
 							))
 							.with("verify", () => (
 								<Trans>
-									Scan the QR code below with your preferred authenticator app. Then, enter the 6 digit code that the
-									app provides to continue. You can also copy the secret below and paste it into your app.
+									Scan the QR code below with your preferred authenticator app. You can also copy the secret below and
+									paste it into your app.
 								</Trans>
 							))
 							.with("backup", () => <Trans>Copy and store these backup codes in case you lose your device.</Trans>)
@@ -222,7 +215,7 @@ export function EnableTwoFactorDialog({ open, onOpenChange }: DialogProps<"auth.
 						return (
 							<div className="space-y-4 py-2">
 								{totpUri && secret && (
-									<div className="space-y-4">
+									<>
 										<div className="flex items-center gap-x-2">
 											<Input readOnly value={secret} className="font-mono text-sm" />
 											<Button size="icon" variant="ghost" type="button" onClick={handleCopySecret}>
@@ -230,32 +223,37 @@ export function EnableTwoFactorDialog({ open, onOpenChange }: DialogProps<"auth.
 											</Button>
 										</div>
 
-										<div className="flex items-center justify-center rounded-md border bg-white p-4">
-											<img
-												src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(totpUri)}`}
-												alt="QR Code for 2FA"
-												className="size-48"
-											/>
-										</div>
-									</div>
+										<TwoFactorQRCode totpUri={totpUri} />
+									</>
 								)}
 
+								<p>
+									<Trans>Then, enter the 6 digit code that the app provides to continue.</Trans>
+								</p>
+
 								<Form {...verifyForm}>
-									<form onSubmit={verifyForm.handleSubmit(onVerifySubmit)} className="space-y-4">
+									<form onSubmit={verifyForm.handleSubmit(onVerifySubmit)}>
 										<FormField
 											control={verifyForm.control}
 											name="code"
 											render={({ field }) => (
 												<FormItem>
 													<FormControl>
-														<InputOTP maxLength={6} value={field.value} onChange={field.onChange}>
+														<InputOTP
+															maxLength={6}
+															value={field.value}
+															onChange={field.onChange}
+															pattern={REGEXP_ONLY_DIGITS}
+															onComplete={verifyForm.handleSubmit(onVerifySubmit)}
+															pasteTransformer={(pasted) => pasted.replaceAll("-", "")}
+														>
 															<InputOTPGroup>
-																<InputOTPSlot index={0} className="size-12 text-lg" />
-																<InputOTPSlot index={1} className="size-12 text-lg" />
-																<InputOTPSlot index={2} className="size-12 text-lg" />
-																<InputOTPSlot index={3} className="size-12 text-lg" />
-																<InputOTPSlot index={4} className="size-12 text-lg" />
-																<InputOTPSlot index={5} className="size-12 text-lg" />
+																<InputOTPSlot index={0} className="size-12" />
+																<InputOTPSlot index={1} className="size-12" />
+																<InputOTPSlot index={2} className="size-12" />
+																<InputOTPSlot index={3} className="size-12" />
+																<InputOTPSlot index={4} className="size-12" />
+																<InputOTPSlot index={5} className="size-12" />
 															</InputOTPGroup>
 														</InputOTP>
 													</FormControl>
@@ -312,5 +310,26 @@ export function EnableTwoFactorDialog({ open, onOpenChange }: DialogProps<"auth.
 					.exhaustive()}
 			</DialogContent>
 		</Dialog>
+	);
+}
+
+function extractSecretFromTotpUri(totpUri: string): string | null {
+	try {
+		const url = new URL(totpUri);
+		return url.searchParams.get("secret");
+	} catch {
+		return null;
+	}
+}
+
+function TwoFactorQRCode({ totpUri }: { totpUri: string }) {
+	return (
+		<QRCodeSVG
+			value={totpUri}
+			size={256}
+			marginSize={2}
+			className="rounded-md"
+			title="Two-Factor Authentication QR Code"
+		/>
 	);
 }

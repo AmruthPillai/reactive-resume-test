@@ -26,6 +26,22 @@ export const env = createEnv({
 		GITHUB_CLIENT_ID: z.string().min(1).optional(),
 		GITHUB_CLIENT_SECRET: z.string().min(1).optional(),
 
+		// S3 (Optional)
+		S3_ACCESS_KEY_ID: z.string().min(1).optional(),
+		S3_SECRET_ACCESS_KEY: z.string().min(1).optional(),
+		S3_REGION: z.string().min(1).optional(),
+		S3_ENDPOINT: z.url({ protocol: /https?/ }).optional(),
+		S3_BUCKET: z.string().min(1).optional(),
+		S3_SESSION_TOKEN: z.string().optional(),
+
+		// Custom OAuth Provider
+		OAUTH_PROVIDER_NAME: z.string().min(1).optional(),
+		OAUTH_CLIENT_ID: z.string().min(1).optional(),
+		OAUTH_CLIENT_SECRET: z.string().min(1).optional(),
+		OAUTH_DISCOVERY_URL: z.url({ protocol: /https?/ }).optional(),
+		OAUTH_AUTHORIZATION_URL: z.url({ protocol: /https?/ }).optional(),
+		OAUTH_REDIRECT_URI: z.url({ protocol: /https?/, pattern: /\/api\/auth\/oauth2\/callback\/custom/ }).optional(),
+
 		// Feature Flags
 		FLAG_DISABLE_SIGNUP: z.stringbool().default(false),
 	},

@@ -5,5 +5,7 @@ module.exports = {
 	upgrade: true,
 	install: "always",
 	packageManager: "bun",
-	reject: [],
+	reject: [
+		"@tanstack/react-query", // orpc needs @tanstack/react-query@5.90.7
+	],
 };

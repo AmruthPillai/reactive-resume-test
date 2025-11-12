@@ -70,7 +70,7 @@ function PictureSectionForm() {
 	const picture = useResumeData((state) => state.picture);
 	const updateResume = useResumeStore((state) => state.updateResume);
 
-	const { mutate: uploadImage } = useMutation(orpc.storage.uploadImage.mutationOptions());
+	const { mutate: uploadFile } = useMutation(orpc.storage.uploadFile.mutationOptions());
 	const { mutate: deleteFile } = useMutation(orpc.storage.deleteFile.mutationOptions());
 
 	const form = useForm({
@@ -118,8 +118,8 @@ function PictureSectionForm() {
 
 		const toastId = toast.loading(t`Uploading picture...`);
 
-		uploadImage(file, {
-			onSuccess: (url) => {
+		uploadFile(file, {
+			onSuccess: ({ url }) => {
 				form.setValue("url", url, { shouldDirty: true });
 				form.handleSubmit(onSubmit)();
 				toast.dismiss(toastId);

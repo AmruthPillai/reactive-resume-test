@@ -7,24 +7,23 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useDialogStore } from "@/dialogs/store";
 import { authClient } from "@/integrations/auth/client";
+import { useAuthAccounts } from "./hooks";
 
-type TwoFactorSectionProps = {
-	hasPassword: boolean;
-};
-
-export function TwoFactorSection({ hasPassword }: TwoFactorSectionProps) {
+export function TwoFactorSection() {
 	const { openDialog } = useDialogStore();
+	const { hasAccount } = useAuthAccounts();
 	const { data: session } = authClient.useSession();
 
-	const twoFactorEnabled = useMemo(() => session?.user.twoFactorEnabled ?? false, [session]);
+	const hasPassword = useMemo(() => hasAccount("credential"), [hasAccount]);
+	const hasTwoFactor = useMemo(() => session?.user.twoFactorEnabled ?? false, [session]);
 
 	const handleTwoFactorAction = useCallback(() => {
-		if (twoFactorEnabled) {
+		if (hasTwoFactor) {
 			openDialog("auth.two-factor.disable", undefined);
 		} else {
 			openDialog("auth.two-factor.enable", undefined);
 		}
-	}, [twoFactorEnabled, openDialog]);
+	}, [hasTwoFactor, openDialog]);
 
 	if (!hasPassword) return null;
 
@@ -38,11 +37,11 @@ export function TwoFactorSection({ hasPassword }: TwoFactorSectionProps) {
 
 			<div className="mt-4 flex items-center justify-between gap-x-4">
 				<h2 className="flex items-center gap-x-3 font-medium text-base">
-					{twoFactorEnabled ? <LockOpenIcon /> : <KeyIcon />}
+					{hasTwoFactor ? <LockOpenIcon /> : <KeyIcon />}
 					<Trans>Two-Factor Authentication</Trans>
 				</h2>
 
-				{match(twoFactorEnabled)
+				{match(hasTwoFactor)
 					.with(true, () => (
 						<Button variant="outline" onClick={handleTwoFactorAction}>
 							<ToggleLeftIcon />

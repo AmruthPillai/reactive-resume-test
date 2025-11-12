@@ -18,6 +18,7 @@ export const getRouter = async () => {
 		defaultPreloadStaleTime: 0,
 		defaultViewTransition: true,
 		defaultStructuralSharing: true,
+		defaultErrorComponent: () => null,
 		defaultPendingComponent: LoadingScreen,
 		context: {
 			orpc,

@@ -6,37 +6,32 @@ import { match } from "ts-pattern";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import type { AuthProvider } from "@/integrations/auth/types";
-import { getProviderIcon, getProviderName } from "./hooks";
+import { getProviderIcon, getProviderName, useAuthAccounts, useAuthProviderActions } from "./hooks";
 
 type SocialProviderSectionProps = {
 	provider: AuthProvider;
-	isConnected: boolean;
-	accountId?: string;
-	onLink: (provider: AuthProvider) => void;
-	onUnlink: (provider: AuthProvider, accountId: string) => void;
+	name?: string;
 	animationDelay?: number;
 };
 
-export function SocialProviderSection({
-	provider,
-	isConnected,
-	accountId,
-	onLink,
-	onUnlink,
-	animationDelay = 0,
-}: SocialProviderSectionProps) {
-	const providerName = useMemo(() => getProviderName(provider), [provider]);
+export function SocialProviderSection({ provider, name, animationDelay = 0 }: SocialProviderSectionProps) {
+	const { link, unlink } = useAuthProviderActions();
+	const { hasAccount, getAccountByProviderId } = useAuthAccounts();
+
+	const providerName = useMemo(() => name ?? getProviderName(provider), [name, provider]);
 	const providerIcon = useMemo(() => getProviderIcon(provider), [provider]);
 
+	const account = useMemo(() => getAccountByProviderId(provider), [getAccountByProviderId, provider]);
+	const isConnected = useMemo(() => hasAccount(provider), [hasAccount, provider]);
+
 	const handleLink = useCallback(() => {
-		onLink(provider);
-	}, [onLink, provider]);
+		link(provider);
+	}, [link, provider]);
 
 	const handleUnlink = useCallback(() => {
-		if (accountId) {
-			onUnlink(provider, accountId);
-		}
-	}, [accountId, onUnlink, provider]);
+		if (!account?.accountId) return;
+		unlink(provider, account.accountId);
+	}, [account, unlink, provider]);
 
 	return (
 		<motion.div

@@ -56,8 +56,6 @@ function RootDocument({ children }: Props) {
 	return (
 		<html suppressHydrationWarning lang={locale} className={theme}>
 			<head>
-				{/* <script src="https://unpkg.com/react-scan/dist/auto.global.js" /> */}
-
 				<HeadContent />
 			</head>
 

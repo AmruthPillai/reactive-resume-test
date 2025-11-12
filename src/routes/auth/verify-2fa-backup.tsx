@@ -3,7 +3,8 @@ import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { ArrowLeftIcon, CheckIcon } from "@phosphor-icons/react";
 import { createFileRoute, Link, redirect, useNavigate, useRouter } from "@tanstack/react-router";
-import { REGEXP_ONLY_DIGITS } from "input-otp";
+import type { BetterFetchOption } from "better-auth/client";
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
@@ -12,7 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp";
 import { authClient } from "@/integrations/auth/client";
 
-export const Route = createFileRoute("/auth/verify-2fa")({
+export const Route = createFileRoute("/auth/verify-2fa-backup")({
 	component: RouteComponent,
 	beforeLoad: async ({ context }) => {
 		if (context.session) throw redirect({ to: "/dashboard", replace: true });
@@ -20,7 +21,7 @@ export const Route = createFileRoute("/auth/verify-2fa")({
 });
 
 const formSchema = z.object({
-	code: z.string().length(6, "Code must be 6 digits"),
+	code: z.string().trim(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -37,30 +38,34 @@ function RouteComponent() {
 	});
 
 	const onSubmit = async (data: FormValues) => {
-		const toastId = toast.loading(t`Verifying code...`);
+		const toastId = toast.loading(t`Verifying backup code...`);
+		const formattedCode = `${data.code.slice(0, 5)}-${data.code.slice(5)}`;
 
-		const result = await authClient.twoFactor.verifyTotp({
-			code: data.code,
+		const fetchOptions: BetterFetchOption = {
+			onSuccess: () => {
+				router.invalidate();
+				toast.dismiss(toastId);
+				navigate({ to: "/dashboard", replace: true });
+			},
+			onError: ({ error }) => {
+				toast.error(error.message, { id: toastId });
+			},
+		};
+
+		await authClient.twoFactor.verifyBackupCode({
+			code: formattedCode,
+			fetchOptions,
 		});
-
-		if (result.error) {
-			toast.error(result.error.message, { id: toastId });
-			return;
-		}
-
-		router.invalidate();
-		toast.dismiss(toastId);
-		navigate({ to: "/dashboard", replace: true });
 	};
 
 	return (
 		<>
 			<div className="space-y-1 text-center">
 				<h1 className="font-bold text-2xl tracking-tight">
-					<Trans>Two-Factor Authentication</Trans>
+					<Trans>Verify with a Backup Code</Trans>
 				</h1>
 				<div className="text-muted-foreground">
-					<Trans>Enter the verification code from your authenticator app</Trans>
+					<Trans>Enter one of your saved backup codes to access your account</Trans>
 				</div>
 			</div>
 
@@ -73,9 +78,9 @@ function RouteComponent() {
 							<FormItem className="justify-self-center">
 								<FormControl>
 									<InputOTP
-										maxLength={6}
+										maxLength={10}
 										value={field.value}
-										pattern={REGEXP_ONLY_DIGITS}
+										pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
 										onChange={field.onChange}
 										onComplete={form.handleSubmit(onSubmit)}
 										pasteTransformer={(pasted) => pasted.replaceAll("-", "")}
@@ -84,12 +89,16 @@ function RouteComponent() {
 											<InputOTPSlot index={0} className="size-12" />
 											<InputOTPSlot index={1} className="size-12" />
 											<InputOTPSlot index={2} className="size-12" />
+											<InputOTPSlot index={3} className="size-12" />
+											<InputOTPSlot index={4} className="size-12" />
 										</InputOTPGroup>
 										<InputOTPSeparator />
 										<InputOTPGroup>
-											<InputOTPSlot index={3} className="size-12" />
-											<InputOTPSlot index={4} className="size-12" />
 											<InputOTPSlot index={5} className="size-12" />
+											<InputOTPSlot index={6} className="size-12" />
+											<InputOTPSlot index={7} className="size-12" />
+											<InputOTPSlot index={8} className="size-12" />
+											<InputOTPSlot index={9} className="size-12" />
 										</InputOTPGroup>
 									</InputOTP>
 								</FormControl>
@@ -100,23 +109,17 @@ function RouteComponent() {
 
 					<div className="flex gap-x-2">
 						<Button type="button" variant="outline" className="flex-1" asChild>
-							<Link to="/auth/login">
+							<Link to="/auth/verify-2fa">
 								<ArrowLeftIcon />
-								<Trans>Back to Login</Trans>
+								<Trans>Use Authenticator App</Trans>
 							</Link>
 						</Button>
-
 						<Button type="submit" className="flex-1">
 							<CheckIcon />
 							<Trans>Verify</Trans>
 						</Button>
 					</div>
 				</form>
-				<Button type="button" variant="link" className="h-auto justify-self-center p-0 text-sm" asChild>
-					<Link to="/auth/verify-2fa-backup">
-						<Trans>Lost access to your authenticator?</Trans>
-					</Link>
-				</Button>
 			</Form>
 		</>
 	);

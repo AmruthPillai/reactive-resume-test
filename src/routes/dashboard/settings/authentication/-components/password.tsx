@@ -2,18 +2,18 @@ import { Trans } from "@lingui/react/macro";
 import { PasswordIcon, PencilSimpleLineIcon } from "@phosphor-icons/react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { match } from "ts-pattern";
 import { Button } from "@/components/ui/button";
 import { useDialogStore } from "@/dialogs/store";
+import { useAuthAccounts } from "./hooks";
 
-type PasswordSectionProps = {
-	hasPassword: boolean;
-};
-
-export function PasswordSection({ hasPassword }: PasswordSectionProps) {
+export function PasswordSection() {
 	const navigate = useNavigate();
 	const { openDialog } = useDialogStore();
+	const { hasAccount } = useAuthAccounts();
+
+	const hasPassword = useMemo(() => hasAccount("credential"), [hasAccount]);
 
 	const handleUpdatePassword = useCallback(() => {
 		if (hasPassword) {

@@ -10,12 +10,12 @@ import { Separator } from "@/components/ui/separator";
 import { useConfirm } from "@/hooks/use-confirm";
 import { usePrompt } from "@/hooks/use-prompt";
 import { authClient } from "@/integrations/auth/client";
-import { useUserPasskeys } from "./hooks";
+import { useAuthPasskeys } from "./hooks";
 
 export function PasskeysSection() {
 	const prompt = usePrompt();
 	const queryClient = useQueryClient();
-	const { passkeys } = useUserPasskeys();
+	const { passkeys } = useAuthPasskeys();
 
 	const handleAddPasskey = async () => {
 		const name = await prompt(t`What do you want to call this passkey?`);

@@ -1,5 +1,5 @@
 import { t } from "@lingui/core/macro";
-import { GithubLogoIcon, GoogleLogoIcon, PasswordIcon } from "@phosphor-icons/react";
+import { GithubLogoIcon, GoogleLogoIcon, PasswordIcon, VaultIcon } from "@phosphor-icons/react";
 import { useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { useCallback, useMemo } from "react";
@@ -17,6 +17,7 @@ export function getProviderName(providerId: AuthProvider): string {
 		.with("credential", () => "Password")
 		.with("google", () => "Google")
 		.with("github", () => "GitHub")
+		.with("custom", () => "Custom OAuth")
 		.exhaustive();
 }
 
@@ -28,6 +29,7 @@ export function getProviderIcon(providerId: AuthProvider): ReactNode {
 		.with("credential", () => <PasswordIcon />)
 		.with("google", () => <GoogleLogoIcon />)
 		.with("github", () => <GithubLogoIcon />)
+		.with("custom", () => <VaultIcon />)
 		.exhaustive();
 }
 
@@ -53,18 +55,18 @@ export function useAuthAccounts() {
 
 	return {
 		accounts,
-		getAccountByProviderId,
 		hasAccount,
+		getAccountByProviderId,
 	};
 }
 
 /**
- * Hook to manage social provider linking/unlinking
+ * Hook to manage authentication provider linking/unlinking
  */
 export function useAuthProviderActions() {
 	const queryClient = useQueryClient();
 
-	const handleLinkSocial = useCallback(
+	const link = useCallback(
 		async (provider: AuthProvider) => {
 			const providerName = getProviderName(provider);
 			const toastId = toast.loading(t`Linking your ${providerName} account...`);
@@ -87,7 +89,7 @@ export function useAuthProviderActions() {
 		[queryClient],
 	);
 
-	const handleUnlinkSocial = useCallback(
+	const unlink = useCallback(
 		async (provider: AuthProvider, accountId: string) => {
 			const providerName = getProviderName(provider);
 			const toastId = toast.loading(t`Unlinking your ${providerName} account...`);
@@ -110,41 +112,30 @@ export function useAuthProviderActions() {
 		[queryClient],
 	);
 
-	return {
-		handleLinkSocial,
-		handleUnlinkSocial,
-	};
+	return { link, unlink };
 }
 
 /**
  * Hook to get enabled social providers for the current user
+ * Possible values: "credential", "google", "github", "custom"
  */
 export function useEnabledProviders() {
 	const { data: enabledProviders = [] } = useSuspenseQuery(orpc.auth.listProviders.queryOptions());
 
-	const isProviderEnabled = useCallback(
-		(provider: AuthProvider) => enabledProviders.includes(provider),
-		[enabledProviders],
-	);
-
-	return {
-		enabledProviders,
-		isProviderEnabled,
-	};
+	return { enabledProviders };
 }
 
 /**
- * Hook to list user passkeys
+ * Hook to list the authenticated passkeys for the current user
  */
-export function useUserPasskeys() {
+export function useAuthPasskeys() {
 	const { data } = useQuery({
 		queryKey: ["auth", "passkeys"],
 		queryFn: () => authClient.passkey.listUserPasskeys(),
+		select: ({ data }) => data ?? [],
 	});
 
-	const passkeys = useMemo(() => data?.data ?? [], [data]);
+	const passkeys = useMemo(() => data ?? [], [data]);
 
-	return {
-		passkeys,
-	};
+	return { passkeys };
 }
