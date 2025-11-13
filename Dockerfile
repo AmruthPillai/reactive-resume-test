@@ -1,3 +1,7 @@
+# Optimized for Bun Runtime Servers (Docker, Local, etc.)
+# Note: database migrations are handled by the entrypoint.ts script
+# final image size could be larger compared to .nitro builds due to the dependencies layer
+
 # ---------- Dependencies Layer ----------
 FROM oven/bun:1 AS dependencies
 
@@ -39,4 +43,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
 
 EXPOSE 3000
 
-CMD ["bun", "--bun", "run", "entrypoint.ts"]
+CMD ["bun", "run", "entrypoint.ts"]

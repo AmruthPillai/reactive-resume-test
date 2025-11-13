@@ -1,4 +1,4 @@
-import { timingSafeEqual } from "node:crypto";
+import { randomBytes, timingSafeEqual } from "node:crypto";
 import { ORPCError } from "@orpc/client";
 import { getCookie, setCookie } from "@tanstack/react-start/server";
 import { and, arrayContains, asc, desc, eq, isNotNull, sql } from "drizzle-orm";
@@ -25,13 +25,20 @@ const tagsRouter = {
 	}),
 };
 
-const RESUME_ACCESS_COOKIE_PREFIX = "resume_access";
+const RESUME_ACCESS_COOKIE_PREFIX = "__Host-resume_access";
 const RESUME_ACCESS_TTL_SECONDS = 60 * 10; // 10 minutes
 
 const getResumeAccessCookieName = (resumeId: string) => `${RESUME_ACCESS_COOKIE_PREFIX}_${resumeId}`;
 
-const signResumeAccessToken = (resumeId: string, passwordHash: string): string =>
-	new Bun.CryptoHasher("sha256").update(`${resumeId}:${passwordHash}`).digest("hex");
+const signResumeAccessToken = (resumeId: string, passwordHash: string): string => {
+	const timestamp = Date.now();
+	const random = randomBytes(16).toString("hex");
+	const signature = new Bun.CryptoHasher("sha256")
+		.update(`${resumeId}:${passwordHash}:${timestamp}:${random}`)
+		.digest("hex");
+
+	return `${timestamp}.${random}.${signature}`;
+};
 
 const safeEquals = (value: string, expected: string) => {
 	const valueBuffer = Buffer.from(value);

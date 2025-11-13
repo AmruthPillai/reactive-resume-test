@@ -14,7 +14,7 @@
 		"dev": "vite dev --port 3000",
 		"build": "vite build",
 		"start": "bun run entrypoint.ts",
-		"vercel:start": "bun run .output/server/index.mjs",
+		"start:nitro": "bun run .output/server/index.mjs",
 		"typecheck": "tsc --noEmit",
 		"check": "biome check --write",
 		"db:generate": "drizzle-kit generate",
