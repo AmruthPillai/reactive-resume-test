@@ -13,6 +13,7 @@ import {
 import { BuilderSidebarEdge } from "../../-components/edge";
 import { LayoutSectionBuilder } from "./sections/layout";
 import { TemplateSectionBuilder } from "./sections/template";
+import { ThemeSectionBuilder } from "./sections/theme";
 import { TypographySectionBuilder } from "./sections/typography";
 
 function getSectionComponent(type: RightSidebarSection) {
@@ -20,6 +21,7 @@ function getSectionComponent(type: RightSidebarSection) {
 		.with("template", () => <TemplateSectionBuilder />)
 		.with("layout", () => <LayoutSectionBuilder />)
 		.with("typography", () => <TypographySectionBuilder />)
+		.with("theme", () => <ThemeSectionBuilder />)
 		.exhaustive();
 }
 

@@ -20,11 +20,7 @@ export const getRouter = async () => {
 		defaultStructuralSharing: true,
 		defaultErrorComponent: () => null,
 		defaultPendingComponent: LoadingScreen,
-		context: {
-			orpc,
-			queryClient,
-			session: null,
-		},
+		context: { orpc, queryClient, session: null },
 	});
 
 	setupRouterSsrQueryIntegration({

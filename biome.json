@@ -8,7 +8,7 @@
 	},
 	"files": {
 		"ignoreUnknown": true,
-		"includes": ["**", "!**/src/routeTree.gen.ts"]
+		"includes": ["**", "!**/webfontlist.json", "!**/src/routeTree.gen.ts"]
 	},
 	"formatter": {
 		"enabled": true,

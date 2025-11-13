@@ -86,6 +86,7 @@ class LocalStorageService implements StorageService {
 		if (!(await file.exists())) return false;
 
 		await file.delete();
+
 		return true;
 	}
 

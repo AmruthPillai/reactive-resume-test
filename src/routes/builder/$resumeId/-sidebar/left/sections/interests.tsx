@@ -19,20 +19,18 @@ export function InterestsSectionBuilder() {
 	};
 
 	return (
-		<SectionBase type="interests">
-			<div className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-				<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
-					<AnimatePresence>
-						{section.items.map((item) => (
-							<SectionItem key={item.id} type="interests" item={item} title={item.name} />
-						))}
-					</AnimatePresence>
-				</Reorder.Group>
+		<SectionBase type="interests" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+				<AnimatePresence>
+					{section.items.map((item) => (
+						<SectionItem key={item.id} type="interests" item={item} title={item.name} />
+					))}
+				</AnimatePresence>
+			</Reorder.Group>
 
-				<SectionAddItemButton type="interests">
-					<Trans>Add a new interest</Trans>
-				</SectionAddItemButton>
-			</div>
+			<SectionAddItemButton type="interests">
+				<Trans>Add a new interest</Trans>
+			</SectionAddItemButton>
 		</SectionBase>
 	);
 }

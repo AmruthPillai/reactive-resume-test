@@ -7,13 +7,14 @@
 .ncurc.cjs
 .nitro
 .output
-.vercel
 .tanstack
+.vercel
 .vscode
 /data
 biome.json
 components.json
 compose.yml
+coverage
 dist
 Dockerfile
 node_modules

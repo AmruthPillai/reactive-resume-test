@@ -14,6 +14,7 @@ import {
 	ImageIcon,
 	LayoutIcon,
 	MessengerLogoIcon,
+	PaletteIcon,
 	PhoneIcon,
 	StarIcon,
 	TextTIcon,
@@ -26,7 +27,7 @@ import type { SectionType } from "@/schema/resume/data";
 import { cn } from "../style";
 
 export type LeftSidebarSection = "picture" | "basics" | "summary" | SectionType | "custom";
-export type RightSidebarSection = "template" | "layout" | "typography";
+export type RightSidebarSection = "template" | "layout" | "typography" | "theme";
 
 export type SidebarSection = LeftSidebarSection | RightSidebarSection;
 
@@ -49,7 +50,7 @@ export const leftSidebarSections: LeftSidebarSection[] = [
 	"custom",
 ] as const;
 
-export const rightSidebarSections: RightSidebarSection[] = ["template", "layout", "typography"] as const;
+export const rightSidebarSections: RightSidebarSection[] = ["template", "layout", "typography", "theme"] as const;
 
 export const getSectionTitle = (type: SidebarSection): string => {
 	return (
@@ -76,6 +77,7 @@ export const getSectionTitle = (type: SidebarSection): string => {
 			.with("template", () => t`Template`)
 			.with("layout", () => t`Layout`)
 			.with("typography", () => t`Typography`)
+			.with("theme", () => t`Theme`)
 
 			.exhaustive()
 	);
@@ -108,6 +110,7 @@ export const getSectionIcon = (type: SidebarSection, props?: IconProps): React.R
 			.with("template", () => <DiamondsFourIcon {...iconProps} />)
 			.with("layout", () => <LayoutIcon {...iconProps} />)
 			.with("typography", () => <TextTIcon {...iconProps} />)
+			.with("theme", () => <PaletteIcon {...iconProps} />)
 
 			.exhaustive()
 	);

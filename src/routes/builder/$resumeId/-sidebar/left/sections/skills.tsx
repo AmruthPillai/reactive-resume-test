@@ -19,20 +19,18 @@ export function SkillsSectionBuilder() {
 	};
 
 	return (
-		<SectionBase type="skills">
-			<div className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-				<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
-					<AnimatePresence>
-						{section.items.map((item) => (
-							<SectionItem key={item.id} type="skills" item={item} title={item.name} subtitle={item.proficiency} />
-						))}
-					</AnimatePresence>
-				</Reorder.Group>
+		<SectionBase type="skills" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+				<AnimatePresence>
+					{section.items.map((item) => (
+						<SectionItem key={item.id} type="skills" item={item} title={item.name} subtitle={item.proficiency} />
+					))}
+				</AnimatePresence>
+			</Reorder.Group>
 
-				<SectionAddItemButton type="skills">
-					<Trans>Add a new skill</Trans>
-				</SectionAddItemButton>
-			</div>
+			<SectionAddItemButton type="skills">
+				<Trans>Add a new skill</Trans>
+			</SectionAddItemButton>
 		</SectionBase>
 	);
 }

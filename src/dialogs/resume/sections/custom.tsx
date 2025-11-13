@@ -41,6 +41,7 @@ export function CreateCustomSectionDialog({ open, onOpenChange, data }: DialogPr
 	const onSubmit = (data: FormValues) => {
 		updateResume((draft) => {
 			draft.customSections.push(data);
+			draft.metadata.layout.order.main.push(data.id);
 		});
 		onOpenChange(false);
 	};

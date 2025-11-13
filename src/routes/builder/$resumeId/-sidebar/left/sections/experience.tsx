@@ -19,20 +19,18 @@ export function ExperienceSectionBuilder() {
 	};
 
 	return (
-		<SectionBase type="experience">
-			<div className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-				<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
-					<AnimatePresence>
-						{section.items.map((item) => (
-							<SectionItem key={item.id} type="experience" item={item} title={item.company} subtitle={item.position} />
-						))}
-					</AnimatePresence>
-				</Reorder.Group>
+		<SectionBase type="experience" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+				<AnimatePresence>
+					{section.items.map((item) => (
+						<SectionItem key={item.id} type="experience" item={item} title={item.company} subtitle={item.position} />
+					))}
+				</AnimatePresence>
+			</Reorder.Group>
 
-				<SectionAddItemButton type="experience">
-					<Trans>Add a new experience</Trans>
-				</SectionAddItemButton>
-			</div>
+			<SectionAddItemButton type="experience">
+				<Trans>Add a new experience</Trans>
+			</SectionAddItemButton>
 		</SectionBase>
 	);
 }

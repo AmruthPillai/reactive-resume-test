@@ -19,20 +19,18 @@ export function AwardsSectionBuilder() {
 	};
 
 	return (
-		<SectionBase type="awards">
-			<div className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-				<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
-					<AnimatePresence>
-						{section.items.map((item) => (
-							<SectionItem key={item.id} type="awards" item={item} title={item.title} subtitle={item.awarder} />
-						))}
-					</AnimatePresence>
-				</Reorder.Group>
+		<SectionBase type="awards" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+				<AnimatePresence>
+					{section.items.map((item) => (
+						<SectionItem key={item.id} type="awards" item={item} title={item.title} subtitle={item.awarder} />
+					))}
+				</AnimatePresence>
+			</Reorder.Group>
 
-				<SectionAddItemButton type="awards">
-					<Trans>Add a new award</Trans>
-				</SectionAddItemButton>
-			</div>
+			<SectionAddItemButton type="awards">
+				<Trans>Add a new award</Trans>
+			</SectionAddItemButton>
 		</SectionBase>
 	);
 }

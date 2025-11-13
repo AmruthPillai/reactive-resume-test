@@ -8,11 +8,11 @@ import { getSectionIcon, getSectionTitle, type LeftSidebarSection } from "@/util
 import { cn } from "@/utils/style";
 import { SectionDropdownMenu } from "./section-menu";
 
-type Props = React.PropsWithChildren & {
+type Props = React.ComponentProps<typeof AccordionContent> & {
 	type: LeftSidebarSection;
 };
 
-export function SectionBase({ type, children }: Props) {
+export function SectionBase({ type, className, ...props }: Props) {
 	const section = useResumeData((state) => {
 		if (type === "basics") return state.basics;
 		if (type === "summary") return state.summary;
@@ -54,9 +54,13 @@ export function SectionBase({ type, children }: Props) {
 					)}
 				</div>
 
-				<AccordionContent className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-					{children}
-				</AccordionContent>
+				<AccordionContent
+					className={cn(
+						"overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
+						className,
+					)}
+					{...props}
+				/>
 			</AccordionItem>
 		</Accordion>
 	);

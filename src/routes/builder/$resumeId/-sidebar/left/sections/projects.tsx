@@ -24,20 +24,18 @@ export function ProjectsSectionBuilder() {
 	};
 
 	return (
-		<SectionBase type="projects">
-			<div className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-				<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
-					<AnimatePresence>
-						{section.items.map((item) => (
-							<SectionItem key={item.id} type="projects" item={item} title={item.name} subtitle={buildSubtitle(item)} />
-						))}
-					</AnimatePresence>
-				</Reorder.Group>
+		<SectionBase type="projects" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+				<AnimatePresence>
+					{section.items.map((item) => (
+						<SectionItem key={item.id} type="projects" item={item} title={item.name} subtitle={buildSubtitle(item)} />
+					))}
+				</AnimatePresence>
+			</Reorder.Group>
 
-				<SectionAddItemButton type="projects">
-					<Trans>Add a new project</Trans>
-				</SectionAddItemButton>
-			</div>
+			<SectionAddItemButton type="projects">
+				<Trans>Add a new project</Trans>
+			</SectionAddItemButton>
 		</SectionBase>
 	);
 }

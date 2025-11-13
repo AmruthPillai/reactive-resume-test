@@ -11,7 +11,7 @@ function RouteComponent() {
 	const resume = useResumeData();
 
 	return (
-		<ScrollArea className="h-full">
+		<ScrollArea className="mx-auto aspect-page h-full">
 			<div className="m-4 space-y-6 rounded-md bg-popover p-4 text-foreground">
 				<TiptapContent content={resume.summary.content} />
 

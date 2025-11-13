@@ -12,6 +12,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { metadataSchema } from "@/schema/resume/data";
+import { cn } from "@/utils/style";
 import { SectionBase } from "../shared/section-base";
 
 export function TypographySectionBuilder() {
@@ -87,6 +88,7 @@ function TypographySectionForm() {
 							<FormControl>
 								<FontFamilyCombobox
 									value={field.value}
+									buttonProps={{ className: "h-auto text-base" }}
 									onValueChange={(value) => {
 										field.onChange(value);
 										form.handleSubmit(onSubmit)();
@@ -210,7 +212,9 @@ function TypographySectionForm() {
 					)}
 				/>
 
-				<Label className="col-span-full flex items-center gap-4 rounded-lg border p-4">
+				<Label
+					className={cn("col-span-full mb-0 flex items-center gap-4 rounded-lg border p-4", syncOptions && "-mb-4")}
+				>
 					<Switch
 						id={switchId}
 						checked={syncOptions}
@@ -241,6 +245,7 @@ function TypographySectionForm() {
 										<FormControl>
 											<FontFamilyCombobox
 												value={field.value}
+												buttonProps={{ className: "h-auto text-base" }}
 												onValueChange={(value) => {
 													field.onChange(value);
 													form.handleSubmit(onSubmit)();

@@ -10,6 +10,8 @@
  * - Configurable file filtering with include/exclude patterns
  * - Memory-efficient response generation
  * - Production-ready caching headers
+ * - ETag and Gzip compression support
+ * - Running database migrations in production
  *
  * Environment Variables:
  *
@@ -459,6 +461,7 @@ async function initializeStaticRoutes(clientDirectory: string): Promise<PreloadR
 async function initializeServer() {
 	log.header("Starting Production Server");
 
+	// Run database migrations in production
 	if (process.env.NODE_ENV === "production") {
 		if (!process.env.DATABASE_URL) {
 			log.error("DATABASE_URL is not set, exiting...");

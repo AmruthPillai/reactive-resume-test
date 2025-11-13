@@ -19,26 +19,24 @@ export function VolunteerSectionBuilder() {
 	};
 
 	return (
-		<SectionBase type="volunteer">
-			<div className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-				<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
-					<AnimatePresence>
-						{section.items.map((item) => (
-							<SectionItem
-								key={item.id}
-								type="volunteer"
-								item={item}
-								title={item.organization}
-								subtitle={item.location}
-							/>
-						))}
-					</AnimatePresence>
-				</Reorder.Group>
+		<SectionBase type="volunteer" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+				<AnimatePresence>
+					{section.items.map((item) => (
+						<SectionItem
+							key={item.id}
+							type="volunteer"
+							item={item}
+							title={item.organization}
+							subtitle={item.location}
+						/>
+					))}
+				</AnimatePresence>
+			</Reorder.Group>
 
-				<SectionAddItemButton type="volunteer">
-					<Trans>Add a new volunteer experience</Trans>
-				</SectionAddItemButton>
-			</div>
+			<SectionAddItemButton type="volunteer">
+				<Trans>Add a new volunteer experience</Trans>
+			</SectionAddItemButton>
 		</SectionBase>
 	);
 }

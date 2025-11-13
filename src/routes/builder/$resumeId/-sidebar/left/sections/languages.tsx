@@ -19,20 +19,18 @@ export function LanguagesSectionBuilder() {
 	};
 
 	return (
-		<SectionBase type="languages">
-			<div className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-				<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
-					<AnimatePresence>
-						{section.items.map((item) => (
-							<SectionItem key={item.id} type="languages" item={item} title={item.language} subtitle={item.fluency} />
-						))}
-					</AnimatePresence>
-				</Reorder.Group>
+		<SectionBase type="languages" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+				<AnimatePresence>
+					{section.items.map((item) => (
+						<SectionItem key={item.id} type="languages" item={item} title={item.language} subtitle={item.fluency} />
+					))}
+				</AnimatePresence>
+			</Reorder.Group>
 
-				<SectionAddItemButton type="languages">
-					<Trans>Add a new language</Trans>
-				</SectionAddItemButton>
-			</div>
+			<SectionAddItemButton type="languages">
+				<Trans>Add a new language</Trans>
+			</SectionAddItemButton>
 		</SectionBase>
 	);
 }

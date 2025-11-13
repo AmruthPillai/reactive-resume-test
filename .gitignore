@@ -3,8 +3,9 @@
 .env*
 .nitro
 .output
-.vercel
 .tanstack
+.vercel
 /data
+coverage
 dist
 node_modules

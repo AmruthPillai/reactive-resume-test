@@ -7,11 +7,7 @@ import { env } from "@/utils/env";
 const storageService = getStorageService();
 
 export const Route = createFileRoute("/uploads/$userId/$fileId")({
-	server: {
-		handlers: {
-			GET: handler,
-		},
-	},
+	server: { handlers: { GET: handler } },
 });
 
 /**
@@ -20,28 +16,20 @@ export const Route = createFileRoute("/uploads/$userId/$fileId")({
 async function handler({ request }: { request: Request }) {
 	const { userId, fileId } = parseRouteParams(request.url);
 
-	if (!userId || !fileId) {
-		return new Response("Bad Request", { status: 400 });
-	}
+	if (!userId || !fileId) return new Response("Bad Request", { status: 400 });
 
-	if (!isValidPath(userId) || !isValidPath(fileId)) {
-		return new Response("Forbidden", { status: 403 });
-	}
+	if (!isValidPath(userId) || !isValidPath(fileId)) return new Response("Forbidden", { status: 403 });
 
 	const key = buildStorageKey(userId, fileId);
 	const storedFile = await storageService.read(key);
 
-	if (!storedFile) {
-		return new Response("Not Found", { status: 404 });
-	}
+	if (!storedFile) return new Response("Not Found", { status: 404 });
 
 	const ext = path.extname(fileId).toLowerCase();
 	const contentType = storedFile.contentType ?? inferContentType(fileId);
 	const etag = createEtag(storedFile);
 
-	if (isNotModified(request.headers, etag)) {
-		return makeNotModifiedResponse(etag);
-	}
+	if (isNotModified(request.headers, etag)) return makeNotModifiedResponse(etag);
 
 	const shouldForceDownload = [".html", ".svg", ".xml", ".js"].includes(ext);
 	const headers = buildResponseHeaders({
@@ -62,6 +50,7 @@ async function handler({ request }: { request: Request }) {
  */
 function parseRouteParams(url: string): { userId: string | undefined; fileId: string | undefined } {
 	const [userId, fileId] = new URL(url).pathname.replace("/uploads/", "").split("/");
+
 	return { userId, fileId };
 }
 
@@ -70,6 +59,7 @@ function parseRouteParams(url: string): { userId: string | undefined; fileId: st
  */
 function isValidPath(segment: string): boolean {
 	const normalized = path.normalize(segment).replace(/^(\.\.(\/|\\|$))+/, "");
+
 	return normalized === segment;
 }
 
@@ -79,6 +69,7 @@ function isValidPath(segment: string): boolean {
 function isNotModified(headers: Headers, etag: string): boolean {
 	const ifNoneMatch = headers.get("If-None-Match");
 	const candidates = ifNoneMatch?.split(",").map((s) => s.trim()) ?? [];
+
 	return candidates.includes(etag);
 }
 
@@ -88,12 +79,17 @@ function isNotModified(headers: Headers, etag: string): boolean {
 function makeNotModifiedResponse(etag: string): Response {
 	return new Response(null, {
 		status: 304,
-		headers: {
-			ETag: etag,
-			"Cache-Control": "public, max-age=31536000, immutable",
-		},
+		headers: { ETag: etag, "Cache-Control": "public, max-age=31536000, immutable" },
 	});
 }
+
+type BuildResponseHeaderArgs = {
+	fileId: string;
+	storedFile: { size: number };
+	contentType: string;
+	etag: string;
+	shouldForceDownload: boolean;
+};
 
 /**
  * Builds all headers for serving the file, including caching, security, and download headers.
@@ -104,13 +100,7 @@ function buildResponseHeaders({
 	contentType,
 	etag,
 	shouldForceDownload,
-}: {
-	fileId: string;
-	storedFile: { size: number };
-	contentType: string;
-	etag: string;
-	shouldForceDownload: boolean;
-}): Headers {
+}: BuildResponseHeaderArgs): Headers {
 	const headers = new Headers();
 
 	headers.set("Content-Type", shouldForceDownload ? "application/octet-stream" : contentType);
@@ -123,7 +113,7 @@ function buildResponseHeaders({
 	headers.set("Cache-Control", "public, max-age=31536000, immutable");
 	headers.set("ETag", etag);
 
-	// Security headers
+	// Security Headers
 	headers.set("X-Content-Type-Options", "nosniff");
 	headers.set("X-Robots-Tag", "noindex, nofollow");
 	headers.set("Cross-Origin-Resource-Policy", "same-site");
@@ -159,5 +149,6 @@ function createEtag(storedFile: { data: Uint8Array; size: number; etag?: string 
 	}
 
 	const hash = createHash("sha1").update(storedFile.data).digest("hex");
+
 	return `"${storedFile.size}-${hash}"`;
 }

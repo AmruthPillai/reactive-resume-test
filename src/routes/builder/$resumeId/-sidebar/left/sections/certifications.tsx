@@ -19,26 +19,27 @@ export function CertificationsSectionBuilder() {
 	};
 
 	return (
-		<SectionBase type="certifications">
-			<div className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-				<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
-					<AnimatePresence>
-						{section.items.map((item) => (
-							<SectionItem
-								key={item.id}
-								type="certifications"
-								item={item}
-								title={item.title}
-								subtitle={[item.issuer, item.date].filter(Boolean).join(" • ") || undefined}
-							/>
-						))}
-					</AnimatePresence>
-				</Reorder.Group>
+		<SectionBase
+			type="certifications"
+			className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}
+		>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+				<AnimatePresence>
+					{section.items.map((item) => (
+						<SectionItem
+							key={item.id}
+							type="certifications"
+							item={item}
+							title={item.title}
+							subtitle={[item.issuer, item.date].filter(Boolean).join(" • ") || undefined}
+						/>
+					))}
+				</AnimatePresence>
+			</Reorder.Group>
 
-				<SectionAddItemButton type="certifications">
-					<Trans>Add a new certification</Trans>
-				</SectionAddItemButton>
-			</div>
+			<SectionAddItemButton type="certifications">
+				<Trans>Add a new certification</Trans>
+			</SectionAddItemButton>
 		</SectionBase>
 	);
 }

@@ -19,26 +19,24 @@ export function ProfilesSectionBuilder() {
 	};
 
 	return (
-		<SectionBase type="profiles">
-			<div className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-				<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
-					<AnimatePresence>
-						{section.items.map((item) => (
-							<SectionItem
-								key={item.id}
-								type="profiles"
-								item={item}
-								title={item.network}
-								subtitle={`@${item.username}`}
-							/>
-						))}
-					</AnimatePresence>
-				</Reorder.Group>
+		<SectionBase type="profiles" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+				<AnimatePresence>
+					{section.items.map((item) => (
+						<SectionItem
+							key={item.id}
+							type="profiles"
+							item={item}
+							title={item.network}
+							subtitle={`@${item.username}`}
+						/>
+					))}
+				</AnimatePresence>
+			</Reorder.Group>
 
-				<SectionAddItemButton type="profiles">
-					<Trans>Add a new profile</Trans>
-				</SectionAddItemButton>
-			</div>
+			<SectionAddItemButton type="profiles">
+				<Trans>Add a new profile</Trans>
+			</SectionAddItemButton>
 		</SectionBase>
 	);
 }

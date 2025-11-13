@@ -1,6 +1,8 @@
 import z from "zod";
 import type { IconName } from "@/components/input/icon-picker";
 
+export const hexColorSchema = z.string().regex(/^#([0-9a-fA-F]{6})$/i, "Should be a valid hex color code");
+
 export const urlSchema = z.object({
 	url: z.url().or(z.literal("")),
 	label: z.string(),
@@ -8,10 +10,10 @@ export const urlSchema = z.object({
 
 export const pictureSchema = z.object({
 	url: z.url().or(z.literal("")),
-	size: z.number(),
-	rotation: z.number(),
-	aspectRatio: z.number(),
-	borderRadius: z.number(),
+	size: z.number().min(32).max(128).catch(64),
+	rotation: z.number().min(0).max(360).catch(0),
+	aspectRatio: z.number().min(0.5).max(2.5).catch(1),
+	borderRadius: z.number().min(0).max(100).catch(0),
 	hidden: z.boolean(),
 	border: z.boolean(),
 	shadow: z.boolean(),
@@ -223,15 +225,18 @@ export const typographySchema = z.object({
 	fontFamily: z.string(),
 	fontSubsets: z.array(z.string()),
 	fontVariants: z.array(z.string()),
-	fontSize: z.number(),
-	lineHeight: z.number(),
+	fontSize: z.number().min(12).max(32).catch(16),
+	lineHeight: z.number().min(0.5).max(4).catch(1.5),
 });
 
 export const metadataSchema = z.object({
 	template: z.string(),
 	layout: z.object({
-		main: z.array(z.string()),
-		aside: z.array(z.string()),
+		sidebarWidth: z.number().min(10).max(50).catch(20),
+		order: z.object({
+			main: z.array(z.string()),
+			sidebar: z.array(z.string()),
+		}),
 	}),
 	css: z.object({
 		enabled: z.boolean(),
@@ -243,9 +248,9 @@ export const metadataSchema = z.object({
 		format: z.enum(["a4", "letter"]),
 	}),
 	theme: z.object({
-		background: z.string(),
-		text: z.string(),
-		accent: z.string(),
+		primary: hexColorSchema,
+		text: hexColorSchema,
+		background: hexColorSchema,
 	}),
 	typography: z.object({
 		body: typographySchema,
@@ -369,10 +374,16 @@ export const defaultResumeData: ResumeData = {
 	customSections: [],
 	metadata: {
 		template: "",
-		layout: { main: [], aside: [] },
+		layout: {
+			sidebarWidth: 20,
+			order: {
+				main: ["summary", "education", "experience", "projects", "volunteer", "references"],
+				sidebar: ["skills", "certifications", "awards", "languages", "interests", "publications"],
+			},
+		},
 		css: { enabled: false, value: "" },
 		page: { marginX: 18, marginY: 18, format: "a4" },
-		theme: { background: "#ffffff", text: "#000000", accent: "#dc2626" },
+		theme: { primary: "#dc2626", text: "#000000", background: "#ffffff" },
 		typography: {
 			body: {
 				fontFamily: "IBM Plex Serif",
@@ -977,17 +988,11 @@ export const sampleResumeData: ResumeData = {
 	metadata: {
 		template: "modern",
 		layout: {
-			main: ["summary", "experience", "projects", "volunteering"],
-			aside: [
-				"skills",
-				"education",
-				"certifications",
-				"awards",
-				"languages",
-				"interests",
-				"publications",
-				"references",
-			],
+			sidebarWidth: 20,
+			order: {
+				main: ["summary", "education", "experience", "projects", "volunteer", "references"],
+				sidebar: ["skills", "certifications", "awards", "languages", "interests", "publications"],
+			},
 		},
 		css: {
 			enabled: false,
@@ -999,9 +1004,9 @@ export const sampleResumeData: ResumeData = {
 			format: "a4",
 		},
 		theme: {
-			background: "#ffffff",
+			primary: "#3b82f6",
 			text: "#1f2937",
-			accent: "#3b82f6",
+			background: "#ffffff",
 		},
 		typography: {
 			body: {

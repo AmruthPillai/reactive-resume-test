@@ -64,27 +64,27 @@ msgstr "Add a custom field"
 msgid "Add a label to the URL"
 msgstr "Add a label to the URL"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/awards.tsx:33
+#: src/routes/builder/$resumeId/-sidebar/left/sections/awards.tsx:32
 msgid "Add a new award"
 msgstr "Add a new award"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/certifications.tsx:39
+#: src/routes/builder/$resumeId/-sidebar/left/sections/certifications.tsx:41
 msgid "Add a new certification"
 msgstr "Add a new certification"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:41
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:40
 msgid "Add a new custom section"
 msgstr "Add a new custom section"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/education.tsx:33
+#: src/routes/builder/$resumeId/-sidebar/left/sections/education.tsx:32
 msgid "Add a new education"
 msgstr "Add a new education"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/experience.tsx:33
+#: src/routes/builder/$resumeId/-sidebar/left/sections/experience.tsx:32
 msgid "Add a new experience"
 msgstr "Add a new experience"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/interests.tsx:33
+#: src/routes/builder/$resumeId/-sidebar/left/sections/interests.tsx:32
 msgid "Add a new interest"
 msgstr "Add a new interest"
 
@@ -92,31 +92,31 @@ msgstr "Add a new interest"
 msgid "Add a new item"
 msgstr "Add a new item"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/languages.tsx:33
+#: src/routes/builder/$resumeId/-sidebar/left/sections/languages.tsx:32
 msgid "Add a new language"
 msgstr "Add a new language"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/profiles.tsx:39
+#: src/routes/builder/$resumeId/-sidebar/left/sections/profiles.tsx:38
 msgid "Add a new profile"
 msgstr "Add a new profile"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/projects.tsx:38
+#: src/routes/builder/$resumeId/-sidebar/left/sections/projects.tsx:37
 msgid "Add a new project"
 msgstr "Add a new project"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/publications.tsx:33
+#: src/routes/builder/$resumeId/-sidebar/left/sections/publications.tsx:32
 msgid "Add a new publication"
 msgstr "Add a new publication"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/references.tsx:33
+#: src/routes/builder/$resumeId/-sidebar/left/sections/references.tsx:32
 msgid "Add a new reference"
 msgstr "Add a new reference"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/skills.tsx:33
+#: src/routes/builder/$resumeId/-sidebar/left/sections/skills.tsx:32
 msgid "Add a new skill"
 msgstr "Add a new skill"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/volunteer.tsx:39
+#: src/routes/builder/$resumeId/-sidebar/left/sections/volunteer.tsx:38
 msgid "Add a new volunteer experience"
 msgstr "Add a new volunteer experience"
 
@@ -207,8 +207,8 @@ msgstr "Border Radius"
 #: src/dialogs/resume/sections/award.tsx:124
 #: src/dialogs/resume/sections/certification.tsx:72
 #: src/dialogs/resume/sections/certification.tsx:132
-#: src/dialogs/resume/sections/custom.tsx:65
-#: src/dialogs/resume/sections/custom.tsx:119
+#: src/dialogs/resume/sections/custom.tsx:66
+#: src/dialogs/resume/sections/custom.tsx:120
 #: src/dialogs/resume/sections/education.tsx:71
 #: src/dialogs/resume/sections/education.tsx:130
 #: src/dialogs/resume/sections/experience.tsx:69
@@ -272,7 +272,7 @@ msgstr "Confirm"
 msgid "Connect"
 msgstr "Connect"
 
-#: src/dialogs/resume/sections/custom.tsx:160
+#: src/dialogs/resume/sections/custom.tsx:161
 msgid "Content"
 msgstr "Content"
 
@@ -297,7 +297,7 @@ msgstr "Copy Backup Codes"
 
 #: src/dialogs/resume/sections/award.tsx:72
 #: src/dialogs/resume/sections/certification.tsx:76
-#: src/dialogs/resume/sections/custom.tsx:69
+#: src/dialogs/resume/sections/custom.tsx:70
 #: src/dialogs/resume/sections/education.tsx:75
 #: src/dialogs/resume/sections/experience.tsx:73
 #: src/dialogs/resume/sections/interest.tsx:72
@@ -323,7 +323,7 @@ msgstr "Create a new award"
 msgid "Create a new certification"
 msgstr "Create a new certification"
 
-#: src/dialogs/resume/sections/custom.tsx:54
+#: src/dialogs/resume/sections/custom.tsx:55
 msgid "Create a new custom section"
 msgstr "Create a new custom section"
 
@@ -410,7 +410,7 @@ msgid "Degree"
 msgstr "Degree"
 
 #: src/routes/builder/$resumeId/-components/header.tsx:162
-#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:138
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:140
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:113
 #: src/routes/dashboard/resumes/-components/resume-card.tsx:144
 msgid "Delete"
@@ -473,9 +473,13 @@ msgstr "Don't have an account? <0><1>Create one now <2/></1></0>"
 msgid "Download"
 msgstr "Download"
 
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/order.tsx:148
+msgid "Drag and drop sections here to move them between columns"
+msgstr "Drag and drop sections here to move them between columns"
+
 #: src/dialogs/resume/index.tsx:278
 #: src/routes/builder/$resumeId/-components/header.tsx:150
-#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:129
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:131
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:104
 #: src/routes/dashboard/resumes/-components/resume-card.tsx:132
 msgid "Duplicate"
@@ -564,23 +568,23 @@ msgstr "Filter by"
 msgid "Fluency"
 msgstr "Fluency"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:85
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:239
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:86
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:242
 msgid "Font Family"
 msgstr "Font Family"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:157
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:311
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:158
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:314
 msgid "Font Size"
 msgstr "Font Size"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:107
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:261
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:108
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:264
 msgid "Font Subsets"
 msgstr "Font Subsets"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:132
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:286
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:133
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:289
 msgid "Font Variants"
 msgstr "Font Variants"
 
@@ -623,7 +627,7 @@ msgstr "Headline"
 msgid "Hidden"
 msgstr "Hidden"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:119
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:121
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx:140
 msgid "Hide"
 msgstr "Hide"
@@ -685,8 +689,8 @@ msgstr "Level"
 msgid "Light"
 msgstr "Light"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:188
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:342
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:189
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:345
 msgid "Line Height"
 msgstr "Line Height"
 
@@ -717,6 +721,10 @@ msgstr "Logout"
 #: src/routes/auth/verify-2fa.tsx:117
 msgid "Lost access to your authenticator?"
 msgstr "Lost access to your authenticator?"
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/order.tsx:28
+msgid "Main"
+msgstr "Main"
 
 #: src/dialogs/resume/index.tsx:308
 #: src/dialogs/resume/sections/interest.tsx:165
@@ -885,7 +893,7 @@ msgstr "Rotation"
 #: src/dialogs/resume/index.tsx:206
 #: src/dialogs/resume/sections/award.tsx:128
 #: src/dialogs/resume/sections/certification.tsx:136
-#: src/dialogs/resume/sections/custom.tsx:123
+#: src/dialogs/resume/sections/custom.tsx:124
 #: src/dialogs/resume/sections/education.tsx:134
 #: src/dialogs/resume/sections/experience.tsx:130
 #: src/dialogs/resume/sections/interest.tsx:126
@@ -951,10 +959,18 @@ msgstr "Setup Authenticator App"
 msgid "Shadow"
 msgstr "Shadow"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:119
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:121
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx:140
 msgid "Show"
 msgstr "Show"
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/order.tsx:29
+msgid "Sidebar"
+msgstr "Sidebar"
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/index.tsx:52
+msgid "Sidebar Width"
+msgstr "Sidebar Width"
 
 #: src/routes/auth/login.tsx:158
 msgid "Sign in"
@@ -1015,7 +1031,7 @@ msgstr "Start building your resume from scratch"
 msgid "Summary"
 msgstr "Summary"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:225
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:228
 msgid "Synchronize heading styles with the settings configured above."
 msgstr "Synchronize heading styles with the settings configured above."
 
@@ -1067,7 +1083,7 @@ msgstr "Tip: You can name the resume referring to the position you are applying 
 
 #: src/dialogs/resume/sections/award.tsx:149
 #: src/dialogs/resume/sections/certification.tsx:157
-#: src/dialogs/resume/sections/custom.tsx:144
+#: src/dialogs/resume/sections/custom.tsx:145
 #: src/dialogs/resume/sections/publication.tsx:157
 msgid "Title"
 msgstr "Title"
@@ -1111,7 +1127,7 @@ msgid "Unverified"
 msgstr "Unverified"
 
 #: src/routes/builder/$resumeId/-components/header.tsx:145
-#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:124
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:126
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:99
 #: src/routes/dashboard/resumes/-components/resume-card.tsx:127
 msgid "Update"
@@ -1125,7 +1141,7 @@ msgstr "Update an existing award"
 msgid "Update an existing certification"
 msgstr "Update an existing certification"
 
-#: src/dialogs/resume/sections/custom.tsx:108
+#: src/dialogs/resume/sections/custom.tsx:109
 msgid "Update an existing custom section"
 msgstr "Update an existing custom section"
 
@@ -1202,7 +1218,7 @@ msgstr "URL"
 msgid "Use Authenticator App"
 msgstr "Use Authenticator App"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:223
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:226
 msgid "Use the same style for headings"
 msgstr "Use the same style for headings"
 

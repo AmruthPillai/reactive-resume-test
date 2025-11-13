@@ -29,18 +29,16 @@ export function CustomSectionBuilder() {
 	const customSections = useResumeData((state) => state.customSections);
 
 	return (
-		<SectionBase type="custom">
-			<div className={cn("rounded-md border", customSections.length === 0 && "border-dashed")}>
-				<AnimatePresence>
-					{customSections.map((section) => (
-						<CustomSectionItem key={section.id} section={section} />
-					))}
-				</AnimatePresence>
+		<SectionBase type="custom" className={cn("rounded-md border", customSections.length === 0 && "border-dashed")}>
+			<AnimatePresence>
+				{customSections.map((section) => (
+					<CustomSectionItem key={section.id} section={section} />
+				))}
+			</AnimatePresence>
 
-				<SectionAddItemButton type="custom">
-					<Trans>Add a new custom section</Trans>
-				</SectionAddItemButton>
-			</div>
+			<SectionAddItemButton type="custom">
+				<Trans>Add a new custom section</Trans>
+			</SectionAddItemButton>
 		</SectionBase>
 	);
 }
@@ -71,10 +69,14 @@ function CustomSectionItem({ section }: { section: CustomSection }) {
 			confirmText: "Delete",
 			cancelText: "Cancel",
 		});
+
 		if (!confirmed) return;
 
 		updateResume((draft) => {
 			draft.customSections = draft.customSections.filter((_section) => _section.id !== section.id);
+			// remove from layout
+			draft.metadata.layout.order.main = draft.metadata.layout.order.main.filter((id) => id !== section.id);
+			draft.metadata.layout.order.sidebar = draft.metadata.layout.order.sidebar.filter((id) => id !== section.id);
 		});
 	};
 

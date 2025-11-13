@@ -19,20 +19,18 @@ export function ReferencesSectionBuilder() {
 	};
 
 	return (
-		<SectionBase type="references">
-			<div className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-				<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
-					<AnimatePresence>
-						{section.items.map((item) => (
-							<SectionItem key={item.id} type="references" item={item} title={item.name} />
-						))}
-					</AnimatePresence>
-				</Reorder.Group>
+		<SectionBase type="references" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+				<AnimatePresence>
+					{section.items.map((item) => (
+						<SectionItem key={item.id} type="references" item={item} title={item.name} />
+					))}
+				</AnimatePresence>
+			</Reorder.Group>
 
-				<SectionAddItemButton type="references">
-					<Trans>Add a new reference</Trans>
-				</SectionAddItemButton>
-			</div>
+			<SectionAddItemButton type="references">
+				<Trans>Add a new reference</Trans>
+			</SectionAddItemButton>
 		</SectionBase>
 	);
 }

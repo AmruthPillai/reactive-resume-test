@@ -19,7 +19,7 @@ const config = defineConfig({
 		tsconfigPaths(),
 		tailwindcss(),
 		tanstackStart({ router: { semicolons: true, quoteStyle: "double" } }),
-		process.env.VERCEL ? nitro({ preset: "vercel" }) : undefined,
+		process.env.VERCEL ? nitro() : undefined,
 		viteReact({
 			babel: {
 				compact: false,

@@ -36,7 +36,7 @@ export function useBuilderSidebar<T = UseBuilderSidebarReturn>(selector?: (build
 
 	const maxSidebarSize = useMemo(() => {
 		if (!width) return 100;
-		return Math.round((600 / width) * 100);
+		return Math.round((800 / width) * 100);
 	}, [width]);
 
 	const collapsedSidebarSize = useMemo(() => {
@@ -56,7 +56,7 @@ export function useBuilderSidebar<T = UseBuilderSidebarReturn>(selector?: (build
 			if (!sidebar) return;
 
 			const shouldExpand = forceState === undefined ? sidebar.isCollapsed() : forceState;
-			if (shouldExpand) sidebar.expand(expandSize);
+			if (shouldExpand) sidebar.resize(expandSize);
 			else sidebar.collapse();
 		},
 		[expandSize],

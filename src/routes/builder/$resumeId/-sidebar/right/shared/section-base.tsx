@@ -3,12 +3,13 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@r
 import { Button } from "@/components/ui/button";
 import { useSectionStore } from "@/routes/builder/$resumeId/-store/section";
 import { getSectionIcon, getSectionTitle, type RightSidebarSection } from "@/utils/resume/section";
+import { cn } from "@/utils/style";
 
-type Props = React.PropsWithChildren & {
+type Props = React.ComponentProps<typeof AccordionContent> & {
 	type: RightSidebarSection;
 };
 
-export function SectionBase({ type, children }: Props) {
+export function SectionBase({ type, className, ...props }: Props) {
 	const collapsed = useSectionStore((state) => state.sections[type]?.collapsed ?? false);
 	const toggleCollapsed = useSectionStore((state) => state.toggleCollapsed);
 
@@ -35,9 +36,13 @@ export function SectionBase({ type, children }: Props) {
 					</div>
 				</div>
 
-				<AccordionContent className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-					{children}
-				</AccordionContent>
+				<AccordionContent
+					className={cn(
+						"overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
+						className,
+					)}
+					{...props}
+				/>
 			</AccordionItem>
 		</Accordion>
 	);

@@ -50,6 +50,8 @@ const argForce = args.includes("--force");
 const argCompress = args.includes("--compress");
 const argLimit = args.includes("--limit") ? parseInt(args[args.indexOf("--limit") + 1], 10) : 500;
 
+const blacklistedFonts = ["Material Icons", "Material Symbols", "Noto Color Emoji"];
+
 async function getGoogleFontsJSON() {
 	const file = Bun.file("data/fonts/response.json");
 
@@ -72,7 +74,11 @@ export async function generateFonts() {
 	const response = await getGoogleFontsJSON();
 	console.log(`Found ${response.items.length} fonts in total.`);
 
-	const result = response.items.slice(0, argLimit).map((item) => ({
+	const filteredItems = response.items.filter(
+		(item) => !blacklistedFonts.some((blacklist) => item.family.includes(blacklist)),
+	);
+
+	const result = filteredItems.slice(0, argLimit).map((item) => ({
 		category: item.category,
 		family: item.family,
 		subsets: item.subsets,

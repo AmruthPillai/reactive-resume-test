@@ -19,20 +19,18 @@ export function EducationSectionBuilder() {
 	};
 
 	return (
-		<SectionBase type="education">
-			<div className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-				<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
-					<AnimatePresence>
-						{section.items.map((item) => (
-							<SectionItem key={item.id} type="education" item={item} title={item.school} subtitle={item.degree} />
-						))}
-					</AnimatePresence>
-				</Reorder.Group>
+		<SectionBase type="education" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+				<AnimatePresence>
+					{section.items.map((item) => (
+						<SectionItem key={item.id} type="education" item={item} title={item.school} subtitle={item.degree} />
+					))}
+				</AnimatePresence>
+			</Reorder.Group>
 
-				<SectionAddItemButton type="education">
-					<Trans>Add a new education</Trans>
-				</SectionAddItemButton>
-			</div>
+			<SectionAddItemButton type="education">
+				<Trans>Add a new education</Trans>
+			</SectionAddItemButton>
 		</SectionBase>
 	);
 }
