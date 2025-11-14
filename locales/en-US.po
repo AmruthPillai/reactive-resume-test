@@ -194,7 +194,7 @@ msgctxt "(noun) person, organization, or entity that gives an award"
 msgid "Awarder"
 msgstr "Awarder"
 
-#: src/utils/resume/section.tsx:95
+#: src/utils/resume/section.tsx:98
 msgid "Awards"
 msgstr "Awards"
 
@@ -210,7 +210,7 @@ msgstr "Background Color"
 msgid "Backup codes copied to clipboard."
 msgstr "Backup codes copied to clipboard."
 
-#: src/utils/resume/section.tsx:86
+#: src/utils/resume/section.tsx:89
 msgid "Basics"
 msgstr "Basics"
 
@@ -256,7 +256,7 @@ msgstr "Border Radius"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: src/utils/resume/section.tsx:96
+#: src/utils/resume/section.tsx:99
 msgid "Certifications"
 msgstr "Certifications"
 
@@ -407,11 +407,11 @@ msgstr "Creating your resume..."
 msgid "Current Password"
 msgstr "Current Password"
 
-#: src/utils/resume/section.tsx:108
+#: src/utils/resume/section.tsx:111
 msgid "Custom CSS"
 msgstr "Custom CSS"
 
-#: src/utils/resume/section.tsx:100
+#: src/utils/resume/section.tsx:103
 msgid "Custom Sections"
 msgstr "Custom Sections"
 
@@ -499,6 +499,14 @@ msgstr "Don't have an account? <0><1>Create one now <2/></1></0>"
 msgid "Download"
 msgstr "Download"
 
+#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:58
+msgid "Download a copy of your resume in JSON format. Use this file for backup or to import your resume into other applications, including AI assistants."
+msgstr "Download a copy of your resume in JSON format. Use this file for backup or to import your resume into other applications, including AI assistants."
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:71
+msgid "Download a copy of your resume in PDF format. Use this file for printing or to easily share your resume with recruiters."
+msgstr "Download a copy of your resume in PDF format. Use this file for printing or to easily share your resume with recruiters."
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:49
 msgid "Downloads"
 msgstr "Downloads"
@@ -527,7 +535,7 @@ msgstr "Duplicate your resume to create a new one, just like the original."
 msgid "Duplicating your resume..."
 msgstr "Duplicating your resume..."
 
-#: src/utils/resume/section.tsx:90
+#: src/utils/resume/section.tsx:93
 msgid "Education"
 msgstr "Education"
 
@@ -591,9 +599,13 @@ msgstr "Enter your password to confirm setting up two-factor authentication. Whe
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 
-#: src/utils/resume/section.tsx:89
+#: src/utils/resume/section.tsx:92
 msgid "Experience"
 msgstr "Experience"
+
+#: src/utils/resume/section.tsx:115
+msgid "Export"
+msgstr "Export"
 
 #: src/dialogs/auth/enable-two-factor.tsx:82
 msgid "Failed to setup two-factor authentication."
@@ -680,7 +692,7 @@ msgstr "Hidden"
 msgid "Hide"
 msgstr "Hide"
 
-#: src/utils/resume/section.tsx:94
+#: src/utils/resume/section.tsx:97
 msgid "Interests"
 msgstr "Interests"
 
@@ -707,7 +719,7 @@ msgstr "Landscape"
 msgid "Language"
 msgstr "Language"
 
-#: src/utils/resume/section.tsx:93
+#: src/utils/resume/section.tsx:96
 msgid "Languages"
 msgstr "Languages"
 
@@ -725,7 +737,7 @@ msgstr "Last updated on {updatedAt}"
 msgid "Last viewed on {0}"
 msgstr "Last viewed on {0}"
 
-#: src/utils/resume/section.tsx:104
+#: src/utils/resume/section.tsx:107
 msgid "Layout"
 msgstr "Layout"
 
@@ -816,7 +828,7 @@ msgstr "New Password"
 msgid "No results found."
 msgstr "No results found."
 
-#: src/utils/resume/section.tsx:109
+#: src/utils/resume/section.tsx:112
 msgid "Notes"
 msgstr "Notes"
 
@@ -841,7 +853,7 @@ msgstr "or continue with"
 msgid "Organization"
 msgstr "Organization"
 
-#: src/utils/resume/section.tsx:107
+#: src/utils/resume/section.tsx:110
 msgid "Page"
 msgstr "Page"
 
@@ -882,7 +894,7 @@ msgstr "Period"
 msgid "Phone"
 msgstr "Phone"
 
-#: src/utils/resume/section.tsx:85
+#: src/utils/resume/section.tsx:88
 msgid "Picture"
 msgstr "Picture"
 
@@ -920,11 +932,11 @@ msgstr "Proficiency"
 msgid "Profile"
 msgstr "Profile"
 
-#: src/utils/resume/section.tsx:88
+#: src/utils/resume/section.tsx:91
 msgid "Profiles"
 msgstr "Profiles"
 
-#: src/utils/resume/section.tsx:91
+#: src/utils/resume/section.tsx:94
 msgid "Projects"
 msgstr "Projects"
 
@@ -937,7 +949,7 @@ msgctxt "Visibility"
 msgid "Public"
 msgstr "Public"
 
-#: src/utils/resume/section.tsx:97
+#: src/utils/resume/section.tsx:100
 msgid "Publications"
 msgstr "Publications"
 
@@ -949,7 +961,7 @@ msgstr "Publisher"
 msgid "Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume."
 msgstr "Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume."
 
-#: src/utils/resume/section.tsx:99
+#: src/utils/resume/section.tsx:102
 msgid "References"
 msgstr "References"
 
@@ -1077,7 +1089,7 @@ msgstr "Setup Authenticator App"
 msgid "Shadow"
 msgstr "Shadow"
 
-#: src/utils/resume/section.tsx:110
+#: src/utils/resume/section.tsx:113
 msgid "Sharing"
 msgstr "Sharing"
 
@@ -1125,7 +1137,7 @@ msgstr "Signing up..."
 msgid "Size"
 msgstr "Size"
 
-#: src/utils/resume/section.tsx:92
+#: src/utils/resume/section.tsx:95
 msgid "Skills"
 msgstr "Skills"
 
@@ -1155,11 +1167,11 @@ msgstr "Start building your resume by giving it a name."
 msgid "Start building your resume from scratch"
 msgstr "Start building your resume from scratch"
 
-#: src/utils/resume/section.tsx:111
+#: src/utils/resume/section.tsx:114
 msgid "Statistics"
 msgstr "Statistics"
 
-#: src/utils/resume/section.tsx:87
+#: src/utils/resume/section.tsx:90
 msgid "Summary"
 msgstr "Summary"
 
@@ -1175,7 +1187,7 @@ msgstr "Tags"
 msgid "Tags can be used to categorize your resume by keywords."
 msgstr "Tags can be used to categorize your resume by keywords."
 
-#: src/utils/resume/section.tsx:103
+#: src/utils/resume/section.tsx:106
 msgid "Template"
 msgstr "Template"
 
@@ -1197,7 +1209,7 @@ msgstr "The URL you entered is not valid."
 
 #: src/components/user/dropdown-menu.tsx:91
 #: src/routes/dashboard/settings/preferences.tsx:28
-#: src/utils/resume/section.tsx:106
+#: src/utils/resume/section.tsx:109
 msgid "Theme"
 msgstr "Theme"
 
@@ -1266,7 +1278,7 @@ msgstr "Two-factor authentication has been setup successfully."
 msgid "Type \"{CONFIRMATION_TEXT}\" to confirm"
 msgstr "Type \"{CONFIRMATION_TEXT}\" to confirm"
 
-#: src/utils/resume/section.tsx:105
+#: src/utils/resume/section.tsx:108
 msgid "Typography"
 msgstr "Typography"
 
@@ -1424,7 +1436,7 @@ msgstr "Verifying your email is required when resetting your password."
 msgid "Views"
 msgstr "Views"
 
-#: src/utils/resume/section.tsx:98
+#: src/utils/resume/section.tsx:101
 msgid "Volunteer"
 msgstr "Volunteer"
 

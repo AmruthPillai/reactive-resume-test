@@ -11,18 +11,18 @@
 		"url": "https://amruthpillai.com"
 	},
 	"scripts": {
-		"dev": "vite dev --port 3000",
 		"build": "vite build",
-		"start": "bun run entrypoint.ts",
-		"start:nitro": "bun run .output/server/index.mjs",
-		"typecheck": "tsc --noEmit",
 		"check": "biome check --write",
 		"db:generate": "drizzle-kit generate",
 		"db:migrate": "drizzle-kit migrate",
-		"db:push": "drizzle-kit push",
 		"db:pull": "drizzle-kit pull",
+		"db:push": "drizzle-kit push",
 		"db:studio": "drizzle-kit studio",
-		"lingui:extract": "lingui extract --clean --overwrite"
+		"dev": "vite dev --port 3000",
+		"lingui:extract": "lingui extract --clean --overwrite",
+		"start": "bun run .output/server/index.mjs",
+		"start:bun": "bun run entrypoint.ts",
+		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@dnd-kit/core": "^6.3.1",

@@ -20,7 +20,7 @@ const config = defineConfig({
 		tailwindcss(),
 		tanstackStart({ router: { semicolons: true, quoteStyle: "double" } }),
 		viteReact({ babel: { plugins: [["@lingui/babel-plugin-lingui-macro"]] } }),
-		process.env.NITRO ? nitro() : undefined,
+		process.env.NO_NITRO ? undefined : nitro(),
 		lingui(),
 	],
 });
