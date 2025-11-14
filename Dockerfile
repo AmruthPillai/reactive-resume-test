@@ -38,9 +38,6 @@ COPY --from=builder /app/migrations ./migrations
 COPY --from=builder /app/entrypoint.ts ./entrypoint.ts
 COPY --from=dependencies /tmp/prod/node_modules ./node_modules
 
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-  CMD wget -qO- http://localhost:3000/api/health || exit 1
-
 EXPOSE 3000
 
 CMD ["bun", "run", "entrypoint.ts"]
