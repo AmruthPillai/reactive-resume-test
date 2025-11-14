@@ -531,5 +531,3 @@ initializeServer().catch((error: unknown) => {
 	log.error(`Failed to start server: ${String(error)}`);
 	process.exit(1);
 });
-
-export default initializeServer;
