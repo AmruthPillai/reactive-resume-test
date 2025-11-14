@@ -120,5 +120,8 @@
 		"typescript": "^5.9.3",
 		"vite": "^7.2.2",
 		"vite-tsconfig-paths": "^5.1.4"
+	},
+	"overrides": {
+		"entities": "^6.0.1"
 	}
 }
