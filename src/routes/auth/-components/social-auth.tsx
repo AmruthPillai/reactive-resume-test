@@ -11,7 +11,7 @@ import { cn } from "@/utils/style";
 
 export function SocialAuth() {
 	const router = useRouter();
-	const { data: authProviders } = useSuspenseQuery(orpc.auth.listProviders.queryOptions());
+	const { data: authProviders } = useSuspenseQuery(orpc.auth.providers.list.queryOptions());
 
 	const handlePasskeyLogin = async () => {
 		const toastId = toast.loading(t`Signing in...`);

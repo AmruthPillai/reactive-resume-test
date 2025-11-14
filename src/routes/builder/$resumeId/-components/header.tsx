@@ -10,7 +10,7 @@ import {
 	SidebarSimpleIcon,
 	TrashSimpleIcon,
 } from "@phosphor-icons/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -67,7 +67,6 @@ interface BuilderHeaderDropdownProps {
 function BuilderHeaderDropdown({ resumeId, isLocked }: BuilderHeaderDropdownProps) {
 	const confirm = useConfirm();
 	const navigate = useNavigate();
-	const queryClient = useQueryClient();
 	const { openDialog } = useDialogStore();
 
 	const { mutate: deleteResume } = useMutation(orpc.resume.delete.mutationOptions());
@@ -77,12 +76,25 @@ function BuilderHeaderDropdown({ resumeId, isLocked }: BuilderHeaderDropdownProp
 
 	const handleUpdate = () => {
 		const resume = useResumeStore.getState().resume;
-		openDialog("resume.update", resume);
+
+		openDialog("resume.update", {
+			id: resumeId,
+			name: resume.name,
+			slug: resume.slug,
+			tags: resume.tags,
+		});
 	};
 
 	const handleDuplicate = () => {
 		const resume = useResumeStore.getState().resume;
-		openDialog("resume.duplicate", { ...resume, shouldRedirect: true });
+
+		openDialog("resume.duplicate", {
+			id: resumeId,
+			name: resume.name,
+			slug: resume.slug,
+			tags: resume.tags,
+			shouldRedirect: true,
+		});
 	};
 
 	const handleToggleLock = async () => {
@@ -97,9 +109,6 @@ function BuilderHeaderDropdown({ resumeId, isLocked }: BuilderHeaderDropdownProp
 		setLockedResume(
 			{ id: resumeId, isLocked: !isLocked },
 			{
-				onSuccess: () => {
-					queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
-				},
 				onError: (error) => {
 					toast.error(error.message);
 				},
@@ -122,7 +131,6 @@ function BuilderHeaderDropdown({ resumeId, isLocked }: BuilderHeaderDropdownProp
 				onSuccess: () => {
 					toast.success(t`Your resume has been deleted successfully.`, { id: toastId });
 					navigate({ to: "/dashboard/resumes", search: { sort: "lastUpdatedAt", tags: [] } });
-					queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
 				},
 				onError: (error) => {
 					toast.error(error.message, { id: toastId });

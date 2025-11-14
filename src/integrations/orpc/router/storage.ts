@@ -2,10 +2,10 @@ import { Buffer } from "node:buffer";
 import { ORPCError } from "@orpc/server";
 import sharp from "sharp";
 import z from "zod";
-import { buildStorageKey, getStorageService, inferContentType } from "@/integrations/storage";
 import { env } from "@/utils/env";
 import { generateId } from "@/utils/string";
 import { protectedProcedure } from "../context";
+import { buildStorageKey, getStorageService, inferContentType } from "../services/storage";
 
 const storageService = getStorageService();
 

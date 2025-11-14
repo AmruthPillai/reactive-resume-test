@@ -2,5 +2,8 @@
 	"$schema": "https://openapi.vercel.sh/vercel.json",
 	"version": 2,
 	"bunVersion": "1.x",
-	"buildCommand": "NITRO=1 vite build"
+	"framework": "tanstack-start",
+	"buildCommand": "NITRO=1 vite build",
+	"devCommand": "vite dev --port 3000",
+	"installCommand": "bun install --frozen-lockfile"
 }

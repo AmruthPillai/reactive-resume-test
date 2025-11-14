@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { json } from "@tanstack/react-start";
 import { sql } from "drizzle-orm";
 import { db } from "@/integrations/drizzle/client";
-import { getStorageService } from "@/integrations/storage";
+import { getStorageService } from "@/integrations/orpc/services/storage";
 
 async function handler(_: { request: Request }) {
 	const checks = {

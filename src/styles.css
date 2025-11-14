@@ -1,3 +1,4 @@
+@import "@fontsource/jetbrains-mono";
 @import "@fontsource-variable/ibm-plex-sans";
 
 @import "tailwindcss";
@@ -81,6 +82,8 @@
 	--radius: 1rem;
 	--breakpoint-xs: 32rem;
 	--breakpoint-3xl: 112rem;
+
+	--font-mono: "JetBrains Mono", monospace;
 	--font-sans: "IBM Plex Sans Variable", sans-serif;
 
 	--color-zinc-925: oklch(17.55% 0 285.854);

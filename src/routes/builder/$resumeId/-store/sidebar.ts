@@ -56,7 +56,7 @@ export function useBuilderSidebar<T = UseBuilderSidebarReturn>(selector?: (build
 			if (!sidebar) return;
 
 			const shouldExpand = forceState === undefined ? sidebar.isCollapsed() : forceState;
-			if (shouldExpand) sidebar.resize(expandSize);
+			if (shouldExpand) sidebar.expand(expandSize);
 			else sidebar.collapse();
 		},
 		[expandSize],

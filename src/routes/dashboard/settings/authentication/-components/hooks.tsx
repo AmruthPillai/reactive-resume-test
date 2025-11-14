@@ -1,6 +1,6 @@
 import { t } from "@lingui/core/macro";
 import { GithubLogoIcon, GoogleLogoIcon, PasswordIcon, VaultIcon } from "@phosphor-icons/react";
-import { useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { useCallback, useMemo } from "react";
 import { toast } from "sonner";
@@ -64,53 +64,43 @@ export function useAuthAccounts() {
  * Hook to manage authentication provider linking/unlinking
  */
 export function useAuthProviderActions() {
-	const queryClient = useQueryClient();
+	const link = useCallback(async (provider: AuthProvider) => {
+		const providerName = getProviderName(provider);
+		const toastId = toast.loading(t`Linking your ${providerName} account...`);
 
-	const link = useCallback(
-		async (provider: AuthProvider) => {
-			const providerName = getProviderName(provider);
-			const toastId = toast.loading(t`Linking your ${providerName} account...`);
-
-			await authClient.linkSocial({
-				provider,
-				callbackURL: "/dashboard/settings/authentication",
-				fetchOptions: {
-					onSuccess: () => {
-						toast.dismiss(toastId);
-						toast.success(t`Your ${providerName} account has been linked successfully.`);
-						queryClient.invalidateQueries({ queryKey: ["auth", "accounts"] });
-					},
-					onError: ({ error }) => {
-						toast.error(error.message, { id: toastId });
-					},
+		await authClient.linkSocial({
+			provider,
+			callbackURL: "/dashboard/settings/authentication",
+			fetchOptions: {
+				onSuccess: () => {
+					toast.dismiss(toastId);
+					toast.success(t`Your ${providerName} account has been linked successfully.`);
 				},
-			});
-		},
-		[queryClient],
-	);
-
-	const unlink = useCallback(
-		async (provider: AuthProvider, accountId: string) => {
-			const providerName = getProviderName(provider);
-			const toastId = toast.loading(t`Unlinking your ${providerName} account...`);
-
-			await authClient.unlinkAccount({
-				providerId: provider,
-				accountId,
-				fetchOptions: {
-					onSuccess: () => {
-						toast.dismiss(toastId);
-						toast.success(t`Your ${providerName} account has been unlinked successfully.`);
-						queryClient.invalidateQueries({ queryKey: ["auth", "accounts"] });
-					},
-					onError: ({ error }) => {
-						toast.error(error.message, { id: toastId });
-					},
+				onError: ({ error }) => {
+					toast.error(error.message, { id: toastId });
 				},
-			});
-		},
-		[queryClient],
-	);
+			},
+		});
+	}, []);
+
+	const unlink = useCallback(async (provider: AuthProvider, accountId: string) => {
+		const providerName = getProviderName(provider);
+		const toastId = toast.loading(t`Unlinking your ${providerName} account...`);
+
+		await authClient.unlinkAccount({
+			providerId: provider,
+			accountId,
+			fetchOptions: {
+				onSuccess: () => {
+					toast.dismiss(toastId);
+					toast.success(t`Your ${providerName} account has been unlinked successfully.`);
+				},
+				onError: ({ error }) => {
+					toast.error(error.message, { id: toastId });
+				},
+			},
+		});
+	}, []);
 
 	return { link, unlink };
 }
@@ -120,7 +110,7 @@ export function useAuthProviderActions() {
  * Possible values: "credential", "google", "github", "custom"
  */
 export function useEnabledProviders() {
-	const { data: enabledProviders = [] } = useSuspenseQuery(orpc.auth.listProviders.queryOptions());
+	const { data: enabledProviders = [] } = useSuspenseQuery(orpc.auth.providers.list.queryOptions());
 
 	return { enabledProviders };
 }

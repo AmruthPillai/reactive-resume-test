@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { CaretDownIcon, MagicWandIcon, PencilSimpleLineIcon, PlusIcon, TestTubeIcon } from "@phosphor-icons/react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
@@ -34,12 +34,16 @@ import { orpc, type RouterInput } from "@/integrations/orpc/client";
 import { generateId, generateRandomName, slugify } from "@/utils/string";
 import { type DialogProps, useDialogStore } from "../store";
 
-const formSchema = resumeSchema;
+const formSchema = resumeSchema.pick({
+	id: true,
+	name: true,
+	slug: true,
+	tags: true,
+});
 
 type FormValues = z.infer<typeof formSchema>;
 
 export function CreateResumeDialog({ open, onOpenChange }: DialogProps<"resume.create">) {
-	const queryClient = useQueryClient();
 	const { closeDialog } = useDialogStore();
 
 	const { mutate: createResume, isPending } = useMutation(orpc.resume.create.mutationOptions());
@@ -67,7 +71,6 @@ export function CreateResumeDialog({ open, onOpenChange }: DialogProps<"resume.c
 			onSuccess: () => {
 				toast.success(t`Your resume has been created successfully.`, { id: toastId });
 				closeDialog();
-				queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
 			},
 			onError: (error) => {
 				toast.error(error.message, { id: toastId });
@@ -92,7 +95,6 @@ export function CreateResumeDialog({ open, onOpenChange }: DialogProps<"resume.c
 			onSuccess: () => {
 				toast.success(t`Your resume has been created successfully.`, { id: toastId });
 				closeDialog();
-				queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
 			},
 			onError: (error) => {
 				toast.error(error.message, { id: toastId });
@@ -147,7 +149,6 @@ export function CreateResumeDialog({ open, onOpenChange }: DialogProps<"resume.c
 }
 
 export function UpdateResumeDialog({ open, onOpenChange, data }: DialogProps<"resume.update">) {
-	const queryClient = useQueryClient();
 	const { closeDialog } = useDialogStore();
 
 	const { mutate: updateResume, isPending } = useMutation(orpc.resume.update.mutationOptions());
@@ -176,7 +177,6 @@ export function UpdateResumeDialog({ open, onOpenChange, data }: DialogProps<"re
 			onSuccess: () => {
 				toast.success(t`Your resume has been updated successfully.`, { id: toastId });
 				closeDialog();
-				queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
 			},
 			onError: (error) => {
 				toast.error(error.message, { id: toastId });
@@ -215,7 +215,6 @@ export function UpdateResumeDialog({ open, onOpenChange, data }: DialogProps<"re
 
 export function DuplicateResumeDialog({ open, onOpenChange, data }: DialogProps<"resume.duplicate">) {
 	const navigate = useNavigate();
-	const queryClient = useQueryClient();
 	const { closeDialog } = useDialogStore();
 
 	const { mutate: duplicateResume, isPending } = useMutation(orpc.resume.duplicate.mutationOptions());
@@ -242,7 +241,6 @@ export function DuplicateResumeDialog({ open, onOpenChange, data }: DialogProps<
 
 		duplicateResume(values, {
 			onSuccess: async (id) => {
-				await queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
 				toast.success(t`Your resume has been duplicated successfully.`, { id: toastId });
 				closeDialog();
 

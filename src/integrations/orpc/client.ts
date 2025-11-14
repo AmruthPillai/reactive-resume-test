@@ -25,6 +25,7 @@ const getORPCClient = createIsomorphicFn()
 				return fetch(request, { ...init, credentials: "include" });
 			},
 		});
+
 		return createORPCClient(link);
 	});
 
@@ -33,4 +34,5 @@ export const client: RouterClient<typeof router> = getORPCClient();
 export const orpc = createTanstackQueryUtils(client);
 
 export type RouterInput = InferRouterInputs<typeof router>;
+
 export type RouterOutput = InferRouterOutputs<typeof router>;

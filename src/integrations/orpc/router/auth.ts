@@ -1,22 +1,32 @@
-import { eq } from "drizzle-orm";
-import type { AuthProvider } from "@/integrations/auth/types";
-import { schema } from "@/integrations/drizzle";
-import { db } from "@/integrations/drizzle/client";
-import { env } from "@/utils/env";
+import z from "zod";
 import { protectedProcedure, publicProcedure } from "../context";
+import { authService, type ProviderList } from "../services/auth";
 
 export const authRouter = {
-	listProviders: publicProcedure.handler(async () => {
-		const providers: Partial<Record<AuthProvider, string>> = { credential: "Password" };
+	providers: {
+		list: publicProcedure.handler(async (): Promise<ProviderList> => {
+			return authService.providers.list();
+		}),
+	},
 
-		if (env.GOOGLE_CLIENT_ID && env.GOOGLE_CLIENT_SECRET) providers.google = "Google";
-		if (env.GITHUB_CLIENT_ID && env.GITHUB_CLIENT_SECRET) providers.github = "GitHub";
-		if (env.OAUTH_CLIENT_ID && env.OAUTH_CLIENT_SECRET) providers.custom = env.OAUTH_PROVIDER_NAME ?? "Custom OAuth";
+	// TODO: add rate limiting
+	verifyResumePassword: publicProcedure
+		.input(
+			z.object({
+				slug: z.string().min(1),
+				username: z.string().min(1),
+				password: z.string().min(1),
+			}),
+		)
+		.handler(async ({ input }): Promise<boolean> => {
+			return authService.verifyResumePassword({
+				slug: input.slug,
+				username: input.username,
+				password: input.password,
+			});
+		}),
 
-		return providers;
-	}),
-
-	deleteAccount: protectedProcedure.handler(async ({ context }) => {
-		await db.delete(schema.user).where(eq(schema.user.id, context.user.id));
+	deleteAccount: protectedProcedure.handler(async ({ context }): Promise<void> => {
+		await authService.deleteAccount({ userId: context.user.id });
 	}),
 };

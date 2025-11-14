@@ -1,4 +1,4 @@
-import { QueryClient } from "@tanstack/react-query";
+import { MutationCache, QueryClient } from "@tanstack/react-query";
 import { createRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
 import { LoadingScreen } from "./components/layout/loading-screen";
@@ -7,7 +7,24 @@ import { routeTree } from "./routeTree.gen";
 import { getLocaleServerFn, loadLocale } from "./utils/locale";
 
 export const getRouter = async () => {
-	const queryClient = new QueryClient();
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				retry: false,
+				staleTime: 1000,
+				gcTime: 60 * 1000,
+				refetchOnMount: "always",
+				refetchOnWindowFocus: false,
+				refetchOnReconnect: "always",
+			},
+			mutations: { retry: false },
+		},
+		mutationCache: new MutationCache({
+			onSettled: () => {
+				queryClient.invalidateQueries();
+			},
+		}),
+	});
 
 	await loadLocale(await getLocaleServerFn());
 

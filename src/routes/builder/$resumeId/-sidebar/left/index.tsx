@@ -54,7 +54,7 @@ export function BuilderSidebarLeft() {
 		<>
 			<SidebarEdge scrollAreaRef={scrollAreaRef} />
 
-			<ScrollArea ref={scrollAreaRef} className="@container h-full sm:ml-12">
+			<ScrollArea ref={scrollAreaRef} className="@container h-[calc(100svh-3.5rem)] sm:ml-12">
 				<div className="space-y-4 p-4">
 					{leftSidebarSections.map((section) => (
 						<Fragment key={section}>
@@ -81,7 +81,7 @@ function SidebarEdge({ scrollAreaRef }: SidebarEdgeProps) {
 			toggleSidebar("left", true);
 
 			const sectionElement = scrollAreaRef.current.querySelector(`#sidebar-${section}`);
-			sectionElement?.scrollIntoView({ behavior: "smooth" });
+			sectionElement?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
 		},
 		[toggleSidebar, scrollAreaRef],
 	);

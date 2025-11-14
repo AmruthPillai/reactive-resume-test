@@ -4,9 +4,11 @@ import {
 	BooksIcon,
 	BriefcaseIcon,
 	CertificateIcon,
+	ChartLineIcon,
 	CodeSimpleIcon,
 	CompassToolIcon,
 	DiamondsFourIcon,
+	DownloadIcon,
 	FileCssIcon,
 	FootballIcon,
 	GraduationCapIcon,
@@ -32,8 +34,18 @@ import { cn } from "../style";
 
 export type LeftSidebarSection = "picture" | "basics" | "summary" | SectionType | "custom";
 
-// TODO: implement template, statistics, export, information sections
-export type RightSidebarSection = "template" | "layout" | "typography" | "theme" | "page" | "css" | "notes" | "sharing";
+// TODO: implement template, export, information sections
+export type RightSidebarSection =
+	| "template"
+	| "layout"
+	| "typography"
+	| "theme"
+	| "page"
+	| "css"
+	| "notes"
+	| "sharing"
+	| "statistics"
+	| "export";
 
 export type SidebarSection = LeftSidebarSection | RightSidebarSection;
 
@@ -65,6 +77,8 @@ export const rightSidebarSections: RightSidebarSection[] = [
 	"css",
 	"notes",
 	"sharing",
+	"statistics",
+	"export",
 ] as const;
 
 export const getSectionTitle = (type: SidebarSection): string => {
@@ -97,6 +111,8 @@ export const getSectionTitle = (type: SidebarSection): string => {
 			.with("css", () => t`Custom CSS`)
 			.with("notes", () => t`Notes`)
 			.with("sharing", () => t`Sharing`)
+			.with("statistics", () => t`Statistics`)
+			.with("export", () => t`Export`)
 
 			.exhaustive()
 	);
@@ -134,6 +150,8 @@ export const getSectionIcon = (type: SidebarSection, props?: IconProps): React.R
 			.with("css", () => <FileCssIcon {...iconProps} />)
 			.with("notes", () => <NotepadIcon {...iconProps} />)
 			.with("sharing", () => <ShareFatIcon {...iconProps} />)
+			.with("statistics", () => <ChartLineIcon {...iconProps} />)
+			.with("export", () => <DownloadIcon {...iconProps} />)
 
 			.exhaustive()
 	);

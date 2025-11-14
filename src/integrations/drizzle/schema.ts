@@ -1,7 +1,7 @@
 import { boolean, index, integer, jsonb, pgTable, text, timestamp, unique } from "drizzle-orm/pg-core";
-import z from "zod";
+import { createSelectSchema } from "drizzle-zod";
 import { defaultResumeData, type ResumeData } from "@/schema/resume/data";
-import { generateId, slugify } from "@/utils/string";
+import { generateId } from "@/utils/string";
 
 export const user = pgTable("user", {
 	id: text("id")
@@ -165,21 +165,26 @@ export const resume = pgTable(
 	(t) => [unique().on(t.slug, t.userId), index().on(t.isPublic, t.slug, t.userId)],
 );
 
-export const resumeSchema = z.object({
-	id: z.string(),
-	name: z.string().trim().min(1).max(64),
-	slug: z
-		.string()
-		.trim()
-		.min(1)
-		.max(64)
-		.transform((value) => slugify(value)),
-	tags: z.array(
-		z
-			.string()
-			.trim()
-			.min(1)
-			.max(64)
-			.transform((value) => slugify(value)),
-	),
+export const resumeSchema = createSelectSchema(resume);
+
+export const resumeStatistics = pgTable("resume_statistics", {
+	id: text("id")
+		.notNull()
+		.primaryKey()
+		.$defaultFn(() => generateId()),
+	views: integer("views").notNull().default(0),
+	downloads: integer("downloads").notNull().default(0),
+	lastViewedAt: timestamp("last_viewed_at"),
+	lastDownloadedAt: timestamp("last_downloaded_at"),
+	resumeId: text("resume_id")
+		.unique()
+		.notNull()
+		.references(() => resume.id, { onDelete: "cascade" }),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+	updatedAt: timestamp("updated_at")
+		.notNull()
+		.defaultNow()
+		.$onUpdate(() => /* @__PURE__ */ new Date()),
 });
+
+export const resumeStatisticsSchema = createSelectSchema(resumeStatistics);

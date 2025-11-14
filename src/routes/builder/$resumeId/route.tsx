@@ -72,7 +72,7 @@ function BuilderLayout({ initialLayout }: { initialLayout: number[] }) {
 					<ResizableHandle withHandle onDragging={setDragging} />
 					<ResizablePanel
 						id="artboard"
-						defaultSize={initialLayout[1]}
+						defaultSize={isMobile ? 100 : initialLayout[1]}
 						className={cn("h-[calc(100svh-3.5rem)]", !isDragging && "transition-all")}
 					>
 						<Outlet />

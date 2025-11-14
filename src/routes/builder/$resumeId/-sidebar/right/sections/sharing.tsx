@@ -1,13 +1,14 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { ORPCError } from "@orpc/client";
-import { ClipboardIcon } from "@phosphor-icons/react";
-import { useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { ClipboardIcon, LockSimpleIcon, LockSimpleOpenIcon } from "@phosphor-icons/react";
+import { Accordion } from "@radix-ui/react-accordion";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
-import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useMemo } from "react";
 import { toast } from "sonner";
 import { useCopyToClipboard } from "usehooks-ts";
+import { AccordionContent, AccordionItem } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,20 +17,17 @@ import { useConfirm } from "@/hooks/use-confirm";
 import { usePrompt } from "@/hooks/use-prompt";
 import { authClient } from "@/integrations/auth/client";
 import { orpc } from "@/integrations/orpc/client";
-import { cn } from "@/utils/style";
 import { SectionBase } from "../shared/section-base";
 
 export function SharingSectionBuilder() {
 	const prompt = usePrompt();
 	const confirm = useConfirm();
-	const queryClient = useQueryClient();
 	const [_, copyToClipboard] = useCopyToClipboard();
 	const { data: session } = authClient.useSession();
 	const params = useParams({ from: "/builder/$resumeId" });
 
+	const { mutateAsync: updateResume } = useMutation(orpc.resume.update.mutationOptions());
 	const { data: resume } = useSuspenseQuery(orpc.resume.getById.queryOptions({ input: { id: params.resumeId } }));
-
-	const { mutateAsync: updateResume, isPending: isUpdatingResume } = useMutation(orpc.resume.update.mutationOptions());
 
 	const publicUrl = useMemo(() => {
 		if (!session) return "";
@@ -45,13 +43,12 @@ export function SharingSectionBuilder() {
 		async (checked: boolean) => {
 			try {
 				await updateResume({ id: resume.id, isPublic: checked, password: null });
-				await queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
 			} catch (error) {
 				const message = error instanceof ORPCError ? error.message : t`Something went wrong. Please try again.`;
 				toast.error(message);
 			}
 		},
-		[queryClient, resume.id, updateResume],
+		[resume.id, updateResume],
 	);
 
 	const onSetPassword = useCallback(async () => {
@@ -73,13 +70,12 @@ export function SharingSectionBuilder() {
 
 		try {
 			await updateResume({ id: resume.id, password });
-			await queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
 			toast.success(t`Password protection has been enabled.`, { id: toastId });
 		} catch (error) {
 			const message = error instanceof ORPCError ? error.message : t`Something went wrong. Please try again.`;
 			toast.error(message, { id: toastId });
 		}
-	}, [prompt, queryClient, resume.id, updateResume]);
+	}, [prompt, resume.id, updateResume]);
 
 	const onRemovePassword = useCallback(async () => {
 		if (!resume.hasPassword) return;
@@ -95,13 +91,12 @@ export function SharingSectionBuilder() {
 
 		try {
 			await updateResume({ id: resume.id, password: null });
-			await queryClient.invalidateQueries({ queryKey: orpc.resume.key() });
 			toast.success(t`Password protection has been disabled.`, { id: toastId });
 		} catch (error) {
 			const message = error instanceof ORPCError ? error.message : t`Something went wrong. Please try again.`;
 			toast.error(message, { id: toastId });
 		}
-	}, [confirm, queryClient, resume.id, resume.hasPassword, updateResume]);
+	}, [confirm, resume.id, resume.hasPassword, updateResume]);
 
 	const isPasswordProtected = resume.hasPassword;
 
@@ -112,7 +107,6 @@ export function SharingSectionBuilder() {
 					size="md"
 					id="sharing-switch"
 					checked={resume.isPublic}
-					disabled={isUpdatingResume}
 					onCheckedChange={(checked) => void onTogglePublic(checked)}
 				/>
 
@@ -127,61 +121,49 @@ export function SharingSectionBuilder() {
 				</Label>
 			</div>
 
-			<div
-				className={cn(
-					"space-y-4 transition-opacity duration-300",
-					!resume.isPublic && "pointer-events-none opacity-50",
-				)}
-			>
-				<div className="grid gap-2">
-					<Label htmlFor="sharing-url">URL</Label>
+			<Accordion collapsible type="single" value={resume.isPublic ? "isPublic" : ""}>
+				<AccordionItem value="isPublic">
+					<AccordionContent className="space-y-4 rounded-md border p-4">
+						<div className="grid gap-2">
+							<Label htmlFor="sharing-url">URL</Label>
 
-					<div className="flex items-center gap-x-2">
-						<Input readOnly id="sharing-url" value={publicUrl} />
+							<div className="flex items-center gap-x-2">
+								<Input readOnly id="sharing-url" value={publicUrl} />
 
-						<Button size="icon" variant="ghost" onClick={onCopyUrl}>
-							<ClipboardIcon />
-						</Button>
-					</div>
-				</div>
-
-				<AnimatePresence presenceAffectsLayout>
-					{resume.isPublic && (
-						<motion.div
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							exit={{ opacity: 0 }}
-							className="rounded-md border p-4"
-						>
-							<p className="text-muted-foreground">
-								{isPasswordProtected ? (
-									<Trans>
-										Your resume's public link is currently protected by a password. Share the password only with people
-										you trust.
-									</Trans>
-								) : (
-									<Trans>
-										Optionally, set a password so that only people with the password can view your resume through the
-										link.
-									</Trans>
-								)}
-							</p>
-
-							<div className="mt-3 flex flex-wrap gap-2">
-								{isPasswordProtected ? (
-									<Button variant="outline" onClick={onRemovePassword} disabled={isUpdatingResume}>
-										<Trans>Remove Password</Trans>
-									</Button>
-								) : (
-									<Button variant="outline" onClick={onSetPassword} disabled={isUpdatingResume}>
-										<Trans>Set Password</Trans>
-									</Button>
-								)}
+								<Button size="icon" variant="ghost" onClick={onCopyUrl}>
+									<ClipboardIcon />
+								</Button>
 							</div>
-						</motion.div>
-					)}
-				</AnimatePresence>
-			</div>
+						</div>
+
+						<p className="text-muted-foreground">
+							{isPasswordProtected ? (
+								<Trans>
+									Your resume's public link is currently protected by a password. Share the password only with people
+									you trust.
+								</Trans>
+							) : (
+								<Trans>
+									Optionally, set a password so that only people with the password can view your resume through the
+									link.
+								</Trans>
+							)}
+						</p>
+
+						{isPasswordProtected ? (
+							<Button variant="outline" onClick={onRemovePassword}>
+								<LockSimpleOpenIcon />
+								<Trans>Remove Password</Trans>
+							</Button>
+						) : (
+							<Button variant="outline" onClick={onSetPassword}>
+								<LockSimpleIcon />
+								<Trans>Set Password</Trans>
+							</Button>
+						)}
+					</AccordionContent>
+				</AccordionItem>
+			</Accordion>
 		</SectionBase>
 	);
 }

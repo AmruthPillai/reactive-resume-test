@@ -12,10 +12,12 @@ import {
 } from "@/utils/resume/section";
 import { BuilderSidebarEdge } from "../../-components/edge";
 import { CSSSectionBuilder } from "./sections/css";
+import { ExportSectionBuilder } from "./sections/export";
 import { LayoutSectionBuilder } from "./sections/layout";
 import { NotesSectionBuilder } from "./sections/notes";
 import { PageSectionBuilder } from "./sections/page";
 import { SharingSectionBuilder } from "./sections/sharing";
+import { StatisticsSectionBuilder } from "./sections/statistics";
 import { TemplateSectionBuilder } from "./sections/template";
 import { ThemeSectionBuilder } from "./sections/theme";
 import { TypographySectionBuilder } from "./sections/typography";
@@ -30,6 +32,8 @@ function getSectionComponent(type: RightSidebarSection) {
 		.with("css", () => <CSSSectionBuilder />)
 		.with("notes", () => <NotesSectionBuilder />)
 		.with("sharing", () => <SharingSectionBuilder />)
+		.with("statistics", () => <StatisticsSectionBuilder />)
+		.with("export", () => <ExportSectionBuilder />)
 		.exhaustive();
 }
 
@@ -40,7 +44,7 @@ export function BuilderSidebarRight() {
 		<>
 			<SidebarEdge scrollAreaRef={scrollAreaRef} />
 
-			<ScrollArea ref={scrollAreaRef} className="@container h-full sm:mr-12">
+			<ScrollArea ref={scrollAreaRef} className="@container h-[calc(100svh-3.5rem)] sm:mr-12">
 				<div className="space-y-4 p-4">
 					{rightSidebarSections.map((section) => (
 						<Fragment key={section}>
@@ -67,7 +71,7 @@ function SidebarEdge({ scrollAreaRef }: SidebarEdgeProps) {
 			toggleSidebar("right", true);
 
 			const sectionElement = scrollAreaRef.current.querySelector(`#sidebar-${section}`);
-			sectionElement?.scrollIntoView({ behavior: "smooth" });
+			sectionElement?.scrollIntoView({ block: "nearest", inline: "nearest", behavior: "smooth" });
 		},
 		[toggleSidebar, scrollAreaRef],
 	);

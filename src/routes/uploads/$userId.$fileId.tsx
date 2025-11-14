@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { createFileRoute } from "@tanstack/react-router";
-import { buildStorageKey, getStorageService, inferContentType } from "@/integrations/storage";
+import { buildStorageKey, getStorageService, inferContentType } from "@/integrations/orpc/services/storage";
 import { env } from "@/utils/env";
 
 const storageService = getStorageService();

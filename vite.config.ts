@@ -19,13 +19,8 @@ const config = defineConfig({
 		tsconfigPaths(),
 		tailwindcss(),
 		tanstackStart({ router: { semicolons: true, quoteStyle: "double" } }),
+		viteReact({ babel: { plugins: [["@lingui/babel-plugin-lingui-macro"]] } }),
 		process.env.NITRO ? nitro() : undefined,
-		viteReact({
-			babel: {
-				compact: false,
-				plugins: [["@lingui/babel-plugin-lingui-macro"]],
-			},
-		}),
 		lingui(),
 	],
 });

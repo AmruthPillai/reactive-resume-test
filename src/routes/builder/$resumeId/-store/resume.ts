@@ -9,8 +9,8 @@ import type { ResumeData } from "@/schema/resume/data";
 export type Resume = RouterOutput["resume"]["getById"];
 
 interface ResumeStoreState {
-	isReady: boolean;
 	resume: Resume;
+	isReady: boolean;
 }
 
 interface ResumeStoreActions {
