@@ -15,6 +15,7 @@ import {
 	HandHeartIcon,
 	type IconProps,
 	ImageIcon,
+	InfoIcon,
 	LayoutIcon,
 	MessengerLogoIcon,
 	NotepadIcon,
@@ -34,7 +35,6 @@ import { cn } from "../style";
 
 export type LeftSidebarSection = "picture" | "basics" | "summary" | SectionType | "custom";
 
-// TODO: implement template, export, information sections
 export type RightSidebarSection =
 	| "template"
 	| "layout"
@@ -45,7 +45,8 @@ export type RightSidebarSection =
 	| "notes"
 	| "sharing"
 	| "statistics"
-	| "export";
+	| "export"
+	| "information";
 
 export type SidebarSection = LeftSidebarSection | RightSidebarSection;
 
@@ -79,6 +80,7 @@ export const rightSidebarSections: RightSidebarSection[] = [
 	"sharing",
 	"statistics",
 	"export",
+	"information",
 ] as const;
 
 export const getSectionTitle = (type: SidebarSection): string => {
@@ -113,6 +115,7 @@ export const getSectionTitle = (type: SidebarSection): string => {
 			.with("sharing", () => t`Sharing`)
 			.with("statistics", () => t`Statistics`)
 			.with("export", () => t`Export`)
+			.with("information", () => t`Information`)
 
 			.exhaustive()
 	);
@@ -152,6 +155,7 @@ export const getSectionIcon = (type: SidebarSection, props?: IconProps): React.R
 			.with("sharing", () => <ShareFatIcon {...iconProps} />)
 			.with("statistics", () => <ChartLineIcon {...iconProps} />)
 			.with("export", () => <DownloadIcon {...iconProps} />)
+			.with("information", () => <InfoIcon {...iconProps} />)
 
 			.exhaustive()
 	);

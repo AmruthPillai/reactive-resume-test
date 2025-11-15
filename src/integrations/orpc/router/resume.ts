@@ -1,5 +1,5 @@
 import z from "zod";
-import { resumeDataSchema } from "@/schema/resume/data";
+import { resumeDataSchema, sampleResumeData } from "@/schema/resume/data";
 import { protectedProcedure, publicProcedure } from "../context";
 import { resumeService } from "../services/resume";
 
@@ -66,7 +66,7 @@ export const resumeRouter = {
 				name: input.name,
 				slug: input.slug,
 				tags: input.tags,
-				withSampleData: input.withSampleData,
+				data: input.withSampleData ? sampleResumeData : undefined,
 			});
 		}),
 
@@ -98,10 +98,10 @@ export const resumeRouter = {
 	updateData: protectedProcedure
 		.input(z.object({ id: z.string(), data: resumeDataSchema }))
 		.handler(async ({ context, input }) => {
-			return resumeService.updateData({
+			return resumeService.update({
 				id: input.id,
-				userId: context.user.id,
 				data: input.data,
+				userId: context.user.id,
 			});
 		}),
 
@@ -125,12 +125,14 @@ export const resumeRouter = {
 			}),
 		)
 		.handler(async ({ context, input }) => {
-			return resumeService.duplicate({
-				id: input.id,
+			const original = await resumeService.getById({ id: input.id, userId: context.user.id });
+
+			return await resumeService.create({
 				userId: context.user.id,
-				name: input.name,
-				slug: input.slug,
-				tags: input.tags,
+				name: input.name ?? original.name,
+				slug: input.slug ?? original.slug,
+				tags: input.tags ?? original.tags,
+				data: original.data,
 			});
 		}),
 

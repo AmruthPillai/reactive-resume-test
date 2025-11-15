@@ -110,9 +110,9 @@ export function SharingSectionBuilder() {
 					onCheckedChange={(checked) => void onTogglePublic(checked)}
 				/>
 
-				<Label htmlFor="sharing-switch" className="flex flex-col items-start gap-y-1 font-normal">
+				<Label htmlFor="sharing-switch" className="my-2 flex flex-col items-start gap-y-1 font-normal">
 					<p className="font-medium">
-						<Trans context="Visibility">Public</Trans>
+						<Trans>Allow Public Access</Trans>
 					</p>
 
 					<span className="text-muted-foreground text-xs">

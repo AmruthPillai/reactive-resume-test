@@ -4,7 +4,7 @@ import { match } from "ts-pattern";
 import { schema } from "@/integrations/drizzle";
 import { db } from "@/integrations/drizzle/client";
 import type { ResumeData } from "@/schema/resume/data";
-import { defaultResumeData, sampleResumeData } from "@/schema/resume/data";
+import { defaultResumeData } from "@/schema/resume/data";
 import { generateId } from "@/utils/string";
 import { hasResumeAccess } from "../helpers/resume-access";
 
@@ -28,16 +28,16 @@ const publicResume = {
 			.select({
 				id: schema.resume.id,
 				data: schema.resume.data,
-				hasPassword: sql<boolean>`${schema.resume.password} IS NOT NULL`,
 				passwordHash: schema.resume.password,
+				hasPassword: sql<boolean>`${schema.resume.password} IS NOT NULL`,
 			})
 			.from(schema.resume)
 			.innerJoin(schema.user, eq(schema.resume.userId, schema.user.id))
 			.where(
 				and(
-					eq(schema.user.username, input.username),
 					eq(schema.resume.isPublic, true),
 					eq(schema.resume.slug, input.slug),
+					eq(schema.user.username, input.username),
 				),
 			);
 
@@ -180,7 +180,7 @@ export const resumeService = {
 		name: string;
 		slug: string;
 		tags: string[];
-		withSampleData: boolean;
+		data?: ResumeData;
 	}): Promise<string> => {
 		const id = generateId();
 
@@ -190,7 +190,7 @@ export const resumeService = {
 			slug: input.slug,
 			tags: input.tags,
 			userId: input.userId,
-			data: input.withSampleData ? sampleResumeData : defaultResumeData,
+			data: input.data ?? defaultResumeData,
 		});
 
 		return id;
@@ -202,11 +202,13 @@ export const resumeService = {
 		name?: string;
 		slug?: string;
 		tags?: string[];
+		data?: ResumeData;
 		isPublic?: boolean;
 		isLocked?: boolean;
 		password?: string | null;
 	}): Promise<void> => {
 		let hashedPassword: string | null | undefined;
+
 		if (input.password !== undefined) {
 			hashedPassword = input.password ? await Bun.password.hash(input.password) : null;
 		}
@@ -238,51 +240,11 @@ export const resumeService = {
 			);
 	},
 
-	updateData: async (input: { id: string; userId: string; data: ResumeData }): Promise<void> => {
-		await db
-			.update(schema.resume)
-			.set({ data: input.data })
-			.where(and(eq(schema.resume.id, input.id), eq(schema.resume.userId, input.userId)));
-	},
-
 	setLocked: async (input: { id: string; userId: string; isLocked: boolean }): Promise<void> => {
 		await db
 			.update(schema.resume)
 			.set({ isLocked: input.isLocked })
 			.where(and(eq(schema.resume.id, input.id), eq(schema.resume.userId, input.userId)));
-	},
-
-	duplicate: async (input: {
-		id: string;
-		userId: string;
-		name?: string;
-		slug?: string;
-		tags?: string[];
-	}): Promise<string> => {
-		const [original] = await db
-			.select({
-				name: schema.resume.name,
-				slug: schema.resume.slug,
-				tags: schema.resume.tags,
-				data: schema.resume.data,
-			})
-			.from(schema.resume)
-			.where(and(eq(schema.resume.id, input.id), eq(schema.resume.userId, input.userId)));
-
-		if (!original) throw new ORPCError("NOT_FOUND");
-
-		const newId = generateId();
-
-		await db.insert(schema.resume).values({
-			id: newId,
-			name: input.name ?? original.name,
-			slug: input.slug ?? original.slug,
-			tags: input.tags ?? original.tags,
-			data: original.data,
-			userId: input.userId,
-		});
-
-		return newId;
 	},
 
 	delete: async (input: { id: string; userId: string }): Promise<void> => {

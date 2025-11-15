@@ -6,9 +6,10 @@ import { orpc } from "./integrations/orpc/client";
 import { routeTree } from "./routeTree.gen";
 import { getLocaleServerFn, loadLocale } from "./utils/locale";
 
-export const getRouter = async () => {
+const getQueryClient = () => {
 	const queryClient = new QueryClient({
 		defaultOptions: {
+			mutations: { retry: false },
 			queries: {
 				retry: false,
 				staleTime: 1000,
@@ -17,7 +18,6 @@ export const getRouter = async () => {
 				refetchOnWindowFocus: false,
 				refetchOnReconnect: "always",
 			},
-			mutations: { retry: false },
 		},
 		mutationCache: new MutationCache({
 			onSettled: () => {
@@ -25,6 +25,12 @@ export const getRouter = async () => {
 			},
 		}),
 	});
+
+	return queryClient;
+};
+
+export const getRouter = async () => {
+	const queryClient = getQueryClient();
 
 	await loadLocale(await getLocaleServerFn());
 

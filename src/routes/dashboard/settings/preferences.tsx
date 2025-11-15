@@ -1,8 +1,9 @@
 import { Trans } from "@lingui/react/macro";
-import { GearSixIcon } from "@phosphor-icons/react";
+import { ArrowRightIcon, GearSixIcon } from "@phosphor-icons/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { LocaleCombobox } from "@/components/locale/combobox";
 import { ThemeCombobox } from "@/components/theme/combobox";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 
@@ -35,6 +36,17 @@ function RouteComponent() {
 						<Trans>Language</Trans>
 					</Label>
 					<LocaleCombobox />
+					<Button
+						asChild
+						size="sm"
+						variant="link"
+						className="h-5 justify-start text-muted-foreground text-xs active:scale-100"
+					>
+						<a href="https://crowdin.com/project/reactive-resume" target="_blank" rel="noopener noreferrer">
+							<Trans>Help translate the app to your language</Trans>
+							<ArrowRightIcon className="size-3" />
+						</a>
+					</Button>
 				</div>
 			</div>
 		</div>

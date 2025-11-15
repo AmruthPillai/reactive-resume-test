@@ -4,8 +4,6 @@ services:
   postgres:
     image: postgres:latest
     restart: unless-stopped
-    ports:
-      - "65432:5432"
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
@@ -13,7 +11,25 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql
     healthcheck:
-      test: ["CMD", "pg_isready", "-U", "postgres", "-d", "postgres"]
+      test: ["CMD", "pg_isready", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgbouncer:
+    image: edoburu/pgbouncer:latest
+    restart: unless-stopped
+    environment:
+      POOL_MODE: transaction
+      AUTH_TYPE: scram-sha-256
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+    ports:
+      - "5432:5432"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -27,11 +43,11 @@ services:
   #   env_file: .env
   #   environment:
   #     NODE_ENV: production
-  #     DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
+  #     DATABASE_URL: postgresql://postgres:postgres@pgbouncer:5432/postgres
   #   volumes:
   #     - ./data:/app/data
   #   depends_on:
-  #     postgres:
+  #     pgbouncer:
   #       condition: service_healthy
   #   healthcheck:
   #     test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]

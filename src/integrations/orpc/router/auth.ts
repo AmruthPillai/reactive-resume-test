@@ -9,7 +9,6 @@ export const authRouter = {
 		}),
 	},
 
-	// TODO: add rate limiting
 	verifyResumePassword: publicProcedure
 		.input(
 			z.object({
