@@ -77,6 +77,7 @@ export const resumeRouter = {
 				name: z.string().optional(),
 				slug: z.string().optional(),
 				tags: z.array(z.string()).optional(),
+				data: resumeDataSchema.optional(),
 				isPublic: z.boolean().optional(),
 				isLocked: z.boolean().optional(),
 				password: z.string().min(6).max(64).nullable().optional(),
@@ -89,19 +90,10 @@ export const resumeRouter = {
 				name: input.name,
 				slug: input.slug,
 				tags: input.tags,
+				data: input.data,
 				isPublic: input.isPublic,
 				isLocked: input.isLocked,
 				password: input.password,
-			});
-		}),
-
-	updateData: protectedProcedure
-		.input(z.object({ id: z.string(), data: resumeDataSchema }))
-		.handler(async ({ context, input }) => {
-			return resumeService.update({
-				id: input.id,
-				data: input.data,
-				userId: context.user.id,
 			});
 		}),
 

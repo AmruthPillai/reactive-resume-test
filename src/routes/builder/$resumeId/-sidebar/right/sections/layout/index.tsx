@@ -8,12 +8,12 @@ import { useResumeData } from "@/routes/builder/$resumeId/-hooks/resume";
 import { useResumeStore } from "@/routes/builder/$resumeId/-store/resume";
 import { metadataSchema } from "@/schema/resume/data";
 import { SectionBase } from "../../shared/section-base";
-import { LayoutOrder } from "./order";
+import { LayoutPages } from "./pages";
 
 export function LayoutSectionBuilder() {
 	return (
 		<SectionBase type="layout" className="space-y-4">
-			<LayoutOrder />
+			<LayoutPages />
 			<LayoutSectionForm />
 		</SectionBase>
 	);

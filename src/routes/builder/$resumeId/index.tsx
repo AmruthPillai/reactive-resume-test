@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { TiptapContent } from "@/components/input/rich-input";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import { ResumePreview } from "@/components/resume/preview";
 import { useResumeData } from "./-hooks/resume";
 
 export const Route = createFileRoute("/builder/$resumeId/")({
@@ -11,12 +11,12 @@ function RouteComponent() {
 	const resume = useResumeData();
 
 	return (
-		<ScrollArea className="mx-auto aspect-page h-full">
-			<div className="m-4 space-y-6 rounded-md bg-popover p-4 text-foreground">
-				<TiptapContent content={resume.summary.content} />
-
-				<pre className="whitespace-pre-wrap font-mono text-xs">{JSON.stringify(resume, null, 2)}</pre>
-			</div>
-		</ScrollArea>
+		<div className="absolute inset-0 h-svh w-svw">
+			<TransformWrapper limitToBounds={false} minScale={0.5} maxScale={6}>
+				<TransformComponent wrapperClass="h-svh! w-svw!" contentClass="h-svh! w-svw!">
+					<ResumePreview data={resume} />
+				</TransformComponent>
+			</TransformWrapper>
+		</div>
 	);
 }

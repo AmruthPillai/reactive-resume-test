@@ -15,6 +15,7 @@ import { Route as HomeRouteRouteImport } from "./routes/_home/route";
 import { Route as DashboardIndexRouteImport } from "./routes/dashboard/index";
 import { Route as AuthIndexRouteImport } from "./routes/auth/index";
 import { Route as HomeIndexRouteImport } from "./routes/_home/index";
+import { Route as PrinterResumeIdRouteImport } from "./routes/printer/$resumeId";
 import { Route as AuthVerify2faBackupRouteImport } from "./routes/auth/verify-2fa-backup";
 import { Route as AuthVerify2faRouteImport } from "./routes/auth/verify-2fa";
 import { Route as AuthResumePasswordRouteImport } from "./routes/auth/resume-password";
@@ -65,6 +66,11 @@ const HomeIndexRoute = HomeIndexRouteImport.update({
   id: "/",
   path: "/",
   getParentRoute: () => HomeRouteRoute,
+} as any);
+const PrinterResumeIdRoute = PrinterResumeIdRouteImport.update({
+  id: "/printer/$resumeId",
+  path: "/printer/$resumeId",
+  getParentRoute: () => rootRouteImport,
 } as any);
 const AuthVerify2faBackupRoute = AuthVerify2faBackupRouteImport.update({
   id: "/verify-2fa-backup",
@@ -190,6 +196,7 @@ export interface FileRoutesByFullPath {
   "/auth/resume-password": typeof AuthResumePasswordRoute;
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
+  "/printer/$resumeId": typeof PrinterResumeIdRoute;
   "/": typeof HomeIndexRoute;
   "/auth/": typeof AuthIndexRoute;
   "/dashboard/": typeof DashboardIndexRoute;
@@ -215,6 +222,7 @@ export interface FileRoutesByTo {
   "/auth/resume-password": typeof AuthResumePasswordRoute;
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
+  "/printer/$resumeId": typeof PrinterResumeIdRoute;
   "/": typeof HomeIndexRoute;
   "/auth": typeof AuthIndexRoute;
   "/dashboard": typeof DashboardIndexRoute;
@@ -245,6 +253,7 @@ export interface FileRoutesById {
   "/auth/resume-password": typeof AuthResumePasswordRoute;
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
+  "/printer/$resumeId": typeof PrinterResumeIdRoute;
   "/_home/": typeof HomeIndexRoute;
   "/auth/": typeof AuthIndexRoute;
   "/dashboard/": typeof DashboardIndexRoute;
@@ -275,6 +284,7 @@ export interface FileRouteTypes {
     | "/auth/resume-password"
     | "/auth/verify-2fa"
     | "/auth/verify-2fa-backup"
+    | "/printer/$resumeId"
     | "/"
     | "/auth/"
     | "/dashboard/"
@@ -300,6 +310,7 @@ export interface FileRouteTypes {
     | "/auth/resume-password"
     | "/auth/verify-2fa"
     | "/auth/verify-2fa-backup"
+    | "/printer/$resumeId"
     | "/"
     | "/auth"
     | "/dashboard"
@@ -329,6 +340,7 @@ export interface FileRouteTypes {
     | "/auth/resume-password"
     | "/auth/verify-2fa"
     | "/auth/verify-2fa-backup"
+    | "/printer/$resumeId"
     | "/_home/"
     | "/auth/"
     | "/dashboard/"
@@ -352,6 +364,7 @@ export interface RootRouteChildren {
   UsernameSlugRoute: typeof UsernameSlugRoute;
   ApiSplatRoute: typeof ApiSplatRoute;
   ApiHealthRoute: typeof ApiHealthRoute;
+  PrinterResumeIdRoute: typeof PrinterResumeIdRoute;
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute;
   ApiRpcSplatRoute: typeof ApiRpcSplatRoute;
   UploadsUserIdFileIdRoute: typeof UploadsUserIdFileIdRoute;
@@ -400,6 +413,13 @@ declare module "@tanstack/react-router" {
       fullPath: "/";
       preLoaderRoute: typeof HomeIndexRouteImport;
       parentRoute: typeof HomeRouteRoute;
+    };
+    "/printer/$resumeId": {
+      id: "/printer/$resumeId";
+      path: "/printer/$resumeId";
+      fullPath: "/printer/$resumeId";
+      preLoaderRoute: typeof PrinterResumeIdRouteImport;
+      parentRoute: typeof rootRouteImport;
     };
     "/auth/verify-2fa-backup": {
       id: "/auth/verify-2fa-backup";
@@ -633,6 +653,7 @@ const rootRouteChildren: RootRouteChildren = {
   UsernameSlugRoute: UsernameSlugRoute,
   ApiSplatRoute: ApiSplatRoute,
   ApiHealthRoute: ApiHealthRoute,
+  PrinterResumeIdRoute: PrinterResumeIdRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiRpcSplatRoute: ApiRpcSplatRoute,
   UploadsUserIdFileIdRoute: UploadsUserIdFileIdRoute,

@@ -1,0 +1,375 @@
+import {
+	closestCorners,
+	DndContext,
+	type DragEndEvent,
+	DragOverlay,
+	type DragStartEvent,
+	PointerSensor,
+	useDroppable,
+	useSensor,
+	useSensors,
+} from "@dnd-kit/core";
+import { arrayMove, SortableContext, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { t } from "@lingui/core/macro";
+import { Trans } from "@lingui/react/macro";
+import { DotsSixVerticalIcon, PlusIcon, TrashIcon } from "@phosphor-icons/react";
+import { type CSSProperties, forwardRef, type HTMLAttributes, useCallback, useState } from "react";
+import { match } from "ts-pattern";
+import { useResumeData } from "@/builder/-hooks/resume";
+import { useResumeStore } from "@/builder/-store/resume";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import type { SectionType } from "@/schema/resume/data";
+import { cn } from "@/utils/style";
+
+type ColumnId = "main" | "sidebar";
+
+const getColumnLabel = (columnId: ColumnId): string => {
+	return match(columnId)
+		.with("main", () => t`Main`)
+		.with("sidebar", () => t`Sidebar`)
+		.exhaustive();
+};
+
+type PageLocation = {
+	pageIndex: number;
+	columnId: ColumnId;
+};
+
+/**
+ * Returns the page index and column that contains the given section id.
+ * Format: "page-{index}-{columnId}" or "{sectionId}"
+ */
+const parseDroppableId = (id: string): PageLocation | null => {
+	if (id.startsWith("page-")) {
+		const parts = id.split("-");
+		if (parts.length >= 3) {
+			const pageIndex = Number.parseInt(parts[1] ?? "0", 10);
+			const columnId = parts[2] as ColumnId;
+			if (!Number.isNaN(pageIndex) && (columnId === "main" || columnId === "sidebar")) {
+				return { pageIndex, columnId };
+			}
+		}
+	}
+
+	return null;
+};
+
+const createDroppableId = (pageIndex: number, columnId: ColumnId): string => {
+	return `page-${pageIndex}-${columnId}`;
+};
+
+export function LayoutPages() {
+	const [activeId, setActiveId] = useState<string | null>(null);
+
+	const layout = useResumeData((state) => state.metadata.layout);
+	const updateResume = useResumeStore((state) => state.updateResume);
+
+	const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 6 } }));
+
+	/**
+	 * Returns the page index and column that contains the given section id.
+	 */
+	const findContainer = useCallback(
+		(id: string): PageLocation | null => {
+			// Check if it's a droppable ID
+			const location = parseDroppableId(id);
+			if (location) return location;
+
+			// Search through all pages
+			for (let pageIndex = 0; pageIndex < layout.pages.length; pageIndex++) {
+				const page = layout.pages[pageIndex];
+				if (page.main.includes(id)) return { pageIndex, columnId: "main" };
+				if (page.sidebar.includes(id)) return { pageIndex, columnId: "sidebar" };
+			}
+
+			return null;
+		},
+		[layout.pages],
+	);
+
+	const handleDragStart = useCallback((event: DragStartEvent) => setActiveId(String(event.active.id)), []);
+
+	const handleDragEnd = useCallback(
+		({ active, over }: DragEndEvent) => {
+			setActiveId(null);
+			if (!over) return;
+
+			const activeIdStr = String(active.id);
+			const overIdStr = String(over.id);
+
+			if (activeIdStr === overIdStr) return;
+
+			const activeLocation = findContainer(activeIdStr);
+			const overLocation = parseDroppableId(overIdStr) ?? findContainer(overIdStr);
+
+			if (!activeLocation || !overLocation) return;
+
+			// Same location, reorder within column
+			if (activeLocation.pageIndex === overLocation.pageIndex && activeLocation.columnId === overLocation.columnId) {
+				const page = layout.pages[activeLocation.pageIndex];
+				const items = page[activeLocation.columnId];
+				const oldIdx = items.indexOf(activeIdStr);
+				let newIdx = items.indexOf(overIdStr);
+				if (oldIdx === -1 || oldIdx === newIdx) return;
+				if (newIdx === -1) newIdx = items.length - 1;
+
+				updateResume((draft) => {
+					const colOrder = draft.metadata.layout.pages[activeLocation.pageIndex][activeLocation.columnId];
+					draft.metadata.layout.pages[activeLocation.pageIndex][activeLocation.columnId] = arrayMove(
+						colOrder,
+						oldIdx,
+						newIdx,
+					);
+				});
+				return;
+			}
+
+			// Different location, move between columns/pages
+			const fromPage = layout.pages[activeLocation.pageIndex];
+			const toPage = layout.pages[overLocation.pageIndex];
+			const fromItems = fromPage[activeLocation.columnId];
+			const toItems = toPage[overLocation.columnId];
+			const fromIdx = fromItems.indexOf(activeIdStr);
+			if (fromIdx === -1) return;
+
+			let toIdx = toItems.indexOf(overIdStr);
+			if (toIdx === -1) toIdx = toItems.length;
+
+			updateResume((draft) => {
+				const fromPageDraft = draft.metadata.layout.pages[activeLocation.pageIndex];
+				const toPageDraft = draft.metadata.layout.pages[overLocation.pageIndex];
+				const from = fromPageDraft[activeLocation.columnId];
+				const to = toPageDraft[overLocation.columnId];
+
+				from.splice(fromIdx, 1);
+				to.splice(Math.min(toIdx, to.length), 0, activeIdStr);
+			});
+		},
+		[findContainer, layout.pages, updateResume],
+	);
+
+	const handleAddPage = useCallback(() => {
+		updateResume((draft) => {
+			draft.metadata.layout.pages.push({
+				fullWidth: false,
+				main: [],
+				sidebar: [],
+			});
+		});
+	}, [updateResume]);
+
+	const handleDeletePage = useCallback(
+		(pageIndex: number) => {
+			if (layout.pages.length <= 1) return; // Don't allow deleting the last page
+
+			updateResume((draft) => {
+				const pageToDelete = draft.metadata.layout.pages[pageIndex];
+				// Move all sections from deleted page to first page
+				const firstPage = draft.metadata.layout.pages[0];
+				firstPage.main.push(...pageToDelete.main);
+				firstPage.sidebar.push(...pageToDelete.sidebar);
+
+				draft.metadata.layout.pages.splice(pageIndex, 1);
+			});
+		},
+		[layout.pages.length, updateResume],
+	);
+
+	const handleToggleFullWidth = useCallback(
+		(pageIndex: number, fullWidth: boolean) => {
+			updateResume((draft) => {
+				const page = draft.metadata.layout.pages[pageIndex];
+				page.fullWidth = fullWidth;
+
+				if (fullWidth) {
+					// Move all sidebar sections to main
+					page.main.push(...page.sidebar);
+					page.sidebar = [];
+				}
+			});
+		},
+		[updateResume],
+	);
+
+	// Don't render until pages are initialized
+	if (layout.pages.length === 0) {
+		return null;
+	}
+
+	return (
+		<DndContext
+			sensors={sensors}
+			collisionDetection={closestCorners}
+			onDragStart={handleDragStart}
+			onDragEnd={handleDragEnd}
+			onDragCancel={() => setActiveId(null)}
+		>
+			<div className="flex flex-col gap-4">
+				{layout.pages.map((page, pageIndex) => (
+					<PageContainer
+						key={pageIndex}
+						pageIndex={pageIndex}
+						page={page}
+						canDelete={layout.pages.length > 1}
+						onDelete={handleDeletePage}
+						onToggleFullWidth={handleToggleFullWidth}
+					/>
+				))}
+
+				<Button variant="outline" className="self-end" onClick={handleAddPage}>
+					<PlusIcon />
+					<Trans>Add Page</Trans>
+				</Button>
+			</div>
+
+			<DragOverlay>{activeId ? <LayoutItemContent id={activeId} isDragging isOverlay /> : null}</DragOverlay>
+		</DndContext>
+	);
+}
+
+type PageContainerProps = {
+	pageIndex: number;
+	page: { fullWidth: boolean; main: string[]; sidebar: string[] };
+	canDelete: boolean;
+	onDelete: (pageIndex: number) => void;
+	onToggleFullWidth: (pageIndex: number, fullWidth: boolean) => void;
+};
+
+function PageContainer({ pageIndex, page, canDelete, onDelete, onToggleFullWidth }: PageContainerProps) {
+	return (
+		<div className="space-y-3 rounded-md border border-dashed bg-background/40">
+			<div className="flex items-center justify-between bg-popover px-4 py-3">
+				<div className="flex w-full items-center gap-4">
+					<span className="font-medium text-xs">
+						<Trans>Page {pageIndex + 1}</Trans>
+					</span>
+
+					<label className="flex cursor-pointer items-center gap-2">
+						<Switch
+							size="sm"
+							checked={page.fullWidth}
+							onCheckedChange={(checked) => onToggleFullWidth(pageIndex, checked)}
+						/>
+
+						<span className="font-medium text-muted-foreground text-xs">
+							<Trans>Full Width</Trans>
+						</span>
+					</label>
+				</div>
+
+				{canDelete && (
+					<Button variant="ghost" onClick={() => onDelete(pageIndex)} className="h-5 w-auto gap-x-2.5 px-0!">
+						<TrashIcon />
+						<Trans>Delete Page</Trans>
+					</Button>
+				)}
+			</div>
+
+			<div
+				className={cn(
+					"grid w-full gap-x-4 gap-y-2 p-4 pt-0 font-medium",
+					page.fullWidth ? "grid-cols-1" : "@md:grid-cols-2",
+				)}
+			>
+				<LayoutColumn pageIndex={pageIndex} columnId="main" items={page.main} disabled={false} />
+				<LayoutColumn pageIndex={pageIndex} columnId="sidebar" items={page.sidebar} disabled={page.fullWidth} />
+			</div>
+		</div>
+	);
+}
+
+type LayoutColumnProps = {
+	pageIndex: number;
+	columnId: ColumnId;
+	items: string[];
+	disabled: boolean;
+};
+
+function LayoutColumn({ pageIndex, columnId, items, disabled }: LayoutColumnProps) {
+	const droppableId = createDroppableId(pageIndex, columnId);
+	const { setNodeRef, isOver } = useDroppable({ id: droppableId, disabled });
+
+	return (
+		<SortableContext id={droppableId} items={items} strategy={verticalListSortingStrategy}>
+			<div className={cn(disabled && "opacity-50")}>
+				<div className="@md:row-start-1 pl-4 font-medium text-xs">{getColumnLabel(columnId)}</div>
+
+				<div
+					ref={setNodeRef}
+					className={cn(
+						"space-y-2.5 rounded-md border border-dashed bg-background/40 p-3 pb-8 transition-colors",
+						isOver && !disabled && "border-primary/60 bg-primary/5",
+					)}
+				>
+					{items.map((id) => (
+						<SortableLayoutItem key={id} id={id} pageIndex={pageIndex} columnId={columnId} />
+					))}
+
+					{items.length === 0 && (
+						<div className="rounded-sm border border-dashed p-4 font-medium text-muted-foreground text-xs">
+							<Trans>Drag and drop sections here to move them between columns</Trans>
+						</div>
+					)}
+				</div>
+			</div>
+		</SortableContext>
+	);
+}
+
+type SortableLayoutItemProps = {
+	id: string;
+	pageIndex: number;
+	columnId: ColumnId;
+};
+
+function SortableLayoutItem({ id }: SortableLayoutItemProps) {
+	const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id });
+
+	const style: CSSProperties = { transform: CSS.Transform.toString(transform), transition };
+
+	return (
+		<LayoutItemContent ref={setNodeRef} id={id} style={style} isDragging={isDragging} {...attributes} {...listeners} />
+	);
+}
+
+type LayoutItemContentProps = HTMLAttributes<HTMLDivElement> & {
+	id: string;
+	isDragging?: boolean;
+	isOverlay?: boolean;
+};
+
+const LayoutItemContent = forwardRef<HTMLDivElement, LayoutItemContentProps>(
+	({ id, isDragging, isOverlay, className, style, ...rest }, ref) => {
+		const title = useResumeData((state) => {
+			if (id === "summary") return state.summary.title;
+			if (id in state.sections) return state.sections[id as SectionType].title;
+			const customSection = state.customSections.find((section) => section.id === id);
+			if (customSection) return customSection.title;
+			return id;
+		});
+
+		return (
+			<div
+				ref={ref}
+				style={style}
+				data-overlay={isOverlay ? "true" : undefined}
+				data-dragging={isDragging ? "true" : undefined}
+				className={cn(
+					"group/item flex cursor-grab touch-none select-none items-center gap-x-2 rounded-sm border border-border bg-background px-2 py-1.5 font-medium text-sm transition-all duration-200 ease-out",
+					"hover:bg-secondary/20 active:cursor-grabbing active:border-primary/60 active:bg-secondary/20",
+					"data-[overlay=true]:cursor-grabbing data-[overlay=true]:border-primary/60 data-[overlay=true]:bg-background",
+					"data-[dragging=true]:cursor-grabbing data-[dragging=true]:border-primary/60 data-[dragging=true]:bg-background",
+					className,
+				)}
+				{...rest}
+			>
+				<DotsSixVerticalIcon className="opacity-40 transition-opacity group-hover/item:opacity-100" />
+				<span className="truncate">{title}</span>
+			</div>
+		);
+	},
+);
+
+LayoutItemContent.displayName = "LayoutItemContent";

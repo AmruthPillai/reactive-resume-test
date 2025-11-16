@@ -40,9 +40,20 @@ type Item = {
 	files: Record<Variant, string>;
 };
 
-export type APIResponse = {
+type APIResponse = {
 	kind: "webfonts#webfontList";
 	items: Item[];
+};
+
+type Weight = "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
+type FileWeight = Weight | `${Weight}italic`;
+
+type WebFont = {
+	category: Category;
+	family: string;
+	weights: Weight[];
+	preview: string;
+	files: Record<FileWeight, string>;
 };
 
 const args = Bun.argv.slice(2);
@@ -70,6 +81,12 @@ async function getGoogleFontsJSON() {
 	return data;
 }
 
+function variantToWeight(variant: Variant): Weight | null {
+	if (["100", "200", "300", "500", "600", "700", "800", "900"].includes(variant)) return variant as Weight;
+	if (variant === "regular") return "400";
+	return null;
+}
+
 export async function generateFonts() {
 	const response = await getGoogleFontsJSON();
 	console.log(`Found ${response.items.length} fonts in total.`);
@@ -78,14 +95,27 @@ export async function generateFonts() {
 		(item) => !blacklistedFonts.some((blacklist) => item.family.includes(blacklist)),
 	);
 
-	const result = filteredItems.slice(0, argLimit).map((item) => ({
-		category: item.category,
-		family: item.family,
-		subsets: item.subsets,
-		variants: item.variants,
-		preview: item.menu,
-		files: item.files,
-	}));
+	const result: WebFont[] = filteredItems.slice(0, argLimit).map((item) => {
+		// 1. weights: Only non-italic, convert "regular" to "400"
+		const weights: Weight[] = item.variants.map((v) => variantToWeight(v)).filter((w): w is Weight => !!w);
+
+		// 2. files: all files, but change "regular"->"400", "italic"->"400italic"
+		const files: Record<string, string> = {};
+		for (const [variant, url] of Object.entries(item.files)) {
+			let key = variant;
+			if (variant === "regular") key = "400";
+			else if (variant === "italic") key = "400italic";
+			files[key] = url;
+		}
+
+		return {
+			category: item.category,
+			family: item.family,
+			weights,
+			preview: item.menu,
+			files,
+		};
+	});
 
 	const jsonString = argCompress ? JSON.stringify(result) : JSON.stringify(result, null, 2);
 	await Bun.write("data/fonts/webfontlist.json", jsonString);

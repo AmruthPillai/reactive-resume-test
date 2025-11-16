@@ -21,11 +21,7 @@ interface ResumeStoreActions {
 type ResumeStore = ResumeStoreState & ResumeStoreActions;
 
 const syncResume = async (id: string, data: ResumeData) => {
-	try {
-		await orpc.resume.updateData.call({ id, data });
-	} catch (err) {
-		console.error("Failed to update resume in backend:", err);
-	}
+	await orpc.resume.update.call({ id, data });
 };
 
 const debouncedSyncResume = debounce(syncResume, 500);

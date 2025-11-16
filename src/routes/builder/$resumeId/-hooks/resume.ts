@@ -32,33 +32,10 @@ export function useResume() {
 	return data;
 }
 
-/**
- * Hook to access the resume from the store.
- * The resume is guaranteed to be non-null after the route component's initial load check.
- * Use this hook in child components instead of useResumeStore when you need the resume.
- *
- * @param selector - Optional selector function to select a specific slice of the resume state.
- *                   When provided, the component will only re-render when the selected slice changes.
- * @returns The selected slice of the resume, or the full resume if no selector is provided.
- *
- * @example
- * // Get the full resume
- * const resume = useResumeData();
- *
- * @example
- * // Get only the basics section (prevents re-renders when other sections change)
- * const basics = useResumeData((resume) => resume.basics);
- *
- * @example
- * // Get a nested property
- * const name = useResumeData((resume) => resume.basics.name);
- */
-export function useResumeData(): ResumeData;
-export function useResumeData<T>(selector: (resume: ResumeData) => T): T;
-export function useResumeData<T>(selector?: (resume: ResumeData) => T): ResumeData | T {
+export function useResumeData<T = ResumeData>(selector?: (data: ResumeData) => T): T {
 	const selected = useResumeStore((state) => {
 		if (!state.resume) return null;
-		return selector ? selector(state.resume.data) : state.resume.data;
+		return selector ? selector(state.resume.data) : (state.resume.data as T);
 	});
 
 	if (selected === null) throw new Error("Resume not loaded.");

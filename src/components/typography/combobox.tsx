@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { cn } from "@/utils/style";
 import { Combobox, type ComboboxProps } from "../ui/combobox";
-import { MultipleCombobox, type MultipleComboboxProps } from "../ui/multiple-combobox";
 import { FontDisplay } from "./font-display";
 import webfontlist from "./webfontlist.json";
 
@@ -33,36 +32,19 @@ export function FontFamilyCombobox({ className, ...props }: FontFamilyComboboxPr
 	return <Combobox options={options} className={cn("w-full", className)} {...props} />;
 }
 
-type FontSubsetsComboboxProps = Omit<MultipleComboboxProps, "options"> & { fontFamily: string };
+type FontWeightComboboxProps = Omit<ComboboxProps, "options"> & { fontFamily: string };
 
-export function FontSubsetsCombobox({ fontFamily, ...props }: FontSubsetsComboboxProps) {
+export function FontWeightCombobox({ fontFamily, ...props }: FontWeightComboboxProps) {
 	const options = useMemo(() => {
 		const fontData = fontFamilyMap.get(fontFamily);
-		if (!fontData || !Array.isArray(fontData.subsets)) return [];
+		if (!fontData || !Array.isArray(fontData.weights)) return [];
 
-		return fontData.subsets.map((subset: string) => ({
-			value: subset,
-			label: subset,
-			keywords: [subset],
-		}));
-	}, [fontFamily]);
-
-	return <MultipleCombobox options={options} {...props} />;
-}
-
-type FontVariantsComboboxProps = Omit<MultipleComboboxProps, "options"> & { fontFamily: string };
-
-export function FontVariantsCombobox({ fontFamily, ...props }: FontVariantsComboboxProps) {
-	const options = useMemo(() => {
-		const fontData = fontFamilyMap.get(fontFamily);
-		if (!fontData || !Array.isArray(fontData.variants)) return [];
-
-		return fontData.variants.map((variant: string) => ({
+		return fontData.weights.map((variant: string) => ({
 			value: variant,
 			label: variant,
 			keywords: [variant],
 		}));
 	}, [fontFamily]);
 
-	return <MultipleCombobox options={options} {...props} />;
+	return <Combobox options={options} {...props} />;
 }

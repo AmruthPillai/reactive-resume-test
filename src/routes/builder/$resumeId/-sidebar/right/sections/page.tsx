@@ -91,7 +91,7 @@ function PageSectionForm() {
 									/>
 								</FormControl>
 								<InputGroupAddon align="inline-end">
-									<InputGroupText>px</InputGroupText>
+									<InputGroupText>pt</InputGroupText>
 								</InputGroupAddon>
 							</InputGroup>
 							<FormMessage />
@@ -123,7 +123,7 @@ function PageSectionForm() {
 									/>
 								</FormControl>
 								<InputGroupAddon align="inline-end">
-									<InputGroupText>px</InputGroupText>
+									<InputGroupText>pt</InputGroupText>
 								</InputGroupAddon>
 							</InputGroup>
 							<FormMessage />

@@ -223,8 +223,7 @@ export const customSectionsSchema = z.array(customSectionSchema);
 
 export const typographySchema = z.object({
 	fontFamily: z.string(),
-	fontSubsets: z.array(z.string()),
-	fontVariants: z.array(z.string()),
+	fontWeight: z.string(),
 	fontSize: z.number().min(12).max(32).catch(16),
 	lineHeight: z.number().min(0.5).max(4).catch(1.5),
 });
@@ -233,10 +232,13 @@ export const metadataSchema = z.object({
 	template: z.string(),
 	layout: z.object({
 		sidebarWidth: z.number().min(10).max(50).catch(20),
-		order: z.object({
-			main: z.array(z.string()),
-			sidebar: z.array(z.string()),
-		}),
+		pages: z.array(
+			z.object({
+				fullWidth: z.boolean(),
+				main: z.array(z.string()),
+				sidebar: z.array(z.string()),
+			}),
+		),
 	}),
 	css: z.object({
 		enabled: z.boolean(),
@@ -376,26 +378,27 @@ export const defaultResumeData: ResumeData = {
 		template: "",
 		layout: {
 			sidebarWidth: 20,
-			order: {
-				main: ["summary", "education", "experience", "projects", "volunteer", "references"],
-				sidebar: ["skills", "certifications", "awards", "languages", "interests", "publications"],
-			},
+			pages: [
+				{
+					fullWidth: false,
+					main: ["summary", "education", "experience", "projects", "volunteer", "references"],
+					sidebar: ["skills", "certifications", "awards", "languages", "interests", "publications"],
+				},
+			],
 		},
 		css: { enabled: false, value: "" },
 		page: { marginX: 18, marginY: 18, format: "a4" },
 		theme: { primary: "#dc2626", text: "#000000", background: "#ffffff" },
 		typography: {
 			body: {
-				fontFamily: "IBM Plex Serif",
-				fontSubsets: ["latin"],
-				fontVariants: ["regular"],
+				fontFamily: "Inter",
+				fontWeight: "regular",
 				fontSize: 16,
 				lineHeight: 1.5,
 			},
 			heading: {
-				fontFamily: "IBM Plex Serif",
-				fontSubsets: ["latin"],
-				fontVariants: ["regular"],
+				fontFamily: "Inter",
+				fontWeight: "regular",
 				fontSize: 20,
 				lineHeight: 1.5,
 			},
@@ -989,10 +992,13 @@ export const sampleResumeData: ResumeData = {
 		template: "modern",
 		layout: {
 			sidebarWidth: 20,
-			order: {
-				main: ["summary", "education", "experience", "projects", "volunteer", "references"],
-				sidebar: ["skills", "certifications", "awards", "languages", "interests", "publications"],
-			},
+			pages: [
+				{
+					fullWidth: false,
+					main: ["summary", "education", "experience", "projects", "volunteer", "references"],
+					sidebar: ["skills", "certifications", "awards", "languages", "interests", "publications"],
+				},
+			],
 		},
 		css: {
 			enabled: false,
@@ -1011,15 +1017,13 @@ export const sampleResumeData: ResumeData = {
 		typography: {
 			body: {
 				fontFamily: "Inter",
-				fontSubsets: ["latin"],
-				fontVariants: ["regular"],
+				fontWeight: "regular",
 				fontSize: 16,
 				lineHeight: 1.5,
 			},
 			heading: {
 				fontFamily: "Inter",
-				fontSubsets: ["latin"],
-				fontVariants: ["600"],
+				fontWeight: "600",
 				fontSize: 20,
 				lineHeight: 1.5,
 			},

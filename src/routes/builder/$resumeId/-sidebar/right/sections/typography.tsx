@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import type z from "zod";
 import { useResumeData } from "@/builder/-hooks/resume";
 import { useResumeStore } from "@/builder/-store/resume";
-import { FontFamilyCombobox, FontSubsetsCombobox, FontVariantsCombobox } from "@/components/typography/combobox";
+import { FontFamilyCombobox, FontWeightCombobox } from "@/components/typography/combobox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
@@ -33,10 +33,7 @@ function areTypographyValuesEqual(first: TypographyValues, second: TypographyVal
 		first.fontSize === second.fontSize &&
 		first.lineHeight === second.lineHeight &&
 		first.fontFamily === second.fontFamily &&
-		first.fontSubsets.length === second.fontSubsets.length &&
-		first.fontSubsets.every((subset, index) => subset === second.fontSubsets[index]) &&
-		first.fontVariants.length === second.fontVariants.length &&
-		first.fontVariants.every((variant, index) => variant === second.fontVariants[index])
+		first.fontWeight === second.fontWeight
 	);
 }
 
@@ -102,44 +99,17 @@ function TypographySectionForm() {
 
 				<FormField
 					control={form.control}
-					name="body.fontSubsets"
+					name="body.fontWeight"
 					render={({ field }) => (
-						<FormItem>
+						<FormItem className="col-span-full">
 							<FormLabel>
-								<Trans>Font Subsets</Trans>
+								<Trans>Font Weight</Trans>
 							</FormLabel>
 							<FormControl>
-								<FontSubsetsCombobox
-									disableClear
+								<FontWeightCombobox
 									value={field.value}
 									fontFamily={bodyFontFamily}
 									onValueChange={(value) => {
-										if (value.length === 0) return;
-										field.onChange(value);
-										form.handleSubmit(onSubmit)();
-									}}
-								/>
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-
-				<FormField
-					control={form.control}
-					name="body.fontVariants"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>
-								<Trans>Font Variants</Trans>
-							</FormLabel>
-							<FormControl>
-								<FontVariantsCombobox
-									disableClear
-									value={field.value}
-									fontFamily={bodyFontFamily}
-									onValueChange={(value) => {
-										if (value.length === 0) return;
 										field.onChange(value);
 										form.handleSubmit(onSubmit)();
 									}}
@@ -174,7 +144,7 @@ function TypographySectionForm() {
 									/>
 								</FormControl>
 								<InputGroupAddon align="inline-end">
-									<InputGroupText>px</InputGroupText>
+									<InputGroupText>pt</InputGroupText>
 								</InputGroupAddon>
 							</InputGroup>
 						</FormItem>
@@ -259,44 +229,17 @@ function TypographySectionForm() {
 
 							<FormField
 								control={form.control}
-								name="heading.fontSubsets"
+								name="heading.fontWeight"
 								render={({ field }) => (
-									<FormItem>
+									<FormItem className="col-span-full">
 										<FormLabel>
-											<Trans>Font Subsets</Trans>
+											<Trans>Font Weight</Trans>
 										</FormLabel>
 										<FormControl>
-											<FontSubsetsCombobox
-												disableClear
+											<FontWeightCombobox
 												value={field.value}
 												fontFamily={headingFontFamily}
 												onValueChange={(value) => {
-													if (value.length === 0) return;
-													field.onChange(value);
-													form.handleSubmit(onSubmit)();
-												}}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-
-							<FormField
-								control={form.control}
-								name="heading.fontVariants"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>
-											<Trans>Font Variants</Trans>
-										</FormLabel>
-										<FormControl>
-											<FontVariantsCombobox
-												disableClear
-												value={field.value}
-												fontFamily={headingFontFamily}
-												onValueChange={(value) => {
-													if (value.length === 0) return;
 													field.onChange(value);
 													form.handleSubmit(onSubmit)();
 												}}
@@ -331,7 +274,7 @@ function TypographySectionForm() {
 												/>
 											</FormControl>
 											<InputGroupAddon align="inline-end">
-												<InputGroupText>px</InputGroupText>
+												<InputGroupText>pt</InputGroupText>
 											</InputGroupAddon>
 										</InputGroup>
 									</FormItem>

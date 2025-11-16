@@ -224,6 +224,7 @@ export const resumeService = {
 			name: input.name,
 			slug: input.slug,
 			tags: input.tags,
+			data: input.data,
 			isPublic: input.isPublic,
 			isLocked: input.isLocked,
 		};
