@@ -274,7 +274,7 @@ function PageContainer({ pageIndex, page, canDelete, onDelete, onToggleFullWidth
 				)}
 			>
 				<LayoutColumn pageIndex={pageIndex} columnId="main" items={page.main} disabled={false} />
-				<LayoutColumn pageIndex={pageIndex} columnId="sidebar" items={page.sidebar} disabled={page.fullWidth} />
+				{!page.fullWidth && <LayoutColumn pageIndex={pageIndex} columnId="sidebar" items={page.sidebar} />}
 			</div>
 		</div>
 	);
@@ -284,10 +284,10 @@ type LayoutColumnProps = {
 	pageIndex: number;
 	columnId: ColumnId;
 	items: string[];
-	disabled: boolean;
+	disabled?: boolean;
 };
 
-function LayoutColumn({ pageIndex, columnId, items, disabled }: LayoutColumnProps) {
+function LayoutColumn({ pageIndex, columnId, items, disabled = false }: LayoutColumnProps) {
 	const droppableId = createDroppableId(pageIndex, columnId);
 	const { setNodeRef, isOver } = useDroppable({ id: droppableId, disabled });
 

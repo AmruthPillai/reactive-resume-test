@@ -124,6 +124,10 @@ msgstr ""
 msgid "Add a new volunteer experience"
 msgstr ""
 
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:223
+msgid "Add Page"
+msgstr ""
+
 #. placeholder {0}: passkey.createdAt.toLocaleDateString()
 #: src/routes/dashboard/settings/authentication/-components/passkeys.tsx:110
 msgid "Added on {0}"
@@ -454,6 +458,10 @@ msgstr "Löschen"
 msgid "Delete Account"
 msgstr "Konto löschen"
 
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:265
+msgid "Delete Page"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:68
 msgid "Deleting picture..."
 msgstr ""
@@ -527,7 +535,7 @@ msgstr ""
 msgid "Downloads"
 msgstr ""
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/order.tsx:148
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:312
 msgid "Drag and drop sections here to move them between columns"
 msgstr ""
 
@@ -635,24 +643,19 @@ msgstr "Filtern nach"
 msgid "Fluency"
 msgstr ""
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:86
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:243
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:83
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:213
 msgid "Font Family"
 msgstr ""
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:159
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:316
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:129
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:259
 msgid "Font Size"
 msgstr ""
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:109
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:266
-msgid "Font Subsets"
-msgstr ""
-
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:134
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:291
-msgid "Font Variants"
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:106
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:236
+msgid "Font Weight"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/notes.tsx:37
@@ -670,6 +673,10 @@ msgstr "Passwort vergessen?"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx:50
 msgctxt "Page Format (A4 or Letter)"
 msgid "Format"
+msgstr ""
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:257
+msgid "Full Width"
 msgstr ""
 
 #: src/dialogs/resume/index.tsx:313
@@ -783,8 +790,8 @@ msgstr ""
 msgid "Light"
 msgstr "Hell"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:190
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:347
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:160
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:290
 msgid "Line Height"
 msgstr ""
 
@@ -816,7 +823,7 @@ msgstr "Abmelden"
 msgid "Lost access to your authenticator?"
 msgstr ""
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/order.tsx:28
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:30
 msgid "Main"
 msgstr ""
 
@@ -879,6 +886,11 @@ msgstr ""
 
 #: src/utils/resume/section.tsx:112
 msgid "Page"
+msgstr ""
+
+#. placeholder {0}: pageIndex + 1
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:246
+msgid "Page {0}"
 msgstr ""
 
 #: src/routes/dashboard/settings/authentication/-components/passkeys.tsx:48
@@ -1121,7 +1133,7 @@ msgstr ""
 msgid "Show"
 msgstr "Einblenden"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/order.tsx:29
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:31
 msgid "Sidebar"
 msgstr ""
 
@@ -1210,7 +1222,7 @@ msgstr "Zusammenfassung"
 msgid "Support the app by doing what you can!"
 msgstr ""
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:229
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:199
 msgid "Synchronize heading styles with the settings configured above."
 msgstr ""
 
@@ -1427,7 +1439,7 @@ msgstr ""
 msgid "Use Authenticator App"
 msgstr ""
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:227
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:197
 msgid "Use the same style for headings"
 msgstr ""
 

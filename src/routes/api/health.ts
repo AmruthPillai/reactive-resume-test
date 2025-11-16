@@ -4,6 +4,16 @@ import { sql } from "drizzle-orm";
 import { db } from "@/integrations/drizzle/client";
 import { getStorageService } from "@/integrations/orpc/services/storage";
 
+function isUnhealthy(check: unknown): boolean {
+	return (
+		!!check &&
+		typeof check === "object" &&
+		"status" in check &&
+		typeof check.status === "string" &&
+		check.status === "unhealthy"
+	);
+}
+
 async function handler(_: { request: Request }) {
 	const checks = {
 		version: process.env.npm_package_version,
@@ -15,12 +25,17 @@ async function handler(_: { request: Request }) {
 		storage: await checkStorage(),
 	};
 
-	return json(checks);
+	if (checks.status === "unhealthy" || Object.values(checks).some(isUnhealthy)) {
+		return json(checks, { status: 500 });
+	}
+
+	return json(checks, { status: 200 });
 }
 
 async function checkDatabase() {
 	try {
 		await db.execute(sql`SELECT 1`);
+
 		return { status: "healthy" };
 	} catch (error) {
 		return { status: "unhealthy", error: error instanceof Error ? error.message : "Unknown error" };
@@ -30,9 +45,14 @@ async function checkDatabase() {
 async function checkStorage() {
 	try {
 		const storageService = getStorageService();
-		return await storageService.healthCheck();
+		const result = await storageService.healthCheck();
+
+		return result;
 	} catch (error) {
-		return { status: "unhealthy", error: error instanceof Error ? error.message : "Unknown error" };
+		return {
+			status: "unhealthy",
+			error: error instanceof Error ? error.message : "Unknown error",
+		};
 	}
 }
 

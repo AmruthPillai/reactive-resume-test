@@ -28,7 +28,7 @@ export interface StorageHealthResult {
 	status: "healthy" | "unhealthy";
 	type: "local" | "s3";
 	message: string;
-	details?: object;
+	error?: string;
 }
 
 const CONTENT_TYPE_MAP: Record<string, string> = {
@@ -105,7 +105,7 @@ class LocalStorageService implements StorageService {
 				type: "local",
 				status: "unhealthy",
 				message: "Local filesystem storage is not accessible or lacks sufficient permissions.",
-				details: { error: error instanceof Error ? error.message : "Unknown error" },
+				error: error instanceof Error ? error.message : "Unknown error",
 			};
 		}
 	}
@@ -163,7 +163,7 @@ class S3StorageService implements StorageService {
 		try {
 			const list = await this.client.list({ maxKeys: 1 });
 
-			if (Array.isArray(list)) {
+			if (Array.isArray(list.contents)) {
 				return {
 					type: "s3",
 					status: "healthy",
@@ -175,14 +175,13 @@ class S3StorageService implements StorageService {
 				type: "s3",
 				status: "unhealthy",
 				message: "Unexpected S3 result while checking storage health.",
-				details: { result: list },
 			};
 		} catch (error: unknown) {
 			return {
 				type: "s3",
 				status: "unhealthy",
 				message: "Failed to connect to S3 storage or invalid credentials.",
-				details: { error: error instanceof Error ? error.message : "Unknown error" },
+				error: error instanceof Error ? error.message : "Unknown error",
 			};
 		}
 	}
