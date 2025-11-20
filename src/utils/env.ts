@@ -12,6 +12,9 @@ export const env = createEnv({
 		// Basics
 		APP_URL: z.url({ protocol: /https?/ }).default("http://localhost:3000"),
 
+		// Printer
+		PRINTER_APP_URL: z.url({ protocol: /https?/ }).optional(),
+
 		// Authentication
 		AUTH_SECRET: z.string().min(1),
 
@@ -32,7 +35,6 @@ export const env = createEnv({
 		S3_REGION: z.string().min(1).optional(),
 		S3_ENDPOINT: z.url({ protocol: /https?/ }).optional(),
 		S3_BUCKET: z.string().min(1).optional(),
-		S3_SESSION_TOKEN: z.string().optional(),
 
 		// Custom OAuth Provider
 		OAUTH_PROVIDER_NAME: z.string().min(1).optional(),

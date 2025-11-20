@@ -1,12 +1,13 @@
 import { ORPCError } from "@orpc/client";
-import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
+import { createFileRoute, notFound, redirect, useLayoutEffect } from "@tanstack/react-router";
+import { ResumePreview } from "@/components/resume/preview";
 import { orpc } from "@/integrations/orpc/client";
+import { cn } from "@/utils/style";
 
 export const Route = createFileRoute("/$username/$slug")({
 	component: RouteComponent,
-	loader: async ({ params }) => {
-		const { username, slug } = params;
-		const resume = await orpc.resume.public.getBySlug.call({ username, slug });
+	loader: async ({ params: { username, slug } }) => {
+		const resume = await orpc.resume.getBySlug.call({ username, slug });
 		return { resume };
 	},
 	onError: (error) => {
@@ -30,9 +31,17 @@ export const Route = createFileRoute("/$username/$slug")({
 function RouteComponent() {
 	const { resume } = Route.useLoaderData();
 
+	useLayoutEffect(() => {
+		document.documentElement.classList.replace("dark", "light");
+		document.body.style.backgroundColor = "white";
+	}, []);
+
 	return (
-		<div>
-			<pre>{JSON.stringify(resume, null, 2)}</pre>
+		<div className={cn("my-8 flex items-center justify-center", "print:my-0 print:block")}>
+			<ResumePreview
+				data={resume.data}
+				pageClassName={cn("rounded-sm border shadow-lg", "print:rounded-none print:border-none print:shadow-none")}
+			/>
 		</div>
 	);
 }

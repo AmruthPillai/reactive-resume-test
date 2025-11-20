@@ -20,7 +20,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
 import { orpc } from "@/integrations/orpc/client";
@@ -215,7 +215,7 @@ function PictureSectionForm() {
 											{...field}
 											type="number"
 											min={32}
-											max={128}
+											max={512}
 											step={1}
 											onChange={(e) => {
 												const value = e.target.value;
@@ -225,9 +225,10 @@ function PictureSectionForm() {
 										/>
 									</FormControl>
 									<InputGroupAddon align="inline-end">
-										<InputGroupText>px</InputGroupText>
+										<InputGroupText>pt</InputGroupText>
 									</InputGroupAddon>
 								</InputGroup>
+								<FormMessage />
 							</FormItem>
 						)}
 					/>
@@ -288,13 +289,37 @@ function PictureSectionForm() {
 									</FormControl>
 
 									<ButtonGroup className="shrink-0">
-										<Button size="icon" variant="outline" title={t`Square`} onClick={() => field.onChange(1)}>
+										<Button
+											size="icon"
+											variant="outline"
+											title={t`Square`}
+											onClick={() => {
+												field.onChange(1);
+												form.handleSubmit(onSubmit)();
+											}}
+										>
 											<div className="aspect-square min-h-3 min-w-3 border border-primary" />
 										</Button>
-										<Button size="icon" variant="outline" title={t`Landscape`} onClick={() => field.onChange(1.5)}>
+										<Button
+											size="icon"
+											variant="outline"
+											title={t`Landscape`}
+											onClick={() => {
+												field.onChange(1.5);
+												form.handleSubmit(onSubmit)();
+											}}
+										>
 											<div className="aspect-[1.5/1] min-h-3 min-w-3 border border-primary" />
 										</Button>
-										<Button size="icon" variant="outline" title={t`Portrait`} onClick={() => field.onChange(0.5)}>
+										<Button
+											size="icon"
+											variant="outline"
+											title={t`Portrait`}
+											onClick={() => {
+												field.onChange(0.5);
+												form.handleSubmit(onSubmit)();
+											}}
+										>
 											<div className="aspect-[1/1.5] min-h-3 min-w-3 border border-primary" />
 										</Button>
 									</ButtonGroup>
@@ -318,8 +343,8 @@ function PictureSectionForm() {
 												{...field}
 												type="number"
 												min={0}
-												max={100}
-												step={5}
+												max={50}
+												step={1}
 												onChange={(e) => {
 													const value = Number(e.target.value);
 													field.onChange(value);
@@ -330,14 +355,38 @@ function PictureSectionForm() {
 									</InputGroup>
 
 									<ButtonGroup className="shrink-0">
-										<Button size="icon" variant="outline" title={t`0%`} onClick={() => field.onChange(0)}>
+										<Button
+											size="icon"
+											variant="outline"
+											title={t`0%`}
+											onClick={() => {
+												field.onChange(0);
+												form.handleSubmit(onSubmit)();
+											}}
+										>
 											<div className="size-3 rounded-none border border-primary" />
 										</Button>
-										<Button size="icon" variant="outline" title={t`20%`} onClick={() => field.onChange(20)}>
-											<div className="size-3 rounded-[20%] border border-primary" />
+										<Button
+											size="icon"
+											variant="outline"
+											title={t`10%`}
+											onClick={() => {
+												field.onChange(10);
+												form.handleSubmit(onSubmit)();
+											}}
+										>
+											<div className="size-3 rounded-[10%] border border-primary" />
 										</Button>
-										<Button size="icon" variant="outline" title={t`100%`} onClick={() => field.onChange(100)}>
-											<div className="size-3 rounded-[100%] border border-primary" />
+										<Button
+											size="icon"
+											variant="outline"
+											title={t`50%`}
+											onClick={() => {
+												field.onChange(50);
+												form.handleSubmit(onSubmit)();
+											}}
+										>
+											<div className="size-3 rounded-[50%] border border-primary" />
 										</Button>
 									</ButtonGroup>
 								</div>

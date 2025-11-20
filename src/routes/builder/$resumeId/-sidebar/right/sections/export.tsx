@@ -1,7 +1,10 @@
 import { Trans } from "@lingui/react/macro";
-import { FileJsIcon, FilePdfIcon } from "@phosphor-icons/react";
+import { CircleNotchIcon, FileJsIcon, FilePdfIcon } from "@phosphor-icons/react";
+import { useMutation } from "@tanstack/react-query";
+import { useParams } from "@tanstack/react-router";
 import { useCallback } from "react";
 import { Button } from "@/components/ui/button";
+import { orpc } from "@/integrations/orpc/client";
 import { slugify } from "@/utils/string";
 import { useResumeData } from "../../../-hooks/resume";
 import { SectionBase } from "../shared/section-base";
@@ -32,17 +35,35 @@ function downloadWithAnchor(blob: Blob, filename: string) {
 
 export function ExportSectionBuilder() {
 	const resume = useResumeData();
+	const { resumeId } = useParams({ from: "/builder/$resumeId" });
+
+	const { mutateAsync: printAsPDF, isPending: isPrinting } = useMutation(
+		orpc.resume.printer.printAsPDF.mutationOptions(),
+	);
+
+	const generateFilename = useCallback(
+		(extension: "json" | "pdf") => {
+			const now = new Date();
+			const name = slugify(resume.basics.name);
+			const timestamp = getReadableTimestamp(now);
+			return `${name}_${timestamp}.${extension}`;
+		},
+		[resume.basics.name],
+	);
 
 	const onDownloadJson = useCallback(() => {
-		const now = new Date();
-		const name = slugify(resume.basics.name);
-		const timestamp = getReadableTimestamp(now);
+		const filename = generateFilename("json");
 		const jsonString = JSON.stringify(resume, null, 2);
-		const filename = `${name}_${timestamp}.json`;
 		const blob = new Blob([jsonString], { type: "application/json" });
 
 		downloadWithAnchor(blob, filename);
-	}, [resume]);
+	}, [resume, generateFilename]);
+
+	const onDownloadPdf = useCallback(async () => {
+		const filename = generateFilename("pdf");
+		const file = await printAsPDF({ id: resumeId });
+		downloadWithAnchor(file, filename);
+	}, [resumeId, generateFilename, printAsPDF]);
 
 	return (
 		<SectionBase type="export" className="space-y-4">
@@ -63,8 +84,18 @@ export function ExportSectionBuilder() {
 				</div>
 			</Button>
 
-			<Button variant="outline" className="h-auto gap-x-4 whitespace-normal p-4! text-left font-normal active:scale-98">
-				<FilePdfIcon className="size-6 shrink-0" />
+			<Button
+				variant="outline"
+				disabled={isPrinting}
+				onClick={onDownloadPdf}
+				className="h-auto gap-x-4 whitespace-normal p-4! text-left font-normal active:scale-98"
+			>
+				{isPrinting ? (
+					<CircleNotchIcon className="size-6 shrink-0 animate-spin" />
+				) : (
+					<FilePdfIcon className="size-6 shrink-0" />
+				)}
+
 				<div className="flex flex-1 flex-col gap-y-1">
 					<h6 className="font-medium">PDF</h6>
 					<p className="text-muted-foreground text-xs leading-normal">

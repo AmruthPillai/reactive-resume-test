@@ -204,7 +204,6 @@ function createStorageService(): StorageService {
 			accessKeyId: env.S3_ACCESS_KEY_ID,
 			secretAccessKey: env.S3_SECRET_ACCESS_KEY,
 			endpoint: env.S3_ENDPOINT,
-			sessionToken: env.S3_SESSION_TOKEN,
 		});
 	}
 

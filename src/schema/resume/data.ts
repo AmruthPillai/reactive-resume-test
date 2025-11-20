@@ -10,10 +10,10 @@ export const urlSchema = z.object({
 
 export const pictureSchema = z.object({
 	url: z.url().or(z.literal("")),
-	size: z.number().min(32).max(128).catch(64),
-	rotation: z.number().min(0).max(360).catch(0),
-	aspectRatio: z.number().min(0.5).max(2.5).catch(1),
-	borderRadius: z.number().min(0).max(100).catch(0),
+	size: z.number().min(32).max(512),
+	rotation: z.number().min(0).max(360),
+	aspectRatio: z.number().min(0.5).max(2.5),
+	borderRadius: z.number().min(0).max(50),
 	hidden: z.boolean(),
 	border: z.boolean(),
 	shadow: z.boolean(),
@@ -209,8 +209,8 @@ export const sectionsSchema = z.object({
 });
 
 export type SectionType = keyof z.infer<typeof sectionsSchema>;
-export type SectionData = z.infer<typeof sectionsSchema>[SectionType];
-export type SectionItem = SectionData["items"][number];
+export type SectionData<T extends SectionType = SectionType> = z.infer<typeof sectionsSchema>[T];
+export type SectionItem<T extends SectionType = SectionType> = SectionData<T>["items"][number];
 
 export const customSectionSchema = baseSectionSchema.extend({
 	id: z.string(),
@@ -224,21 +224,21 @@ export const customSectionsSchema = z.array(customSectionSchema);
 export const typographySchema = z.object({
 	fontFamily: z.string(),
 	fontWeight: z.string(),
-	fontSize: z.number().min(12).max(32).catch(16),
+	fontSize: z.number().min(6).max(24).catch(11),
 	lineHeight: z.number().min(0.5).max(4).catch(1.5),
+});
+
+export const pageLayoutSchema = z.object({
+	fullWidth: z.boolean(),
+	main: z.array(z.string()),
+	sidebar: z.array(z.string()),
 });
 
 export const metadataSchema = z.object({
 	template: z.string(),
 	layout: z.object({
 		sidebarWidth: z.number().min(10).max(50).catch(20),
-		pages: z.array(
-			z.object({
-				fullWidth: z.boolean(),
-				main: z.array(z.string()),
-				sidebar: z.array(z.string()),
-			}),
-		),
+		pages: z.array(pageLayoutSchema),
 	}),
 	css: z.object({
 		enabled: z.boolean(),
@@ -375,13 +375,13 @@ export const defaultResumeData: ResumeData = {
 	},
 	customSections: [],
 	metadata: {
-		template: "",
+		template: "onyx",
 		layout: {
 			sidebarWidth: 20,
 			pages: [
 				{
 					fullWidth: false,
-					main: ["summary", "education", "experience", "projects", "volunteer", "references"],
+					main: ["profiles", "summary", "education", "experience", "projects", "volunteer", "references"],
 					sidebar: ["skills", "certifications", "awards", "languages", "interests", "publications"],
 				},
 			],
@@ -391,15 +391,15 @@ export const defaultResumeData: ResumeData = {
 		theme: { primary: "#dc2626", text: "#000000", background: "#ffffff" },
 		typography: {
 			body: {
-				fontFamily: "Inter",
-				fontWeight: "regular",
-				fontSize: 16,
+				fontFamily: "IBM Plex Serif",
+				fontWeight: "400",
+				fontSize: 10,
 				lineHeight: 1.5,
 			},
 			heading: {
-				fontFamily: "Inter",
-				fontWeight: "regular",
-				fontSize: 20,
+				fontFamily: "IBM Plex Serif",
+				fontWeight: "600",
+				fontSize: 14,
 				lineHeight: 1.5,
 			},
 		},
@@ -409,11 +409,11 @@ export const defaultResumeData: ResumeData = {
 
 export const sampleResumeData: ResumeData = {
 	picture: {
-		url: "https://i.pravatar.cc/300",
-		size: 64,
+		url: "http://localhost:3200/photos/andrew-power.jpg",
+		size: 150,
 		rotation: 0,
 		aspectRatio: 1,
-		borderRadius: 20,
+		borderRadius: 0,
 		hidden: false,
 		border: false,
 		shadow: false,
@@ -989,13 +989,13 @@ export const sampleResumeData: ResumeData = {
 		},
 	],
 	metadata: {
-		template: "modern",
+		template: "onyx",
 		layout: {
 			sidebarWidth: 20,
 			pages: [
 				{
 					fullWidth: false,
-					main: ["summary", "education", "experience", "projects", "volunteer", "references"],
+					main: ["profiles", "summary", "education", "experience", "projects", "volunteer", "references"],
 					sidebar: ["skills", "certifications", "awards", "languages", "interests", "publications"],
 				},
 			],
@@ -1016,15 +1016,15 @@ export const sampleResumeData: ResumeData = {
 		},
 		typography: {
 			body: {
-				fontFamily: "Inter",
-				fontWeight: "regular",
-				fontSize: 16,
+				fontFamily: "IBM Plex Serif",
+				fontWeight: "400",
+				fontSize: 10,
 				lineHeight: 1.5,
 			},
 			heading: {
-				fontFamily: "Inter",
+				fontFamily: "IBM Plex Serif",
 				fontWeight: "600",
-				fontSize: 20,
+				fontSize: 14,
 				lineHeight: 1.5,
 			},
 		},

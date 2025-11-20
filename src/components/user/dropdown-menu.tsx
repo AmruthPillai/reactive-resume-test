@@ -19,12 +19,12 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { authClient } from "@/integrations/auth/client";
-import type { Session } from "@/integrations/auth/types";
+import type { AuthSession } from "@/integrations/auth/types";
 import { isLocale, loadLocale, localeMap, setLocaleServerFn } from "@/utils/locale";
 import { isTheme } from "@/utils/theme";
 
 type Props = {
-	children: ({ session }: { session: Session }) => React.ReactNode;
+	children: ({ session }: { session: AuthSession }) => React.ReactNode;
 };
 
 export function UserDropdownMenu({ children }: Props) {

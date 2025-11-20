@@ -12,9 +12,14 @@ import router from "@/integrations/orpc/router";
 const getORPCClient = createIsomorphicFn()
 	.server(() =>
 		createRouterClient(router, {
-			context: () => ({
-				reqHeaders: getRequestHeaders(),
-			}),
+			context: () => {
+				const headers = getRequestHeaders();
+				// Add a custom header to identify server-side calls
+				headers.set("x-server-side-call", "true");
+				return {
+					reqHeaders: headers,
+				};
+			},
 		}),
 	)
 	.client((): RouterClient<typeof router> => {

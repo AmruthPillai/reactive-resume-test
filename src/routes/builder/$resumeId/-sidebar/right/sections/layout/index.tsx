@@ -19,7 +19,7 @@ export function LayoutSectionBuilder() {
 	);
 }
 
-const formSchema = metadataSchema.shape.layout.omit({ order: true });
+const formSchema = metadataSchema.shape.layout.omit({ pages: true });
 
 type FormValues = z.infer<typeof formSchema>;
 

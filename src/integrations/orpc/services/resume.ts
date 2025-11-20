@@ -22,54 +22,6 @@ const tags = {
 	},
 };
 
-const publicResume = {
-	getBySlug: async (input: { username: string; slug: string }) => {
-		const [resume] = await db
-			.select({
-				id: schema.resume.id,
-				data: schema.resume.data,
-				passwordHash: schema.resume.password,
-				hasPassword: sql<boolean>`${schema.resume.password} IS NOT NULL`,
-			})
-			.from(schema.resume)
-			.innerJoin(schema.user, eq(schema.resume.userId, schema.user.id))
-			.where(
-				and(
-					eq(schema.resume.isPublic, true),
-					eq(schema.resume.slug, input.slug),
-					eq(schema.user.username, input.username),
-				),
-			);
-
-		if (!resume) throw new ORPCError("NOT_FOUND");
-
-		if (!resume.hasPassword) {
-			await resumeService.statistics.increment({ id: resume.id, views: true });
-
-			return {
-				id: resume.id,
-				data: resume.data,
-				hasPassword: false as const,
-			};
-		}
-
-		if (hasResumeAccess(resume.id, resume.passwordHash)) {
-			await resumeService.statistics.increment({ id: resume.id, views: true });
-
-			return {
-				id: resume.id,
-				data: resume.data,
-				hasPassword: true as const,
-			};
-		}
-
-		throw new ORPCError("NEED_PASSWORD", {
-			status: 401,
-			data: { username: input.username, slug: input.slug },
-		});
-	},
-};
-
 const statistics = {
 	getById: async (input: { id: string; userId: string }) => {
 		const [statistics] = await db
@@ -122,11 +74,10 @@ const statistics = {
 
 export const resumeService = {
 	tags,
-	public: publicResume,
 	statistics,
 
 	list: async (input: { userId: string; tags: string[]; sort: "lastUpdatedAt" | "createdAt" | "name" }) => {
-		return db
+		return await db
 			.select({
 				id: schema.resume.id,
 				name: schema.resume.name,
@@ -173,6 +124,66 @@ export const resumeService = {
 		if (!resume) throw new ORPCError("NOT_FOUND");
 
 		return resume;
+	},
+
+	getByIdForPrinter: async (input: { id: string }) => {
+		const [resume] = await db
+			.select({
+				id: schema.resume.id,
+				data: schema.resume.data,
+			})
+			.from(schema.resume)
+			.where(eq(schema.resume.id, input.id));
+
+		if (!resume) throw new ORPCError("NOT_FOUND");
+
+		return resume;
+	},
+
+	getBySlug: async (input: { username: string; slug: string; currentUserId?: string }) => {
+		const [resume] = await db
+			.select({
+				id: schema.resume.id,
+				data: schema.resume.data,
+				passwordHash: schema.resume.password,
+				hasPassword: sql<boolean>`${schema.resume.password} IS NOT NULL`,
+			})
+			.from(schema.resume)
+			.innerJoin(schema.user, eq(schema.resume.userId, schema.user.id))
+			.where(
+				and(
+					eq(schema.resume.slug, input.slug),
+					eq(schema.user.username, input.username),
+					input.currentUserId ? eq(schema.resume.userId, input.currentUserId) : eq(schema.resume.isPublic, true),
+				),
+			);
+
+		if (!resume) throw new ORPCError("NOT_FOUND");
+
+		if (!resume.hasPassword) {
+			await resumeService.statistics.increment({ id: resume.id, views: true });
+
+			return {
+				id: resume.id,
+				data: resume.data,
+				hasPassword: false as const,
+			};
+		}
+
+		if (hasResumeAccess(resume.id, resume.passwordHash)) {
+			await resumeService.statistics.increment({ id: resume.id, views: true });
+
+			return {
+				id: resume.id,
+				data: resume.data,
+				hasPassword: true as const,
+			};
+		}
+
+		throw new ORPCError("NEED_PASSWORD", {
+			status: 401,
+			data: { username: input.username, slug: input.slug },
+		});
 	},
 
 	create: async (input: {

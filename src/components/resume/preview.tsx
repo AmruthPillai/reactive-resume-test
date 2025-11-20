@@ -1,54 +1,30 @@
+import { IconContext } from "@phosphor-icons/react";
 import type { ResumeData } from "@/schema/resume/data";
-import { ResumePreviewProvider, useResumePreview } from "./hooks/use-resume-preview";
+import { cn } from "@/utils/style";
+import { ResumePreviewProvider } from "./hooks/use-resume-preview";
+import styles from "./preview.module.css";
+import { OnyxTemplate } from "./templates/onyx";
 
-export const ResumePreview = ({ data }: { data: ResumeData }) => {
-	return (
-		<ResumePreviewProvider data={data}>
-			<ResumePreviewContent />
-		</ResumePreviewProvider>
-	);
+type Props = {
+	data: ResumeData;
+	className?: string;
+	pageClassName?: string;
 };
 
-const ResumePreviewContent = () => {
-	const pages = useResumePreview((state) => state.metadata.layout.pages);
-
-	return pages.map((_page, pageIndex) => <ResumePreviewPage key={pageIndex} pageIndex={pageIndex} />);
-};
-
-const ResumePreviewPage = ({ pageIndex }: { pageIndex: number }) => {
-	const data = useResumePreview();
-
+export const ResumePreview = ({ data, className, pageClassName }: Props) => {
 	return (
-		<div
-			id={`resume-page-${pageIndex}`}
-			style={{
-				width: "var(--page-width)",
-				minHeight: "var(--page-height)",
-				color: "var(--page-text-color)",
-				backgroundColor: "var(--page-background-color)",
-				fontFamily: "var(--page-body-font-family)",
-				fontWeight: "var(--page-body-font-weight)",
-				fontSize: "var(--page-body-font-size)",
-				lineHeight: "var(--page-body-line-height)",
-			}}
+		<IconContext.Provider
+			value={{ size: data.metadata.typography.body.fontSize * 1.5, color: "var(--page-primary-color)" }}
 		>
-			<div className="space-y-4">
-				{Object.keys(data.sections).map((sectionId) => (
-					<SectionPreview key={sectionId} sectionId={sectionId as keyof ResumeData["sections"]} />
-				))}
-			</div>
-		</div>
-	);
-};
-
-const SectionPreview = ({ sectionId }: { sectionId: keyof ResumeData["sections"] }) => {
-	const section = useResumePreview((state) => state.sections[sectionId]);
-
-	return (
-		<div className="space-y-4 overflow-hidden border p-4">
-			<h2 className="font-bold text-xl tracking-tight">{section.title}</h2>
-
-			<pre className="whitespace-pre-wrap text-base">{JSON.stringify(section.items, null, 2)}</pre>
-		</div>
+			<ResumePreviewProvider data={data}>
+				<div className={cn("flex flex-col gap-8", className)}>
+					{data.metadata.layout.pages.map((pageLayout, pageIndex) => (
+						<div key={pageIndex} className={cn("page", `page-${pageIndex}`, styles.page_preview, pageClassName)}>
+							<OnyxTemplate pageIndex={pageIndex} pageLayout={pageLayout} />
+						</div>
+					))}
+				</div>
+			</ResumePreviewProvider>
+		</IconContext.Provider>
 	);
 };

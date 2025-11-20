@@ -11,7 +11,7 @@ import { DialogManager } from "@/dialogs/manager";
 import { ConfirmDialogProvider } from "@/hooks/use-confirm";
 import { PromptDialogProvider } from "@/hooks/use-prompt";
 import { getSessionServerFn } from "@/integrations/auth/functions";
-import type { Session } from "@/integrations/auth/types";
+import type { AuthSession } from "@/integrations/auth/types";
 import type { orpc } from "@/integrations/orpc/client";
 import { getLocaleServerFn } from "@/utils/locale";
 import { getThemeServerFn } from "@/utils/theme";
@@ -20,7 +20,7 @@ import appCss from "../styles.css?url";
 type RouterContext = {
 	orpc: typeof orpc;
 	queryClient: QueryClient;
-	session: Session | null;
+	session: AuthSession | null;
 };
 
 const appName = "Reactive Resume";

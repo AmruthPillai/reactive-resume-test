@@ -132,9 +132,9 @@ function TypographySectionForm() {
 								<FormControl>
 									<InputGroupInput
 										{...field}
-										min={12}
-										max={32}
-										step={1}
+										min={6}
+										max={24}
+										step={0.1}
 										type="number"
 										onChange={(e) => {
 											const value = e.target.value;
@@ -262,9 +262,9 @@ function TypographySectionForm() {
 											<FormControl>
 												<InputGroupInput
 													{...field}
-													min={12}
-													max={48}
-													step={1}
+													min={6}
+													max={24}
+													step={0.1}
 													type="number"
 													onChange={(e) => {
 														const value = e.target.value;

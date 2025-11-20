@@ -15,6 +15,10 @@ const config = defineConfig({
 		chunkSizeWarningLimit: 10 * 1024, // 10mb
 	},
 
+	server: {
+		allowedHosts: ["host.docker.internal"],
+	},
+
 	plugins: [
 		tsconfigPaths(),
 		tailwindcss(),

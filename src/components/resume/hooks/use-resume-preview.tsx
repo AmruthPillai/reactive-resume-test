@@ -28,7 +28,7 @@ export const ResumePreviewProvider = ({ data, children }: ProviderProps) => {
 			}, [] as FontUrl[]);
 
 			for (const { url, weight, style } of fontUrls) {
-				const fontFace = new FontFace(family, `url(${url})`, { style, weight, display: "swap" });
+				const fontFace = new FontFace(family, `url("${url}")`, { style, weight, display: "swap" });
 				if (!document.fonts.has(fontFace)) document.fonts.add(await fontFace.load());
 			}
 		}

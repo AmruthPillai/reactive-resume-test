@@ -1,0 +1,51 @@
+.page_preview {
+	width: var(--page-width);
+	height: calc(var(--page-height) - var(--page-margin-y));
+	overflow: hidden;
+	font-family: var(--page-body-font-family);
+	font-size: calc(var(--page-body-font-size) * 1pt);
+	font-weight: var(--page-body-font-weight);
+	line-height: var(--page-body-line-height);
+	color: var(--page-text-color);
+	background-color: var(--page-background-color);
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: var(--page-heading-font-family);
+		font-weight: var(--page-heading-font-weight);
+		line-height: var(--page-heading-line-height);
+	}
+
+	h1 {
+		font-size: calc(var(--page-heading-font-size) * 2pt);
+	}
+
+	h2 {
+		font-size: calc(var(--page-heading-font-size) * 1.25pt);
+	}
+
+	h3 {
+		font-size: calc(var(--page-heading-font-size) * 1.125pt);
+	}
+
+	h4 {
+		font-size: calc(var(--page-heading-font-size) * 1pt);
+	}
+
+	h5 {
+		font-size: calc(var(--page-heading-font-size) * 0.875pt);
+	}
+
+	h6 {
+		font-size: calc(var(--page-heading-font-size) * 0.75pt);
+	}
+
+	section,
+	section * {
+		break-inside: avoid;
+	}
+}

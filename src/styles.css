@@ -187,7 +187,7 @@
 }
 
 .tiptap-content {
-	@apply prose prose-sm prose-zinc max-w-none;
+	@apply prose prose-sm prose-zinc max-w-none last:mb-0! prose-p:mb-0!;
 }
 
 .tiptap-content,

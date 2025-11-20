@@ -1,17 +1,15 @@
+import { ORPCError } from "@orpc/server";
+import puppeteerCore from "puppeteer-core";
 import z from "zod";
 import { resumeDataSchema, sampleResumeData } from "@/schema/resume/data";
-import { protectedProcedure, publicProcedure } from "../context";
+import { env } from "@/utils/env";
+import { generatePrinterToken } from "@/utils/printer-token";
+import { protectedProcedure, publicProcedure, serverOnlyProcedure } from "../context";
 import { resumeService } from "../services/resume";
 
 const tagsRouter = {
 	list: protectedProcedure.handler(async ({ context }) => {
 		return resumeService.tags.list({ userId: context.user.id });
-	}),
-};
-
-const publicRouter = {
-	getBySlug: publicProcedure.input(z.object({ username: z.string(), slug: z.string() })).handler(async ({ input }) => {
-		return resumeService.public.getBySlug(input);
 	}),
 };
 
@@ -27,9 +25,62 @@ const statisticsRouter = {
 		}),
 };
 
+const printer = {
+	printAsPDF: publicProcedure.input(z.object({ id: z.string() })).handler(async ({ input }) => {
+		const benchmark: { [key: string]: string } = {};
+		const overallStart = performance.now();
+
+		try {
+			// Generate a time-limited token for printer route access
+			const token = generatePrinterToken(input.id);
+
+			const connectStart = performance.now();
+			const browser = await puppeteerCore.connect({
+				browserURL: "http://localhost:9222",
+				defaultViewport: { width: 794, height: 1123 },
+			});
+			benchmark.connect = `${(performance.now() - connectStart).toFixed(2)}ms`;
+
+			const pageStart = performance.now();
+			const page = await browser.newPage();
+			benchmark.newPage = `${(performance.now() - pageStart).toFixed(2)}ms`;
+
+			const baseUrl = env.PRINTER_APP_URL ?? env.APP_URL;
+
+			const gotoStart = performance.now();
+			await page.goto(`${baseUrl}/printer/${input.id}?token=${token}`, { waitUntil: "networkidle0", timeout: 25000 });
+			benchmark.goto = `${(performance.now() - gotoStart).toFixed(2)}ms`;
+
+			const pdfStart = performance.now();
+			const pdfBuffer = await page.pdf({
+				format: "A4",
+				waitForFonts: true,
+				printBackground: true,
+				displayHeaderFooter: false,
+				margin: { top: 0, right: 0, bottom: 0, left: 0 },
+			});
+			benchmark.pdf = `${(performance.now() - pdfStart).toFixed(2)}ms`;
+
+			await page.close();
+
+			const totalTime = performance.now() - overallStart;
+			benchmark.total = `${totalTime.toFixed(2)}ms`;
+
+			console.info(`[Benchmark] printExternal`, {
+				...benchmark,
+			});
+
+			return new File([new Uint8Array(pdfBuffer)], `resume-${input.id}.pdf`, { type: "application/pdf" });
+		} catch (error) {
+			console.error(error);
+			throw new ORPCError("INTERNAL_SERVER_ERROR");
+		}
+	}),
+};
+
 export const resumeRouter = {
+	printer: printer,
 	tags: tagsRouter,
-	public: publicRouter,
 	statistics: statisticsRouter,
 
 	list: protectedProcedure
@@ -51,11 +102,21 @@ export const resumeRouter = {
 		return resumeService.getById({ id: input.id, userId: context.user.id });
 	}),
 
+	getByIdForPrinter: serverOnlyProcedure.input(z.object({ id: z.string() })).handler(async ({ input }) => {
+		return resumeService.getByIdForPrinter({ id: input.id });
+	}),
+
+	getBySlug: publicProcedure
+		.input(z.object({ username: z.string(), slug: z.string() }))
+		.handler(async ({ input, context }) => {
+			return resumeService.getBySlug({ ...input, currentUserId: context.user?.id });
+		}),
+
 	create: protectedProcedure
 		.input(
 			z.object({
-				name: z.string(),
-				slug: z.string(),
+				name: z.string().min(1).max(64),
+				slug: z.string().min(1).max(64),
 				tags: z.array(z.string()),
 				withSampleData: z.boolean().default(false),
 			}),
