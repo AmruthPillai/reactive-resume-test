@@ -32,9 +32,9 @@ export const printerRouter = {
 
 			return new File([new Uint8Array(pdfBuffer)], `resume-${input.id}.pdf`, { type: "application/pdf" });
 		} catch (error) {
-			console.error(`[printer.printResumeAsPDF] Error: ${JSON.stringify(error, null, 2)}`);
+			console.error(error);
 
-			throw new ORPCError("INTERNAL_SERVER_ERROR", { cause: error });
+			throw new ORPCError("INTERNAL_SERVER_ERROR");
 		}
 	}),
 };
