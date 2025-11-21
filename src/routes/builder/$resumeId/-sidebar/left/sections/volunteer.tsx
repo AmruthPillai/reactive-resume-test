@@ -1,8 +1,7 @@
 import { Trans } from "@lingui/react/macro";
 import { AnimatePresence, Reorder } from "motion/react";
 import type z from "zod";
-import { useResumeData } from "@/builder/-hooks/resume";
-import { useResumeStore } from "@/routes/builder/$resumeId/-store/resume";
+import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import type { volunteerItemSchema } from "@/schema/resume/data";
 import { cn } from "@/utils/style";
 import { SectionBase } from "../shared/section-base";

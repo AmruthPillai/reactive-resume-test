@@ -10,6 +10,9 @@ export const Route = createFileRoute("/$username/$slug")({
 		const resume = await orpc.resume.getBySlug.call({ username, slug });
 		return { resume };
 	},
+	head: ({ loaderData }) => ({
+		meta: [{ title: loaderData ? `${loaderData.resume.name} - Reactive Resume` : "Reactive Resume" }],
+	}),
 	onError: (error) => {
 		if (error instanceof ORPCError && error.code === "NEED_PASSWORD") {
 			const data = error.data as { username?: string; slug?: string } | undefined;

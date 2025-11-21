@@ -40,17 +40,17 @@ msgstr "<0>Finally,</0><1>A free and open-source resume builder</1>"
 msgid "<0>Thank you for using Reactive Resume! This app is a labor of love, created mostly in my spare time, with wonderful support from open-source contributors around the world.</0><1>If Reactive Resume has been helpful to you, and you'd like to help keep it free and open for everyone, please consider making a donation—every little bit is appreciated!</1>"
 msgstr "<0>Thank you for using Reactive Resume! This app is a labor of love, created mostly in my spare time, with wonderful support from open-source contributors around the world.</0><1>If Reactive Resume has been helpful to you, and you'd like to help keep it free and open for everyone, please consider making a donation—every little bit is appreciated!</1>"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:333
+#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:361
 msgid "0%"
 msgstr "0%"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:339
-msgid "100%"
-msgstr "100%"
+#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:372
+msgid "10%"
+msgstr "10%"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:336
-msgid "20%"
-msgstr "20%"
+#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:383
+msgid "50%"
+msgstr "50%"
 
 #: src/routes/dashboard/settings/profile.tsx:82
 msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
@@ -145,6 +145,11 @@ msgstr "Allow Public Access"
 msgid "Already have an account? <0><1>Sign in now <2/></1></0>"
 msgstr "Already have an account? <0><1>Sign in now <2/></1></0>"
 
+#: src/components/layout/error-screen.tsx:16
+#: src/components/layout/not-found-screen.tsx:16
+msgid "An error occurred while loading the page."
+msgstr "An error occurred while loading the page."
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:56
 msgid "Anyone visiting the resume's public URL must enter this password to access it."
 msgstr "Anyone visiting the resume's public URL must enter this password to access it."
@@ -192,7 +197,7 @@ msgstr "Area of Study"
 msgid "Artificial Intelligence"
 msgstr "Artificial Intelligence"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:272
+#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:273
 msgid "Aspect Ratio"
 msgstr "Aspect Ratio"
 
@@ -230,7 +235,7 @@ msgstr "Basics"
 msgid "Border"
 msgstr "Border"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:312
+#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:337
 msgid "Border Radius"
 msgstr "Border Radius"
 
@@ -239,8 +244,8 @@ msgstr "Border Radius"
 #: src/dialogs/resume/sections/award.tsx:124
 #: src/dialogs/resume/sections/certification.tsx:72
 #: src/dialogs/resume/sections/certification.tsx:132
-#: src/dialogs/resume/sections/custom.tsx:66
-#: src/dialogs/resume/sections/custom.tsx:120
+#: src/dialogs/resume/sections/custom.tsx:69
+#: src/dialogs/resume/sections/custom.tsx:123
 #: src/dialogs/resume/sections/education.tsx:71
 #: src/dialogs/resume/sections/education.tsx:130
 #: src/dialogs/resume/sections/experience.tsx:69
@@ -306,7 +311,7 @@ msgstr "Confirm"
 msgid "Connect"
 msgstr "Connect"
 
-#: src/dialogs/resume/sections/custom.tsx:161
+#: src/dialogs/resume/sections/custom.tsx:164
 msgid "Content"
 msgstr "Content"
 
@@ -331,7 +336,7 @@ msgstr "Copy Backup Codes"
 
 #: src/dialogs/resume/sections/award.tsx:72
 #: src/dialogs/resume/sections/certification.tsx:76
-#: src/dialogs/resume/sections/custom.tsx:70
+#: src/dialogs/resume/sections/custom.tsx:73
 #: src/dialogs/resume/sections/education.tsx:75
 #: src/dialogs/resume/sections/experience.tsx:73
 #: src/dialogs/resume/sections/interest.tsx:72
@@ -357,7 +362,7 @@ msgstr "Create a new award"
 msgid "Create a new certification"
 msgstr "Create a new certification"
 
-#: src/dialogs/resume/sections/custom.tsx:55
+#: src/dialogs/resume/sections/custom.tsx:58
 msgid "Create a new custom section"
 msgstr "Create a new custom section"
 
@@ -433,7 +438,7 @@ msgid "Danger Zone"
 msgstr "Danger Zone"
 
 #: src/components/user/dropdown-menu.tsx:99
-#: src/utils/theme.ts:16
+#: src/utils/theme.ts:17
 msgid "Dark"
 msgstr "Dark"
 
@@ -523,11 +528,11 @@ msgstr "Donate to Reactive Resume"
 msgid "Download"
 msgstr "Download"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:58
+#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:79
 msgid "Download a copy of your resume in JSON format. Use this file for backup or to import your resume into other applications, including AI assistants."
 msgstr "Download a copy of your resume in JSON format. Use this file for backup or to import your resume into other applications, including AI assistants."
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:71
+#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:102
 msgid "Download a copy of your resume in PDF format. Use this file for printing or to easily share your resume with recruiters."
 msgstr "Download a copy of your resume in PDF format. Use this file for printing or to easily share your resume with recruiters."
 
@@ -599,7 +604,7 @@ msgstr "Enabling password protection..."
 msgid "Enabling two-factor authentication..."
 msgstr "Enabling two-factor authentication..."
 
-#: src/utils/locale.ts:15
+#: src/utils/locale.ts:16
 msgid "English"
 msgstr "English"
 
@@ -683,7 +688,7 @@ msgstr "Full Width"
 msgid "Generate a random name"
 msgstr "Generate a random name"
 
-#: src/utils/locale.ts:16
+#: src/utils/locale.ts:17
 msgid "German"
 msgstr "German"
 
@@ -691,6 +696,10 @@ msgstr "German"
 #: src/routes/_home/route.tsx:36
 msgid "Get Started"
 msgstr "Get Started"
+
+#: src/components/layout/not-found-screen.tsx:24
+msgid "Go Back"
+msgstr "Go Back"
 
 #: src/dialogs/resume/sections/education.tsx:203
 msgid "Grade"
@@ -740,7 +749,7 @@ msgstr "Keywords"
 msgid "Label"
 msgstr "Label"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:294
+#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:306
 msgid "Landscape"
 msgstr "Landscape"
 
@@ -786,7 +795,7 @@ msgid "Level"
 msgstr "Level"
 
 #: src/components/user/dropdown-menu.tsx:96
-#: src/utils/theme.ts:15
+#: src/utils/theme.ts:16
 msgid "Light"
 msgstr "Light"
 
@@ -942,7 +951,7 @@ msgstr "Please enter the password shared with you by the owner of the resume to 
 msgid "Please enter the URL you want to link to:"
 msgstr "Please enter the URL you want to link to:"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:297
+#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:317
 msgid "Portrait"
 msgstr "Portrait"
 
@@ -995,6 +1004,10 @@ msgstr "Reactive Resume is a free and open-source resume builder that simplifies
 #: src/utils/resume/section.tsx:104
 msgid "References"
 msgstr "References"
+
+#: src/components/layout/error-screen.tsx:23
+msgid "Refresh"
+msgstr "Refresh"
 
 #: src/routes/dashboard/settings/authentication/-components/passkeys.tsx:53
 msgid "Register New Device"
@@ -1049,14 +1062,14 @@ msgstr "Resetting your password..."
 msgid "Resumes"
 msgstr "Resumes"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:241
+#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:242
 msgid "Rotation"
 msgstr "Rotation"
 
 #: src/dialogs/resume/index.tsx:206
 #: src/dialogs/resume/sections/award.tsx:128
 #: src/dialogs/resume/sections/certification.tsx:136
-#: src/dialogs/resume/sections/custom.tsx:124
+#: src/dialogs/resume/sections/custom.tsx:127
 #: src/dialogs/resume/sections/education.tsx:134
 #: src/dialogs/resume/sections/experience.tsx:130
 #: src/dialogs/resume/sections/interest.tsx:126
@@ -1198,7 +1211,7 @@ msgstr "Source Code"
 msgid "Sponsors"
 msgstr "Sponsors"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:291
+#: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:295
 msgid "Square"
 msgstr "Square"
 
@@ -1291,7 +1304,7 @@ msgstr "Tip: You can name the resume referring to the position you are applying 
 
 #: src/dialogs/resume/sections/award.tsx:149
 #: src/dialogs/resume/sections/certification.tsx:157
-#: src/dialogs/resume/sections/custom.tsx:145
+#: src/dialogs/resume/sections/custom.tsx:148
 #: src/dialogs/resume/sections/publication.tsx:157
 msgid "Title"
 msgstr "Title"
@@ -1362,7 +1375,7 @@ msgstr "Update an existing award"
 msgid "Update an existing certification"
 msgstr "Update an existing certification"
 
-#: src/dialogs/resume/sections/custom.tsx:109
+#: src/dialogs/resume/sections/custom.tsx:112
 msgid "Update an existing custom section"
 msgstr "Update an existing custom section"
 
@@ -1588,6 +1601,6 @@ msgstr "Your resume's public link is currently protected by a password. Share th
 msgid "Your resume's public URL has been copied to clipboard."
 msgstr "Your resume's public URL has been copied to clipboard."
 
-#: src/utils/locale.ts:17
+#: src/utils/locale.ts:18
 msgid "Zulu"
 msgstr "Zulu"

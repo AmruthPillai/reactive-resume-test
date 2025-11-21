@@ -8,7 +8,6 @@ interface FontDisplayProps {
 }
 
 const loadedFonts = new Set<string>();
-const loadingFonts = new Map<string, Promise<FontFace>>();
 
 export function FontDisplay({ name, url }: FontDisplayProps) {
 	const previewName = `${name} Preview`;
@@ -18,36 +17,22 @@ export function FontDisplay({ name, url }: FontDisplayProps) {
 	const isInView = useInView(containerRef, { once: true, amount: 0.1, margin: "50px" });
 
 	useEffect(() => {
-		if (!isInView || loadedFonts.has(previewName)) return;
+		if (!isInView || isLoaded) return;
 
-		let fontPromise = loadingFonts.get(previewName);
+		const fontFace = new FontFace(previewName, `url(${url})`, { display: "swap" });
 
-		if (!fontPromise) {
-			const fontFace = new FontFace(previewName, `url(${url})`, { display: "swap" });
-			fontPromise = fontFace.load();
-			loadingFonts.set(previewName, fontPromise);
-		}
+		fontFace.load().then((loadedFace) => {
+			if (!document.fonts.has(loadedFace)) document.fonts.add(loadedFace);
 
-		fontPromise
-			.then((loadedFace) => {
-				if (!document.fonts.has(loadedFace)) document.fonts.add(loadedFace);
-
-				loadedFonts.add(previewName);
-				loadingFonts.delete(previewName);
-
-				setIsLoaded(true);
-			})
-			.catch((error) => {
-				console.error(`Failed to load font ${previewName}:`, error);
-
-				loadingFonts.delete(previewName);
-			});
-	}, [isInView, previewName, url]);
+			loadedFonts.add(previewName);
+			setIsLoaded(true);
+		});
+	}, [isInView, isLoaded, previewName, url]);
 
 	return (
 		<div ref={containerRef} className="inline">
 			<span
-				style={{ fontFamily: isLoaded ? previewName : "sans-serif" }}
+				style={{ fontFamily: isLoaded ? `'${previewName}', sans-serif` : "sans-serif" }}
 				className={cn(isLoaded ? "opacity-100" : "opacity-50", "transition-opacity duration-200 ease-in")}
 			>
 				{name}

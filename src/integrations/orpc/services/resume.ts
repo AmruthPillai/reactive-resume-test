@@ -144,6 +144,7 @@ export const resumeService = {
 		const [resume] = await db
 			.select({
 				id: schema.resume.id,
+				name: schema.resume.name,
 				data: schema.resume.data,
 				passwordHash: schema.resume.password,
 				hasPassword: sql<boolean>`${schema.resume.password} IS NOT NULL`,
@@ -165,6 +166,7 @@ export const resumeService = {
 
 			return {
 				id: resume.id,
+				name: resume.name,
 				data: resume.data,
 				hasPassword: false as const,
 			};
@@ -175,6 +177,7 @@ export const resumeService = {
 
 			return {
 				id: resume.id,
+				name: resume.name,
 				data: resume.data,
 				hasPassword: true as const,
 			};

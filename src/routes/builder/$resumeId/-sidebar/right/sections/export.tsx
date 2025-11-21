@@ -3,10 +3,10 @@ import { CircleNotchIcon, FileJsIcon, FilePdfIcon } from "@phosphor-icons/react"
 import { useMutation } from "@tanstack/react-query";
 import { useParams } from "@tanstack/react-router";
 import { useCallback } from "react";
+import { useResumeData } from "@/builder/-store/resume";
 import { Button } from "@/components/ui/button";
 import { orpc } from "@/integrations/orpc/client";
 import { slugify } from "@/utils/string";
-import { useResumeData } from "../../../-hooks/resume";
 import { SectionBase } from "../shared/section-base";
 
 function getReadableTimestamp(now: Date) {

@@ -7,8 +7,7 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type z from "zod";
-import { useResumeData } from "@/builder/-hooks/resume";
-import { useResumeStore } from "@/builder/-store/resume";
+import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import {

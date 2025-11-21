@@ -44,6 +44,17 @@
 		font-size: calc(var(--page-heading-font-size) * 0.75pt);
 	}
 
+	a {
+		text-decoration: underline;
+		text-underline-offset: 0.15rem;
+	}
+
+	@media print {
+		a {
+			text-decoration: none;
+		}
+	}
+
 	section,
 	section * {
 		break-inside: avoid;

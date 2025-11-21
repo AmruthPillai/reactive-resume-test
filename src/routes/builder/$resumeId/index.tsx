@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { ResumePreview } from "@/components/resume/preview";
-import { useResumeData } from "./-hooks/resume";
+import { useResumeData } from "./-store/resume";
 
 export const Route = createFileRoute("/builder/$resumeId/")({
 	component: RouteComponent,

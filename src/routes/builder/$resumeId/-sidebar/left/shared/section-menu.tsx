@@ -9,8 +9,7 @@ import {
 	PencilSimpleLineIcon,
 	PlusIcon,
 } from "@phosphor-icons/react";
-import { useResumeData } from "@/builder/-hooks/resume";
-import { useResumeStore } from "@/builder/-store/resume";
+import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { Button } from "@/components/ui/button";
 import {
 	DropdownMenu,

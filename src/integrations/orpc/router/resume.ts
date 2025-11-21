@@ -27,31 +27,21 @@ const statisticsRouter = {
 
 const printer = {
 	printAsPDF: publicProcedure.input(z.object({ id: z.string() })).handler(async ({ input }) => {
-		const benchmark: { [key: string]: string } = {};
-		const overallStart = performance.now();
-
 		try {
 			// Generate a time-limited token for printer route access
 			const token = generatePrinterToken(input.id);
 
-			const connectStart = performance.now();
 			const browser = await puppeteerCore.connect({
 				browserURL: "http://localhost:9222",
 				defaultViewport: { width: 794, height: 1123 },
 			});
-			benchmark.connect = `${(performance.now() - connectStart).toFixed(2)}ms`;
 
-			const pageStart = performance.now();
 			const page = await browser.newPage();
-			benchmark.newPage = `${(performance.now() - pageStart).toFixed(2)}ms`;
 
 			const baseUrl = env.PRINTER_APP_URL ?? env.APP_URL;
 
-			const gotoStart = performance.now();
 			await page.goto(`${baseUrl}/printer/${input.id}?token=${token}`, { waitUntil: "networkidle0", timeout: 25000 });
-			benchmark.goto = `${(performance.now() - gotoStart).toFixed(2)}ms`;
 
-			const pdfStart = performance.now();
 			const pdfBuffer = await page.pdf({
 				format: "A4",
 				waitForFonts: true,
@@ -59,16 +49,8 @@ const printer = {
 				displayHeaderFooter: false,
 				margin: { top: 0, right: 0, bottom: 0, left: 0 },
 			});
-			benchmark.pdf = `${(performance.now() - pdfStart).toFixed(2)}ms`;
 
 			await page.close();
-
-			const totalTime = performance.now() - overallStart;
-			benchmark.total = `${totalTime.toFixed(2)}ms`;
-
-			console.info(`[Benchmark] printExternal`, {
-				...benchmark,
-			});
 
 			return new File([new Uint8Array(pdfBuffer)], `resume-${input.id}.pdf`, { type: "application/pdf" });
 		} catch (error) {

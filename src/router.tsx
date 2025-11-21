@@ -1,10 +1,14 @@
 import { MutationCache, QueryClient } from "@tanstack/react-query";
 import { createRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
+import { ErrorScreen } from "./components/layout/error-screen";
 import { LoadingScreen } from "./components/layout/loading-screen";
+import { NotFoundScreen } from "./components/layout/not-found-screen";
+import { getSession } from "./integrations/auth/functions";
 import { orpc } from "./integrations/orpc/client";
 import { routeTree } from "./routeTree.gen";
-import { getLocaleServerFn, loadLocale } from "./utils/locale";
+import { getLocale, loadLocale } from "./utils/locale";
+import { getTheme } from "./utils/theme";
 
 const getQueryClient = () => {
 	const queryClient = new QueryClient({
@@ -32,7 +36,11 @@ const getQueryClient = () => {
 export const getRouter = async () => {
 	const queryClient = getQueryClient();
 
-	await loadLocale(await getLocaleServerFn());
+	const theme = await getTheme();
+	const locale = await getLocale();
+	const session = await getSession();
+
+	await loadLocale(locale);
 
 	const router = createRouter({
 		routeTree,
@@ -41,9 +49,16 @@ export const getRouter = async () => {
 		defaultPreloadStaleTime: 0,
 		defaultViewTransition: true,
 		defaultStructuralSharing: true,
-		defaultErrorComponent: () => null,
+		defaultErrorComponent: ErrorScreen,
 		defaultPendingComponent: LoadingScreen,
-		context: { orpc, queryClient, session: null },
+		defaultNotFoundComponent: NotFoundScreen,
+		context: {
+			orpc,
+			theme,
+			locale,
+			session,
+			queryClient,
+		},
 	});
 
 	setupRouterSsrQueryIntegration({

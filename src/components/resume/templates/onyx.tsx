@@ -2,6 +2,7 @@ import { EnvelopeIcon, GlobeIcon, MapPinIcon, PhoneIcon } from "@phosphor-icons/
 import type z from "zod";
 import { TiptapContent } from "@/components/input/rich-input";
 import type { pageLayoutSchema } from "@/schema/resume/data";
+import { isValidUrl } from "@/utils/string";
 import { cn } from "@/utils/style";
 import { useResumePreview } from "../hooks/use-resume-preview";
 import { PageIcon } from "../shared/page-icon";
@@ -118,7 +119,7 @@ function Header() {
 					{basics.customFields.map((field) => (
 						<div key={field.id} className="flex items-center gap-x-1.5">
 							<PageIcon icon={field.icon} />
-							<span>{field.text}</span>
+							<PageLink url={isValidUrl(field.text) || ""} label={field.text} />
 						</div>
 					))}
 				</div>

@@ -8,6 +8,7 @@ import {
 	TrashSimpleIcon,
 } from "@phosphor-icons/react";
 import { Reorder, useDragControls } from "motion/react";
+import { useResumeStore } from "@/builder/-store/resume";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -18,7 +19,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useDialogStore } from "@/dialogs/store";
 import { useConfirm } from "@/hooks/use-confirm";
-import { useResumeStore } from "@/routes/builder/$resumeId/-store/resume";
 import type { SectionItem as SectionItemType, SectionType } from "@/schema/resume/data";
 
 type Props<T extends SectionItemType> = {

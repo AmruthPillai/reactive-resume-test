@@ -1,5 +1,4 @@
-import { useResumeData } from "@/builder/-hooks/resume";
-import { useResumeStore } from "@/builder/-store/resume";
+import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { RichInput } from "@/components/input/rich-input";
 import { SectionBase } from "../shared/section-base";
 

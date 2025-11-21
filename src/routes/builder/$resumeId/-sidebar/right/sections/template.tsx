@@ -1,8 +1,7 @@
 import { BarricadeIcon } from "@phosphor-icons/react";
+import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { useResumeData } from "../../../-hooks/resume";
-import { useResumeStore } from "../../../-store/resume";
 import { SectionBase } from "../shared/section-base";
 
 export function TemplateSectionBuilder() {

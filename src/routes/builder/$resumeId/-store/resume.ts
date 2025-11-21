@@ -51,3 +51,14 @@ export const useResumeStore = create<ResumeStore>()(
 		},
 	})),
 );
+
+export function useResumeData<T = ResumeData>(selector?: (data: ResumeData) => T): T {
+	const selected = useResumeStore((state) => {
+		if (!state.resume) return null;
+		return selector ? selector(state.resume.data) : (state.resume.data as T);
+	});
+
+	if (selected === null) throw new Error("Resume not loaded.");
+
+	return selected;
+}

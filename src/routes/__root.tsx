@@ -1,5 +1,3 @@
-import "@phosphor-icons/web/regular/style.css";
-
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { IconContext } from "@phosphor-icons/react";
@@ -10,14 +8,16 @@ import { Toaster } from "@/components/ui/sonner";
 import { DialogManager } from "@/dialogs/manager";
 import { ConfirmDialogProvider } from "@/hooks/use-confirm";
 import { PromptDialogProvider } from "@/hooks/use-prompt";
-import { getSessionServerFn } from "@/integrations/auth/functions";
+import { getSession } from "@/integrations/auth/functions";
 import type { AuthSession } from "@/integrations/auth/types";
 import type { orpc } from "@/integrations/orpc/client";
-import { getLocaleServerFn } from "@/utils/locale";
-import { getThemeServerFn } from "@/utils/theme";
+import { getLocale, type Locale } from "@/utils/locale";
+import { getTheme, type Theme } from "@/utils/theme";
 import appCss from "../styles.css?url";
 
 type RouterContext = {
+	theme: Theme;
+	locale: Locale;
 	orpc: typeof orpc;
 	queryClient: QueryClient;
 	session: AuthSession | null;
@@ -39,8 +39,8 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 				{ rel: "stylesheet", href: appCss },
 				{ rel: "manifest", href: "/manifest.json", type: "application/manifest+json" },
 				// Icons
-				{ rel: "icon", href: "/favicon.ico", type: "image/x-icon", sizes: "48x48" },
 				{ rel: "icon", href: "/favicon.svg", type: "image/svg+xml", sizes: "any" },
+				{ rel: "icon", href: "/favicon.ico", type: "image/x-icon", sizes: "48x48" },
 				{ rel: "apple-touch-icon", href: "/apple-touch-icon-180x180.png", type: "image/png", sizes: "180x180" },
 			],
 			meta: [
@@ -63,15 +63,14 @@ export const Route = createRootRouteWithContext<RouterContext>()({
 		};
 	},
 	beforeLoad: async () => {
-		const session = await getSessionServerFn();
+		const theme = await getTheme();
+		const locale = await getLocale();
+		const session = await getSession();
 
-		return { session };
+		return { theme, locale, session };
 	},
-	loader: async () => {
-		const theme = await getThemeServerFn();
-		const locale = await getLocaleServerFn();
-
-		return { theme, locale };
+	loader: async ({ context }) => {
+		return { theme: context.theme, locale: context.locale };
 	},
 });
 

@@ -197,7 +197,7 @@ export function getStorageService(): StorageService {
 }
 
 function createStorageService(): StorageService {
-	if (env.S3_ACCESS_KEY_ID && env.S3_SECRET_ACCESS_KEY && env.S3_REGION && env.S3_BUCKET) {
+	if (env.S3_ACCESS_KEY_ID && env.S3_SECRET_ACCESS_KEY && env.S3_BUCKET) {
 		return new S3StorageService({
 			bucket: env.S3_BUCKET,
 			region: env.S3_REGION,

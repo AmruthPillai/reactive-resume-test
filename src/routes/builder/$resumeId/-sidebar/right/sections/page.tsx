@@ -2,12 +2,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Trans } from "@lingui/react/macro";
 import { useForm } from "react-hook-form";
 import type z from "zod";
+import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { Combobox } from "@/components/ui/combobox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
 import { metadataSchema } from "@/schema/resume/data";
-import { useResumeData } from "../../../-hooks/resume";
-import { useResumeStore } from "../../../-store/resume";
 import { SectionBase } from "../shared/section-base";
 
 export function PageSectionBuilder() {

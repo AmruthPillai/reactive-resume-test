@@ -4,8 +4,7 @@ import { Accordion, AccordionContent, AccordionItem } from "@radix-ui/react-acco
 import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import type z from "zod";
-import { useResumeData } from "@/builder/-hooks/resume";
-import { useResumeStore } from "@/builder/-store/resume";
+import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { FontFamilyCombobox, FontWeightCombobox } from "@/components/typography/combobox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";

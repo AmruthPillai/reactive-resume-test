@@ -11,7 +11,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql
     healthcheck:
-      test: [ "CMD", "pg_isready", "-h", "localhost" ]
+      test: ["CMD", "pg_isready", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -29,7 +29,7 @@ services:
       postgres:
         condition: service_healthy
     healthcheck:
-      test: [ "CMD", "pg_isready", "-h", "localhost" ]
+      test: ["CMD", "pg_isready", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -46,7 +46,7 @@ services:
     volumes:
       - rustfs_data:/data
     healthcheck:
-      test: [ "CMD", "wget", "--spider", "-q", "http://localhost:9000/health" ]
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:9000/health"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -58,6 +58,7 @@ services:
       - "9222:9222"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
   # app:
   #   build:
   #     context: .

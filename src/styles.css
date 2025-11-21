@@ -1,4 +1,4 @@
-@import "@fontsource/jetbrains-mono";
+@import url("@phosphor-icons/web/regular/style.css");
 @import "@fontsource-variable/ibm-plex-sans";
 
 @import "tailwindcss";

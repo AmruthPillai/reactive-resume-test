@@ -1,7 +1,6 @@
 import { Trans } from "@lingui/react/macro";
+import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { RichInput } from "@/components/input/rich-input";
-import { useResumeData } from "../../../-hooks/resume";
-import { useResumeStore } from "../../../-store/resume";
 import { SectionBase } from "../shared/section-base";
 
 export function NotesSectionBuilder() {

@@ -1,9 +1,15 @@
-import { createServerFn } from "@tanstack/react-start";
+import { createIsomorphicFn } from "@tanstack/react-start";
 import { getRequestHeaders } from "@tanstack/react-start/server";
+import { authClient } from "./client";
 import { auth } from "./config";
+import type { AuthSession } from "./types";
 
-export const getSessionServerFn = createServerFn().handler(async () => {
-	const session = await auth.api.getSession({ headers: getRequestHeaders() });
-
-	return session;
-});
+export const getSession = createIsomorphicFn()
+	.client(async (): Promise<AuthSession | null> => {
+		const result = await authClient.getSession();
+		return result.data;
+	})
+	.server(async (): Promise<AuthSession | null> => {
+		const result = await auth.api.getSession({ headers: getRequestHeaders() });
+		return result;
+	});

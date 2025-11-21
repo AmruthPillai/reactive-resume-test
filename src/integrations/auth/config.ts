@@ -53,7 +53,7 @@ const getAuthServerFn = createServerOnlyFn(() => {
 					emailVerified: true,
 				};
 			},
-		});
+		} satisfies GenericOAuthConfig);
 	}
 
 	return betterAuth({

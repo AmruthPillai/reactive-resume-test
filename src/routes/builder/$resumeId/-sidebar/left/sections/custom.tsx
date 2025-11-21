@@ -8,6 +8,7 @@ import {
 	TrashSimpleIcon,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "motion/react";
+import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -18,8 +19,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useDialogStore } from "@/dialogs/store";
 import { useConfirm } from "@/hooks/use-confirm";
-import { useResumeData } from "@/routes/builder/$resumeId/-hooks/resume";
-import { useResumeStore } from "@/routes/builder/$resumeId/-store/resume";
 import type { CustomSection } from "@/schema/resume/data";
 import { cn } from "@/utils/style";
 import { SectionBase } from "../shared/section-base";

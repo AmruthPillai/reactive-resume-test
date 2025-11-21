@@ -1,7 +1,8 @@
 import { i18n, type MessageDescriptor } from "@lingui/core";
 import { msg } from "@lingui/core/macro";
-import { createServerFn } from "@tanstack/react-start";
+import { createIsomorphicFn, createServerFn } from "@tanstack/react-start";
 import { getCookie, setCookie } from "@tanstack/react-start/server";
+import Cookies from "js-cookie";
 import z from "zod";
 
 export const localeSchema = z.union([z.literal("en-US"), z.literal("de-DE"), z.literal("zu-ZA")]);
@@ -21,12 +22,17 @@ export function isLocale(locale: string): locale is Locale {
 	return localeSchema.safeParse(locale).success;
 }
 
-export const getLocaleServerFn = createServerFn().handler(async () => {
-	const cookieLocale = getCookie(storageKey);
-	if (!cookieLocale || !isLocale(cookieLocale)) return defaultLocale;
-
-	return cookieLocale;
-});
+export const getLocale = createIsomorphicFn()
+	.client(() => {
+		const locale = Cookies.get(storageKey);
+		if (!locale || !isLocale(locale)) return defaultLocale;
+		return locale;
+	})
+	.server(async () => {
+		const cookieLocale = getCookie(storageKey);
+		if (!cookieLocale || !isLocale(cookieLocale)) return defaultLocale;
+		return cookieLocale;
+	});
 
 export const setLocaleServerFn = createServerFn({ method: "POST" })
 	.inputValidator(localeSchema)

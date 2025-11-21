@@ -3,13 +3,12 @@ import { Trans } from "@lingui/react/macro";
 import { AnimatePresence, motion } from "motion/react";
 import { useForm } from "react-hook-form";
 import type z from "zod";
+import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { ColorPicker } from "@/components/input/color-picker";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { metadataSchema } from "@/schema/resume/data";
 import { cn } from "@/utils/style";
-import { useResumeData } from "../../../-hooks/resume";
-import { useResumeStore } from "../../../-store/resume";
 import { SectionBase } from "../shared/section-base";
 
 export function ThemeSectionBuilder() {
