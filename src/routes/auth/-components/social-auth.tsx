@@ -5,6 +5,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { useRouter } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Field, FieldGroup, FieldSet } from "@/components/ui/field";
 import { authClient } from "@/integrations/auth/client";
 import { orpc } from "@/integrations/orpc/client";
 import { cn } from "@/utils/style";
@@ -76,49 +77,57 @@ export function SocialAuth() {
 				<hr className="flex-1" />
 			</div>
 
-			<div>
-				<div className="grid grid-cols-2 gap-4">
-					<Button
-						variant="secondary"
-						onClick={handlePasskeyLogin}
-						className={cn("col-span-full", "custom" in authProviders && "col-span-1")}
-					>
-						<FingerprintSimpleIcon />
-						Passkey
-					</Button>
+			<FieldSet>
+				<FieldGroup className="grid grid-cols-2 gap-4">
+					<Field>
+						<Button
+							variant="secondary"
+							onClick={handlePasskeyLogin}
+							className={cn("col-span-full", "custom" in authProviders && "col-span-1")}
+						>
+							<FingerprintSimpleIcon />
+							Passkey
+						</Button>
+					</Field>
 
-					<Button
-						variant="secondary"
-						onClick={handleOAuthLogin}
-						className={cn("hidden", "custom" in authProviders && "inline-flex")}
-					>
-						<VaultIcon />
-						{authProviders.custom}
-					</Button>
+					<Field>
+						<Button
+							variant="secondary"
+							onClick={handleOAuthLogin}
+							className={cn("hidden", "custom" in authProviders && "inline-flex")}
+						>
+							<VaultIcon />
+							{authProviders.custom}
+						</Button>
+					</Field>
 
-					<Button
-						onClick={() => handleSocialLogin("google")}
-						className={cn(
-							"hidden flex-1 bg-[#4285F4] text-white hover:bg-[#4285F4]/80",
-							"google" in authProviders && "inline-flex",
-						)}
-					>
-						<GoogleLogoIcon />
-						Google
-					</Button>
+					<Field>
+						<Button
+							onClick={() => handleSocialLogin("google")}
+							className={cn(
+								"hidden flex-1 bg-[#4285F4] text-white hover:bg-[#4285F4]/80",
+								"google" in authProviders && "inline-flex",
+							)}
+						>
+							<GoogleLogoIcon />
+							Google
+						</Button>
+					</Field>
 
-					<Button
-						onClick={() => handleSocialLogin("github")}
-						className={cn(
-							"hidden flex-1 bg-[#2b3137] text-white hover:bg-[#2b3137]/80",
-							"github" in authProviders && "inline-flex",
-						)}
-					>
-						<GithubLogoIcon />
-						GitHub
-					</Button>
-				</div>
-			</div>
+					<Field>
+						<Button
+							onClick={() => handleSocialLogin("github")}
+							className={cn(
+								"hidden flex-1 bg-[#2b3137] text-white hover:bg-[#2b3137]/80",
+								"github" in authProviders && "inline-flex",
+							)}
+						>
+							<GithubLogoIcon />
+							GitHub
+						</Button>
+					</Field>
+				</FieldGroup>
+			</FieldSet>
 		</>
 	);
 }

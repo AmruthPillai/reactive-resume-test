@@ -4,11 +4,11 @@ import { Trans } from "@lingui/react/macro";
 import { ArrowRightIcon } from "@phosphor-icons/react";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/integrations/auth/client";
 
@@ -75,29 +75,38 @@ function RouteComponent() {
 				</div>
 			</div>
 
-			<Form {...form}>
-				<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-					<FormField
-						control={form.control}
-						name="email"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									<Trans>Email Address</Trans>
-								</FormLabel>
-								<FormControl>
-									<Input type="email" autoComplete="email" placeholder="john.doe@example.com" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+			<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+				<FieldSet>
+					<FieldGroup>
+						<Controller
+							control={form.control}
+							name="email"
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor={field.name}>
+										<Trans>Email Address</Trans>
+									</FieldLabel>
+									<Input
+										{...field}
+										id={field.name}
+										type="email"
+										autoComplete="email"
+										placeholder="john.doe@example.com"
+										aria-invalid={fieldState.invalid}
+									/>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
 
-					<Button type="submit" className="w-full">
-						<Trans>Send Password Reset Email</Trans>
-					</Button>
-				</form>
-			</Form>
+						<Field orientation="horizontal">
+							<Button type="submit" className="flex-1">
+								<Trans>Send Password Reset Email</Trans>
+							</Button>
+						</Field>
+					</FieldGroup>
+				</FieldSet>
+			</form>
 		</>
 	);
 }

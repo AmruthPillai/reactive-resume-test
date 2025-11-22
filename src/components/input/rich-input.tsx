@@ -100,7 +100,7 @@ export function RichInput({ value, onChange, ...options }: Props) {
 				spellcheck: "false",
 				"data-editor": "true",
 				class: cn(
-					"group tiptap-content dark:prose-invert!",
+					"group tiptap-content",
 					"max-h-[400px] min-h-[100px] overflow-y-auto p-3 pb-0 focus:outline-none",
 					"rounded-md rounded-t-none border focus-visible:border-ring",
 				),

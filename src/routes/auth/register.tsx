@@ -4,13 +4,13 @@ import { Trans } from "@lingui/react/macro";
 import { ArrowRightIcon, EyeIcon, EyeSlashIcon } from "@phosphor-icons/react";
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useToggle } from "usehooks-ts";
 import z from "zod";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/integrations/auth/client";
 import { SocialAuth } from "./-components/social-auth";
@@ -97,102 +97,111 @@ function RouteComponent() {
 				</div>
 			</div>
 
-			<Form {...form}>
-				<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-					<FormField
-						control={form.control}
-						name="name"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									<Trans>Name</Trans>
-								</FormLabel>
-								<FormControl>
-									<Input min={3} max={64} autoComplete="name" placeholder="John Doe" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-
-					<FormField
-						control={form.control}
-						name="username"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									<Trans>Username</Trans>
-								</FormLabel>
-								<FormControl>
+			<form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+				<FieldSet>
+					<FieldGroup>
+						<Controller
+							control={form.control}
+							name="name"
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor={field.name}>
+										<Trans>Name</Trans>
+									</FieldLabel>
 									<Input
+										{...field}
+										id={field.name}
+										min={3}
+										max={64}
+										autoComplete="name"
+										placeholder="John Doe"
+										aria-invalid={fieldState.invalid}
+									/>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
+
+						<Controller
+							control={form.control}
+							name="username"
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor={field.name}>
+										<Trans>Username</Trans>
+									</FieldLabel>
+									<Input
+										{...field}
+										id={field.name}
 										min={3}
 										max={64}
 										autoComplete="username"
 										placeholder="john.doe"
 										className="lowercase"
-										{...field}
+										aria-invalid={fieldState.invalid}
 									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name="email"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									<Trans>Email Address</Trans>
-								</FormLabel>
-								<FormControl>
+						<Controller
+							control={form.control}
+							name="email"
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor={field.name}>
+										<Trans>Email Address</Trans>
+									</FieldLabel>
 									<Input
+										{...field}
+										id={field.name}
 										type="email"
 										autoComplete="email"
 										placeholder="john.doe@example.com"
 										className="lowercase"
-										{...field}
+										aria-invalid={fieldState.invalid}
 									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
 
-					<FormField
-						control={form.control}
-						name="password"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									<Trans>Password</Trans>
-								</FormLabel>
-								<div className="flex items-center gap-x-1.5">
-									<FormControl>
+						<Controller
+							control={form.control}
+							name="password"
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor={field.name}>
+										<Trans>Password</Trans>
+									</FieldLabel>
+									<div className="flex items-center gap-x-1.5">
 										<Input
+											{...field}
+											id={field.name}
 											min={6}
 											max={64}
 											type={showPassword ? "text" : "password"}
 											autoComplete="new-password"
-											{...field}
+											aria-invalid={fieldState.invalid}
 										/>
-									</FormControl>
+										<Button size="icon" variant="ghost" onClick={toggleShowPassword}>
+											{showPassword ? <EyeIcon /> : <EyeSlashIcon />}
+										</Button>
+									</div>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
 
-									<Button size="icon" variant="ghost" onClick={toggleShowPassword}>
-										{showPassword ? <EyeIcon /> : <EyeSlashIcon />}
-									</Button>
-								</div>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-
-					<Button type="submit" className="w-full">
-						<Trans>Sign up</Trans>
-					</Button>
-				</form>
-			</Form>
+						<Field orientation="horizontal">
+							<Button type="submit" className="flex-1">
+								<Trans>Sign up</Trans>
+							</Button>
+						</Field>
+					</FieldGroup>
+				</FieldSet>
+			</form>
 
 			<SocialAuth />
 		</>

@@ -1,11 +1,11 @@
 import { Trans } from "@lingui/react/macro";
 import { DotsSixVerticalIcon, ListPlusIcon, XIcon } from "@phosphor-icons/react";
 import { Reorder, useDragControls } from "motion/react";
-import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
+import { Controller, useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import type z from "zod";
 import { IconPicker } from "@/components/input/icon-picker";
 import { Button } from "@/components/ui/button";
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Field, FieldError } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import type { basicsSchema } from "@/schema/resume/data";
 import { generateId } from "@/utils/string";
@@ -49,41 +49,40 @@ export function CustomFieldsSection({ onSubmit }: Props) {
 		<Reorder.Group className="space-y-4" values={customFieldsArray.fields} onReorder={handleReorder}>
 			{customFieldsArray.fields.map((field, index) => (
 				<CustomFieldItem key={field.id} field={field}>
-					<FormField
+					<Controller
 						control={form.control}
 						name={`customFields.${index}.icon`}
 						render={({ field }) => (
-							<FormItem className="shrink-0">
-								<FormControl>
-									<IconPicker
-										{...field}
-										className="rounded-r-none! border-r-0!"
-										onChange={(icon) => {
-											field.onChange(icon);
-											form.handleSubmit(onSubmit)();
-										}}
-									/>
-								</FormControl>
-							</FormItem>
+							<Field className="shrink-0">
+								<IconPicker
+									{...field}
+									className="rounded-r-none! border-r-0!"
+									onChange={(icon) => {
+										field.onChange(icon);
+										form.handleSubmit(onSubmit)();
+									}}
+								/>
+							</Field>
 						)}
 					/>
 
-					<FormField
+					<Controller
 						control={form.control}
 						name={`customFields.${index}.text`}
-						render={({ field }) => (
-							<FormItem className="flex-1">
-								<FormControl>
-									<Input
-										{...field}
-										className="rounded-l-none!"
-										onChange={(e) => {
-											field.onChange(e.target.value);
-											form.handleSubmit(onSubmit)();
-										}}
-									/>
-								</FormControl>
-							</FormItem>
+						render={({ field, fieldState }) => (
+							<Field data-invalid={fieldState.invalid} className="flex-1">
+								<Input
+									{...field}
+									id={field.name}
+									className="rounded-l-none!"
+									aria-invalid={fieldState.invalid}
+									onChange={(e) => {
+										field.onChange(e.target.value);
+										form.handleSubmit(onSubmit)();
+									}}
+								/>
+								{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+							</Field>
 						)}
 					/>
 

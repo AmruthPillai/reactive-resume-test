@@ -3,7 +3,7 @@ import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { EyeIcon, EyeSlashIcon, LockOpenIcon } from "@phosphor-icons/react";
 import { useRouter } from "@tanstack/react-router";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useToggle } from "usehooks-ts";
 import z from "zod";
@@ -16,7 +16,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { authClient } from "@/integrations/auth/client";
 import { type DialogProps, useDialogStore } from "../store";
@@ -71,43 +71,44 @@ export function DisableTwoFactorDialog({ open, onOpenChange }: DialogProps<"auth
 					</DialogDescription>
 				</DialogHeader>
 
-				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-2">
-						<FormField
-							control={form.control}
-							name="password"
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>
-										<Trans>Password</Trans>
-									</FormLabel>
-									<div className="flex items-center gap-x-1.5">
-										<FormControl>
+				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-2">
+					<FieldSet>
+						<FieldGroup>
+							<Controller
+								control={form.control}
+								name="password"
+								render={({ field, fieldState }) => (
+									<Field data-invalid={fieldState.invalid}>
+										<FieldLabel htmlFor={field.name}>
+											<Trans>Password</Trans>
+										</FieldLabel>
+										<div className="flex items-center gap-x-1.5">
 											<Input
+												{...field}
+												id={field.name}
 												min={6}
 												max={64}
 												type={showPassword ? "text" : "password"}
 												autoComplete="current-password"
-												{...field}
+												aria-invalid={fieldState.invalid}
 											/>
-										</FormControl>
+											<Button size="icon" variant="ghost" type="button" onClick={toggleShowPassword}>
+												{showPassword ? <EyeIcon /> : <EyeSlashIcon />}
+											</Button>
+										</div>
+										{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+									</Field>
+								)}
+							/>
 
-										<Button size="icon" variant="ghost" type="button" onClick={toggleShowPassword}>
-											{showPassword ? <EyeIcon /> : <EyeSlashIcon />}
-										</Button>
-									</div>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-
-						<DialogFooter>
-							<Button type="submit" variant="destructive">
-								<Trans>Disable 2FA</Trans>
-							</Button>
-						</DialogFooter>
-					</form>
-				</Form>
+							<DialogFooter>
+								<Button type="submit" variant="destructive">
+									<Trans>Disable 2FA</Trans>
+								</Button>
+							</DialogFooter>
+						</FieldGroup>
+					</FieldSet>
+				</form>
 			</DialogContent>
 		</Dialog>
 	);

@@ -4,11 +4,11 @@ import { Trans } from "@lingui/react/macro";
 import { ArrowLeftIcon, CheckIcon } from "@phosphor-icons/react";
 import { createFileRoute, Link, redirect, useNavigate, useRouter } from "@tanstack/react-router";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import z from "zod";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Field, FieldError, FieldGroup, FieldSet } from "@/components/ui/field";
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "@/components/ui/input-otp";
 import { authClient } from "@/integrations/auth/client";
 
@@ -64,14 +64,14 @@ function RouteComponent() {
 				</div>
 			</div>
 
-			<Form {...form}>
-				<form className="grid gap-6" onSubmit={form.handleSubmit(onSubmit)}>
-					<FormField
-						control={form.control}
-						name="code"
-						render={({ field }) => (
-							<FormItem className="justify-self-center">
-								<FormControl>
+			<form className="grid gap-6" onSubmit={form.handleSubmit(onSubmit)}>
+				<FieldSet>
+					<FieldGroup>
+						<Controller
+							control={form.control}
+							name="code"
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid} className="justify-self-center">
 									<InputOTP
 										maxLength={6}
 										value={field.value}
@@ -92,32 +92,33 @@ function RouteComponent() {
 											<InputOTPSlot index={5} className="size-12" />
 										</InputOTPGroup>
 									</InputOTP>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
 
-					<div className="flex gap-x-2">
-						<Button type="button" variant="outline" className="flex-1" asChild>
-							<Link to="/auth/login">
-								<ArrowLeftIcon />
-								<Trans>Back to Login</Trans>
-							</Link>
-						</Button>
+						<div className="flex gap-x-2">
+							<Button type="button" variant="outline" className="flex-1" asChild>
+								<Link to="/auth/login">
+									<ArrowLeftIcon />
+									<Trans>Back to Login</Trans>
+								</Link>
+							</Button>
 
-						<Button type="submit" className="flex-1">
-							<CheckIcon />
-							<Trans>Verify</Trans>
-						</Button>
-					</div>
-				</form>
-				<Button type="button" variant="link" className="h-auto justify-self-center p-0 text-sm" asChild>
-					<Link to="/auth/verify-2fa-backup">
-						<Trans>Lost access to your authenticator?</Trans>
-					</Link>
-				</Button>
-			</Form>
+							<Button type="submit" className="flex-1">
+								<CheckIcon />
+								<Trans>Verify</Trans>
+							</Button>
+						</div>
+					</FieldGroup>
+				</FieldSet>
+			</form>
+
+			<Button type="button" variant="link" className="h-auto justify-self-center p-0 text-sm" asChild>
+				<Link to="/auth/verify-2fa-backup">
+					<Trans>Lost access to your authenticator?</Trans>
+				</Link>
+			</Button>
 		</>
 	);
 }

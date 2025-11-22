@@ -27,5 +27,5 @@ export function ThemeCombobox(props: Props) {
 		[setTheme],
 	);
 
-	return <Combobox options={options} defaultValue={theme} onValueChange={onThemeChange} {...props} />;
+	return <Combobox options={options} value={theme} onValueChange={onThemeChange} {...props} />;
 }

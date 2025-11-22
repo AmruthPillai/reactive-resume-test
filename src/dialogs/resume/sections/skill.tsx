@@ -3,7 +3,7 @@ import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { PencilSimpleLineIcon, PlusIcon } from "@phosphor-icons/react";
 import { useMemo } from "react";
-import { useForm, useFormContext, useFormState } from "react-hook-form";
+import { Controller, FormProvider, useForm, useFormContext, useFormState } from "react-hook-form";
 import type z from "zod";
 import { useResumeStore } from "@/builder/-store/resume";
 import { ChipInput } from "@/components/input/chip-input";
@@ -17,7 +17,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldDescription, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import type { DialogProps } from "@/dialogs/store";
@@ -63,7 +63,7 @@ export function CreateSkillDialog({ open, onOpenChange, data }: DialogProps<"res
 					<DialogDescription />
 				</DialogHeader>
 
-				<Form {...form}>
+				<FormProvider {...form}>
 					<form className="grid gap-4 sm:grid-cols-2" onSubmit={form.handleSubmit(onSubmit)}>
 						<SkillForm />
 
@@ -77,7 +77,7 @@ export function CreateSkillDialog({ open, onOpenChange, data }: DialogProps<"res
 							</Button>
 						</DialogFooter>
 					</form>
-				</Form>
+				</FormProvider>
 			</DialogContent>
 		</Dialog>
 	);
@@ -119,7 +119,7 @@ export function UpdateSkillDialog({ open, onOpenChange, data }: DialogProps<"res
 					<DialogDescription />
 				</DialogHeader>
 
-				<Form {...form}>
+				<FormProvider {...form}>
 					<form className="grid gap-4 sm:grid-cols-2" onSubmit={form.handleSubmit(onSubmit)}>
 						<SkillForm />
 
@@ -133,7 +133,7 @@ export function UpdateSkillDialog({ open, onOpenChange, data }: DialogProps<"res
 							</Button>
 						</DialogFooter>
 					</form>
-				</Form>
+				</FormProvider>
 			</DialogContent>
 		</Dialog>
 	);
@@ -150,87 +150,77 @@ export function SkillForm() {
 	return (
 		<>
 			<div className={cn("flex items-end", isNameInvalid && "items-center")}>
-				<FormField
+				<Controller
 					control={form.control}
 					name={"icon"}
 					render={({ field }) => (
-						<FormItem className="shrink-0">
-							<FormControl>
-								<IconPicker {...field} popoverProps={{ modal: true }} className="rounded-r-none! border-r-0!" />
-							</FormControl>
-						</FormItem>
+						<Field className="shrink-0">
+							<IconPicker {...field} popoverProps={{ modal: true }} className="rounded-r-none! border-r-0!" />
+						</Field>
 					)}
 				/>
 
-				<FormField
+				<Controller
 					control={form.control}
 					name="name"
-					render={({ field }) => (
-						<FormItem className="flex-1">
-							<FormLabel>
+					render={({ field, fieldState }) => (
+						<Field data-invalid={fieldState.invalid} className="flex-1">
+							<FieldLabel htmlFor={field.name}>
 								<Trans>Name</Trans>
-							</FormLabel>
-							<FormControl>
-								<Input className="rounded-l-none!" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
+							</FieldLabel>
+							<Input className="rounded-l-none!" {...field} id={field.name} aria-invalid={fieldState.invalid} />
+							{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+						</Field>
 					)}
 				/>
 			</div>
 
-			<FormField
+			<Controller
 				control={form.control}
 				name="proficiency"
-				render={({ field }) => (
-					<FormItem>
-						<FormLabel>
+				render={({ field, fieldState }) => (
+					<Field data-invalid={fieldState.invalid} className="sm:col-span-full">
+						<FieldLabel htmlFor={field.name}>
 							<Trans>Proficiency</Trans>
-						</FormLabel>
-						<FormControl>
-							<Input {...field} />
-						</FormControl>
-						<FormMessage />
-					</FormItem>
+						</FieldLabel>
+						<Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
+						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+					</Field>
 				)}
 			/>
 
-			<FormField
+			<Controller
 				control={form.control}
 				name="level"
-				render={({ field }) => (
-					<FormItem className="gap-4 sm:col-span-full">
-						<FormLabel>
+				render={({ field, fieldState }) => (
+					<Field data-invalid={fieldState.invalid} className="gap-4 sm:col-span-full">
+						<FieldLabel htmlFor={field.name}>
 							<Trans>Level</Trans>
-						</FormLabel>
-						<FormControl>
-							<Slider
-								min={0}
-								max={5}
-								step={1}
-								value={[field.value]}
-								onValueChange={(value) => field.onChange(value[0])}
-							/>
-						</FormControl>
-						<FormMessage />
-						<FormDescription>{Number(field.value) === 0 ? t`Hidden` : `${field.value} / 5`}</FormDescription>
-					</FormItem>
+						</FieldLabel>
+						<Slider
+							min={0}
+							max={5}
+							step={1}
+							value={[field.value]}
+							onValueChange={(value) => field.onChange(value[0])}
+						/>
+						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+						<FieldDescription>{Number(field.value) === 0 ? t`Hidden` : `${field.value} / 5`}</FieldDescription>
+					</Field>
 				)}
 			/>
 
-			<FormField
+			<Controller
 				control={form.control}
 				name="keywords"
-				render={({ field }) => (
-					<FormItem className="sm:col-span-full">
-						<FormLabel>
+				render={({ field, fieldState }) => (
+					<Field data-invalid={fieldState.invalid} className="sm:col-span-full">
+						<FieldLabel htmlFor={field.name}>
 							<Trans>Keywords</Trans>
-						</FormLabel>
-						<FormControl>
-							<ChipInput {...field} />
-						</FormControl>
-						<FormMessage />
-					</FormItem>
+						</FieldLabel>
+						<ChipInput {...field} aria-invalid={fieldState.invalid} />
+						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+					</Field>
 				)}
 			/>
 		</>

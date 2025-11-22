@@ -23,5 +23,5 @@ export function LocaleCombobox(props: Props) {
 		window.location.reload();
 	}, []);
 
-	return <Combobox options={options} defaultValue={i18n.locale} onValueChange={onLocaleChange} {...props} />;
+	return <Combobox options={options} value={i18n.locale} onValueChange={onLocaleChange} {...props} />;
 }

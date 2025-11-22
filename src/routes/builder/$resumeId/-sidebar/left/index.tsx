@@ -55,7 +55,7 @@ export function BuilderSidebarLeft() {
 			<SidebarEdge scrollAreaRef={scrollAreaRef} />
 
 			<ScrollArea ref={scrollAreaRef} className="@container h-[calc(100svh-3.5rem)] sm:ml-12">
-				<div className="space-y-6 p-4">
+				<div className="space-y-4 p-4">
 					{leftSidebarSections.map((section) => (
 						<Fragment key={section}>
 							{getSectionComponent(section)}

@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trans } from "@lingui/react/macro";
 import { Accordion, AccordionItem } from "@radix-ui/react-accordion";
-import { useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import type z from "zod";
 import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { AccordionContent } from "@/components/ui/accordion";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { metadataSchema } from "@/schema/resume/data";
@@ -40,50 +40,54 @@ function CSSSectionForm() {
 	};
 
 	return (
-		<Form {...form}>
+		<FormProvider {...form}>
 			<form onChange={form.handleSubmit(onSubmit)} className="-mb-2 mt-2 space-y-4">
-				<FormField
+				<Controller
 					control={form.control}
 					name="enabled"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel className="flex items-center gap-4">
-								<FormControl>
-									<Switch
-										size="md"
-										checked={field.value}
-										onCheckedChange={(checked) => {
-											field.onChange(checked);
-											form.handleSubmit(onSubmit)();
-										}}
-									/>
-								</FormControl>
-
+					render={({ field, fieldState }) => (
+						<Field data-invalid={fieldState.invalid}>
+							<FieldLabel htmlFor={field.name} className="flex items-center gap-4">
+								<Switch
+									id={field.name}
+									size="md"
+									checked={field.value}
+									aria-invalid={fieldState.invalid}
+									onCheckedChange={(checked) => {
+										field.onChange(checked);
+										form.handleSubmit(onSubmit)();
+									}}
+								/>
 								<Trans context="Turn On/Apply Custom CSS">Enable</Trans>
-							</FormLabel>
-						</FormItem>
+							</FieldLabel>
+							{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+						</Field>
 					)}
 				/>
 
 				<Accordion collapsible type="single" value={form.watch("enabled") ? "css" : ""}>
 					<AccordionItem value="css">
 						<AccordionContent>
-							<FormField
+							<Controller
 								control={form.control}
 								name="value"
-								render={({ field }) => (
-									<FormItem>
-										<FormControl>
-											<Textarea rows={6} className="font-mono" {...field} />
-										</FormControl>
-										<FormMessage />
-									</FormItem>
+								render={({ field, fieldState }) => (
+									<Field data-invalid={fieldState.invalid}>
+										<Textarea
+											{...field}
+											id={field.name}
+											rows={6}
+											className="font-mono"
+											aria-invalid={fieldState.invalid}
+										/>
+										{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+									</Field>
 								)}
 							/>
 						</AccordionContent>
 					</AccordionItem>
 				</Accordion>
 			</form>
-		</Form>
+		</FormProvider>
 	);
 }

@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Trans } from "@lingui/react/macro";
 import { PencilSimpleLineIcon, PlusIcon } from "@phosphor-icons/react";
 import { useMemo } from "react";
-import { useForm, useFormContext, useFormState } from "react-hook-form";
+import { Controller, FormProvider, useForm, useFormContext, useFormState } from "react-hook-form";
 import type z from "zod";
 import { useResumeStore } from "@/builder/-store/resume";
 import { ChipInput } from "@/components/input/chip-input";
@@ -16,7 +16,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import type { DialogProps } from "@/dialogs/store";
 import { interestItemSchema } from "@/schema/resume/data";
@@ -59,7 +59,7 @@ export function CreateInterestDialog({ open, onOpenChange, data }: DialogProps<"
 					<DialogDescription />
 				</DialogHeader>
 
-				<Form {...form}>
+				<FormProvider {...form}>
 					<form className="grid gap-4 sm:grid-cols-2" onSubmit={form.handleSubmit(onSubmit)}>
 						<InterestForm />
 
@@ -73,7 +73,7 @@ export function CreateInterestDialog({ open, onOpenChange, data }: DialogProps<"
 							</Button>
 						</DialogFooter>
 					</form>
-				</Form>
+				</FormProvider>
 			</DialogContent>
 		</Dialog>
 	);
@@ -113,7 +113,7 @@ export function UpdateInterestDialog({ open, onOpenChange, data }: DialogProps<"
 					<DialogDescription />
 				</DialogHeader>
 
-				<Form {...form}>
+				<FormProvider {...form}>
 					<form className="grid gap-4 sm:grid-cols-2" onSubmit={form.handleSubmit(onSubmit)}>
 						<InterestForm />
 
@@ -127,7 +127,7 @@ export function UpdateInterestDialog({ open, onOpenChange, data }: DialogProps<"
 							</Button>
 						</DialogFooter>
 					</form>
-				</Form>
+				</FormProvider>
 			</DialogContent>
 		</Dialog>
 	);
@@ -144,48 +144,42 @@ export function InterestForm() {
 	return (
 		<>
 			<div className={cn("col-span-full flex items-end", isNameInvalid && "items-center")}>
-				<FormField
+				<Controller
 					control={form.control}
 					name={"icon"}
 					render={({ field }) => (
-						<FormItem className="shrink-0">
-							<FormControl>
-								<IconPicker {...field} popoverProps={{ modal: true }} className="rounded-r-none! border-r-0!" />
-							</FormControl>
-						</FormItem>
+						<Field className="shrink-0">
+							<IconPicker {...field} popoverProps={{ modal: true }} className="rounded-r-none! border-r-0!" />
+						</Field>
 					)}
 				/>
 
-				<FormField
+				<Controller
 					control={form.control}
 					name="name"
-					render={({ field }) => (
-						<FormItem className="flex-1">
-							<FormLabel>
+					render={({ field, fieldState }) => (
+						<Field data-invalid={fieldState.invalid} className="flex-1">
+							<FieldLabel htmlFor={field.name}>
 								<Trans>Name</Trans>
-							</FormLabel>
-							<FormControl>
-								<Input className="rounded-l-none!" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
+							</FieldLabel>
+							<Input className="rounded-l-none!" {...field} id={field.name} aria-invalid={fieldState.invalid} />
+							{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+						</Field>
 					)}
 				/>
 			</div>
 
-			<FormField
+			<Controller
 				control={form.control}
 				name="keywords"
-				render={({ field }) => (
-					<FormItem className="col-span-full">
-						<FormLabel>
+				render={({ field, fieldState }) => (
+					<Field data-invalid={fieldState.invalid} className="col-span-full">
+						<FieldLabel htmlFor={field.name}>
 							<Trans>Keywords</Trans>
-						</FormLabel>
-						<FormControl>
-							<ChipInput {...field} />
-						</FormControl>
-						<FormMessage />
-					</FormItem>
+						</FieldLabel>
+						<ChipInput {...field} aria-invalid={fieldState.invalid} />
+						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+					</Field>
 				)}
 			/>
 		</>

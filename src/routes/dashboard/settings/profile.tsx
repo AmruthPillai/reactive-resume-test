@@ -5,12 +5,12 @@ import { CheckIcon, UserCircleIcon, WarningIcon } from "@phosphor-icons/react";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { match } from "ts-pattern";
 import z from "zod";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { authClient } from "@/integrations/auth/client";
@@ -123,7 +123,7 @@ function RouteComponent() {
 
 			<Separator />
 
-			<Form {...form}>
+			<FormProvider {...form}>
 				<motion.form
 					initial={{ opacity: 0, y: -20 }}
 					animate={{ opacity: 1, y: 0 }}
@@ -131,109 +131,119 @@ function RouteComponent() {
 					className="grid max-w-xl gap-6"
 					onSubmit={form.handleSubmit(onSubmit)}
 				>
-					<FormField
-						control={form.control}
-						name="name"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									<Trans>Name</Trans>
-								</FormLabel>
-								<FormControl>
-									<Input min={3} max={64} autoComplete="name" placeholder="John Doe" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+					<FieldSet>
+						<FieldGroup>
+							<Controller
+								control={form.control}
+								name="name"
+								render={({ field, fieldState }) => (
+									<Field data-invalid={fieldState.invalid}>
+										<FieldLabel htmlFor={field.name}>
+											<Trans>Name</Trans>
+										</FieldLabel>
+										<Input
+											{...field}
+											id={field.name}
+											min={3}
+											max={64}
+											autoComplete="name"
+											placeholder="John Doe"
+											aria-invalid={fieldState.invalid}
+										/>
+										{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+									</Field>
+								)}
+							/>
 
-					<FormField
-						control={form.control}
-						name="username"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									<Trans>Username</Trans>
-								</FormLabel>
-								<FormControl>
-									<Input
-										min={3}
-										max={64}
-										autoComplete="username"
-										placeholder="john.doe"
-										className="lowercase"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
+							<Controller
+								control={form.control}
+								name="username"
+								render={({ field, fieldState }) => (
+									<Field data-invalid={fieldState.invalid}>
+										<FieldLabel htmlFor={field.name}>
+											<Trans>Username</Trans>
+										</FieldLabel>
+										<Input
+											{...field}
+											id={field.name}
+											min={3}
+											max={64}
+											autoComplete="username"
+											placeholder="john.doe"
+											className="lowercase"
+											aria-invalid={fieldState.invalid}
+										/>
+										{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+									</Field>
+								)}
+							/>
 
-					<FormField
-						control={form.control}
-						name="email"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
-									<Trans>Email Address</Trans>
-								</FormLabel>
-								<FormControl>
-									<Input
-										type="email"
-										autoComplete="email"
-										placeholder="john.doe@example.com"
-										className="lowercase"
-										{...field}
-									/>
-								</FormControl>
-								<FormMessage />
-								{match(session.user.emailVerified)
-									.with(true, () => (
-										<p className="flex items-center gap-x-1.5 text-green-700 text-xs">
-											<CheckIcon />
-											<Trans>Verified</Trans>
-										</p>
-									))
-									.with(false, () => (
-										<p className="flex items-center gap-x-1.5 text-warning text-xs">
-											<WarningIcon className="size-3.5" />
-											<Trans>Unverified</Trans>
-											<span>|</span>
-											<Button
-												variant="link"
-												className="h-auto gap-x-1.5 p-0! text-inherit"
-												onClick={handleResendVerificationEmail}
-											>
-												<Trans>Resend verification email</Trans>
-											</Button>
-										</p>
-									))
-									.exhaustive()}
-							</FormItem>
-						)}
-					/>
+							<Controller
+								control={form.control}
+								name="email"
+								render={({ field, fieldState }) => (
+									<Field data-invalid={fieldState.invalid}>
+										<FieldLabel htmlFor={field.name}>
+											<Trans>Email Address</Trans>
+										</FieldLabel>
+										<Input
+											{...field}
+											id={field.name}
+											type="email"
+											autoComplete="email"
+											placeholder="john.doe@example.com"
+											className="lowercase"
+											aria-invalid={fieldState.invalid}
+										/>
+										{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+										{match(session.user.emailVerified)
+											.with(true, () => (
+												<p className="flex items-center gap-x-1.5 text-green-700 text-xs">
+													<CheckIcon />
+													<Trans>Verified</Trans>
+												</p>
+											))
+											.with(false, () => (
+												<p className="flex items-center gap-x-1.5 text-warning text-xs">
+													<WarningIcon className="size-3.5" />
+													<Trans>Unverified</Trans>
+													<span>|</span>
+													<Button
+														variant="link"
+														className="h-auto gap-x-1.5 p-0! text-inherit"
+														onClick={handleResendVerificationEmail}
+													>
+														<Trans>Resend verification email</Trans>
+													</Button>
+												</p>
+											))
+											.exhaustive()}
+									</Field>
+								)}
+							/>
 
-					<AnimatePresence>
-						{form.formState.isDirty && (
-							<motion.div
-								initial={{ opacity: 0, x: -20 }}
-								animate={{ opacity: 1, x: 0 }}
-								exit={{ opacity: 0, x: -20 }}
-								className="flex items-center gap-x-4 justify-self-end"
-							>
-								<Button type="reset" variant="ghost" onClick={onCancel}>
-									<Trans>Cancel</Trans>
-								</Button>
+							<AnimatePresence>
+								{form.formState.isDirty && (
+									<motion.div
+										initial={{ opacity: 0, x: -20 }}
+										animate={{ opacity: 1, x: 0 }}
+										exit={{ opacity: 0, x: -20 }}
+										className="flex items-center gap-x-4 justify-self-end"
+									>
+										<Button type="reset" variant="ghost" onClick={onCancel}>
+											<Trans>Cancel</Trans>
+										</Button>
 
-								<Button type="submit">
-									<Trans>Save Changes</Trans>
-								</Button>
-							</motion.div>
-						)}
-					</AnimatePresence>
+										<Button type="submit">
+											<Trans>Save Changes</Trans>
+										</Button>
+									</motion.div>
+								)}
+							</AnimatePresence>
+						</FieldGroup>
+					</FieldSet>
 				</motion.form>
-			</Form>
+			</FormProvider>
 		</div>
 	);
 }

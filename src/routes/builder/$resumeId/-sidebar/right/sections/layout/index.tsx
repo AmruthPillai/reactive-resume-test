@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trans } from "@lingui/react/macro";
-import { useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import type z from "zod";
 import { useResumeData, useResumeStore } from "@/builder/-store/resume";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
 import { Slider } from "@/components/ui/slider";
 import { metadataSchema } from "@/schema/resume/data";
@@ -40,52 +40,49 @@ function LayoutSectionForm() {
 	};
 
 	return (
-		<Form {...form}>
+		<FormProvider {...form}>
 			<form onChange={form.handleSubmit(onSubmit)} className="space-y-4">
-				<FormField
+				<Controller
 					control={form.control}
 					name="sidebarWidth"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>
+					render={({ field, fieldState }) => (
+						<Field data-invalid={fieldState.invalid}>
+							<FieldLabel htmlFor={field.name}>
 								<Trans>Sidebar Width</Trans>
-							</FormLabel>
+							</FieldLabel>
 							<div className="flex items-center gap-4">
-								<FormControl>
-									<Slider
+								<Slider
+									min={10}
+									max={50}
+									step={0.01}
+									value={[field.value]}
+									onValueChange={(value) => field.onChange(value[0])}
+								/>
+								<InputGroup className="w-auto shrink-0">
+									<InputGroupInput
+										{...field}
+										id={field.name}
+										type="number"
 										min={10}
 										max={50}
-										step={0.01}
-										value={[field.value]}
-										onValueChange={(value) => field.onChange(value[0])}
+										step={0.1}
+										aria-invalid={fieldState.invalid}
+										onChange={(e) => {
+											const value = e.target.value;
+											if (value === "") field.onChange("");
+											else field.onChange(Number(value));
+										}}
 									/>
-								</FormControl>
-
-								<FormControl>
-									<InputGroup className="w-auto shrink-0">
-										<InputGroupInput
-											{...field}
-											type="number"
-											min={10}
-											max={50}
-											step={0.1}
-											onChange={(e) => {
-												const value = e.target.value;
-												if (value === "") field.onChange("");
-												else field.onChange(Number(value));
-											}}
-										/>
-										<InputGroupAddon align="inline-end">
-											<InputGroupText>%</InputGroupText>
-										</InputGroupAddon>
-									</InputGroup>
-								</FormControl>
+									<InputGroupAddon align="inline-end">
+										<InputGroupText>%</InputGroupText>
+									</InputGroupAddon>
+								</InputGroup>
 							</div>
-							<FormMessage />
-						</FormItem>
+							{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+						</Field>
 					)}
 				/>
 			</form>
-		</Form>
+		</FormProvider>
 	);
 }

@@ -6,7 +6,7 @@ import { useRouter } from "@tanstack/react-router";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { QRCodeSVG } from "qrcode.react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { match } from "ts-pattern";
 import { useToggle } from "usehooks-ts";
@@ -20,7 +20,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { authClient } from "@/integrations/auth/client";
@@ -172,43 +172,44 @@ export function EnableTwoFactorDialog({ open, onOpenChange }: DialogProps<"auth.
 
 				{match(step)
 					.with("enable", () => (
-						<Form {...enableForm}>
-							<form onSubmit={enableForm.handleSubmit(onEnableSubmit)} className="space-y-4 py-2">
-								<FormField
-									control={enableForm.control}
-									name="password"
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel>
-												<Trans>Password</Trans>
-											</FormLabel>
-											<div className="flex items-center gap-x-1.5">
-												<FormControl>
+						<form onSubmit={enableForm.handleSubmit(onEnableSubmit)} className="space-y-4 py-2">
+							<FieldSet>
+								<FieldGroup>
+									<Controller
+										control={enableForm.control}
+										name="password"
+										render={({ field, fieldState }) => (
+											<Field data-invalid={fieldState.invalid}>
+												<FieldLabel htmlFor={field.name}>
+													<Trans>Password</Trans>
+												</FieldLabel>
+												<div className="flex items-center gap-x-1.5">
 													<Input
+														{...field}
+														id={field.name}
 														min={6}
 														max={64}
 														type={showPassword ? "text" : "password"}
 														autoComplete="current-password"
-														{...field}
+														aria-invalid={fieldState.invalid}
 													/>
-												</FormControl>
+													<Button size="icon" variant="ghost" type="button" onClick={toggleShowPassword}>
+														{showPassword ? <EyeIcon /> : <EyeSlashIcon />}
+													</Button>
+												</div>
+												{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+											</Field>
+										)}
+									/>
 
-												<Button size="icon" variant="ghost" type="button" onClick={toggleShowPassword}>
-													{showPassword ? <EyeIcon /> : <EyeSlashIcon />}
-												</Button>
-											</div>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-
-								<DialogFooter>
-									<Button type="submit">
-										<Trans>Continue</Trans>
-									</Button>
-								</DialogFooter>
-							</form>
-						</Form>
+									<DialogFooter>
+										<Button type="submit">
+											<Trans>Continue</Trans>
+										</Button>
+									</DialogFooter>
+								</FieldGroup>
+							</FieldSet>
+						</form>
 					))
 					.with("verify", () => {
 						const secret = totpUri ? extractSecretFromTotpUri(totpUri) : null;
@@ -231,14 +232,14 @@ export function EnableTwoFactorDialog({ open, onOpenChange }: DialogProps<"auth.
 									<Trans>Then, enter the 6 digit code that the app provides to continue.</Trans>
 								</p>
 
-								<Form {...verifyForm}>
-									<form onSubmit={verifyForm.handleSubmit(onVerifySubmit)}>
-										<FormField
-											control={verifyForm.control}
-											name="code"
-											render={({ field }) => (
-												<FormItem>
-													<FormControl>
+								<form onSubmit={verifyForm.handleSubmit(onVerifySubmit)}>
+									<FieldSet>
+										<FieldGroup>
+											<Controller
+												control={verifyForm.control}
+												name="code"
+												render={({ field, fieldState }) => (
+													<Field data-invalid={fieldState.invalid}>
 														<InputOTP
 															maxLength={6}
 															value={field.value}
@@ -256,22 +257,22 @@ export function EnableTwoFactorDialog({ open, onOpenChange }: DialogProps<"auth.
 																<InputOTPSlot index={5} className="size-12" />
 															</InputOTPGroup>
 														</InputOTP>
-													</FormControl>
-													<FormMessage />
-												</FormItem>
-											)}
-										/>
+														{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+													</Field>
+												)}
+											/>
 
-										<DialogFooter className="gap-x-2">
-											<Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-												<Trans>Cancel</Trans>
-											</Button>
-											<Button type="submit">
-												<Trans>Continue</Trans>
-											</Button>
-										</DialogFooter>
-									</form>
-								</Form>
+											<DialogFooter className="gap-x-2">
+												<Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+													<Trans>Cancel</Trans>
+												</Button>
+												<Button type="submit">
+													<Trans>Continue</Trans>
+												</Button>
+											</DialogFooter>
+										</FieldGroup>
+									</FieldSet>
+								</form>
 							</div>
 						);
 					})

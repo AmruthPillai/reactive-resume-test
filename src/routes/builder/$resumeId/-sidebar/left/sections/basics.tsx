@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trans } from "@lingui/react/macro";
-import { useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import type z from "zod";
 import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { URLInput } from "@/components/input/url-input";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldError, FieldGroup, FieldLabel, FieldSet } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { basicsSchema } from "@/schema/resume/data";
 import { SectionBase } from "../shared/section-base";
@@ -39,106 +39,103 @@ function BasicsSectionForm() {
 	};
 
 	return (
-		<Form {...form}>
+		<FormProvider {...form}>
 			<form onChange={form.handleSubmit(onSubmit)} className="space-y-4">
-				<FormField
-					control={form.control}
-					name="name"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>
-								<Trans>Name</Trans>
-							</FormLabel>
-							<FormControl>
-								<Input {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+				<FieldSet>
+					<FieldGroup>
+						<Controller
+							control={form.control}
+							name="name"
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor={field.name}>
+										<Trans>Name</Trans>
+									</FieldLabel>
+									<Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
 
-				<FormField
-					control={form.control}
-					name="headline"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>
-								<Trans>Headline</Trans>
-							</FormLabel>
-							<FormControl>
-								<Input {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+						<Controller
+							control={form.control}
+							name="headline"
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor={field.name}>
+										<Trans>Headline</Trans>
+									</FieldLabel>
+									<Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
 
-				<FormField
-					control={form.control}
-					name="email"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>
-								<Trans>Email</Trans>
-							</FormLabel>
-							<FormControl>
-								<Input type="email" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+						<Controller
+							control={form.control}
+							name="email"
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor={field.name}>
+										<Trans>Email</Trans>
+									</FieldLabel>
+									<Input type="email" {...field} id={field.name} aria-invalid={fieldState.invalid} />
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
 
-				<FormField
-					control={form.control}
-					name="phone"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>
-								<Trans>Phone</Trans>
-							</FormLabel>
-							<FormControl>
-								<Input {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+						<Controller
+							control={form.control}
+							name="phone"
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor={field.name}>
+										<Trans>Phone</Trans>
+									</FieldLabel>
+									<Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
 
-				<FormField
-					control={form.control}
-					name="location"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>
-								<Trans>Location</Trans>
-							</FormLabel>
-							<FormControl>
-								<Input {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+						<Controller
+							control={form.control}
+							name="location"
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor={field.name}>
+										<Trans>Location</Trans>
+									</FieldLabel>
+									<Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
 
-				<FormField
-					control={form.control}
-					name="website"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>
-								<Trans>Website</Trans>
-							</FormLabel>
-							<FormControl>
-								<URLInput {...field} value={field.value} onChange={field.onChange} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+						<Controller
+							control={form.control}
+							name="website"
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid}>
+									<FieldLabel htmlFor={field.name}>
+										<Trans>Website</Trans>
+									</FieldLabel>
+									<URLInput
+										{...field}
+										value={field.value}
+										onChange={field.onChange}
+										aria-invalid={fieldState.invalid}
+									/>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
+							)}
+						/>
 
-				<CustomFieldsSection onSubmit={onSubmit} />
+						<CustomFieldsSection onSubmit={onSubmit} />
+					</FieldGroup>
+				</FieldSet>
 			</form>
-		</Form>
+		</FormProvider>
 	);
 }

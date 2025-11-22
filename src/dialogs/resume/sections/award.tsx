@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trans } from "@lingui/react/macro";
 import { PencilSimpleLineIcon, PlusIcon } from "@phosphor-icons/react";
-import { useForm, useFormContext } from "react-hook-form";
+import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import type z from "zod";
 import { useResumeStore } from "@/builder/-store/resume";
 import { RichInput } from "@/components/input/rich-input";
@@ -15,7 +15,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import type { DialogProps } from "@/dialogs/store";
 import { awardItemSchema } from "@/schema/resume/data";
@@ -59,7 +59,7 @@ export function CreateAwardDialog({ open, onOpenChange, data }: DialogProps<"res
 					<DialogDescription />
 				</DialogHeader>
 
-				<Form {...form}>
+				<FormProvider {...form}>
 					<form className="grid gap-4 sm:grid-cols-2" onSubmit={form.handleSubmit(onSubmit)}>
 						<AwardForm />
 
@@ -73,7 +73,7 @@ export function CreateAwardDialog({ open, onOpenChange, data }: DialogProps<"res
 							</Button>
 						</DialogFooter>
 					</form>
-				</Form>
+				</FormProvider>
 			</DialogContent>
 		</Dialog>
 	);
@@ -115,7 +115,7 @@ export function UpdateAwardDialog({ open, onOpenChange, data }: DialogProps<"res
 					<DialogDescription />
 				</DialogHeader>
 
-				<Form {...form}>
+				<FormProvider {...form}>
 					<form className="grid gap-4 sm:grid-cols-2" onSubmit={form.handleSubmit(onSubmit)}>
 						<AwardForm />
 
@@ -129,7 +129,7 @@ export function UpdateAwardDialog({ open, onOpenChange, data }: DialogProps<"res
 							</Button>
 						</DialogFooter>
 					</form>
-				</Form>
+				</FormProvider>
 			</DialogContent>
 		</Dialog>
 	);
@@ -140,83 +140,73 @@ export function AwardForm() {
 
 	return (
 		<>
-			<FormField
+			<Controller
 				control={form.control}
 				name="title"
-				render={({ field }) => (
-					<FormItem>
-						<FormLabel>
+				render={({ field, fieldState }) => (
+					<Field data-invalid={fieldState.invalid} className="sm:col-span-full">
+						<FieldLabel htmlFor={field.name}>
 							<Trans>Title</Trans>
-						</FormLabel>
-						<FormControl>
-							<Input {...field} />
-						</FormControl>
-						<FormMessage />
-					</FormItem>
+						</FieldLabel>
+						<Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
+						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+					</Field>
 				)}
 			/>
 
-			<FormField
+			<Controller
 				control={form.control}
 				name="awarder"
-				render={({ field }) => (
-					<FormItem>
-						<FormLabel>
+				render={({ field, fieldState }) => (
+					<Field data-invalid={fieldState.invalid} className="sm:col-span-full">
+						<FieldLabel htmlFor={field.name}>
 							<Trans context="(noun) person, organization, or entity that gives an award">Awarder</Trans>
-						</FormLabel>
-						<FormControl>
-							<Input {...field} />
-						</FormControl>
-						<FormMessage />
-					</FormItem>
+						</FieldLabel>
+						<Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
+						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+					</Field>
 				)}
 			/>
 
-			<FormField
+			<Controller
 				control={form.control}
 				name="date"
-				render={({ field }) => (
-					<FormItem>
-						<FormLabel>
+				render={({ field, fieldState }) => (
+					<Field data-invalid={fieldState.invalid} className="sm:col-span-full">
+						<FieldLabel htmlFor={field.name}>
 							<Trans>Date</Trans>
-						</FormLabel>
-						<FormControl>
-							<Input {...field} />
-						</FormControl>
-						<FormMessage />
-					</FormItem>
+						</FieldLabel>
+						<Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
+						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+					</Field>
 				)}
 			/>
 
-			<FormField
+			<Controller
 				control={form.control}
 				name="website"
-				render={({ field }) => (
-					<FormItem>
-						<FormLabel>
+				render={({ field, fieldState }) => (
+					<Field data-invalid={fieldState.invalid} className="sm:col-span-full">
+						<FieldLabel htmlFor={field.name}>
 							<Trans>Website</Trans>
-						</FormLabel>
-						<FormControl>
-							<URLInput {...field} value={field.value} onChange={field.onChange} />
-						</FormControl>
-						<FormMessage />
-					</FormItem>
+						</FieldLabel>
+						<URLInput {...field} value={field.value} onChange={field.onChange} aria-invalid={fieldState.invalid} />
+						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+					</Field>
 				)}
 			/>
 
-			<FormField
+			<Controller
 				control={form.control}
 				name="description"
-				render={({ field }) => (
-					<FormItem className="sm:col-span-full">
-						<FormLabel>
+				render={({ field, fieldState }) => (
+					<Field data-invalid={fieldState.invalid} className="sm:col-span-full">
+						<FieldLabel htmlFor={field.name}>
 							<Trans>Description</Trans>
-						</FormLabel>
-						<FormControl>
-							<RichInput {...field} value={field.value} onChange={field.onChange} />
-						</FormControl>
-						<FormMessage />
-					</FormItem>
+						</FieldLabel>
+						<RichInput {...field} value={field.value} onChange={field.onChange} aria-invalid={fieldState.invalid} />
+						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+					</Field>
 				)}
 			/>
 		</>

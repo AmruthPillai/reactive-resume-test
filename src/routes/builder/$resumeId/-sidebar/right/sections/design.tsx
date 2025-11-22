@@ -1,14 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Trans } from "@lingui/react/macro";
 import { AnimatePresence, motion } from "motion/react";
-import { useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import type z from "zod";
 import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { ColorPicker } from "@/components/input/color-picker";
 import { IconPicker } from "@/components/input/icon-picker";
 import { LevelTypeCombobox } from "@/components/level/combobox";
 import { LevelDisplay } from "@/components/level/display";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { colorDesignSchema, levelDesignSchema } from "@/schema/resume/data";
@@ -42,13 +42,13 @@ function ColorSectionForm() {
 	};
 
 	return (
-		<Form {...form}>
+		<FormProvider {...form}>
 			<form onChange={form.handleSubmit(onSubmit)} className="space-y-4">
-				<FormField
+				<Controller
 					control={form.control}
 					name="primary"
 					render={({ field }) => (
-						<FormItem className="flex flex-wrap gap-2.5 p-1">
+						<Field className="flex flex-wrap gap-2.5 p-1">
 							{quickColorOptions.map((color) => (
 								<QuickColorCircle
 									key={color}
@@ -60,18 +60,18 @@ function ColorSectionForm() {
 									}}
 								/>
 							))}
-						</FormItem>
+						</Field>
 					)}
 				/>
 
-				<FormField
+				<Controller
 					control={form.control}
 					name="primary"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>
+					render={({ field, fieldState }) => (
+						<Field data-invalid={fieldState.invalid}>
+							<FieldLabel htmlFor={field.name}>
 								<Trans>Primary Color</Trans>
-							</FormLabel>
+							</FieldLabel>
 							<div className="flex items-center gap-2">
 								<ColorPicker
 									value={field.value}
@@ -80,23 +80,21 @@ function ColorSectionForm() {
 										form.handleSubmit(onSubmit)();
 									}}
 								/>
-								<FormControl>
-									<Input {...field} />
-								</FormControl>
+								<Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
 							</div>
-							<FormMessage />
-						</FormItem>
+							{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+						</Field>
 					)}
 				/>
 
-				<FormField
+				<Controller
 					control={form.control}
 					name="text"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>
+					render={({ field, fieldState }) => (
+						<Field data-invalid={fieldState.invalid}>
+							<FieldLabel htmlFor={field.name}>
 								<Trans>Text Color</Trans>
-							</FormLabel>
+							</FieldLabel>
 							<div className="flex items-center gap-2">
 								<ColorPicker
 									value={field.value}
@@ -105,23 +103,21 @@ function ColorSectionForm() {
 										form.handleSubmit(onSubmit)();
 									}}
 								/>
-								<FormControl>
-									<Input {...field} />
-								</FormControl>
+								<Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
 							</div>
-							<FormMessage />
-						</FormItem>
+							{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+						</Field>
 					)}
 				/>
 
-				<FormField
+				<Controller
 					control={form.control}
 					name="background"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>
+					render={({ field, fieldState }) => (
+						<Field data-invalid={fieldState.invalid}>
+							<FieldLabel htmlFor={field.name}>
 								<Trans>Background Color</Trans>
-							</FormLabel>
+							</FieldLabel>
 							<div className="flex items-center gap-2">
 								<ColorPicker
 									value={field.value}
@@ -130,16 +126,14 @@ function ColorSectionForm() {
 										form.handleSubmit(onSubmit)();
 									}}
 								/>
-								<FormControl>
-									<Input {...field} />
-								</FormControl>
+								<Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
 							</div>
-							<FormMessage />
-						</FormItem>
+							{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+						</Field>
 					)}
 				/>
 			</form>
-		</Form>
+		</FormProvider>
 	);
 }
 
@@ -222,7 +216,7 @@ function LevelSectionForm() {
 	};
 
 	return (
-		<Form {...form}>
+		<FormProvider {...form}>
 			<form onChange={form.handleSubmit(onSubmit)} className="space-y-4">
 				<h4 className="font-semibold text-lg leading-none tracking-tight">
 					<Trans>Level</Trans>
@@ -241,51 +235,51 @@ function LevelSectionForm() {
 				</div>
 
 				<div className="flex items-center gap-4">
-					<FormField
+					<Controller
 						control={form.control}
 						name="icon"
-						render={({ field }) => (
-							<FormItem className="shrink-0">
-								<FormLabel>
+						render={({ field, fieldState }) => (
+							<Field data-invalid={fieldState.invalid} className="shrink-0">
+								<FieldLabel htmlFor={field.name}>
 									<Trans>Icon</Trans>
-								</FormLabel>
-								<FormControl>
-									<IconPicker
-										size="default"
-										value={field.value}
-										onChange={(value) => {
-											field.onChange(value);
-											form.handleSubmit(onSubmit)();
-										}}
-									/>
-								</FormControl>
-							</FormItem>
+								</FieldLabel>
+								<IconPicker
+									size="default"
+									value={field.value}
+									aria-invalid={fieldState.invalid}
+									onChange={(value) => {
+										field.onChange(value);
+										form.handleSubmit(onSubmit)();
+									}}
+								/>
+								{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+							</Field>
 						)}
 					/>
 
-					<FormField
+					<Controller
 						control={form.control}
 						name="type"
-						render={({ field }) => (
-							<FormItem className="flex-1">
-								<FormLabel>
+						render={({ field, fieldState }) => (
+							<Field data-invalid={fieldState.invalid} className="flex-1">
+								<FieldLabel htmlFor={field.name}>
 									<Trans>Type</Trans>
-								</FormLabel>
-								<FormControl>
-									<LevelTypeCombobox
-										value={field.value}
-										onValueChange={(value) => {
-											if (!value) return;
-											field.onChange(value);
-											form.handleSubmit(onSubmit)();
-										}}
-									/>
-								</FormControl>
-							</FormItem>
+								</FieldLabel>
+								<LevelTypeCombobox
+									value={field.value}
+									aria-invalid={fieldState.invalid}
+									onValueChange={(value) => {
+										if (!value) return;
+										field.onChange(value);
+										form.handleSubmit(onSubmit)();
+									}}
+								/>
+								{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+							</Field>
 						)}
 					/>
 				</div>
 			</form>
-		</Form>
+		</FormProvider>
 	);
 }

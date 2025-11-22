@@ -4,14 +4,14 @@ import { Trans } from "@lingui/react/macro";
 import { EyeIcon, EyeSlashIcon, TrashSimpleIcon, UploadSimpleIcon } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
 import { useRef } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type z from "zod";
 import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { ColorPicker } from "@/components/input/color-picker";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
 import { orpc } from "@/integrations/orpc/client";
@@ -93,7 +93,7 @@ function PictureSectionForm() {
 	};
 
 	return (
-		<Form {...form}>
+		<FormProvider {...form}>
 			<form onChange={form.handleSubmit(onSubmit)} className="space-y-4">
 				<div className="flex items-center gap-x-4">
 					<input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={onUploadPicture} />
@@ -115,19 +115,16 @@ function PictureSectionForm() {
 						</div>
 					</div>
 
-					<FormField
+					<Controller
 						control={form.control}
 						name="url"
-						render={({ field }) => (
-							<FormItem className="flex-1">
-								<FormLabel>
+						render={({ field, fieldState }) => (
+							<Field data-invalid={fieldState.invalid} className="flex-1">
+								<FieldLabel htmlFor={field.name}>
 									<Trans>URL</Trans>
-								</FormLabel>
+								</FieldLabel>
 								<div className="flex items-center gap-x-2">
-									<FormControl>
-										<Input {...field} />
-									</FormControl>
-
+									<Input {...field} id={field.name} aria-invalid={fieldState.invalid} />
 									<Button
 										size="icon"
 										variant="ghost"
@@ -139,99 +136,100 @@ function PictureSectionForm() {
 										{picture.hidden ? <EyeSlashIcon /> : <EyeIcon />}
 									</Button>
 								</div>
-							</FormItem>
+								{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+							</Field>
 						)}
 					/>
 				</div>
 
 				<div className="grid @md:grid-cols-2 grid-cols-1 gap-4">
-					<FormField
+					<Controller
 						control={form.control}
 						name="size"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
+						render={({ field, fieldState }) => (
+							<Field data-invalid={fieldState.invalid}>
+								<FieldLabel htmlFor={field.name}>
 									<Trans>Size</Trans>
-								</FormLabel>
+								</FieldLabel>
 								<InputGroup>
-									<FormControl>
-										<InputGroupInput
-											{...field}
-											type="number"
-											min={32}
-											max={512}
-											step={1}
-											onChange={(e) => {
-												const value = e.target.value;
-												if (value === "") field.onChange("");
-												else field.onChange(Number(value));
-											}}
-										/>
-									</FormControl>
+									<InputGroupInput
+										{...field}
+										id={field.name}
+										type="number"
+										min={32}
+										max={512}
+										step={1}
+										aria-invalid={fieldState.invalid}
+										onChange={(e) => {
+											const value = e.target.value;
+											if (value === "") field.onChange("");
+											else field.onChange(Number(value));
+										}}
+									/>
 									<InputGroupAddon align="inline-end">
 										<InputGroupText>pt</InputGroupText>
 									</InputGroupAddon>
 								</InputGroup>
-								<FormMessage />
-							</FormItem>
+								{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+							</Field>
 						)}
 					/>
 
-					<FormField
+					<Controller
 						control={form.control}
 						name="rotation"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
+						render={({ field, fieldState }) => (
+							<Field data-invalid={fieldState.invalid}>
+								<FieldLabel htmlFor={field.name}>
 									<Trans>Rotation</Trans>
-								</FormLabel>
+								</FieldLabel>
 								<InputGroup>
-									<FormControl>
-										<InputGroupInput
-											{...field}
-											type="number"
-											min={0}
-											max={360}
-											step={5}
-											onChange={(e) => {
-												const value = e.target.value;
-												if (value === "") field.onChange("");
-												else field.onChange(Number(value));
-											}}
-										/>
-									</FormControl>
+									<InputGroupInput
+										{...field}
+										id={field.name}
+										type="number"
+										min={0}
+										max={360}
+										step={5}
+										aria-invalid={fieldState.invalid}
+										onChange={(e) => {
+											const value = e.target.value;
+											if (value === "") field.onChange("");
+											else field.onChange(Number(value));
+										}}
+									/>
 									<InputGroupAddon align="inline-end">
 										<InputGroupText>°</InputGroupText>
 									</InputGroupAddon>
 								</InputGroup>
-							</FormItem>
+								{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+							</Field>
 						)}
 					/>
 
-					<FormField
+					<Controller
 						control={form.control}
 						name="aspectRatio"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
+						render={({ field, fieldState }) => (
+							<Field data-invalid={fieldState.invalid}>
+								<FieldLabel htmlFor={field.name}>
 									<Trans>Aspect Ratio</Trans>
-								</FormLabel>
+								</FieldLabel>
 								<div className="flex items-center gap-x-2">
-									<FormControl>
-										<Input
-											{...field}
-											type="number"
-											min={0.5}
-											max={2.5}
-											step={0.1}
-											onChange={(e) => {
-												const value = e.target.value;
-												if (value === "") field.onChange("");
-												else field.onChange(Number(value));
-											}}
-										/>
-									</FormControl>
-
+									<Input
+										{...field}
+										id={field.name}
+										type="number"
+										min={0.5}
+										max={2.5}
+										step={0.1}
+										aria-invalid={fieldState.invalid}
+										onChange={(e) => {
+											const value = e.target.value;
+											if (value === "") field.onChange("");
+											else field.onChange(Number(value));
+										}}
+									/>
 									<ButtonGroup className="shrink-0">
 										<Button
 											size="icon"
@@ -268,36 +266,36 @@ function PictureSectionForm() {
 										</Button>
 									</ButtonGroup>
 								</div>
-							</FormItem>
+								{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+							</Field>
 						)}
 					/>
 
-					<FormField
+					<Controller
 						control={form.control}
 						name="borderRadius"
-						render={({ field }) => (
-							<FormItem>
-								<FormLabel>
+						render={({ field, fieldState }) => (
+							<Field data-invalid={fieldState.invalid}>
+								<FieldLabel htmlFor={field.name}>
 									<Trans>Border Radius</Trans>
-								</FormLabel>
+								</FieldLabel>
 								<div className="flex items-center gap-x-2">
 									<InputGroup>
-										<FormControl>
-											<InputGroupInput
-												{...field}
-												type="number"
-												min={0}
-												max={50}
-												step={1}
-												onChange={(e) => {
-													const value = Number(e.target.value);
-													field.onChange(value);
-												}}
-											/>
-										</FormControl>
+										<InputGroupInput
+											{...field}
+											id={field.name}
+											type="number"
+											min={0}
+											max={50}
+											step={1}
+											aria-invalid={fieldState.invalid}
+											onChange={(e) => {
+												const value = Number(e.target.value);
+												field.onChange(value);
+											}}
+										/>
 										<InputGroupAddon align="inline-end">%</InputGroupAddon>
 									</InputGroup>
-
 									<ButtonGroup className="shrink-0">
 										<Button
 											size="icon"
@@ -334,111 +332,110 @@ function PictureSectionForm() {
 										</Button>
 									</ButtonGroup>
 								</div>
-							</FormItem>
+								{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+							</Field>
 						)}
 					/>
 
 					<div className="flex items-center gap-x-2">
-						<FormField
+						<Controller
 							control={form.control}
 							name="borderColor"
 							render={({ field }) => (
-								<FormItem className="shrink-0 self-end">
-									<FormControl>
-										<ColorPicker
-											defaultValue={field.value}
-											onChange={(color) => {
-												field.onChange(color);
-												form.handleSubmit(onSubmit)();
-											}}
-										/>
-									</FormControl>
-								</FormItem>
+								<Field className="shrink-0 self-end">
+									<ColorPicker
+										defaultValue={field.value}
+										onChange={(color) => {
+											field.onChange(color);
+											form.handleSubmit(onSubmit)();
+										}}
+									/>
+								</Field>
 							)}
 						/>
 
-						<FormField
+						<Controller
 							control={form.control}
 							name="borderWidth"
-							render={({ field }) => (
-								<FormItem className="flex-1">
-									<FormLabel>
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid} className="flex-1">
+									<FieldLabel htmlFor={field.name}>
 										<Trans>Border Width</Trans>
-									</FormLabel>
+									</FieldLabel>
 									<InputGroup>
-										<FormControl>
-											<InputGroupInput
-												{...field}
-												type="number"
-												min={0}
-												step={1}
-												onChange={(e) => {
-													const value = e.target.value;
-													if (value === "") field.onChange("");
-													else field.onChange(Number(value));
-												}}
-											/>
-										</FormControl>
+										<InputGroupInput
+											{...field}
+											id={field.name}
+											type="number"
+											min={0}
+											step={1}
+											aria-invalid={fieldState.invalid}
+											onChange={(e) => {
+												const value = e.target.value;
+												if (value === "") field.onChange("");
+												else field.onChange(Number(value));
+											}}
+										/>
 										<InputGroupAddon align="inline-end">
 											<InputGroupText>pt</InputGroupText>
 										</InputGroupAddon>
 									</InputGroup>
-								</FormItem>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
 							)}
 						/>
 					</div>
 
 					<div className="flex items-center gap-x-2">
-						<FormField
+						<Controller
 							control={form.control}
 							name="shadowColor"
 							render={({ field }) => (
-								<FormItem className="shrink-0 self-end">
-									<FormControl>
-										<ColorPicker
-											defaultValue={field.value}
-											onChange={(color) => {
-												field.onChange(color);
-												form.handleSubmit(onSubmit)();
-											}}
-										/>
-									</FormControl>
-								</FormItem>
+								<Field className="shrink-0 self-end">
+									<ColorPicker
+										defaultValue={field.value}
+										onChange={(color) => {
+											field.onChange(color);
+											form.handleSubmit(onSubmit)();
+										}}
+									/>
+								</Field>
 							)}
 						/>
 
-						<FormField
+						<Controller
 							control={form.control}
 							name="shadowWidth"
-							render={({ field }) => (
-								<FormItem className="flex-1">
-									<FormLabel>
+							render={({ field, fieldState }) => (
+								<Field data-invalid={fieldState.invalid} className="flex-1">
+									<FieldLabel htmlFor={field.name}>
 										<Trans>Shadow Width</Trans>
-									</FormLabel>
+									</FieldLabel>
 									<InputGroup>
-										<FormControl>
-											<InputGroupInput
-												{...field}
-												type="number"
-												min={0}
-												step={0.5}
-												onChange={(e) => {
-													const value = e.target.value;
-													if (value === "") field.onChange("");
-													else field.onChange(Number(value));
-												}}
-											/>
-										</FormControl>
+										<InputGroupInput
+											{...field}
+											id={field.name}
+											type="number"
+											min={0}
+											step={0.5}
+											aria-invalid={fieldState.invalid}
+											onChange={(e) => {
+												const value = e.target.value;
+												if (value === "") field.onChange("");
+												else field.onChange(Number(value));
+											}}
+										/>
 										<InputGroupAddon align="inline-end">
 											<InputGroupText>pt</InputGroupText>
 										</InputGroupAddon>
 									</InputGroup>
-								</FormItem>
+									{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+								</Field>
 							)}
 						/>
 					</div>
 				</div>
 			</form>
-		</Form>
+		</FormProvider>
 	);
 }
