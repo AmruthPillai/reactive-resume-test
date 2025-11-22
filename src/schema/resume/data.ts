@@ -495,12 +495,12 @@ export const sampleResumeData: ResumeData = {
 		columns: 1,
 		hidden: false,
 		content:
-			"<p>Experienced full-stack developer with 8+ years of expertise in building scalable web applications. Specialized in React, TypeScript, Node.js, and cloud infrastructure. Proven track record of leading cross-functional teams, architecting microservices, and delivering high-impact products used by millions of users. Passionate about developer experience, code quality, and mentoring junior engineers.</p>",
+			'<h1>This is a heading 1</h1><h2>This is a heading 2</h2><h3>This is a heading 3</h3><h4>This is a heading 4</h4><h5>This is a heading 5</h5><h6>This is a heading 6</h6><p><strong>Experienced full-stack developer with 8+</strong> years of expert<em>ise in building scalable web applications. Spe</em>cialized in React, Typ<u>eScript, Node.js, and cloud infrastructure. Pro</u>ven track record of le<mark class="bg-yellow-200 group-data-editor:text-zinc-950! rounded-md px-0.5 py-px">ading cross-functional teams, archi</mark>tecting microse<s>rvices, and del</s>ivering <code>high-impact p</code>roducts us<strong><em>ed by millions of users. Passionate about deve</em></strong>loper experience<u>, code quality, and mentoring junior engin</u>eers.</p><p><a target="_blank" rel="noopener noreferrer nofollow" href="https://google.com">This is a link.</a></p><ul><li><p>This is a list item.</p></li><li><p>This is another list item.</p><ul><li><p>This is a nested list item.</p><ul><li><p>Here\'s another nested list item.</p></li></ul></li></ul></li><li><p>And we\'re back to the start.</p></li></ul><p style="text-align: justify;">Lorem consequat nisi mollit elit qui reprehenderit nisi. Fugiat dolor pariatur veniam quis cillum amet laborum velit. Aute qui dolore laboris. Eu est nulla pariatur nostrud mollit cupidatat dolor eu elit ad sit culpa laboris tempor ad. Dolore officia quis officia esse velit consectetur duis in non magna mollit quis.</p>',
 	},
 	sections: {
 		profiles: {
 			title: "Online Profiles",
-			columns: 2,
+			columns: 3,
 			hidden: false,
 			items: [
 				{
@@ -511,7 +511,7 @@ export const sampleResumeData: ResumeData = {
 					username: "sarahchen",
 					website: {
 						url: "https://linkedin.com/in/sarahchen",
-						label: "linkedin.com/in/sarahchen",
+						label: "",
 					},
 				},
 				{
@@ -522,7 +522,7 @@ export const sampleResumeData: ResumeData = {
 					username: "sarahchen",
 					website: {
 						url: "https://github.com/sarahchen",
-						label: "github.com/sarahchen",
+						label: "",
 					},
 				},
 				{
@@ -533,7 +533,7 @@ export const sampleResumeData: ResumeData = {
 					username: "@sarahcodes",
 					website: {
 						url: "https://twitter.com/sarahcodes",
-						label: "twitter.com/sarahcodes",
+						label: "",
 					},
 				},
 			],
@@ -671,7 +671,7 @@ export const sampleResumeData: ResumeData = {
 		},
 		skills: {
 			title: "Technical Skills",
-			columns: 2,
+			columns: 3,
 			hidden: false,
 			items: [
 				{
@@ -732,7 +732,7 @@ export const sampleResumeData: ResumeData = {
 		},
 		languages: {
 			title: "Languages",
-			columns: 2,
+			columns: 3,
 			hidden: false,
 			items: [
 				{
@@ -760,7 +760,7 @@ export const sampleResumeData: ResumeData = {
 		},
 		interests: {
 			title: "Interests",
-			columns: 2,
+			columns: 3,
 			hidden: false,
 			items: [
 				{
@@ -855,7 +855,7 @@ export const sampleResumeData: ResumeData = {
 		},
 		certifications: {
 			title: "Certifications",
-			columns: 2,
+			columns: 1,
 			hidden: false,
 			items: [
 				{
@@ -1015,18 +1015,18 @@ export const sampleResumeData: ResumeData = {
 	},
 	customSections: [
 		{
-			id: "custom-1",
 			title: "Volunteer Projects",
 			columns: 1,
 			hidden: false,
+			id: "custom-1",
 			content:
 				"<p>Organized local hackathons for high school students and mentored teams on web development basics.</p>",
 		},
 		{
-			id: "custom-2",
 			title: "Internships",
 			columns: 1,
 			hidden: false,
+			id: "custom-2",
 			content:
 				"<p>Completed a 6-month remote internship at Open Source Initiative. Contributed bug fixes and helped review community pull requests.</p>",
 		},
@@ -1039,8 +1039,18 @@ export const sampleResumeData: ResumeData = {
 			pages: [
 				{
 					fullWidth: false,
-					main: ["profiles", "summary", "education", "experience", "projects", "volunteer", "references"],
-					sidebar: ["skills", "certifications", "awards", "languages", "interests", "publications"],
+					main: ["summary", "education", "profiles", "skills", "experience", "interests"],
+					sidebar: [
+						"awards",
+						"certifications",
+						"languages",
+						"projects",
+						"volunteer",
+						"references",
+						"publications",
+						"custom-1",
+						"custom-2",
+					],
 				},
 			],
 		},
@@ -1049,19 +1059,19 @@ export const sampleResumeData: ResumeData = {
 			value: "",
 		},
 		page: {
-			marginX: 18,
+			marginX: 14,
 			marginY: 18,
-			format: "a4",
+			format: "letter",
 		},
 		design: {
-			colors: {
-				primary: "#3b82f6",
-				text: "#1f2937",
-				background: "#ffffff",
-			},
 			level: {
 				icon: "star",
-				type: "rectangle-full",
+				type: "icon",
+			},
+			colors: {
+				primary: "#EC003F",
+				text: "#1f2937",
+				background: "#ffffff",
 			},
 		},
 		typography: {
@@ -1072,9 +1082,9 @@ export const sampleResumeData: ResumeData = {
 				lineHeight: 1.5,
 			},
 			heading: {
-				fontFamily: "IBM Plex Serif",
-				fontWeight: "600",
-				fontSize: 14,
+				fontFamily: "Oswald",
+				fontWeight: "400",
+				fontSize: 16,
 				lineHeight: 1.5,
 			},
 		},

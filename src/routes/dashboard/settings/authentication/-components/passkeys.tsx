@@ -1,8 +1,8 @@
+import type { Passkey } from "@better-auth/passkey";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { FingerprintIcon, PlusIcon, TrashSimpleIcon } from "@phosphor-icons/react";
 import { useQueryClient } from "@tanstack/react-query";
-import type { Passkey } from "better-auth/plugins/passkey";
 import { AnimatePresence, motion } from "motion/react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -25,13 +25,13 @@ export function PasskeysSection() {
 
 		const result = await authClient.passkey.addPasskey({ name, useAutoRegister: true });
 
-		if (!result) {
+		if (result.data) {
 			toast.success(t`Your passkey has been added successfully.`, { id: toastId });
 			queryClient.invalidateQueries({ queryKey: ["auth", "passkeys"] });
 			return;
 		}
 
-		toast.error(result.error.message, { id: toastId });
+		toast.error(result.error.message ?? t`An unknown error occurred while adding your passkey.`, { id: toastId });
 	};
 
 	return (

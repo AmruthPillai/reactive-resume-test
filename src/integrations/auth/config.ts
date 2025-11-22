@@ -1,10 +1,9 @@
-import { createServerOnlyFn } from "@tanstack/react-start";
+import { passkey } from "@better-auth/passkey";
 import { BetterAuthError, betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { type GenericOAuthConfig, genericOAuth, twoFactor } from "better-auth/plugins";
-import { passkey } from "better-auth/plugins/passkey";
 import { username } from "better-auth/plugins/username";
-import { reactStartCookies } from "better-auth/react-start";
+import { tanstackStartCookies } from "better-auth/tanstack-start";
 import { db } from "@/integrations/drizzle/client";
 import { env } from "@/utils/env";
 import { generateId, toUsername } from "@/utils/string";
@@ -20,7 +19,7 @@ function isCustomOAuthProviderEnabled() {
 	);
 }
 
-const getAuthServerFn = createServerOnlyFn(() => {
+const getAuthConfig = () => {
 	const authConfigs: GenericOAuthConfig[] = [];
 
 	if (isCustomOAuthProviderEnabled()) {
@@ -158,9 +157,9 @@ const getAuthServerFn = createServerOnlyFn(() => {
 			twoFactor({ issuer: "Reactive Resume" }),
 			passkey({ rpName: "Reactive Resume", rpID: "localhost" }),
 			genericOAuth({ config: authConfigs }),
-			reactStartCookies(),
+			tanstackStartCookies(),
 		],
 	});
-});
+};
 
-export const auth = getAuthServerFn();
+export const auth = getAuthConfig();

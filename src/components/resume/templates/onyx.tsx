@@ -1,7 +1,8 @@
 import { EnvelopeIcon, GlobeIcon, MapPinIcon, PhoneIcon } from "@phosphor-icons/react";
+import { match } from "ts-pattern";
 import type z from "zod";
 import { TiptapContent } from "@/components/input/rich-input";
-import type { pageLayoutSchema } from "@/schema/resume/data";
+import type { pageLayoutSchema, SectionType } from "@/schema/resume/data";
 import { cn } from "@/utils/style";
 import { useResumePreview } from "../hooks/use-resume-preview";
 import { PageIcon } from "../shared/page-icon";
@@ -15,6 +16,24 @@ type TemplateProps = {
 	pageIndex: number;
 	pageLayout: z.infer<typeof pageLayoutSchema>;
 };
+
+function getSectionComponent(section: "summary" | SectionType | (string & {})) {
+	return match(section)
+		.with("summary", () => <SummarySection />)
+		.with("profiles", () => <ProfilesSection />)
+		.with("experience", () => <ExperienceSection />)
+		.with("education", () => <EducationSection />)
+		.with("projects", () => <ProjectsSection />)
+		.with("skills", () => <SkillsSection />)
+		.with("languages", () => <LanguagesSection />)
+		.with("interests", () => <InterestsSection />)
+		.with("awards", () => <AwardsSection />)
+		.with("certifications", () => <CertificationsSection />)
+		.with("publications", () => <PublicationsSection />)
+		.with("volunteer", () => <VolunteerSection />)
+		.with("references", () => <ReferencesSection />)
+		.otherwise((section) => <CustomSection id={section} />);
+}
 
 /**
  * Template: Onyx
@@ -31,47 +50,11 @@ export function OnyxTemplate({ pageIndex, pageLayout }: TemplateProps) {
 			{isFirstPage && <Header />}
 
 			<main className="page-main space-y-4">
-				{main.map((section) => {
-					if (section === "profiles") return <ProfilesSection key={section} />;
-					if (section === "summary") return <SummarySection key={section} />;
-					if (section === "experience") return <ExperienceSection key={section} />;
-					if (section === "education") return <EducationSection key={section} />;
-					if (section === "projects") return <ProjectsSection key={section} />;
-					if (section === "skills") return <SkillsSection key={section} />;
-					if (section === "languages") return <LanguagesSection key={section} />;
-
-					return (
-						<section key={section} className={cn("page-section", `page-section-${section}`)}>
-							<h5 className="text-(--page-primary-color)">{section}</h5>
-
-							<p>
-								Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam inventore fugiat, numquam, corporis
-								culpa, explicabo dolorem ullam tempore vero sit nam libero fuga ipsum quia iure totam porro voluptate
-								et? Ex provident nulla sit at dolorem iste quasi, repellat quisquam esse iusto animi explicabo placeat
-								officia veniam tempore fugit sint aliquam quae ipsa debitis nihil ab! Natus, sit cumque. Magni. Impedit
-								debitis expedita maxime itaque molestias qui, quia a nulla eum. Officia quibusdam odio id laboriosam
-								adipisci magni autem cumque praesentium nostrum et eligendi, quae harum, suscipit modi eum. Culpa.
-							</p>
-						</section>
-					);
-				})}
+				{main.map((section) => getSectionComponent(section as "summary" | SectionType))}
 			</main>
 
 			<aside className="page-sidebar space-y-4">
-				{sidebar.map((section) => (
-					<section key={section}>
-						<h5 className="text-(--page-primary-color)">{section}</h5>
-
-						<p>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam inventore fugiat, numquam, corporis culpa,
-							explicabo dolorem ullam tempore vero sit nam libero fuga ipsum quia iure totam porro voluptate et? Ex
-							provident nulla sit at dolorem iste quasi, repellat quisquam esse iusto animi explicabo placeat officia
-							veniam tempore fugit sint aliquam quae ipsa debitis nihil ab! Natus, sit cumque. Magni. Impedit debitis
-							expedita maxime itaque molestias qui, quia a nulla eum. Officia quibusdam odio id laboriosam adipisci
-							magni autem cumque praesentium nostrum et eligendi, quae harum, suscipit modi eum. Culpa.
-						</p>
-					</section>
-				))}
+				{sidebar.map((section) => getSectionComponent(section as "summary" | SectionType))}
 			</aside>
 		</div>
 	);
@@ -140,10 +123,12 @@ export function ProfilesSection() {
 	return (
 		<PageSection type="profiles" className="space-y-1 [&>h6]:text-(--page-primary-color)">
 			{(item) => (
-				<div key={item.id} className="flex items-start gap-1.5">
+				<div key={item.id} className="flex gap-1.5">
 					<PageIcon icon={item.icon} className="mt-0.5 shrink-0" />
 					<div className="w-full">
-						<strong>{item.network}</strong>
+						<p>
+							<strong>{item.network}</strong>
+						</p>
 						<PageLink {...item.website} label={item.website.label || item.username} className="block" />
 					</div>
 				</div>
@@ -159,18 +144,17 @@ export function ExperienceSection() {
 				<div key={item.id} className="space-y-1">
 					<div>
 						<div className="flex items-center justify-between">
-							<strong>{item.company}</strong>
+							<p>
+								<strong>{item.company}</strong>
+							</p>
 							<p>{item.location}</p>
 						</div>
-
 						<div className="flex items-center justify-between">
 							<p>{item.position}</p>
 							<p>{item.period}</p>
 						</div>
 					</div>
-
 					<TiptapContent content={item.description} />
-
 					<PageLink {...item.website} label={item.website.label} />
 				</div>
 			)}
@@ -185,7 +169,9 @@ export function EducationSection() {
 				<div key={item.id} className="space-y-1">
 					<div className="mb-2">
 						<div className="flex items-center justify-between">
-							<strong>{item.school}</strong>
+							<p>
+								<strong>{item.school}</strong>
+							</p>
 							<p>{[item.degree, item.grade].filter(Boolean).join(" • ")}</p>
 						</div>
 						<div className="flex items-center justify-between">
@@ -193,9 +179,7 @@ export function EducationSection() {
 							<p>{[item.location, item.period].filter(Boolean).join(" • ")}</p>
 						</div>
 					</div>
-
 					<TiptapContent content={item.description} />
-
 					<PageLink {...item.website} label={item.website.label} />
 				</div>
 			)}
@@ -209,12 +193,12 @@ export function ProjectsSection() {
 			{(item) => (
 				<div key={item.id} className="space-y-1">
 					<div className="flex items-center justify-between">
-						<strong>{item.name}</strong>
+						<p>
+							<strong>{item.name}</strong>
+						</p>
 						<p>{item.period}</p>
 					</div>
-
 					<TiptapContent content={item.description} />
-
 					<PageLink {...item.website} label={item.website.label} />
 				</div>
 			)}
@@ -226,10 +210,12 @@ export function SkillsSection() {
 	return (
 		<PageSection type="skills" className="space-y-1 [&>h6]:text-(--page-primary-color) [&>ul]:space-y-1">
 			{(item) => (
-				<div key={item.id} className="flex items-start gap-1.5">
+				<div key={item.id} className="flex gap-1.5">
 					<PageIcon icon={item.icon} className="mt-0.5 shrink-0" />
 					<div className="w-full">
-						<strong>{item.name}</strong>
+						<p>
+							<strong>{item.name}</strong>
+						</p>
 						<p className="opacity-60">{item.proficiency}</p>
 						<small>{item.keywords.join(", ")}</small>
 						<PageLevel level={item.level} className="mt-1.5" />
@@ -245,11 +231,162 @@ export function LanguagesSection() {
 		<PageSection type="languages" className="space-y-1 [&>h6]:text-(--page-primary-color) [&>ul]:space-y-1">
 			{(item) => (
 				<div key={item.id} className="w-full">
-					<strong>{item.language}</strong>
+					<p>
+						<strong>{item.language}</strong>
+					</p>
 					<p className="opacity-60">{item.fluency}</p>
 					<PageLevel level={item.level} className="mt-1.5" />
 				</div>
 			)}
 		</PageSection>
+	);
+}
+
+export function InterestsSection() {
+	return (
+		<PageSection type="interests" className="space-y-1 [&>h6]:text-(--page-primary-color) [&>ul]:space-y-1">
+			{(item) => (
+				<div key={item.id} className="flex w-full gap-1.5">
+					<PageIcon icon={item.icon} className="mt-0.5 shrink-0" />
+					<div>
+						<p>
+							<strong>{item.name}</strong>
+						</p>
+						<p className="opacity-60">{item.keywords.join(", ")}</p>
+					</div>
+				</div>
+			)}
+		</PageSection>
+	);
+}
+
+export function AwardsSection() {
+	return (
+		<PageSection type="awards" className="space-y-1 [&>h6]:text-(--page-primary-color) [&>ul]:space-y-1">
+			{(item) => (
+				<div key={item.id} className="space-y-1">
+					<div>
+						<div className="flex items-center justify-between">
+							<p>
+								<strong>{item.title}</strong>
+							</p>
+							<p>{item.date}</p>
+						</div>
+						<div className="flex items-center justify-between">
+							<p>{item.awarder}</p>
+						</div>
+					</div>
+					<TiptapContent content={item.description} />
+					<PageLink {...item.website} label={item.website.label} />
+				</div>
+			)}
+		</PageSection>
+	);
+}
+
+export function CertificationsSection() {
+	return (
+		<PageSection type="certifications" className="space-y-1 [&>h6]:text-(--page-primary-color) [&>ul]:space-y-1">
+			{(item) => (
+				<div key={item.id} className="space-y-1">
+					<div>
+						<div className="flex items-center justify-between">
+							<p>
+								<strong>{item.title}</strong>
+							</p>
+							<p>{item.date}</p>
+						</div>
+						<div className="flex items-center justify-between">
+							<p>{item.issuer}</p>
+						</div>
+					</div>
+					<TiptapContent content={item.description} />
+					<PageLink {...item.website} label={item.website.label} />
+				</div>
+			)}
+		</PageSection>
+	);
+}
+
+export function PublicationsSection() {
+	return (
+		<PageSection type="publications" className="space-y-1 [&>h6]:text-(--page-primary-color) [&>ul]:space-y-1">
+			{(item) => (
+				<div key={item.id} className="space-y-1">
+					<div>
+						<div className="flex items-center justify-between">
+							<p>
+								<strong>{item.title}</strong>
+							</p>
+							<p>{item.date}</p>
+						</div>
+						<div className="flex items-center justify-between">
+							<p>{item.publisher}</p>
+						</div>
+					</div>
+					<TiptapContent content={item.description} />
+					<PageLink {...item.website} label={item.website.label} />
+				</div>
+			)}
+		</PageSection>
+	);
+}
+
+export function VolunteerSection() {
+	return (
+		<PageSection type="volunteer" className="space-y-1 [&>h6]:text-(--page-primary-color) [&>ul]:space-y-1">
+			{(item) => (
+				<div key={item.id} className="space-y-1">
+					<div>
+						<div className="flex items-center justify-between">
+							<p>
+								<strong>{item.organization}</strong>
+							</p>
+							<p>{item.period}</p>
+						</div>
+						<div className="flex items-center justify-between">
+							<p>{item.location}</p>
+						</div>
+					</div>
+					<TiptapContent content={item.description} />
+					<PageLink {...item.website} label={item.website.label} />
+				</div>
+			)}
+		</PageSection>
+	);
+}
+
+export function ReferencesSection() {
+	return (
+		<PageSection type="references" className="space-y-1 [&>h6]:text-(--page-primary-color) [&>ul]:space-y-1">
+			{(item) => (
+				<div key={item.id} className="space-y-1">
+					<p>
+						<strong>{item.name}</strong>
+					</p>
+					<TiptapContent content={item.description} />
+				</div>
+			)}
+		</PageSection>
+	);
+}
+
+export function CustomSection({ id }: { id: string }) {
+	const section = useResumePreview((data) => data.customSections.find((section) => section.id === id));
+
+	if (!section) return null;
+
+	return (
+		<section
+			className={cn(
+				`page-section page-custom-section page-section-${id}`,
+				section.hidden && "hidden",
+				section.content === "" && "hidden",
+				"space-y-1 [&>h6]:text-(--page-primary-color)",
+			)}
+		>
+			<h6>{section.title}</h6>
+			<TiptapContent content={section.content} />
+		</section>
 	);
 }

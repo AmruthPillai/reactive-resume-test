@@ -164,7 +164,7 @@ function TypographySectionForm() {
 										{...field}
 										min={0.5}
 										max={4}
-										step={0.1}
+										step={0.05}
 										type="number"
 										onChange={(e) => {
 											const value = e.target.value;
@@ -294,7 +294,7 @@ function TypographySectionForm() {
 													{...field}
 													min={0.5}
 													max={4}
-													step={0.1}
+													step={0.05}
 													type="number"
 													onChange={(e) => {
 														const value = e.target.value;
