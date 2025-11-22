@@ -20,6 +20,7 @@ import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import type { SectionType } from "@/schema/resume/data";
+import { getSectionTitle } from "@/utils/resume/section";
 import { cn } from "@/utils/style";
 
 type ColumnId = "main" | "sidebar";
@@ -342,8 +343,8 @@ type LayoutItemContentProps = HTMLAttributes<HTMLDivElement> & {
 const LayoutItemContent = forwardRef<HTMLDivElement, LayoutItemContentProps>(
 	({ id, isDragging, isOverlay, className, style, ...rest }, ref) => {
 		const title = useResumeData((state) => {
-			if (id === "summary") return state.summary.title;
-			if (id in state.sections) return state.sections[id as SectionType].title;
+			if (id === "summary") return state.summary.title || getSectionTitle("summary");
+			if (id in state.sections) return state.sections[id as SectionType].title || getSectionTitle(id as SectionType);
 			const customSection = state.customSections.find((section) => section.id === id);
 			if (customSection) return customSection.title;
 			return id;

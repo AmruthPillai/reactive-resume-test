@@ -58,28 +58,3 @@ export function generateRandomName() {
 		length: 3,
 	});
 }
-
-/**
- * Checks if a string is a valid URL.
- * The string may or may not include the protocol (http:// or https://).
- * If it doesn't, it will be prefixed with https://.
- * If the string is empty, or is not a valid URL, it will return false.
- * @param value - The value to check.
- * @returns True if the value is a valid URL, false otherwise.
- */
-export function isValidUrl(value: string): false | string {
-	let url = value;
-
-	if (url === "") return false;
-
-	if (!url.startsWith("http://") && !url.startsWith("https://")) {
-		url = `https://${url}`;
-	}
-
-	try {
-		const urlObject = new URL(url);
-		return urlObject.toString();
-	} catch {
-		return false;
-	}
-}

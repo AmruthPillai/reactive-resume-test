@@ -5,7 +5,9 @@ import { onError } from "@orpc/server";
 import { RequestHeadersPlugin } from "@orpc/server/plugins";
 import { ZodToJsonSchemaConverter } from "@orpc/zod/zod4";
 import { createFileRoute } from "@tanstack/react-router";
+import { getRequestHeaders } from "@tanstack/react-start/server";
 import router from "@/integrations/orpc/router";
+import { getLocale } from "@/utils/locale";
 
 const handler = new OpenAPIHandler(router, {
 	plugins: [
@@ -31,9 +33,12 @@ const handler = new OpenAPIHandler(router, {
 });
 
 async function handle({ request }: { request: Request }) {
+	const locale = await getLocale();
+	const reqHeaders = getRequestHeaders();
+
 	const { response } = await handler.handle(request, {
 		prefix: "/api",
-		context: {},
+		context: { locale, reqHeaders },
 	});
 
 	if (!response) return new Response("NOT_FOUND", { status: 404 });

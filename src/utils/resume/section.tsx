@@ -39,7 +39,7 @@ export type RightSidebarSection =
 	| "template"
 	| "layout"
 	| "typography"
-	| "theme"
+	| "design"
 	| "page"
 	| "css"
 	| "notes"
@@ -73,7 +73,7 @@ export const rightSidebarSections: RightSidebarSection[] = [
 	"template",
 	"layout",
 	"typography",
-	"theme",
+	"design",
 	"page",
 	"css",
 	"notes",
@@ -108,7 +108,7 @@ export const getSectionTitle = (type: SidebarSection): string => {
 			.with("template", () => t`Template`)
 			.with("layout", () => t`Layout`)
 			.with("typography", () => t`Typography`)
-			.with("theme", () => t`Theme`)
+			.with("design", () => t`Design`)
 			.with("page", () => t`Page`)
 			.with("css", () => t`Custom CSS`)
 			.with("notes", () => t`Notes`)
@@ -148,7 +148,7 @@ export const getSectionIcon = (type: SidebarSection, props?: IconProps): React.R
 			.with("template", () => <DiamondsFourIcon {...iconProps} />)
 			.with("layout", () => <LayoutIcon {...iconProps} />)
 			.with("typography", () => <TextTIcon {...iconProps} />)
-			.with("theme", () => <PaletteIcon {...iconProps} />)
+			.with("design", () => <PaletteIcon {...iconProps} />)
 			.with("page", () => <ReadCvLogoIcon {...iconProps} />)
 			.with("css", () => <FileCssIcon {...iconProps} />)
 			.with("notes", () => <NotepadIcon {...iconProps} />)

@@ -22,13 +22,7 @@ export function ProfilesSectionBuilder() {
 			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
 				<AnimatePresence>
 					{section.items.map((item) => (
-						<SectionItem
-							key={item.id}
-							type="profiles"
-							item={item}
-							title={item.network}
-							subtitle={`@${item.username}`}
-						/>
+						<SectionItem key={item.id} type="profiles" item={item} title={item.network} subtitle={item.username} />
 					))}
 				</AnimatePresence>
 			</Reorder.Group>

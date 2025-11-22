@@ -1,4 +1,5 @@
 import { TiptapContent } from "@/components/input/rich-input";
+import { getSectionTitle } from "@/utils/resume/section";
 import { cn } from "@/utils/style";
 import { useResumePreview } from "../hooks/use-resume-preview";
 
@@ -18,7 +19,7 @@ export function PageSummary({ className }: PageSummaryProps) {
 				className,
 			)}
 		>
-			<h5>{section.title}</h5>
+			<h6>{section.title || getSectionTitle("summary")}</h6>
 
 			<TiptapContent style={{ columnCount: section.columns }} content={section.content} />
 		</section>

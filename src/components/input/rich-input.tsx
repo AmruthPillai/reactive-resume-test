@@ -1,4 +1,5 @@
 import { t } from "@lingui/core/macro";
+import { Trans } from "@lingui/react/macro";
 import {
 	CodeBlockIcon,
 	CodeSimpleIcon,
@@ -10,13 +11,17 @@ import {
 	ListNumbersIcon,
 	MinusIcon,
 	ParagraphIcon,
+	PlusIcon,
+	TableIcon,
 	TextAlignCenterIcon,
 	TextAlignJustifyIcon,
 	TextAlignLeftIcon,
 	TextAlignRightIcon,
 	TextBolderIcon,
+	TextHFiveIcon,
 	TextHFourIcon,
 	TextHOneIcon,
+	TextHSixIcon,
 	TextHThreeIcon,
 	TextHTwoIcon,
 	TextIndentIcon,
@@ -26,6 +31,7 @@ import {
 	TextUnderlineIcon,
 } from "@phosphor-icons/react";
 import Highlight from "@tiptap/extension-highlight";
+import { TableKit } from "@tiptap/extension-table";
 import TextAlign from "@tiptap/extension-text-align";
 import {
 	type Editor,
@@ -42,10 +48,20 @@ import z from "zod";
 import { usePrompt } from "@/hooks/use-prompt";
 import { cn } from "@/utils/style";
 import { Button } from "../ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { Toggle } from "../ui/toggle";
 
 const extensions = [
 	StarterKit.configure({
+		heading: {
+			levels: [1, 2, 3, 4, 5, 6],
+		},
 		link: {
 			openOnClick: false,
 			enableClickSelection: true,
@@ -65,6 +81,7 @@ const extensions = [
 		},
 	}),
 	TextAlign.configure({ types: ["heading", "paragraph"] }),
+	TableKit.configure(),
 ];
 
 type Props = UseEditorOptions & {
@@ -83,8 +100,8 @@ export function RichInput({ value, onChange, ...options }: Props) {
 				spellcheck: "false",
 				"data-editor": "true",
 				class: cn(
-					"group tiptap-content",
-					"max-h-[320px] min-h-[100px] overflow-y-auto p-3 pb-0 focus:outline-none",
+					"group tiptap-content dark:prose-invert!",
+					"max-h-[400px] min-h-[100px] overflow-y-auto p-3 pb-0 focus:outline-none",
 					"rounded-md rounded-t-none border focus-visible:border-ring",
 				),
 			},
@@ -160,6 +177,16 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				isHeading4: ctx.editor.isActive("heading", { level: 4 }) ?? false,
 				canHeading4: ctx.editor.can().chain().toggleHeading({ level: 4 }).run() ?? false,
 				toggleHeading4: () => ctx.editor.chain().focus().toggleHeading({ level: 4 }).run(),
+
+				// Heading 5
+				isHeading5: ctx.editor.isActive("heading", { level: 5 }) ?? false,
+				canHeading5: ctx.editor.can().chain().toggleHeading({ level: 5 }).run() ?? false,
+				toggleHeading5: () => ctx.editor.chain().focus().toggleHeading({ level: 5 }).run(),
+
+				// Heading 6
+				isHeading6: ctx.editor.isActive("heading", { level: 6 }) ?? false,
+				canHeading6: ctx.editor.can().chain().toggleHeading({ level: 6 }).run() ?? false,
+				toggleHeading6: () => ctx.editor.chain().focus().toggleHeading({ level: 6 }).run(),
 
 				// Paragraph
 				isParagraph: ctx.editor.isActive("paragraph") ?? false,
@@ -241,6 +268,16 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				canCodeBlock: ctx.editor.can().chain().toggleCodeBlock().run() ?? false,
 				toggleCodeBlock: () => ctx.editor.chain().focus().toggleCodeBlock().run(),
 
+				// Table
+				insertTable: () => ctx.editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(),
+				addColumnBefore: () => ctx.editor.chain().focus().addColumnBefore().run(),
+				addColumnAfter: () => ctx.editor.chain().focus().addColumnAfter().run(),
+				addRowBefore: () => ctx.editor.chain().focus().addRowBefore().run(),
+				addRowAfter: () => ctx.editor.chain().focus().addRowAfter().run(),
+				deleteColumn: () => ctx.editor.chain().focus().deleteColumn().run(),
+				deleteRow: () => ctx.editor.chain().focus().deleteRow().run(),
+				deleteTable: () => ctx.editor.chain().focus().deleteTable().run(),
+
 				// Hard Break
 				setHardBreak: () => ctx.editor.chain().focus().setHardBreak().run(),
 
@@ -256,6 +293,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Bold`}
 				pressed={state.isBold}
 				disabled={!state.canBold}
 				onPressedChange={state.toggleBold}
@@ -267,6 +305,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Italic`}
 				pressed={state.isItalic}
 				disabled={!state.canItalic}
 				onPressedChange={state.toggleItalic}
@@ -278,6 +317,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Underline`}
 				pressed={state.isUnderline}
 				disabled={!state.canUnderline}
 				onPressedChange={state.toggleUnderline}
@@ -289,6 +329,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Strike`}
 				pressed={state.isStrike}
 				disabled={!state.canStrike}
 				onPressedChange={state.toggleStrike}
@@ -300,6 +341,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Highlight`}
 				pressed={state.isHighlight}
 				disabled={!state.canHighlight}
 				onPressedChange={state.toggleHighlight}
@@ -313,6 +355,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Heading 1`}
 				pressed={state.isHeading1}
 				disabled={!state.canHeading1}
 				onPressedChange={state.toggleHeading1}
@@ -324,6 +367,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Heading 2`}
 				pressed={state.isHeading2}
 				disabled={!state.canHeading2}
 				onPressedChange={state.toggleHeading2}
@@ -335,6 +379,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Heading 3`}
 				pressed={state.isHeading3}
 				disabled={!state.canHeading3}
 				onPressedChange={state.toggleHeading3}
@@ -346,6 +391,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Heading 4`}
 				pressed={state.isHeading4}
 				disabled={!state.canHeading4}
 				onPressedChange={state.toggleHeading4}
@@ -357,6 +403,31 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Heading 5`}
+				pressed={state.isHeading5}
+				disabled={!state.canHeading5}
+				onPressedChange={state.toggleHeading5}
+			>
+				<TextHFiveIcon className="size-3.5" />
+			</Toggle>
+
+			<Toggle
+				size="sm"
+				tabIndex={-1}
+				className="rounded-none"
+				title={t`Heading 6`}
+				pressed={state.isHeading6}
+				disabled={!state.canHeading6}
+				onPressedChange={state.toggleHeading6}
+			>
+				<TextHSixIcon className="size-3.5" />
+			</Toggle>
+
+			<Toggle
+				size="sm"
+				tabIndex={-1}
+				className="rounded-none"
+				title={t`Paragraph`}
 				pressed={state.isParagraph}
 				disabled={!state.canParagraph}
 				onPressedChange={state.setParagraph}
@@ -370,6 +441,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Left Align`}
 				pressed={state.isLeftAlign}
 				disabled={!state.canLeftAlign}
 				onPressedChange={state.toggleLeftAlign}
@@ -381,6 +453,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Center Align`}
 				pressed={state.isCenterAlign}
 				disabled={!state.canCenterAlign}
 				onPressedChange={state.toggleCenterAlign}
@@ -392,6 +465,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Right Align`}
 				pressed={state.isRightAlign}
 				disabled={!state.canRightAlign}
 				onPressedChange={state.toggleRightAlign}
@@ -403,6 +477,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Justify Align`}
 				pressed={state.isJustifyAlign}
 				disabled={!state.canJustifyAlign}
 				onPressedChange={state.toggleJustifyAlign}
@@ -416,6 +491,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Bullet List`}
 				pressed={state.isBulletList}
 				disabled={!state.canBulletList}
 				onPressedChange={state.toggleBulletList}
@@ -427,6 +503,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Ordered List`}
 				pressed={state.isOrderedList}
 				disabled={!state.canOrderedList}
 				onPressedChange={state.toggleOrderedList}
@@ -472,6 +549,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Inline Code`}
 				pressed={state.isInlineCode}
 				disabled={!state.canInlineCode}
 				onPressedChange={state.toggleInlineCode}
@@ -483,6 +561,7 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				size="sm"
 				tabIndex={-1}
 				className="rounded-none"
+				title={t`Code Block`}
 				pressed={state.isCodeBlock}
 				disabled={!state.canCodeBlock}
 				onPressedChange={state.toggleCodeBlock}
@@ -490,11 +569,65 @@ function EditorToolbar({ editor }: { editor: Editor }) {
 				<CodeBlockIcon className="size-3.5" />
 			</Toggle>
 
-			<Button size="sm" tabIndex={-1} variant="ghost" className="rounded-none" onClick={state.setHardBreak}>
+			<DropdownMenu>
+				<DropdownMenuTrigger asChild>
+					<Button size="sm" tabIndex={-1} variant="ghost" className="rounded-none" title={t`Table`}>
+						<TableIcon className="size-3.5" />
+					</Button>
+				</DropdownMenuTrigger>
+
+				<DropdownMenuContent>
+					<DropdownMenuItem onSelect={state.insertTable}>
+						<PlusIcon />
+						<Trans>Insert Table</Trans>
+					</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem onSelect={state.addColumnBefore}>
+						<Trans>Add Column Before</Trans>
+					</DropdownMenuItem>
+					<DropdownMenuItem onSelect={state.addColumnAfter}>
+						<Trans>Add Column After</Trans>
+					</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem onSelect={state.addRowBefore}>
+						<Trans>Add Row Before</Trans>
+					</DropdownMenuItem>
+					<DropdownMenuItem onSelect={state.addRowAfter}>
+						<Trans>Add Row After</Trans>
+					</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem onSelect={state.deleteColumn}>
+						<Trans>Delete Column</Trans>
+					</DropdownMenuItem>
+					<DropdownMenuItem onSelect={state.deleteRow}>
+						<Trans>Delete Row</Trans>
+					</DropdownMenuItem>
+					<DropdownMenuSeparator />
+					<DropdownMenuItem variant="destructive" onSelect={state.deleteTable}>
+						<Trans>Delete Table</Trans>
+					</DropdownMenuItem>
+				</DropdownMenuContent>
+			</DropdownMenu>
+
+			<Button
+				size="sm"
+				tabIndex={-1}
+				variant="ghost"
+				className="rounded-none"
+				title={t`New Line`}
+				onClick={state.setHardBreak}
+			>
 				<KeyReturnIcon className="size-3.5" />
 			</Button>
 
-			<Button size="sm" tabIndex={-1} variant="ghost" className="rounded-none" onClick={state.setHorizontalRule}>
+			<Button
+				size="sm"
+				tabIndex={-1}
+				variant="ghost"
+				className="rounded-none"
+				title={t`Separator`}
+				onClick={state.setHorizontalRule}
+			>
 				<MinusIcon className="size-3.5" />
 			</Button>
 		</div>
@@ -506,6 +639,10 @@ type TiptapContentProps = React.ComponentProps<"div"> & {
 };
 
 export function TiptapContent({ content, className, ...props }: TiptapContentProps) {
-	// biome-ignore lint/security/noDangerouslySetInnerHtml: Safe to render HTML content
-	return <div className={cn("tiptap-content", className)} dangerouslySetInnerHTML={{ __html: content }} {...props} />;
+	return (
+		<div>
+			{/* biome-ignore lint/security/noDangerouslySetInnerHtml: Safe to render HTML content */}
+			<div className={cn("tiptap-content", className)} dangerouslySetInnerHTML={{ __html: content }} {...props} />
+		</div>
+	);
 }

@@ -1,28 +1,37 @@
 import z from "zod";
 import type { IconName } from "@/components/input/icon-picker";
+import { localeSchema } from "@/utils/locale";
 
-export const hexColorSchema = z.string().regex(/^#([0-9a-fA-F]{6})$/i, "Should be a valid hex color code");
+export const iconSchema = z.custom<IconName>();
 
 export const urlSchema = z.object({
 	url: z.url().or(z.literal("")),
 	label: z.string(),
 });
 
+export const hexColorSchema = z
+	.string()
+	.regex(
+		/^#([0-9a-fA-F]{6})([0-9a-fA-F]{2})?$/i,
+		"Should be a valid hex color code, with an optional opacity (e.g. #000000FF).",
+	);
+
 export const pictureSchema = z.object({
+	hidden: z.boolean(),
 	url: z.url().or(z.literal("")),
 	size: z.number().min(32).max(512),
 	rotation: z.number().min(0).max(360),
 	aspectRatio: z.number().min(0.5).max(2.5),
 	borderRadius: z.number().min(0).max(50),
-	hidden: z.boolean(),
-	border: z.boolean(),
-	shadow: z.boolean(),
-	grayscale: z.boolean(),
+	borderColor: hexColorSchema,
+	borderWidth: z.number().min(0),
+	shadowColor: hexColorSchema,
+	shadowWidth: z.number().min(0),
 });
 
 export const customFieldSchema = z.object({
 	id: z.string(),
-	icon: z.custom<IconName>(),
+	icon: iconSchema,
 	text: z.string(),
 });
 
@@ -85,7 +94,7 @@ export const experienceItemSchema = baseItemSchema.extend({
 });
 
 export const interestItemSchema = baseItemSchema.extend({
-	icon: z.custom<IconName>(),
+	icon: iconSchema,
 	name: z.string().min(1),
 	keywords: z.array(z.string()).catch([]),
 });
@@ -97,7 +106,7 @@ export const languageItemSchema = baseItemSchema.extend({
 });
 
 export const profileItemSchema = baseItemSchema.extend({
-	icon: z.custom<IconName>(),
+	icon: iconSchema,
 	network: z.string().min(1),
 	username: z.string(),
 	website: urlSchema,
@@ -124,7 +133,7 @@ export const referenceItemSchema = baseItemSchema.extend({
 });
 
 export const skillItemSchema = baseItemSchema.extend({
-	icon: z.custom<IconName>(),
+	icon: iconSchema,
 	name: z.string().min(1),
 	proficiency: z.string(),
 	level: z.number().min(0).max(5).catch(0),
@@ -221,7 +230,7 @@ export type CustomSection = z.infer<typeof customSectionSchema>;
 
 export const customSectionsSchema = z.array(customSectionSchema);
 
-export const typographySchema = z.object({
+export const typographyItemSchema = z.object({
 	fontFamily: z.string(),
 	fontWeight: z.string(),
 	fontSize: z.number().min(6).max(24).catch(11),
@@ -234,30 +243,51 @@ export const pageLayoutSchema = z.object({
 	sidebar: z.array(z.string()),
 });
 
+export const layoutSchema = z.object({
+	sidebarWidth: z.number().min(10).max(50).catch(20),
+	pages: z.array(pageLayoutSchema),
+});
+
+export const cssSchema = z.object({
+	enabled: z.boolean(),
+	value: z.string(),
+});
+
+export const pageSchema = z.object({
+	marginX: z.number(),
+	marginY: z.number(),
+	format: z.enum(["a4", "letter"]),
+});
+
+export const levelDesignSchema = z.object({
+	icon: iconSchema,
+	type: z.enum(["hidden", "circle", "square", "rectangle", "rectangle-full", "progress-bar", "icon"]),
+});
+
+export const colorDesignSchema = z.object({
+	primary: hexColorSchema,
+	text: hexColorSchema,
+	background: hexColorSchema,
+});
+
+export const designSchema = z.object({
+	level: levelDesignSchema,
+	colors: colorDesignSchema,
+});
+
+export const typographySchema = z.object({
+	body: typographyItemSchema,
+	heading: typographyItemSchema,
+});
+
 export const metadataSchema = z.object({
+	locale: localeSchema.catch("en-US"),
 	template: z.string(),
-	layout: z.object({
-		sidebarWidth: z.number().min(10).max(50).catch(20),
-		pages: z.array(pageLayoutSchema),
-	}),
-	css: z.object({
-		enabled: z.boolean(),
-		value: z.string(),
-	}),
-	page: z.object({
-		marginX: z.number(),
-		marginY: z.number(),
-		format: z.enum(["a4", "letter"]),
-	}),
-	theme: z.object({
-		primary: hexColorSchema,
-		text: hexColorSchema,
-		background: hexColorSchema,
-	}),
-	typography: z.object({
-		body: typographySchema,
-		heading: typographySchema,
-	}),
+	layout: layoutSchema,
+	css: cssSchema,
+	page: pageSchema,
+	design: designSchema,
+	typography: typographySchema,
 	notes: z.string(),
 });
 
@@ -274,15 +304,16 @@ export type ResumeData = z.infer<typeof resumeDataSchema>;
 
 export const defaultResumeData: ResumeData = {
 	picture: {
+		hidden: false,
 		url: "",
-		size: 64,
+		size: 80,
 		rotation: 0,
 		aspectRatio: 1,
 		borderRadius: 0,
-		hidden: false,
-		border: false,
-		shadow: false,
-		grayscale: false,
+		borderColor: "#000000",
+		borderWidth: 0,
+		shadowColor: "#00000044",
+		shadowWidth: 0,
 	},
 	basics: {
 		name: "",
@@ -294,80 +325,80 @@ export const defaultResumeData: ResumeData = {
 		customFields: [],
 	},
 	summary: {
-		title: "Summary",
+		title: "",
 		columns: 1,
 		hidden: false,
 		content: "",
 	},
 	sections: {
 		profiles: {
-			title: "Profiles",
+			title: "",
 			columns: 1,
 			hidden: false,
 			items: [],
 		},
 		experience: {
-			title: "Experience",
+			title: "",
 			columns: 1,
 			hidden: false,
 			items: [],
 		},
 		education: {
-			title: "Education",
+			title: "",
 			columns: 1,
 			hidden: false,
 			items: [],
 		},
 		projects: {
-			title: "Projects",
+			title: "",
 			columns: 1,
 			hidden: false,
 			items: [],
 		},
 		skills: {
-			title: "Skills",
+			title: "",
 			columns: 1,
 			hidden: false,
 			items: [],
 		},
 		languages: {
-			title: "Languages",
+			title: "",
 			columns: 1,
 			hidden: false,
 			items: [],
 		},
 		interests: {
-			title: "Interests",
+			title: "",
 			columns: 1,
 			hidden: false,
 			items: [],
 		},
 		awards: {
-			title: "Awards",
+			title: "",
 			columns: 1,
 			hidden: false,
 			items: [],
 		},
 		certifications: {
-			title: "Certifications",
+			title: "",
 			columns: 1,
 			hidden: false,
 			items: [],
 		},
 		publications: {
-			title: "Publications",
+			title: "",
 			columns: 1,
 			hidden: false,
 			items: [],
 		},
 		volunteer: {
-			title: "Volunteer",
+			title: "",
 			columns: 1,
 			hidden: false,
 			items: [],
 		},
 		references: {
-			title: "References",
+			title: "",
 			columns: 1,
 			hidden: false,
 			items: [],
@@ -375,6 +406,7 @@ export const defaultResumeData: ResumeData = {
 	},
 	customSections: [],
 	metadata: {
+		locale: "en-US",
 		template: "onyx",
 		layout: {
 			sidebarWidth: 20,
@@ -388,7 +420,17 @@ export const defaultResumeData: ResumeData = {
 		},
 		css: { enabled: false, value: "" },
 		page: { marginX: 18, marginY: 18, format: "a4" },
-		theme: { primary: "#dc2626", text: "#000000", background: "#ffffff" },
+		design: {
+			colors: {
+				primary: "#dc2626",
+				text: "#000000",
+				background: "#ffffff",
+			},
+			level: {
+				icon: "star",
+				type: "rectangle-full",
+			},
+		},
 		typography: {
 			body: {
 				fontFamily: "IBM Plex Serif",
@@ -409,15 +451,16 @@ export const defaultResumeData: ResumeData = {
 
 export const sampleResumeData: ResumeData = {
 	picture: {
+		hidden: false,
 		url: "http://localhost:3200/photos/andrew-power.jpg",
-		size: 150,
+		size: 80,
 		rotation: 0,
 		aspectRatio: 1,
 		borderRadius: 0,
-		hidden: false,
-		border: false,
-		shadow: false,
-		grayscale: false,
+		borderColor: "#000000",
+		borderWidth: 0,
+		shadowColor: "#00000044",
+		shadowWidth: 0,
 	},
 	basics: {
 		name: "Sarah Chen",
@@ -989,6 +1032,7 @@ export const sampleResumeData: ResumeData = {
 		},
 	],
 	metadata: {
+		locale: "en-US",
 		template: "onyx",
 		layout: {
 			sidebarWidth: 20,
@@ -1009,10 +1053,16 @@ export const sampleResumeData: ResumeData = {
 			marginY: 18,
 			format: "a4",
 		},
-		theme: {
-			primary: "#3b82f6",
-			text: "#1f2937",
-			background: "#ffffff",
+		design: {
+			colors: {
+				primary: "#3b82f6",
+				text: "#1f2937",
+				background: "#ffffff",
+			},
+			level: {
+				icon: "star",
+				type: "rectangle-full",
+			},
 		},
 		typography: {
 			body: {

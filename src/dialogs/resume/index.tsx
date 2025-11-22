@@ -7,7 +7,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo } from "react";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
 import { toast } from "sonner";
-import type z from "zod";
+import z from "zod";
 import { ChipInput } from "@/components/input/chip-input";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -29,16 +29,15 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
 import { authClient } from "@/integrations/auth/client";
-import { resumeSchema } from "@/integrations/drizzle/schema";
 import { orpc, type RouterInput } from "@/integrations/orpc/client";
 import { generateId, generateRandomName, slugify } from "@/utils/string";
 import { type DialogProps, useDialogStore } from "../store";
 
-const formSchema = resumeSchema.pick({
-	id: true,
-	name: true,
-	slug: true,
-	tags: true,
+const formSchema = z.object({
+	id: z.string(),
+	name: z.string().min(1).max(64),
+	slug: z.string().min(1).max(64).transform(slugify),
+	tags: z.array(z.string()),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -65,6 +64,7 @@ export function CreateResumeDialog({ open, onOpenChange }: DialogProps<"resume.c
 	}, [form, name]);
 
 	const onSubmit = (data: FormValues) => {
+		console.log("data", data);
 		const toastId = toast.loading(t`Creating your resume...`);
 
 		createResume(data, {
@@ -122,7 +122,7 @@ export function CreateResumeDialog({ open, onOpenChange }: DialogProps<"resume.c
 						<DialogFooter>
 							<ButtonGroup aria-label="Create Resume with Options" className="gap-x-px">
 								<Button type="submit" disabled={isPending}>
-									Create
+									<Trans>Create</Trans>
 								</Button>
 
 								<DropdownMenu>
@@ -355,7 +355,7 @@ export function ResumeForm() {
 							<Trans>Tags</Trans>
 						</FormLabel>
 						<FormControl>
-							<ChipInput mode="slugify" {...field} />
+							<ChipInput {...field} />
 						</FormControl>
 						<FormMessage />
 						<FormDescription>

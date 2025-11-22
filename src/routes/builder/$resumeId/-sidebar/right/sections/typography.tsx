@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { metadataSchema } from "@/schema/resume/data";
+import { typographySchema } from "@/schema/resume/data";
 import { cn } from "@/utils/style";
 import { SectionBase } from "../shared/section-base";
 
@@ -22,7 +22,7 @@ export function TypographySectionBuilder() {
 	);
 }
 
-const formSchema = metadataSchema.shape.typography;
+const formSchema = typographySchema;
 
 type FormValues = z.infer<typeof formSchema>;
 type TypographyValues = FormValues["body"];

@@ -8,17 +8,19 @@ import { createIsomorphicFn } from "@tanstack/react-start";
 import { getRequestHeaders } from "@tanstack/react-start/server";
 
 import router from "@/integrations/orpc/router";
+import { getLocale } from "@/utils/locale";
 
 const getORPCClient = createIsomorphicFn()
 	.server(() =>
 		createRouterClient(router, {
-			context: () => {
-				const headers = getRequestHeaders();
+			context: async () => {
+				const locale = await getLocale();
+				const reqHeaders = getRequestHeaders();
+
 				// Add a custom header to identify server-side calls
-				headers.set("x-server-side-call", "true");
-				return {
-					reqHeaders: headers,
-				};
+				reqHeaders.set("x-server-side-call", "true");
+
+				return { locale, reqHeaders };
 			},
 		}),
 	)

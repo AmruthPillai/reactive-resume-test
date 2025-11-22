@@ -1,6 +1,6 @@
 .page_preview {
 	width: var(--page-width);
-	height: calc(var(--page-height) - var(--page-margin-y));
+	min-height: var(--page-height);
 	overflow: hidden;
 	font-family: var(--page-body-font-family);
 	font-size: calc(var(--page-body-font-size) * 1pt);
@@ -21,7 +21,7 @@
 	}
 
 	h1 {
-		font-size: calc(var(--page-heading-font-size) * 2pt);
+		font-size: calc(var(--page-heading-font-size) * 1.5pt);
 	}
 
 	h2 {
@@ -53,6 +53,10 @@
 		a {
 			text-decoration: none;
 		}
+	}
+
+	small {
+		font-size: calc(var(--page-body-font-size) * 0.9pt);
 	}
 
 	section,

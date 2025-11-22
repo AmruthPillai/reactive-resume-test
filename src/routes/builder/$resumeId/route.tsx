@@ -36,6 +36,10 @@ function RouteComponent() {
 
 	useLayoutEffect(() => {
 		setResume(resume);
+
+		return () => {
+			setResume(null);
+		};
 	}, [resume, setResume]);
 
 	if (!resume || !isResumeReady) return <LoadingScreen />;

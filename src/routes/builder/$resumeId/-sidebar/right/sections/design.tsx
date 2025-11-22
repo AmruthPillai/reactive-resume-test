@@ -5,37 +5,39 @@ import { useForm } from "react-hook-form";
 import type z from "zod";
 import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { ColorPicker } from "@/components/input/color-picker";
+import { IconPicker } from "@/components/input/icon-picker";
+import { LevelTypeCombobox } from "@/components/level/combobox";
+import { LevelDisplay } from "@/components/level/display";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { metadataSchema } from "@/schema/resume/data";
+import { Separator } from "@/components/ui/separator";
+import { colorDesignSchema, levelDesignSchema } from "@/schema/resume/data";
 import { cn } from "@/utils/style";
 import { SectionBase } from "../shared/section-base";
 
-export function ThemeSectionBuilder() {
+export function DesignSectionBuilder() {
 	return (
-		<SectionBase type="theme">
-			<ThemeSectionForm />
+		<SectionBase type="design" className="space-y-6">
+			<ColorSectionForm />
+			<Separator />
+			<LevelSectionForm />
 		</SectionBase>
 	);
 }
 
-const formSchema = metadataSchema.shape.theme;
-
-type FormValues = z.infer<typeof formSchema>;
-
-function ThemeSectionForm() {
-	const theme = useResumeData((state) => state.metadata.theme);
+function ColorSectionForm() {
+	const colors = useResumeData((state) => state.metadata.design.colors);
 	const updateResume = useResumeStore((state) => state.updateResume);
 
-	const form = useForm<FormValues>({
+	const form = useForm<z.infer<typeof colorDesignSchema>>({
 		mode: "onChange",
-		resolver: zodResolver(formSchema),
-		defaultValues: theme,
+		resolver: zodResolver(colorDesignSchema),
+		defaultValues: colors,
 	});
 
-	const onSubmit = (data: FormValues) => {
+	const onSubmit = (data: z.infer<typeof colorDesignSchema>) => {
 		updateResume((draft) => {
-			draft.metadata.theme = data;
+			draft.metadata.design.colors = data;
 		});
 	};
 
@@ -199,5 +201,91 @@ function QuickColorCircle({ color, active, onSelect, className, ...props }: Quic
 				)}
 			</AnimatePresence>
 		</button>
+	);
+}
+
+function LevelSectionForm() {
+	const colors = useResumeData((state) => state.metadata.design.colors);
+	const levelDesign = useResumeData((state) => state.metadata.design.level);
+	const updateResume = useResumeStore((state) => state.updateResume);
+
+	const form = useForm<z.infer<typeof levelDesignSchema>>({
+		mode: "onChange",
+		resolver: zodResolver(levelDesignSchema),
+		defaultValues: levelDesign,
+	});
+
+	const onSubmit = (data: z.infer<typeof levelDesignSchema>) => {
+		updateResume((draft) => {
+			draft.metadata.design.level = data;
+		});
+	};
+
+	return (
+		<Form {...form}>
+			<form onChange={form.handleSubmit(onSubmit)} className="space-y-4">
+				<h4 className="font-semibold text-lg leading-none tracking-tight">
+					<Trans>Level</Trans>
+				</h4>
+
+				<div
+					style={{ "--page-primary-color": colors.primary, backgroundColor: colors.background } as React.CSSProperties}
+					className="flex items-center justify-center rounded-sm p-6"
+				>
+					<LevelDisplay
+						level={3}
+						type={form.watch("type")}
+						icon={form.watch("icon")}
+						className="w-full max-w-[220px] justify-center"
+					/>
+				</div>
+
+				<div className="flex items-center gap-4">
+					<FormField
+						control={form.control}
+						name="icon"
+						render={({ field }) => (
+							<FormItem className="shrink-0">
+								<FormLabel>
+									<Trans>Icon</Trans>
+								</FormLabel>
+								<FormControl>
+									<IconPicker
+										size="default"
+										value={field.value}
+										onChange={(value) => {
+											field.onChange(value);
+											form.handleSubmit(onSubmit)();
+										}}
+									/>
+								</FormControl>
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="type"
+						render={({ field }) => (
+							<FormItem className="flex-1">
+								<FormLabel>
+									<Trans>Type</Trans>
+								</FormLabel>
+								<FormControl>
+									<LevelTypeCombobox
+										value={field.value}
+										onValueChange={(value) => {
+											if (!value) return;
+											field.onChange(value);
+											form.handleSubmit(onSubmit)();
+										}}
+									/>
+								</FormControl>
+							</FormItem>
+						)}
+					/>
+				</div>
+			</form>
+		</Form>
 	);
 }

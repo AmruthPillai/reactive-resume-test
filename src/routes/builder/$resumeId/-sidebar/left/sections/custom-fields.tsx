@@ -57,7 +57,7 @@ export function CustomFieldsSection({ onSubmit }: Props) {
 								<FormControl>
 									<IconPicker
 										{...field}
-										className="rounded-r-none!"
+										className="rounded-r-none! border-r-0!"
 										onChange={(icon) => {
 											field.onChange(icon);
 											form.handleSubmit(onSubmit)();
@@ -76,7 +76,7 @@ export function CustomFieldsSection({ onSubmit }: Props) {
 								<FormControl>
 									<Input
 										{...field}
-										className="rounded-l-none! border-l-0! focus-visible:border-border focus-visible:ring-0"
+										className="rounded-l-none!"
 										onChange={(e) => {
 											field.onChange(e.target.value);
 											form.handleSubmit(onSubmit)();

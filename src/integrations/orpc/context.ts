@@ -1,9 +1,12 @@
 import { ORPCError, os } from "@orpc/server";
 import type { RequestHeadersPluginContext } from "@orpc/server/plugins";
+import type { Locale } from "@/utils/locale";
 import { auth } from "../auth/config";
 import type { AuthSession } from "../auth/types";
 
-interface ORPCContext extends RequestHeadersPluginContext {}
+interface ORPCContext extends RequestHeadersPluginContext {
+	locale: Locale;
+}
 
 async function getSession(context: ORPCContext): Promise<AuthSession | null> {
 	try {

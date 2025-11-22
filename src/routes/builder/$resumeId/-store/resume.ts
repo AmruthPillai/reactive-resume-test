@@ -14,7 +14,7 @@ interface ResumeStoreState {
 }
 
 interface ResumeStoreActions {
-	setResume: (resume: Resume) => void;
+	setResume: (resume: Resume | null) => void;
 	updateResume: (fn: (draft: WritableDraft<ResumeData>) => void) => void;
 }
 
@@ -33,8 +33,8 @@ export const useResumeStore = create<ResumeStore>()(
 
 		setResume: (resume) => {
 			return set((state) => {
-				state.resume = resume;
-				state.isReady = true;
+				state.resume = resume as Resume;
+				state.isReady = resume !== null;
 			});
 		},
 

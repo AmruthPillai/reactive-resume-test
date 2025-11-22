@@ -6,7 +6,7 @@ import { useResumeData, useResumeStore } from "@/builder/-store/resume";
 import { Combobox } from "@/components/ui/combobox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
-import { metadataSchema } from "@/schema/resume/data";
+import { pageSchema } from "@/schema/resume/data";
 import { SectionBase } from "../shared/section-base";
 
 export function PageSectionBuilder() {
@@ -17,7 +17,7 @@ export function PageSectionBuilder() {
 	);
 }
 
-const formSchema = metadataSchema.shape.page;
+const formSchema = pageSchema;
 
 type FormValues = z.infer<typeof formSchema>;
 

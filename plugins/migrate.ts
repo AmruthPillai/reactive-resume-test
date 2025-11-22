@@ -1,11 +1,16 @@
 import { drizzle } from "drizzle-orm/bun-sql";
 import { migrate } from "drizzle-orm/bun-sql/migrator";
-import { env } from "@/utils/env";
 
-export async function migrateDatabase() {
+import { definePlugin } from "nitro";
+
+export default definePlugin(async () => {
 	console.log("⌛ Running database migrations...");
 
-	const client = new Bun.SQL(env.DATABASE_URL);
+	if (!process.env.DATABASE_URL) {
+		throw new Error("DATABASE_URL is not set");
+	}
+
+	const client = new Bun.SQL(process.env.DATABASE_URL);
 	const db = drizzle(client);
 
 	try {
@@ -16,8 +21,4 @@ export async function migrateDatabase() {
 	} finally {
 		await client.end();
 	}
-}
-
-if (import.meta.main) {
-	await migrateDatabase();
-}
+});

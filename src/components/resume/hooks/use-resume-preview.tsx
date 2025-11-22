@@ -15,6 +15,12 @@ export const ResumePreviewProvider = ({ data, children }: ProviderProps) => {
 	const [fontsReady, setFontsReady] = useState(false);
 
 	useLayoutEffect(() => {
+		document.documentElement.style.cssText = Object.entries(style)
+			.map(([key, value]) => `${key}: ${value};`)
+			.join("");
+	}, [style]);
+
+	useLayoutEffect(() => {
 		async function loadFont(family: string, weight: string) {
 			const font = webfontlist.find((font) => font.family === family);
 			if (!font) return;
@@ -48,7 +54,7 @@ export const ResumePreviewProvider = ({ data, children }: ProviderProps) => {
 
 	return (
 		<ResumePreviewContext.Provider value={data}>
-			<div style={{ ...style, all: "initial" }}>{children}</div>
+			<div style={{ all: "initial" }}>{children}</div>
 		</ResumePreviewContext.Provider>
 	);
 };

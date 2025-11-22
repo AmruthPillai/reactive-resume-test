@@ -69,6 +69,7 @@ export const resumeRouter = {
 				name: input.name,
 				slug: input.slug,
 				tags: input.tags,
+				locale: context.locale,
 				data: input.withSampleData ? sampleResumeData : undefined,
 			});
 		}),
@@ -127,6 +128,7 @@ export const resumeRouter = {
 				name: input.name ?? original.name,
 				slug: input.slug ?? original.slug,
 				tags: input.tags ?? original.tags,
+				locale: context.locale,
 				data: original.data,
 			});
 		}),

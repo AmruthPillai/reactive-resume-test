@@ -19,12 +19,12 @@ services:
   pgbouncer:
     image: edoburu/pgbouncer:latest
     restart: unless-stopped
+    ports:
+      - "65432:5432"
     environment:
       POOL_MODE: transaction
       AUTH_TYPE: scram-sha-256
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
-    ports:
-      - "65432:5432"
     depends_on:
       postgres:
         condition: service_healthy
@@ -36,30 +36,44 @@ services:
 
   rustfs:
     image: rustfs/rustfs:latest
-    command: /data
+    restart: unless-stopped
+    security_opt:
+      - "no-new-privileges:true"
     ports:
-      - "9005:9000" # API
-      - "9006:9001" # Web UI
+      - "9100:9000" # S3 API
+      - "9101:9001" # Admin UI
     environment:
-      - RUSTFS_ACCESS_KEY=rustfsadmin
-      - RUSTFS_SECRET_KEY=rustfsadmin
+      - RUSTFS_CONSOLE_ENABLE=true
+      - RUSTFS_ACCESS_KEY=rustfs
+      - RUSTFS_SECRET_KEY=rustfs
+      - RUSTFS_EXTERNAL_ADDRESS=:9100
     volumes:
       - rustfs_data:/data
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:9000/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      test:
+        [
+          "CMD",
+          "sh",
+          "-c",
+          "curl -f http://localhost:9000/health && curl -f http://localhost:9001/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
-  browserless:
+  chromium:
     image: ghcr.io/browserless/chromium:latest
+    restart: unless-stopped
     ports:
-      - "3400:3000"
+      - "4200:3000"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      - chromium_data:/data
     environment:
-      - TOKEN=1234567890
-      - CONCURRENT=10
+      - HEALTH=true
+      - TOKEN=d8a204e77fc43324ede80fa1bd799391
 
   # app:
   #   build:
@@ -85,3 +99,4 @@ services:
 volumes:
   rustfs_data:
   postgres_data:
+  chromium_data:

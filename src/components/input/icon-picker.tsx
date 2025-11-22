@@ -92,7 +92,7 @@ export function IconPicker({ value, onChange, popoverProps, ...props }: IconPick
 		<Popover {...popoverProps}>
 			<PopoverTrigger asChild>
 				<Button size="icon" variant="outline" {...props}>
-					<i className={cn("ph text-base", `ph-${value}`)} />
+					<i className={cn("ph size-4 text-base", `ph-${value}`)} />
 				</Button>
 			</PopoverTrigger>
 

@@ -28,7 +28,6 @@ import { useDialogStore } from "@/dialogs/store";
 import { useConfirm } from "@/hooks/use-confirm";
 import { usePrompt } from "@/hooks/use-prompt";
 import type { SectionType } from "@/schema/resume/data";
-import { getSectionTitle } from "@/utils/resume/section";
 
 type Props = {
 	type: "summary" | SectionType;
@@ -63,22 +62,13 @@ export function SectionDropdownMenu({ type }: Props) {
 			defaultValue: section.title,
 		});
 
-		if (!newTitle) {
-			updateResume((draft) => {
-				if (type === "summary") {
-					draft.summary.title = getSectionTitle("summary");
-				} else {
-					draft.sections[type].title = getSectionTitle(type);
-				}
-			});
-			return;
-		}
+		if (newTitle === null || newTitle === section.title) return;
 
 		updateResume((draft) => {
 			if (type === "summary") {
-				draft.summary.title = newTitle;
+				draft.summary.title = newTitle ?? "";
 			} else {
-				draft.sections[type].title = newTitle;
+				draft.sections[type].title = newTitle ?? "";
 			}
 		});
 	};
@@ -152,7 +142,7 @@ export function SectionDropdownMenu({ type }: Props) {
 
 						<DropdownMenuSubContent>
 							<DropdownMenuRadioGroup value={section.columns.toString()} onValueChange={onSetColumns}>
-								{[1, 2, 3, 4].map((column) => (
+								{[1, 2, 3, 4, 5, 6].map((column) => (
 									<DropdownMenuRadioItem key={column} value={column.toString()}>
 										<Plural value={column} one="# Column" other="# Columns" />
 									</DropdownMenuRadioItem>

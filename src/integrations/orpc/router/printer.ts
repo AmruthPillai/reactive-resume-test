@@ -7,13 +7,13 @@ import { publicProcedure } from "../context";
 
 export const printerRouter = {
 	printResumeAsPDF: publicProcedure.input(z.object({ id: z.string() })).handler(async ({ input }): Promise<File> => {
+		const browser = await puppeteer.connect({
+			browserWSEndpoint: env.PRINTER_ENDPOINT,
+			defaultViewport: { width: 794, height: 1123 },
+		});
+
 		try {
 			const token = generatePrinterToken(input.id);
-
-			const browser = await puppeteer.connect({
-				browserWSEndpoint: env.PRINTER_ENDPOINT,
-				defaultViewport: { width: 794, height: 1123 },
-			});
 
 			const page = await browser.newPage();
 
@@ -35,6 +35,8 @@ export const printerRouter = {
 			console.error(error);
 
 			throw new ORPCError("INTERNAL_SERVER_ERROR");
+		} finally {
+			await browser.disconnect();
 		}
 	}),
 };

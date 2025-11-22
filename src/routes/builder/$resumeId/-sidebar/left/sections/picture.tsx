@@ -1,24 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { ApertureIcon, TrashSimpleIcon, UploadSimpleIcon } from "@phosphor-icons/react";
+import { EyeIcon, EyeSlashIcon, TrashSimpleIcon, UploadSimpleIcon } from "@phosphor-icons/react";
 import { useMutation } from "@tanstack/react-query";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type z from "zod";
 import { useResumeData, useResumeStore } from "@/builder/-store/resume";
+import { ColorPicker } from "@/components/input/color-picker";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
-import {
-	DropdownMenu,
-	DropdownMenuCheckboxItem,
-	DropdownMenuContent,
-	DropdownMenuGroup,
-	DropdownMenuLabel,
-	DropdownMenuSeparator,
-	DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText } from "@/components/ui/input-group";
@@ -114,7 +106,7 @@ function PictureSectionForm() {
 							<img
 								alt=""
 								src={picture.url}
-								className="fade-in relative z-10 size-full animate-in rounded-md object-cover transition-opacity duration-300 group-hover/picture:opacity-20"
+								className="fade-in relative z-10 size-full animate-in rounded-md object-cover transition-opacity group-hover/picture:opacity-20"
 							/>
 						)}
 
@@ -131,72 +123,25 @@ function PictureSectionForm() {
 								<FormLabel>
 									<Trans>URL</Trans>
 								</FormLabel>
-								<FormControl>
-									<Input {...field} />
-								</FormControl>
+								<div className="flex items-center gap-x-2">
+									<FormControl>
+										<Input {...field} />
+									</FormControl>
+
+									<Button
+										size="icon"
+										variant="ghost"
+										onClick={() => {
+											form.setValue("hidden", !picture.hidden, { shouldDirty: true });
+											form.handleSubmit(onSubmit)();
+										}}
+									>
+										{picture.hidden ? <EyeSlashIcon /> : <EyeIcon />}
+									</Button>
+								</div>
 							</FormItem>
 						)}
 					/>
-
-					<div className="-ml-2 flex h-[58px] items-end">
-						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<Button size="icon" variant="ghost">
-									<ApertureIcon />
-								</Button>
-							</DropdownMenuTrigger>
-
-							<DropdownMenuContent align="end">
-								<DropdownMenuCheckboxItem
-									checked={form.watch("hidden")}
-									onCheckedChange={(value) => {
-										form.setValue("hidden", value, { shouldDirty: true });
-										form.handleSubmit(onSubmit)();
-									}}
-								>
-									<Trans>Hidden</Trans>
-								</DropdownMenuCheckboxItem>
-
-								<DropdownMenuSeparator />
-
-								<DropdownMenuGroup>
-									<DropdownMenuLabel>
-										<Trans>Effects</Trans>
-									</DropdownMenuLabel>
-
-									<DropdownMenuCheckboxItem
-										checked={form.watch("border")}
-										onCheckedChange={(value) => {
-											form.setValue("border", value, { shouldDirty: true });
-											form.handleSubmit(onSubmit)();
-										}}
-									>
-										<Trans>Border</Trans>
-									</DropdownMenuCheckboxItem>
-
-									<DropdownMenuCheckboxItem
-										checked={form.watch("shadow")}
-										onCheckedChange={(value) => {
-											form.setValue("shadow", value, { shouldDirty: true });
-											form.handleSubmit(onSubmit)();
-										}}
-									>
-										<Trans>Shadow</Trans>
-									</DropdownMenuCheckboxItem>
-
-									<DropdownMenuCheckboxItem
-										checked={form.watch("grayscale")}
-										onCheckedChange={(value) => {
-											form.setValue("grayscale", value, { shouldDirty: true });
-											form.handleSubmit(onSubmit)();
-										}}
-									>
-										<Trans>Grayscale</Trans>
-									</DropdownMenuCheckboxItem>
-								</DropdownMenuGroup>
-							</DropdownMenuContent>
-						</DropdownMenu>
-					</div>
 				</div>
 
 				<div className="grid @md:grid-cols-2 grid-cols-1 gap-4">
@@ -392,6 +337,106 @@ function PictureSectionForm() {
 							</FormItem>
 						)}
 					/>
+
+					<div className="flex items-center gap-x-2">
+						<FormField
+							control={form.control}
+							name="borderColor"
+							render={({ field }) => (
+								<FormItem className="shrink-0 self-end">
+									<FormControl>
+										<ColorPicker
+											defaultValue={field.value}
+											onChange={(color) => {
+												field.onChange(color);
+												form.handleSubmit(onSubmit)();
+											}}
+										/>
+									</FormControl>
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="borderWidth"
+							render={({ field }) => (
+								<FormItem className="flex-1">
+									<FormLabel>
+										<Trans>Border Width</Trans>
+									</FormLabel>
+									<InputGroup>
+										<FormControl>
+											<InputGroupInput
+												{...field}
+												type="number"
+												min={0}
+												step={1}
+												onChange={(e) => {
+													const value = e.target.value;
+													if (value === "") field.onChange("");
+													else field.onChange(Number(value));
+												}}
+											/>
+										</FormControl>
+										<InputGroupAddon align="inline-end">
+											<InputGroupText>pt</InputGroupText>
+										</InputGroupAddon>
+									</InputGroup>
+								</FormItem>
+							)}
+						/>
+					</div>
+
+					<div className="flex items-center gap-x-2">
+						<FormField
+							control={form.control}
+							name="shadowColor"
+							render={({ field }) => (
+								<FormItem className="shrink-0 self-end">
+									<FormControl>
+										<ColorPicker
+											defaultValue={field.value}
+											onChange={(color) => {
+												field.onChange(color);
+												form.handleSubmit(onSubmit)();
+											}}
+										/>
+									</FormControl>
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="shadowWidth"
+							render={({ field }) => (
+								<FormItem className="flex-1">
+									<FormLabel>
+										<Trans>Shadow Width</Trans>
+									</FormLabel>
+									<InputGroup>
+										<FormControl>
+											<InputGroupInput
+												{...field}
+												type="number"
+												min={0}
+												step={0.5}
+												onChange={(e) => {
+													const value = e.target.value;
+													if (value === "") field.onChange("");
+													else field.onChange(Number(value));
+												}}
+											/>
+										</FormControl>
+										<InputGroupAddon align="inline-end">
+											<InputGroupText>pt</InputGroupText>
+										</InputGroupAddon>
+									</InputGroup>
+								</FormItem>
+							)}
+						/>
+					</div>
 				</div>
 			</form>
 		</Form>

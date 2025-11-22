@@ -5,6 +5,7 @@ import { schema } from "@/integrations/drizzle";
 import { db } from "@/integrations/drizzle/client";
 import type { ResumeData } from "@/schema/resume/data";
 import { defaultResumeData } from "@/schema/resume/data";
+import type { Locale } from "@/utils/locale";
 import { generateId } from "@/utils/string";
 import { hasResumeAccess } from "../helpers/resume-access";
 
@@ -194,9 +195,13 @@ export const resumeService = {
 		name: string;
 		slug: string;
 		tags: string[];
+		locale: Locale;
 		data?: ResumeData;
 	}): Promise<string> => {
 		const id = generateId();
+
+		input.data = input.data ?? defaultResumeData;
+		input.data.metadata.locale = input.locale;
 
 		await db.insert(schema.resume).values({
 			id,
@@ -204,7 +209,7 @@ export const resumeService = {
 			slug: input.slug,
 			tags: input.tags,
 			userId: input.userId,
-			data: input.data ?? defaultResumeData,
+			data: input.data,
 		});
 
 		return id;

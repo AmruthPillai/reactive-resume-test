@@ -3,7 +3,7 @@
 	"version": 2,
 	"bunVersion": "1.x",
 	"framework": "tanstack-start",
-	"buildCommand": "NITRO=1 vite build",
+	"buildCommand": "vite build",
 	"devCommand": "vite dev --port 3000",
 	"installCommand": "bun install --frozen-lockfile"
 }
