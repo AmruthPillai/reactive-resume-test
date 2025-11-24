@@ -16,8 +16,8 @@ export default definePlugin(async () => {
 	try {
 		await migrate(db, { migrationsFolder: "./migrations" });
 		console.log("✅ Database migrations completed");
-	} catch (error) {
-		console.error("🚨 Database migrations failed:", error);
+	} catch {
+		throw new Error("🚨 Database migrations failed");
 	} finally {
 		await client.end();
 	}
