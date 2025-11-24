@@ -240,7 +240,7 @@ type PageContainerProps = {
 function PageContainer({ pageIndex, page, canDelete, onDelete, onToggleFullWidth }: PageContainerProps) {
 	return (
 		<div className="space-y-3 rounded-md border border-dashed bg-background/40">
-			<div className="flex items-center justify-between bg-popover px-4 py-3">
+			<div className="flex items-center justify-between bg-secondary/50 px-4 py-3">
 				<div className="flex w-full items-center gap-4">
 					<span className="font-medium text-xs">
 						<Trans>Page {pageIndex + 1}</Trans>

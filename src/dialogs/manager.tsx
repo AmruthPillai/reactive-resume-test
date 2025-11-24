@@ -16,6 +16,7 @@ import { CreatePublicationDialog, UpdatePublicationDialog } from "./resume/secti
 import { CreateReferenceDialog, UpdateReferenceDialog } from "./resume/sections/reference";
 import { CreateSkillDialog, UpdateSkillDialog } from "./resume/sections/skill";
 import { CreateVolunteerDialog, UpdateVolunteerDialog } from "./resume/sections/volunteer";
+import { TemplateGalleryDialog } from "./resume/template/gallery";
 import { useDialogStore } from "./store";
 
 export function DialogManager() {
@@ -34,6 +35,7 @@ export function DialogManager() {
 		.with({ type: "resume.duplicate" }, ({ data }) => (
 			<DuplicateResumeDialog open={open} onOpenChange={onOpenChange} data={data} />
 		))
+		.with({ type: "resume.template.gallery" }, () => <TemplateGalleryDialog open={open} onOpenChange={onOpenChange} />)
 		.with({ type: "resume.sections.profiles.create" }, ({ data }) => (
 			<CreateProfileDialog open={open} onOpenChange={onOpenChange} data={data} />
 		))

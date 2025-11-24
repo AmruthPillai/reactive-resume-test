@@ -13,8 +13,8 @@ export function ThemeCombobox(props: Props) {
 	const options = useMemo(() => {
 		return Object.entries(themeMap).map(([value, label]) => ({
 			value,
-			label: i18n._(label),
-			keywords: [i18n._(label)],
+			label: i18n.t(label),
+			keywords: [i18n.t(label)],
 		}));
 	}, [i18n]);
 

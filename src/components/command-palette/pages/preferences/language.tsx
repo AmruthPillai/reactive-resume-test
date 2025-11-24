@@ -22,7 +22,7 @@ export function LanguageCommandPage() {
 			{Object.entries(localeMap).map(([value, label]) => (
 				<CommandItem key={value} onSelect={() => handleLocaleChange(value)}>
 					<span className="font-mono text-muted-foreground text-xs">{value}</span>
-					{i18n._(label)}
+					{i18n.t(label)}
 				</CommandItem>
 			))}
 		</CommandGroup>

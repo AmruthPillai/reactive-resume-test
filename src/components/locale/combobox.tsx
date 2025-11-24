@@ -13,8 +13,8 @@ export function LocaleCombobox(props: Props) {
 	const options = useMemo(() => {
 		return Object.entries(localeMap).map(([value, label]) => ({
 			value,
-			label: i18n._(label),
-			keywords: [i18n._(label)],
+			label: i18n.t(label),
+			keywords: [i18n.t(label)],
 		}));
 	}, [i18n]);
 

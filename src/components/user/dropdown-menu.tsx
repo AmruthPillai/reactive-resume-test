@@ -78,7 +78,7 @@ export function UserDropdownMenu({ children }: Props) {
 							<DropdownMenuRadioGroup value={i18n.locale} onValueChange={handleLocaleChange}>
 								{Object.entries(localeMap).map(([value, label]) => (
 									<DropdownMenuRadioItem key={value} value={value}>
-										{i18n._(label)}
+										{i18n.t(label)}
 									</DropdownMenuRadioItem>
 								))}
 							</DropdownMenuRadioGroup>

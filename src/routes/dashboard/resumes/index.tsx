@@ -47,9 +47,9 @@ function RouteComponent() {
 
 	const sortOptions = useMemo(() => {
 		return [
-			{ value: "lastUpdatedAt", label: i18n._("Last Updated") },
-			{ value: "createdAt", label: i18n._("Created") },
-			{ value: "name", label: i18n._("Name") },
+			{ value: "lastUpdatedAt", label: i18n.t("Last Updated") },
+			{ value: "createdAt", label: i18n.t("Created") },
+			{ value: "name", label: i18n.t("Name") },
 		];
 	}, [i18n]);
 

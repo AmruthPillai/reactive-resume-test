@@ -52,6 +52,10 @@ msgstr ""
 msgid "50%"
 msgstr ""
 
+#: src/dialogs/resume/template/gallery.tsx:36
+msgid "A bold two-column layout with accent colors, featuring a sidebar for short sections and main content area for professional experience."
+msgstr ""
+
 #: src/routes/dashboard/settings/profile.tsx:82
 msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
 msgstr ""
@@ -63,6 +67,10 @@ msgstr ""
 
 #: src/routes/dashboard/settings/profile.tsx:103
 msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
+msgstr ""
+
+#: src/dialogs/resume/template/gallery.tsx:29
+msgid "A simple, single-column layout that works well for multiple pages, perfect for professionals with a lot of experience."
 msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom-fields.tsx:98
@@ -845,6 +853,10 @@ msgstr ""
 msgid "Help translate the app to your language"
 msgstr ""
 
+#: src/dialogs/resume/template/gallery.tsx:62
+msgid "Here's a range of resume templates for different professions and personalities. Whether you prefer modern or classic, bold or simple, there is a design to match you. Look through the options below and choose a template that fits your style."
+msgstr ""
+
 #: src/components/level/combobox.tsx:14
 #: src/dialogs/resume/sections/language.tsx:189
 #: src/dialogs/resume/sections/skill.tsx:216
@@ -1064,6 +1076,10 @@ msgstr ""
 
 #: src/routes/auth/forgot-password.tsx:119
 msgid "Open Email Client"
+msgstr ""
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/template.tsx:54
+msgid "Open Template Gallery"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:146
@@ -1503,6 +1519,10 @@ msgstr ""
 
 #: src/utils/resume/section.tsx:108
 msgid "Template"
+msgstr ""
+
+#: src/dialogs/resume/template/gallery.tsx:59
+msgid "Template Gallery"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/design.tsx:98

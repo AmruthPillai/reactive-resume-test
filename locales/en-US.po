@@ -52,6 +52,10 @@ msgstr "10%"
 msgid "50%"
 msgstr "50%"
 
+#: src/dialogs/resume/template/gallery.tsx:36
+msgid "A bold two-column layout with accent colors, featuring a sidebar for short sections and main content area for professional experience."
+msgstr "A bold two-column layout with accent colors, featuring a sidebar for short sections and main content area for professional experience."
+
 #: src/routes/dashboard/settings/profile.tsx:82
 msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
 msgstr "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
@@ -64,6 +68,10 @@ msgstr "A link to your resume has been copied to clipboard."
 #: src/routes/dashboard/settings/profile.tsx:103
 msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
 msgstr "A new verification link has been sent to your email address. Please check your inbox to verify your account."
+
+#: src/dialogs/resume/template/gallery.tsx:29
+msgid "A simple, single-column layout that works well for multiple pages, perfect for professionals with a lot of experience."
+msgstr "A simple, single-column layout that works well for multiple pages, perfect for professionals with a lot of experience."
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom-fields.tsx:98
 msgid "Add a custom field"
@@ -845,6 +853,10 @@ msgstr "Headline"
 msgid "Help translate the app to your language"
 msgstr "Help translate the app to your language"
 
+#: src/dialogs/resume/template/gallery.tsx:62
+msgid "Here's a range of resume templates for different professions and personalities. Whether you prefer modern or classic, bold or simple, there is a design to match you. Look through the options below and choose a template that fits your style."
+msgstr "Here's a range of resume templates for different professions and personalities. Whether you prefer modern or classic, bold or simple, there is a design to match you. Look through the options below and choose a template that fits your style."
+
 #: src/components/level/combobox.tsx:14
 #: src/dialogs/resume/sections/language.tsx:189
 #: src/dialogs/resume/sections/skill.tsx:216
@@ -1065,6 +1077,10 @@ msgstr "Open"
 #: src/routes/auth/forgot-password.tsx:119
 msgid "Open Email Client"
 msgstr "Open Email Client"
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/template.tsx:54
+msgid "Open Template Gallery"
+msgstr "Open Template Gallery"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:146
 msgid "Optionally, set a password so that only people with the password can view your resume through the link."
@@ -1504,6 +1520,10 @@ msgstr "Tags can be used to categorize your resume by keywords."
 #: src/utils/resume/section.tsx:108
 msgid "Template"
 msgstr "Template"
+
+#: src/dialogs/resume/template/gallery.tsx:59
+msgid "Template Gallery"
+msgstr "Template Gallery"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/design.tsx:98
 msgid "Text Color"

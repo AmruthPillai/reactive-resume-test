@@ -32,6 +32,7 @@ const dialogTypeSchema = z.discriminatedUnion("type", [
 			.pick({ id: true, name: true, slug: true, tags: true })
 			.extend({ shouldRedirect: z.boolean().optional() }),
 	}),
+	z.object({ type: z.literal("resume.template.gallery"), data: z.undefined() }),
 	z.object({ type: z.literal("resume.sections.profiles.create"), data: profileItemSchema.optional() }),
 	z.object({ type: z.literal("resume.sections.profiles.update"), data: profileItemSchema }),
 	z.object({ type: z.literal("resume.sections.experience.create"), data: experienceItemSchema.optional() }),

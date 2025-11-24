@@ -7,6 +7,7 @@ type Props = {
 	rotateDepth?: number;
 	translateDepth?: number;
 	glareOpacity?: number;
+	scaleFactor?: number;
 	className?: string;
 	children: React.ReactNode;
 };
@@ -15,6 +16,7 @@ export const CometCard = ({
 	rotateDepth = 17.5,
 	translateDepth = 20,
 	glareOpacity = 0.4,
+	scaleFactor = 1.05,
 	className,
 	children,
 }: Props) => {
@@ -61,33 +63,22 @@ export const CometCard = ({
 	};
 
 	return (
-		<div className={cn("perspective-distant transform-3d", className)}>
+		<div className={cn("perspective-distant transform-3d hover:z-50", className)}>
 			<motion.div
 				ref={ref}
+				initial={{ scale: 1, z: 0 }}
+				className="relative rounded-md"
+				style={{ rotateX, rotateY, translateX, translateY }}
+				whileHover={{ z: 50, scale: scaleFactor, transition: { duration: 0.2 } }}
 				onMouseMove={handleMouseMove}
 				onMouseLeave={handleMouseLeave}
-				style={{
-					rotateX,
-					rotateY,
-					translateX,
-					translateY,
-				}}
-				initial={{ scale: 1, z: 0 }}
-				whileHover={{
-					z: 50,
-					scale: 1.05,
-					transition: { duration: 0.2 },
-				}}
-				className="relative rounded-2xl"
 			>
 				{children}
+
 				<motion.div
-					className="pointer-events-none absolute inset-0 z-50 h-full w-full rounded-[16px] mix-blend-overlay"
-					style={{
-						background: glareBackground,
-						opacity: glareOpacity,
-					}}
 					transition={{ duration: 0.2 }}
+					style={{ background: glareBackground, opacity: glareOpacity }}
+					className="pointer-events-none absolute inset-0 z-50 h-full w-full rounded-md mix-blend-overlay"
 				/>
 			</motion.div>
 		</div>
