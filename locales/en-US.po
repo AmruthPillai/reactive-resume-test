@@ -28,13 +28,18 @@ msgstr "Created"
 msgid "Name"
 msgstr "Name"
 
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:157
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx:149
 msgid "{column, plural, one {# Column} other {# Columns}}"
 msgstr "{column, plural, one {# Column} other {# Columns}}"
 
-#: src/routes/_home/index.tsx:17
+#: src/routes/_home/-sections/hero.tsx:37
 msgid "<0>Finally,</0><1>A free and open-source resume builder</1>"
 msgstr "<0>Finally,</0><1>A free and open-source resume builder</1>"
+
+#: src/routes/_home/-sections/prefooter.tsx:15
+msgid "<0>Reactive Resume thrives thanks to its vibrant community. This project owes its progress to numerous individuals who've dedicated their time and skills to make it better. We celebrate the coders who've enhanced its features on GitHub, the linguists whose translations on Crowdin have made it accessible to a broader audience, and the people who've donated to support its continued development.</0>"
+msgstr "<0>Reactive Resume thrives thanks to its vibrant community. This project owes its progress to numerous individuals who've dedicated their time and skills to make it better. We celebrate the coders who've enhanced its features on GitHub, the linguists whose translations on Crowdin have made it accessible to a broader audience, and the people who've donated to support its continued development.</0>"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx:15
 msgid "<0>Thank you for using Reactive Resume! This app is a labor of love, created mostly in my spare time, with wonderful support from open-source contributors around the world.</0><1>If Reactive Resume has been helpful to you, and you'd like to help keep it free and open for everyone, please consider making a donation. Every little bit is appreciated!</1>"
@@ -44,12 +49,16 @@ msgstr "<0>Thank you for using Reactive Resume! This app is a labor of love, cre
 msgid "A bold two-column layout with accent colors, featuring a sidebar for short sections and main content area for professional experience."
 msgstr "A bold two-column layout with accent colors, featuring a sidebar for short sections and main content area for professional experience."
 
+#: src/dialogs/resume/template/gallery.tsx:43
+msgid "A clean and minimal single-column layout with a hint of color, suited for beginners with minimal experience."
+msgstr "A clean and minimal single-column layout with a hint of color, suited for beginners with minimal experience."
+
 #: src/routes/dashboard/settings/profile.tsx:82
 msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
 msgstr "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
 
 #: src/components/command-palette/pages/builder/index.tsx:27
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:39
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:37
 msgid "A link to your resume has been copied to clipboard."
 msgstr "A link to your resume has been copied to clipboard."
 
@@ -77,7 +86,7 @@ msgstr "Add a new award"
 msgid "Add a new certification"
 msgstr "Add a new certification"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:39
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:45
 msgid "Add a new custom section"
 msgstr "Add a new custom section"
 
@@ -162,7 +171,7 @@ msgstr "Added on {0}"
 msgid "Adding your passkey..."
 msgstr "Adding your passkey..."
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:115
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:112
 msgid "Allow Public Access"
 msgstr "Allow Public Access"
 
@@ -179,15 +188,15 @@ msgstr "An error occurred while loading the page."
 msgid "An unknown error occurred while adding your passkey."
 msgstr "An unknown error occurred while adding your passkey."
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:56
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:54
 msgid "Anyone visiting the resume's public URL must enter this password to access it."
 msgstr "Anyone visiting the resume's public URL must enter this password to access it."
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:84
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:82
 msgid "Anyone who has the resume's public URL will be able to view and download your resume without entering a password."
 msgstr "Anyone who has the resume's public URL will be able to view and download your resume without entering a password."
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:119
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:116
 msgid "Anyone with the link can view and download the resume."
 msgstr "Anyone with the link can view and download the resume."
 
@@ -213,7 +222,7 @@ msgstr "Are you sure you want to delete your account?"
 msgid "Are you sure you want to lock this resume?"
 msgstr "Are you sure you want to lock this resume?"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:83
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:81
 msgid "Are you sure you want to remove password protection?"
 msgstr "Are you sure you want to remove password protection?"
 
@@ -284,6 +293,10 @@ msgstr "Builder Command Palette"
 msgid "Bullet List"
 msgstr "Bullet List"
 
+#: src/routes/_home/-sections/prefooter.tsx:11
+msgid "By the community, for the community."
+msgstr "By the community, for the community."
+
 #: src/dialogs/auth/enable-two-factor.tsx:267
 #: src/dialogs/resume/sections/award.tsx:68
 #: src/dialogs/resume/sections/award.tsx:124
@@ -311,8 +324,8 @@ msgstr "Bullet List"
 #: src/dialogs/resume/sections/skill.tsx:128
 #: src/dialogs/resume/sections/volunteer.tsx:68
 #: src/dialogs/resume/sections/volunteer.tsx:124
-#: src/hooks/use-prompt.tsx:121
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:86
+#: src/hooks/use-prompt.tsx:52
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:84
 #: src/routes/dashboard/settings/danger-zone.tsx:34
 #: src/routes/dashboard/settings/profile.tsx:226
 msgid "Cancel"
@@ -362,6 +375,7 @@ msgstr "Clear selection"
 msgid "Code Block"
 msgstr "Code Block"
 
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:150
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx:142
 msgid "Columns"
 msgstr "Columns"
@@ -370,8 +384,8 @@ msgstr "Columns"
 msgid "Company"
 msgstr "Company"
 
-#: src/hooks/use-prompt.tsx:122
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:85
+#: src/hooks/use-prompt.tsx:53
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:83
 #: src/routes/dashboard/settings/danger-zone.tsx:33
 msgid "Confirm"
 msgstr "Confirm"
@@ -536,7 +550,7 @@ msgid "Degree"
 msgstr "Degree"
 
 #: src/routes/builder/$resumeId/-components/header.tsx:152
-#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:139
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:170
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:113
 #: src/routes/dashboard/resumes/-components/resume-card.tsx:139
 msgid "Delete"
@@ -550,7 +564,7 @@ msgstr "Delete Account"
 msgid "Delete Column"
 msgstr "Delete Column"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:265
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:261
 msgid "Delete Page"
 msgstr "Delete Page"
 
@@ -627,25 +641,25 @@ msgstr "Donate to Reactive Resume"
 msgid "Download"
 msgstr "Download"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:45
+#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:50
 msgid "Download a copy of your resume in JSON format. Use this file for backup or to import your resume into other applications, including AI assistants."
 msgstr "Download a copy of your resume in JSON format. Use this file for backup or to import your resume into other applications, including AI assistants."
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:68
+#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:73
 msgid "Download a copy of your resume in PDF format. Use this file for printing or to easily share your resume with recruiters."
 msgstr "Download a copy of your resume in PDF format. Use this file for printing or to easily share your resume with recruiters."
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:49
+#: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:48
 msgid "Downloads"
 msgstr "Downloads"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:312
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:308
 msgid "Drag and drop sections here to move them between columns"
 msgstr "Drag and drop sections here to move them between columns"
 
 #: src/dialogs/resume/index.tsx:276
 #: src/routes/builder/$resumeId/-components/header.tsx:140
-#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:130
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:144
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:104
 #: src/routes/dashboard/resumes/-components/resume-card.tsx:127
 msgid "Duplicate"
@@ -679,7 +693,7 @@ msgstr "Email"
 msgid "Email Address"
 msgstr "Email Address"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/css.tsx:62
+#: src/routes/builder/$resumeId/-sidebar/right/sections/css.tsx:59
 msgctxt "Turn On/Apply Custom CSS"
 msgid "Enable"
 msgstr "Enable"
@@ -692,7 +706,7 @@ msgstr "Enable 2FA"
 msgid "Enable Two-Factor Authentication"
 msgstr "Enable Two-Factor Authentication"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:69
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:67
 msgid "Enabling password protection..."
 msgstr "Enabling password protection..."
 
@@ -746,20 +760,20 @@ msgid "Fluency"
 msgstr "Fluency"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:82
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:212
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:217
 msgid "Font Family"
 msgstr "Font Family"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:128
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:258
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:133
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:268
 msgid "Font Size"
 msgstr "Font Size"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:235
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:245
 msgid "Font Weight"
 msgstr "Font Weight"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:105
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:110
 msgid "Font Weights"
 msgstr "Font Weights"
 
@@ -780,7 +794,7 @@ msgctxt "Page Format (A4 or Letter)"
 msgid "Format"
 msgstr "Format"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:257
+#: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:253
 msgid "Full Width"
 msgstr "Full Width"
 
@@ -792,8 +806,7 @@ msgstr "Generate a random name"
 msgid "German"
 msgstr "German"
 
-#: src/routes/_home/index.tsx:33
-#: src/routes/_home/route.tsx:36
+#: src/routes/_home/-sections/hero.tsx:53
 msgid "Get Started"
 msgstr "Get Started"
 
@@ -841,7 +854,7 @@ msgstr "Headline"
 msgid "Help translate the app to your language"
 msgstr "Help translate the app to your language"
 
-#: src/dialogs/resume/template/gallery.tsx:62
+#: src/dialogs/resume/template/gallery.tsx:69
 msgid "Here's a range of resume templates for different professions and personalities. Whether you prefer modern or classic, bold or simple, there is a design to match you. Look through the options below and choose a template that fits your style."
 msgstr "Here's a range of resume templates for different professions and personalities. Whether you prefer modern or classic, bold or simple, there is a design to match you. Look through the options below and choose a template that fits your style."
 
@@ -851,7 +864,7 @@ msgstr "Here's a range of resume templates for different professions and persona
 msgid "Hidden"
 msgstr "Hidden"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:120
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:134
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx:131
 msgid "Hide"
 msgstr "Hide"
@@ -927,7 +940,7 @@ msgid "Languages"
 msgstr "Languages"
 
 #. placeholder {0}: statistics.lastDownloadedAt.toDateString()
-#: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:52
+#: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:51
 msgid "Last downloaded on {0}"
 msgstr "Last downloaded on {0}"
 
@@ -936,7 +949,7 @@ msgid "Last updated on {updatedAt}"
 msgstr "Last updated on {updatedAt}"
 
 #. placeholder {0}: statistics.lastViewedAt.toDateString()
-#: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:45
+#: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:44
 msgid "Last viewed on {0}"
 msgstr "Last viewed on {0}"
 
@@ -945,7 +958,7 @@ msgstr "Last viewed on {0}"
 msgid "Layout"
 msgstr "Layout"
 
-#: src/routes/_home/index.tsx:40
+#: src/routes/_home/-sections/hero.tsx:60
 msgid "Learn More"
 msgstr "Learn More"
 
@@ -976,8 +989,8 @@ msgstr "Light"
 msgid "Light theme"
 msgstr "Light theme"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:159
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:289
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:164
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:299
 msgid "Line Height"
 msgstr "Line Height"
 
@@ -1066,11 +1079,7 @@ msgstr "Open"
 msgid "Open Email Client"
 msgstr "Open Email Client"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/template.tsx:54
-msgid "Open Template Gallery"
-msgstr "Open Template Gallery"
-
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:146
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:142
 msgid "Optionally, set a password so that only people with the password can view your resume through the link."
 msgstr "Optionally, set a password so that only people with the password can view your resume through the link."
 
@@ -1096,7 +1105,7 @@ msgstr "Page"
 msgid "Page {0}"
 msgstr "Page {0}"
 
-#: src/components/resume/preview.tsx:55
+#: src/components/resume/preview.tsx:57
 msgid "Page {pageNumber} of {totalNumberOfPages}"
 msgstr "Page {pageNumber} of {totalNumberOfPages}"
 
@@ -1118,15 +1127,15 @@ msgstr "Passkeys"
 msgid "Password"
 msgstr "Password"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:67
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:65
 msgid "Password cannot be empty."
 msgstr "Password cannot be empty."
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:94
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:92
 msgid "Password protection has been disabled."
 msgstr "Password protection has been disabled."
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:73
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:71
 msgid "Password protection has been enabled."
 msgstr "Password protection has been enabled."
 
@@ -1197,7 +1206,7 @@ msgstr "Project"
 msgid "Projects"
 msgstr "Projects"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:55
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:53
 msgid "Protect your resume from unauthorized access with a password"
 msgstr "Protect your resume from unauthorized access with a password"
 
@@ -1213,7 +1222,7 @@ msgstr "Publications"
 msgid "Publisher"
 msgstr "Publisher"
 
-#: src/routes/_home/index.tsx:24
+#: src/routes/_home/-sections/hero.tsx:44
 msgid "Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume."
 msgstr "Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume."
 
@@ -1245,11 +1254,11 @@ msgstr "Register New Device"
 msgid "Remember your password? <0><1>Sign in now <2/></1></0>"
 msgstr "Remember your password? <0><1>Sign in now <2/></1></0>"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:156
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:151
 msgid "Remove Password"
 msgstr "Remove Password"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:90
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:88
 msgid "Removing password protection..."
 msgstr "Removing password protection..."
 
@@ -1362,8 +1371,8 @@ msgstr "Sending password reset email..."
 msgid "Separator"
 msgstr "Separator"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:57
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:161
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:55
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:156
 #: src/routes/dashboard/settings/authentication/-components/password.tsx:48
 msgid "Set Password"
 msgstr "Set Password"
@@ -1386,7 +1395,7 @@ msgstr "Shadow Width"
 msgid "Sharing"
 msgstr "Sharing"
 
-#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:120
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:134
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx:131
 msgid "Show"
 msgstr "Show"
@@ -1442,9 +1451,9 @@ msgstr "Skills"
 msgid "Slug"
 msgstr "Slug"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:47
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:75
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:96
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:45
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:73
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:94
 msgid "Something went wrong. Please try again."
 msgstr "Something went wrong. Please try again."
 
@@ -1489,7 +1498,7 @@ msgstr "Summary"
 msgid "Support the app by doing what you can!"
 msgstr "Support the app by doing what you can!"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:198
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:203
 msgid "Synchronize heading styles with the settings configured above."
 msgstr "Synchronize heading styles with the settings configured above."
 
@@ -1509,7 +1518,7 @@ msgstr "Tags can be used to categorize your resume by keywords."
 msgid "Template"
 msgstr "Template"
 
-#: src/dialogs/resume/template/gallery.tsx:59
+#: src/dialogs/resume/template/gallery.tsx:66
 msgid "Template Gallery"
 msgstr "Template Gallery"
 
@@ -1587,7 +1596,7 @@ msgstr "Toggle sections"
 msgid "Toggle sidebars"
 msgstr "Toggle sidebars"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:28
+#: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:27
 msgid "Track your resume's views and downloads"
 msgstr "Track your resume's views and downloads"
 
@@ -1595,7 +1604,7 @@ msgstr "Track your resume's views and downloads"
 msgid "Translations"
 msgstr "Translations"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:31
+#: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:30
 msgid "Turn on public sharing to track how many times your resume has been viewed or downloaded. Only you can see your resume's statistics."
 msgstr "Turn on public sharing to track how many times your resume has been viewed or downloaded. Only you can see your resume's statistics."
 
@@ -1647,7 +1656,7 @@ msgid "Unverified"
 msgstr "Unverified"
 
 #: src/routes/builder/$resumeId/-components/header.tsx:135
-#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:125
+#: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:139
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:99
 #: src/routes/dashboard/resumes/-components/resume-card.tsx:122
 msgid "Update"
@@ -1738,7 +1747,7 @@ msgstr "URL"
 msgid "Use Authenticator App"
 msgstr "Use Authenticator App"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:196
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:201
 msgid "Use the same style for headings"
 msgstr "Use the same style for headings"
 
@@ -1782,7 +1791,7 @@ msgstr "Verifying password..."
 msgid "Verifying your email is required when resetting your password."
 msgstr "Verifying your email is required when resetting your password."
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:43
+#: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:42
 msgid "Views"
 msgstr "Views"
 
@@ -1883,7 +1892,7 @@ msgstr "Your resume has been duplicated successfully."
 msgid "Your resume has been updated successfully."
 msgstr "Your resume has been updated successfully."
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:141
+#: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:137
 msgid "Your resume's public link is currently protected by a password. Share the password only with people you trust."
 msgstr "Your resume's public link is currently protected by a password. Share the password only with people you trust."
 

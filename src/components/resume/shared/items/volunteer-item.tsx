@@ -30,4 +30,3 @@ export function VolunteerItem({ className, ...item }: VolunteerItemProps) {
 		</div>
 	);
 }
-

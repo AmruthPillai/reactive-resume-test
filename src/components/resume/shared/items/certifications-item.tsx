@@ -30,4 +30,3 @@ export function CertificationsItem({ className, ...item }: CertificationsItemPro
 		</div>
 	);
 }
-

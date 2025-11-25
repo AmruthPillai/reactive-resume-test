@@ -18,4 +18,3 @@ export function ReferencesItem({ className, ...item }: ReferencesItemProps) {
 		</div>
 	);
 }
-

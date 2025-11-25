@@ -27,4 +27,3 @@ export function ProjectsItem({ className, ...item }: ProjectsItemProps) {
 		</div>
 	);
 }
-

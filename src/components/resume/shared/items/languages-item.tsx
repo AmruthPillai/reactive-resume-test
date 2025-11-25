@@ -21,4 +21,3 @@ export function LanguagesItem({ className, ...item }: LanguagesItemProps) {
 		</div>
 	);
 }
-

@@ -30,4 +30,3 @@ export function PublicationsItem({ className, ...item }: PublicationsItemProps) 
 		</div>
 	);
 }
-

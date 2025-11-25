@@ -26,4 +26,3 @@ export function SkillsItem({ className, ...item }: SkillsItemProps) {
 		</div>
 	);
 }
-

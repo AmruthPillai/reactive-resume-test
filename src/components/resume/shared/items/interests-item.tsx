@@ -21,4 +21,3 @@ export function InterestsItem({ className, ...item }: InterestsItemProps) {
 		</div>
 	);
 }
-

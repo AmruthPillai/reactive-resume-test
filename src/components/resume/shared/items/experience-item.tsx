@@ -31,4 +31,3 @@ export function ExperienceItem({ className, ...item }: ExperienceItemProps) {
 		</div>
 	);
 }
-
