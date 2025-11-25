@@ -1,6 +1,4 @@
-import { Trans } from "@lingui/react/macro";
-import { SlideshowIcon } from "@phosphor-icons/react";
-import { CometCard } from "@/components/animation/comet-card";
+import { SwapIcon } from "@phosphor-icons/react";
 import { useResumeStore } from "@/components/resume/store/resume";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -27,11 +25,19 @@ function TemplateSectionForm() {
 
 	return (
 		<div className="flex @md:flex-row flex-col items-stretch gap-x-4 gap-y-2 p-4 pr-0">
-			<CometCard translateDepth={3} rotateDepth={6} className="w-40 shrink-0">
-				<div className="aspect-page size-full overflow-hidden rounded-md">
+			<Button
+				variant="ghost"
+				className="group/preview relative h-auto w-40 shrink-0 cursor-pointer p-0"
+				onClick={onOpenTemplateGallery}
+			>
+				<div className="relative z-10 aspect-page size-full overflow-hidden rounded-md opacity-100 transition-opacity group-hover/preview:opacity-50">
 					<img src="https://picsum.photos/800/1200" alt={template} className="size-full object-cover" />
 				</div>
-			</CometCard>
+
+				<div className="absolute inset-0 flex items-center justify-center">
+					<SwapIcon size={48} weight="thin" />
+				</div>
+			</Button>
 
 			<div className="flex flex-1 flex-col space-y-4 @md:pt-1 @md:pb-3">
 				<div className="space-y-1">
@@ -48,11 +54,6 @@ function TemplateSectionForm() {
 						</Badge>
 					))}
 				</div>
-
-				<Button variant="secondary" className="mt-auto self-start" onClick={onOpenTemplateGallery}>
-					<SlideshowIcon />
-					<Trans>Open Template Gallery</Trans>
-				</Button>
 			</div>
 		</div>
 	);
