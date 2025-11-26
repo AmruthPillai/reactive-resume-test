@@ -33,7 +33,7 @@ services:
       retries: 3
 
   rustfs:
-    image: rustfs/rustfs:1.0.0-alpha.68
+    image: rustfs/rustfs:latest
     restart: unless-stopped
     security_opt:
       - "no-new-privileges:true"
@@ -57,6 +57,42 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+  seaweedfs:
+    image: chrislusf/seaweedfs:latest
+    restart: unless-stopped
+    command: server -s3 -filer -dir=/data -ip=0.0.0.0
+    ports:
+      - "8333:8333" # S3 API
+      - "8888:8888" # Filer API
+    environment:
+      - AWS_ACCESS_KEY_ID=seaweedfs
+      - AWS_SECRET_ACCESS_KEY=seaweedfs
+    volumes:
+      - seaweedfs_data:/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget --no-verbose --tries=1 --spider http://localhost:8888 || exit 1",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  seaweedfs-create-bucket:
+    image: quay.io/minio/mc:latest
+    restart: on-failure
+    entrypoint: >
+      /bin/sh -c "
+        sleep 5;
+        mc alias set seaweedfs http://seaweedfs:8333 seaweedfs seaweedfs;
+        mc mb seaweedfs/reactive-resume-start;
+        exit 0;
+      "
+    depends_on:
+      seaweedfs:
+        condition: service_healthy
 
   gotenberg:
     image: gotenberg/gotenberg:edge
@@ -115,4 +151,4 @@ services:
 volumes:
   rustfs_data:
   postgres_data:
-  chromium_data:
+  seaweedfs_data:
