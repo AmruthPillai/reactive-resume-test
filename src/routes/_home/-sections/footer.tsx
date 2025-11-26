@@ -5,9 +5,9 @@ import { Copyright } from "@/components/ui/copyright";
 
 export function Footer() {
 	return (
-		<section id="footer" className="p-4 md:p-8">
-			<div className="grid grid-cols-2 gap-4 md:grid-cols-5 2xl:grid-cols-6">
-				<div className="col-span-2 space-y-4 2xl:col-span-1">
+		<section id="footer" className="p-4 pb-8 md:p-8 md:pb-16">
+			<div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-5 2xl:grid-cols-6">
+				<div className="order-3 col-span-2 space-y-4 md:order-1 2xl:col-span-1">
 					<BrandIcon variant="logo" />
 
 					<div className="space-y-2">
@@ -21,7 +21,7 @@ export function Footer() {
 					<Copyright className="mt-8" />
 				</div>
 
-				<div className="space-y-4 md:col-start-4 2xl:col-start-5">
+				<div className="order-1 space-y-4 md:order-2 md:col-start-4 2xl:col-start-5">
 					<h2 className="text-muted-foreground tracking-tight">Links</h2>
 
 					<ul className="space-y-4">
@@ -32,7 +32,7 @@ export function Footer() {
 					</ul>
 				</div>
 
-				<div className="space-y-4">
+				<div className="order-2 space-y-4 md:order-3">
 					<h2 className="text-muted-foreground tracking-tight">Links</h2>
 
 					<ul className="space-y-4">

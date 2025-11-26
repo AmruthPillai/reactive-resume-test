@@ -1,7 +1,8 @@
-import { Trans } from "@lingui/react/macro";
+import { t } from "@lingui/core/macro";
 import { ShieldCheckIcon } from "@phosphor-icons/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Separator } from "@/components/ui/separator";
+import { DashboardHeader } from "../../-components/header";
 import { useEnabledProviders } from "./-components/hooks";
 import { PasskeysSection } from "./-components/passkeys";
 import { PasswordSection } from "./-components/password";
@@ -17,12 +18,7 @@ function RouteComponent() {
 
 	return (
 		<div className="space-y-4">
-			<div className="flex items-center gap-x-2">
-				<ShieldCheckIcon weight="light" className="size-6" />
-				<h1 className="font-medium text-2xl tracking-tight">
-					<Trans>Authentication</Trans>
-				</h1>
-			</div>
+			<DashboardHeader icon={ShieldCheckIcon} title={t`Authentication`} />
 
 			<Separator />
 

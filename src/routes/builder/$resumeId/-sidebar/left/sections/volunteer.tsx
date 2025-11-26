@@ -19,7 +19,7 @@ export function VolunteerSectionBuilder() {
 
 	return (
 		<SectionBase type="volunteer" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder} className="touch-none">
 				<AnimatePresence>
 					{section.items.map((item) => (
 						<SectionItem

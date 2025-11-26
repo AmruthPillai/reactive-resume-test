@@ -19,7 +19,7 @@ export function EducationSectionBuilder() {
 
 	return (
 		<SectionBase type="education" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder} className="touch-none">
 				<AnimatePresence>
 					{section.items.map((item) => (
 						<SectionItem key={item.id} type="education" item={item} title={item.school} subtitle={item.degree} />

@@ -24,7 +24,7 @@ export function ProjectsSectionBuilder() {
 
 	return (
 		<SectionBase type="projects" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder} className="touch-none">
 				<AnimatePresence>
 					{section.items.map((item) => (
 						<SectionItem key={item.id} type="projects" item={item} title={item.name} subtitle={buildSubtitle(item)} />

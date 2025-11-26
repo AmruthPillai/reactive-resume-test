@@ -9,7 +9,7 @@ export const Route = createFileRoute("/builder/$resumeId/")({
 function RouteComponent() {
 	return (
 		<div className="absolute inset-0">
-			<TransformWrapper limitToBounds={false} minScale={0.5} maxScale={6}>
+			<TransformWrapper limitToBounds={false} minScale={0.3} maxScale={6}>
 				<TransformComponent wrapperClass="h-full! w-full!">
 					<ResumePreview
 						showPageNumbers

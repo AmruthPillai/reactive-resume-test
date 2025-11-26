@@ -122,7 +122,7 @@ export function ResumeCard({ resume, ...props }: ResumeCardProps) {
 						<Trans>Update</Trans>
 					</ContextMenuItem>
 
-					<ContextMenuItem disabled={resume.isLocked} onSelect={handleDuplicate}>
+					<ContextMenuItem onSelect={handleDuplicate}>
 						<CopySimpleIcon />
 						<Trans>Duplicate</Trans>
 					</ContextMenuItem>

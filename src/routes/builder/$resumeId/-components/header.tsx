@@ -135,7 +135,7 @@ function BuilderHeaderDropdown() {
 					<Trans>Update</Trans>
 				</DropdownMenuItem>
 
-				<DropdownMenuItem disabled={isLocked} onSelect={handleDuplicate}>
+				<DropdownMenuItem onSelect={handleDuplicate}>
 					<CopySimpleIcon className="mr-2" />
 					<Trans>Duplicate</Trans>
 				</DropdownMenuItem>

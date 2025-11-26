@@ -55,11 +55,11 @@ function RouteComponent() {
 	return (
 		<div
 			className={cn(
-				"mx-auto my-8 flex max-w-[210mm] items-center justify-center",
-				"print:m-0 print:block print:max-w-full",
+				"mx-auto my-8 flex max-w-[210mm] items-center justify-center px-4",
+				"print:m-0 print:block print:max-w-full print:px-0",
 			)}
 		>
-			<ResumePreview pageClassName="print:w-full!" />
+			<ResumePreview pageClassName="print:w-full! w-full max-w-full" />
 		</div>
 	);
 }

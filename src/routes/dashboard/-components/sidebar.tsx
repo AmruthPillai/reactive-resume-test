@@ -4,6 +4,7 @@ import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import {
 	GearSixIcon,
+	KeyIcon,
 	OpenAiLogoIcon,
 	ReadCvLogoIcon,
 	ShieldCheckIcon,
@@ -62,6 +63,11 @@ const settingsSidebarItems = [
 		icon: <ShieldCheckIcon />,
 		label: msg`Authentication`,
 		href: "/dashboard/settings/authentication",
+	},
+	{
+		icon: <KeyIcon />,
+		label: msg`API Keys`,
+		href: "/dashboard/settings/api-keys",
 	},
 	{
 		icon: <OpenAiLogoIcon />,

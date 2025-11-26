@@ -19,7 +19,7 @@ export function Hero() {
 				animate={{ opacity: 1, y: 0 }}
 				transition={{ duration: 2, ease: "easeInOut" }}
 			>
-				<CometCard glareOpacity={0} className="-mb-24 relative max-w-4xl px-8 md:px-12 lg:px-0">
+				<CometCard glareOpacity={0} className="-mb-12 md:-mb-24 relative max-w-4xl px-8 md:px-12 lg:px-0">
 					<video
 						loop
 						muted

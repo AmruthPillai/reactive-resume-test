@@ -19,7 +19,7 @@ export function ReferencesSectionBuilder() {
 
 	return (
 		<SectionBase type="references" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder} className="touch-none">
 				<AnimatePresence>
 					{section.items.map((item) => (
 						<SectionItem key={item.id} type="references" item={item} title={item.name} />

@@ -56,7 +56,7 @@ export function SectionBase({ type, className, ...props }: Props) {
 
 				<AccordionContent
 					className={cn(
-						"overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
+						"overflow-hidden pb-0 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
 						className,
 					)}
 					{...props}

@@ -11,7 +11,7 @@ import { SectionBase } from "../shared/section-base";
 
 export function CSSSectionBuilder() {
 	return (
-		<SectionBase type="css">
+		<SectionBase type="css" className="pb-4">
 			<CSSSectionForm />
 		</SectionBase>
 	);

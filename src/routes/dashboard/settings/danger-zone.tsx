@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { useConfirm } from "@/hooks/use-confirm";
 import { authClient } from "@/integrations/auth/client";
 import { orpc } from "@/integrations/orpc/client";
+import { DashboardHeader } from "../-components/header";
 
 export const Route = createFileRoute("/dashboard/settings/danger-zone")({
 	component: RouteComponent,
@@ -52,12 +53,7 @@ function RouteComponent() {
 
 	return (
 		<div className="space-y-4">
-			<div className="flex items-center gap-x-2">
-				<WarningIcon weight="light" className="size-6" />
-				<h1 className="font-medium text-2xl tracking-tight">
-					<Trans>Danger Zone</Trans>
-				</h1>
-			</div>
+			<DashboardHeader icon={WarningIcon} title={t`Danger Zone`} />
 
 			<Separator />
 

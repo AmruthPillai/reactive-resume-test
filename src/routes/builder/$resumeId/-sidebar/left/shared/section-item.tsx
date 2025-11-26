@@ -68,11 +68,14 @@ export function SectionItem<T extends SectionItemType>({ type, item, title, subt
 			initial={{ opacity: 1, y: -10 }}
 			animate={{ opacity: 1, y: 0 }}
 			exit={{ opacity: 0, y: -10 }}
-			className="group flex h-18 select-none border-b"
+			className="group relative flex h-18 touch-none select-none border-b"
 		>
 			<div
-				className="flex cursor-ns-resize items-center px-1.5 opacity-40 transition-[background-color,opacity] hover:bg-secondary/20 group-hover:opacity-100"
-				onPointerDown={(e) => controls.start(e)}
+				className="flex cursor-ns-resize touch-none items-center px-1.5 opacity-40 transition-[background-color,opacity] hover:bg-secondary/20 group-hover:opacity-100"
+				onPointerDown={(e) => {
+					e.preventDefault();
+					controls.start(e);
+				}}
 			>
 				<DotsSixVerticalIcon />
 			</div>
@@ -135,7 +138,7 @@ export function SectionAddItemButton({ type, children }: AddButtonProps) {
 		<button
 			type="button"
 			onClick={handleAdd}
-			className="flex w-full items-center gap-x-2 px-3 py-4 font-medium hover:bg-secondary/20 focus:outline-none focus-visible:ring-1"
+			className="flex w-full items-center gap-x-2 px-3 py-3 font-medium hover:bg-secondary/20 focus:outline-none focus-visible:ring-1 md:py-4"
 		>
 			<PlusIcon />
 			{children}

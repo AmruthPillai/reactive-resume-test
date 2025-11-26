@@ -76,6 +76,10 @@ function BuilderLayout({ initialLayout, ...props }: BuilderLayoutProps) {
 		setBuilderLayoutServerFn({ data: layout });
 	}, 1000);
 
+	const leftSidebarSize = isMobile ? 0 : initialLayout[0];
+	const rightSidebarSize = isMobile ? 0 : initialLayout[2];
+	const artboardSize = isMobile ? 100 : initialLayout[1];
+
 	return (
 		<div className="flex h-svh flex-col" {...props}>
 			<BuilderHeader />
@@ -89,7 +93,7 @@ function BuilderLayout({ initialLayout, ...props }: BuilderLayoutProps) {
 						maxSize={maxSidebarSize}
 						minSize={collapsedSidebarSize}
 						collapsedSize={collapsedSidebarSize}
-						defaultSize={isMobile ? 0 : initialLayout[0]}
+						defaultSize={leftSidebarSize}
 						className={cn("h-[calc(100svh-3.5rem)]", !isDragging && "transition-all")}
 					>
 						<BuilderSidebarLeft />
@@ -97,7 +101,7 @@ function BuilderLayout({ initialLayout, ...props }: BuilderLayoutProps) {
 					<ResizableHandle withHandle onDragging={setDragging} />
 					<ResizablePanel
 						id="artboard"
-						defaultSize={isMobile ? 100 : initialLayout[1]}
+						defaultSize={artboardSize}
 						className={cn("h-[calc(100svh-3.5rem)]", !isDragging && "transition-all")}
 					>
 						<Outlet />
@@ -110,7 +114,7 @@ function BuilderLayout({ initialLayout, ...props }: BuilderLayoutProps) {
 						maxSize={maxSidebarSize}
 						minSize={collapsedSidebarSize}
 						collapsedSize={collapsedSidebarSize}
-						defaultSize={isMobile ? 0 : initialLayout[2]}
+						defaultSize={rightSidebarSize}
 						className={cn("h-[calc(100svh-3.5rem)]", !isDragging && "transition-all")}
 					>
 						<BuilderSidebarRight />
