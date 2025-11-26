@@ -309,9 +309,9 @@ export const defaultResumeData: ResumeData = {
 		rotation: 0,
 		aspectRatio: 1,
 		borderRadius: 0,
-		borderColor: "#000000",
+		borderColor: "rgba(0, 0, 0, 1)",
 		borderWidth: 0,
-		shadowColor: "#00000044",
+		shadowColor: "rgba(0, 0, 0, 0.25)",
 		shadowWidth: 0,
 	},
 	basics: {
@@ -421,9 +421,9 @@ export const defaultResumeData: ResumeData = {
 		page: { marginX: 14, marginY: 16, format: "a4" },
 		design: {
 			colors: {
-				primary: "#dc2626",
-				text: "#000000",
-				background: "#ffffff",
+				primary: "rgba(220, 38, 38, 1)",
+				text: "rgba(0, 0, 0, 1)",
+				background: "rgba(255, 255, 255, 1)",
 			},
 			level: {
 				icon: "star",
@@ -456,9 +456,9 @@ export const sampleResumeData: ResumeData = {
 		rotation: 0,
 		aspectRatio: 1,
 		borderRadius: 0,
-		borderColor: "#000000",
+		borderColor: "rgba(0, 0, 0, 1)",
 		borderWidth: 0,
-		shadowColor: "#00000044",
+		shadowColor: "rgba(0, 0, 0, 0.25)",
 		shadowWidth: 0,
 	},
 	basics: {
@@ -1068,9 +1068,9 @@ export const sampleResumeData: ResumeData = {
 				type: "icon",
 			},
 			colors: {
-				primary: "#EC003F",
-				text: "#1f2937",
-				background: "#ffffff",
+				primary: "rgba(236, 0, 63, 1)",
+				text: "rgba(31, 41, 55, 1)",
+				background: "rgba(255, 255, 255, 1)",
 			},
 		},
 		typography: {

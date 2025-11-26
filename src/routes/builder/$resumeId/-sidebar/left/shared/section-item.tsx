@@ -3,7 +3,6 @@ import {
 	CopySimpleIcon,
 	DotsSixVerticalIcon,
 	DotsThreeVerticalIcon,
-	LockSimpleIcon,
 	PencilSimpleLineIcon,
 	PlusIcon,
 	TrashSimpleIcon,
@@ -34,7 +33,6 @@ export function SectionItem<T extends SectionItemType>({ type, item, title, subt
 	const controls = useDragControls();
 	const { openDialog } = useDialogStore();
 	const updateResumeData = useResumeStore((state) => state.updateResumeData);
-	const isLocked = useResumeStore((state) => state.resume.isLocked);
 
 	const onUpdate = () => {
 		openDialog(`resume.sections.${type}.update`, item);
@@ -70,10 +68,10 @@ export function SectionItem<T extends SectionItemType>({ type, item, title, subt
 			initial={{ opacity: 1, y: -10 }}
 			animate={{ opacity: 1, y: 0 }}
 			exit={{ opacity: 0, y: -10 }}
-			className="group relative flex h-18 select-none border-b touch-none"
+			className="group relative flex h-18 touch-none select-none border-b"
 		>
 			<div
-				className="flex cursor-ns-resize items-center px-1.5 opacity-40 transition-[background-color,opacity] hover:bg-secondary/20 group-hover:opacity-100 touch-none"
+				className="flex cursor-ns-resize touch-none items-center px-1.5 opacity-40 transition-[background-color,opacity] hover:bg-secondary/20 group-hover:opacity-100"
 				onPointerDown={(e) => {
 					e.preventDefault();
 					controls.start(e);
@@ -120,12 +118,6 @@ export function SectionItem<T extends SectionItemType>({ type, item, title, subt
 					</DropdownMenuGroup>
 				</DropdownMenuContent>
 			</DropdownMenu>
-
-			{isLocked && (
-				<div className="absolute inset-0 flex items-center justify-center bg-background/80 backdrop-blur-sm">
-					<LockSimpleIcon className="size-5 text-muted-foreground" />
-				</div>
-			)}
 		</Reorder.Item>
 	);
 }
@@ -146,7 +138,7 @@ export function SectionAddItemButton({ type, children }: AddButtonProps) {
 		<button
 			type="button"
 			onClick={handleAdd}
-			className="flex w-full items-center gap-x-2 px-3 py-3 md:py-4 font-medium hover:bg-secondary/20 focus:outline-none focus-visible:ring-1"
+			className="flex w-full items-center gap-x-2 px-3 py-3 font-medium hover:bg-secondary/20 focus:outline-none focus-visible:ring-1 md:py-4"
 		>
 			<PlusIcon />
 			{children}

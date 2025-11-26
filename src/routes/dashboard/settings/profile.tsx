@@ -14,6 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { authClient } from "@/integrations/auth/client";
+import { DashboardHeader } from "../-components/header";
 
 export const Route = createFileRoute("/dashboard/settings/profile")({
 	component: RouteComponent,
@@ -114,12 +115,7 @@ function RouteComponent() {
 
 	return (
 		<div className="space-y-4">
-			<div className="flex items-center gap-x-2">
-				<UserCircleIcon weight="light" className="size-6" />
-				<h1 className="font-medium text-2xl tracking-tight">
-					<Trans>Profile</Trans>
-				</h1>
-			</div>
+			<DashboardHeader icon={UserCircleIcon} title={t`Profile`} />
 
 			<Separator />
 

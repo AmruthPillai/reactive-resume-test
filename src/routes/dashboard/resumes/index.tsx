@@ -1,6 +1,5 @@
 import { t } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
-import { Trans } from "@lingui/react/macro";
 import { ReadCvLogoIcon, SortAscendingIcon, TagIcon } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, stripSearchParams, useNavigate } from "@tanstack/react-router";
@@ -14,6 +13,7 @@ import { MultipleCombobox } from "@/components/ui/multiple-combobox";
 import { Separator } from "@/components/ui/separator";
 import { orpc } from "@/integrations/orpc/client";
 import { cn } from "@/utils/style";
+import { DashboardHeader } from "../-components/header";
 import { CreateResumeCard } from "./-components/create-card";
 import { ResumeCard } from "./-components/resume-card";
 
@@ -55,12 +55,7 @@ function RouteComponent() {
 
 	return (
 		<div className="space-y-4">
-			<div className="flex items-center gap-x-2">
-				<ReadCvLogoIcon weight="light" className="size-6" />
-				<h1 className="font-medium text-2xl tracking-tight">
-					<Trans>Resumes</Trans>
-				</h1>
-			</div>
+			<DashboardHeader icon={ReadCvLogoIcon} title={t`Resumes`} />
 
 			<Separator />
 

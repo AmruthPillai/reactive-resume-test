@@ -6,7 +6,6 @@ import {
 	HouseSimpleIcon,
 	LockSimpleIcon,
 	LockSimpleOpenIcon,
-	MagnifyingGlassIcon,
 	PencilSimpleLineIcon,
 	SidebarSimpleIcon,
 	TrashSimpleIcon,
@@ -14,7 +13,6 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { useCommandPaletteStore } from "@/components/command-palette/store";
 import { useResumeStore } from "@/components/resume/store/resume";
 import { Button } from "@/components/ui/button";
 import {
@@ -33,7 +31,6 @@ export function BuilderHeader() {
 	const name = useResumeStore((state) => state.resume.name);
 	const isLocked = useResumeStore((state) => state.resume.isLocked);
 	const toggleSidebar = useBuilderSidebar((state) => state.toggleSidebar);
-	const setOpen = useCommandPaletteStore((state) => state.setOpen);
 
 	return (
 		<div className="absolute inset-x-0 top-0 z-10 flex h-14 items-center justify-between bg-popover px-1.5 shadow">
@@ -50,10 +47,6 @@ export function BuilderHeader() {
 				<span className="mr-2.5 text-muted-foreground">/</span>
 				<h2 className="flex-1 truncate font-medium">{name}</h2>
 				{isLocked && <LockSimpleIcon className="ml-2 text-muted-foreground" />}
-				<Button size="icon" variant="ghost" onClick={() => setOpen(true)} className="relative">
-					<MagnifyingGlassIcon />
-					<span className="absolute -bottom-0.5 -right-0.5 flex size-2 items-center justify-center rounded-full bg-primary" />
-				</Button>
 				<BuilderHeaderDropdown />
 			</div>
 

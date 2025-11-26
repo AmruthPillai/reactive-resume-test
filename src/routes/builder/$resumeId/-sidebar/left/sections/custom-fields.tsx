@@ -46,7 +46,7 @@ export function CustomFieldsSection({ onSubmit }: Props) {
 	}
 
 	return (
-		<Reorder.Group className="space-y-4 touch-none" values={customFieldsArray.fields} onReorder={handleReorder}>
+		<Reorder.Group className="touch-none space-y-4" values={customFieldsArray.fields} onReorder={handleReorder}>
 			{customFieldsArray.fields.map((field, index) => (
 				<CustomFieldItem key={field.id} field={field}>
 					<FormField
@@ -117,12 +117,17 @@ function CustomFieldItem({ field, children }: CustomFieldItemProps) {
 			dragControls={controls}
 			initial={{ opacity: 0, y: -10 }}
 			animate={{ opacity: 1, y: 0 }}
-			className="flex items-center touch-none"
+			className="flex touch-none items-center"
 		>
-			<Button size="icon" variant="ghost" className="mr-2 touch-none" onPointerDown={(e) => {
-				e.preventDefault();
-				controls.start(e);
-			}}>
+			<Button
+				size="icon"
+				variant="ghost"
+				className="mr-2 touch-none"
+				onPointerDown={(e) => {
+					e.preventDefault();
+					controls.start(e);
+				}}
+			>
 				<DotsSixVerticalIcon />
 			</Button>
 

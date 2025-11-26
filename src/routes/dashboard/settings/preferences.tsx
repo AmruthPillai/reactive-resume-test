@@ -1,3 +1,4 @@
+import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { ArrowRightIcon, GearSixIcon } from "@phosphor-icons/react";
 import { createFileRoute } from "@tanstack/react-router";
@@ -6,6 +7,7 @@ import { ThemeCombobox } from "@/components/theme/combobox";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { DashboardHeader } from "../-components/header";
 
 export const Route = createFileRoute("/dashboard/settings/preferences")({
 	component: RouteComponent,
@@ -14,12 +16,7 @@ export const Route = createFileRoute("/dashboard/settings/preferences")({
 function RouteComponent() {
 	return (
 		<div className="space-y-4">
-			<div className="flex items-center gap-x-2">
-				<GearSixIcon weight="light" className="size-6" />
-				<h1 className="font-medium text-2xl tracking-tight">
-					<Trans>Preferences</Trans>
-				</h1>
-			</div>
+			<DashboardHeader icon={GearSixIcon} title={t`Preferences`} />
 
 			<Separator />
 

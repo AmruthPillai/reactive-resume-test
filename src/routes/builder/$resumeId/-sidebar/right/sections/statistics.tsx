@@ -20,7 +20,7 @@ export function StatisticsSectionBuilder() {
 		<SectionBase type="statistics">
 			<Accordion collapsible type="single" value={statistics.isPublic ? "isPublic" : "isPrivate"}>
 				<AccordionItem value="isPrivate">
-					<AccordionContent className="p-0">
+					<AccordionContent className="pb-0">
 						<Alert>
 							<InfoIcon />
 							<AlertTitle>
@@ -37,7 +37,7 @@ export function StatisticsSectionBuilder() {
 				</AccordionItem>
 
 				<AccordionItem value="isPublic">
-					<AccordionContent className="grid @md:grid-cols-2 grid-cols-1 gap-4 p-0">
+					<AccordionContent className="grid @md:grid-cols-2 grid-cols-1 gap-4 pb-0">
 						<StatisticsItem
 							label={t`Views`}
 							value={statistics.views}

@@ -1,17 +1,17 @@
 import { t } from "@lingui/core/macro";
-import { OpenAiLogoIcon } from "@phosphor-icons/react";
+import { KeyIcon } from "@phosphor-icons/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Separator } from "@/components/ui/separator";
 import { DashboardHeader } from "../-components/header";
 
-export const Route = createFileRoute("/dashboard/settings/ai")({
+export const Route = createFileRoute("/dashboard/settings/api-keys")({
 	component: RouteComponent,
 });
 
 function RouteComponent() {
 	return (
 		<div className="space-y-4">
-			<DashboardHeader icon={OpenAiLogoIcon} title={t`Artificial Intelligence`} />
+			<DashboardHeader icon={KeyIcon} title={t`API Keys`} />
 
 			<Separator />
 		</div>

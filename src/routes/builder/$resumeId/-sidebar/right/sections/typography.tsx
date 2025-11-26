@@ -207,7 +207,7 @@ function TypographySectionForm() {
 
 				<Accordion collapsible type="single" className="col-span-full" value={syncOptions ? "" : "heading"}>
 					<AccordionItem value="heading">
-						<AccordionContent className="grid @md:grid-cols-2 grid-cols-1 gap-4 overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+						<AccordionContent className="grid @md:grid-cols-2 grid-cols-1 gap-4 overflow-hidden pb-0 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
 							<FormField
 								control={form.control}
 								name="heading.fontFamily"

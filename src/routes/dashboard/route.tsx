@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, redirect, useRouter } from "@tanstack/react-router";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { getDashboardSidebarServerFn, setDashboardSidebarServerFn } from "./-components/functions";
 import { DashboardSidebar } from "./-components/sidebar";
 
@@ -30,9 +30,6 @@ function RouteComponent() {
 			<DashboardSidebar />
 
 			<main className="@container flex-1 p-4 md:pl-2">
-				<div className="mb-4 md:hidden">
-					<SidebarTrigger />
-				</div>
 				<Outlet />
 			</main>
 		</SidebarProvider>

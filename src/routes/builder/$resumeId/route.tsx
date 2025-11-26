@@ -76,9 +76,6 @@ function BuilderLayout({ initialLayout, ...props }: BuilderLayoutProps) {
 		setBuilderLayoutServerFn({ data: layout });
 	}, 1000);
 
-	// Ensure sidebars are collapsed on mobile, expanded on desktop by default
-	// On mobile: always collapse sidebars
-	// On desktop: use saved layout if it exists, otherwise use default (expanded)
 	const leftSidebarSize = isMobile ? 0 : initialLayout[0];
 	const rightSidebarSize = isMobile ? 0 : initialLayout[2];
 	const artboardSize = isMobile ? 100 : initialLayout[1];
