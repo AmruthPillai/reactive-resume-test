@@ -1,6 +1,5 @@
 import z from "zod";
 import { create } from "zustand/react";
-import { resumeSchema } from "@/integrations/drizzle/schema";
 import {
 	awardItemSchema,
 	certificationItemSchema,
@@ -24,13 +23,17 @@ const dialogTypeSchema = z.discriminatedUnion("type", [
 	z.object({ type: z.literal("resume.create"), data: z.undefined() }),
 	z.object({
 		type: z.literal("resume.update"),
-		data: resumeSchema.pick({ id: true, name: true, slug: true, tags: true }),
+		data: z.object({ id: z.string(), name: z.string(), slug: z.string(), tags: z.array(z.string()) }),
 	}),
 	z.object({
 		type: z.literal("resume.duplicate"),
-		data: resumeSchema
-			.pick({ id: true, name: true, slug: true, tags: true })
-			.extend({ shouldRedirect: z.boolean().optional() }),
+		data: z.object({
+			id: z.string(),
+			name: z.string(),
+			slug: z.string(),
+			tags: z.array(z.string()),
+			shouldRedirect: z.boolean().optional(),
+		}),
 	}),
 	z.object({ type: z.literal("resume.template.gallery"), data: z.undefined() }),
 	z.object({ type: z.literal("resume.sections.profiles.create"), data: profileItemSchema.optional() }),

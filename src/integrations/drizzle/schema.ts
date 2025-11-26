@@ -1,7 +1,6 @@
 import { boolean, index, integer, jsonb, pgTable, text, timestamp, unique } from "drizzle-orm/pg-core";
-import z from "zod";
-import { defaultResumeData, type ResumeData, resumeDataSchema } from "@/schema/resume/data";
-import { generateId, slugify } from "@/utils/string";
+import { defaultResumeData, type ResumeData } from "@/schema/resume/data";
+import { generateId } from "@/utils/string";
 
 export const user = pgTable("user", {
 	id: text("id")
@@ -164,17 +163,6 @@ export const resume = pgTable(
 	},
 	(t) => [unique().on(t.slug, t.userId), index().on(t.isPublic, t.slug, t.userId)],
 );
-
-export const resumeSchema = z.object({
-	id: z.string().min(1),
-	name: z.string().trim().min(1).max(64),
-	slug: z.string().trim().min(1).max(64).transform(slugify),
-	tags: z.array(z.string()).optional().default([]),
-	isPublic: z.boolean().optional().default(false),
-	isLocked: z.boolean().optional().default(false),
-	password: z.string().min(6).max(64).nullable().optional(),
-	data: resumeDataSchema,
-});
 
 export const resumeStatistics = pgTable("resume_statistics", {
 	id: text("id")

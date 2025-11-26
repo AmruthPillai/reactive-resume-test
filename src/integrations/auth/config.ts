@@ -3,7 +3,7 @@ import { BetterAuthError, betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { type GenericOAuthConfig, genericOAuth, twoFactor } from "better-auth/plugins";
 import { username } from "better-auth/plugins/username";
-import { tanstackStartCookies } from "better-auth/tanstack-start";
+// import { tanstackStartCookies } from "better-auth/tanstack-start";
 import { db } from "@/integrations/drizzle/client";
 import { env } from "@/utils/env";
 import { generateId, toUsername } from "@/utils/string";
@@ -157,7 +157,7 @@ const getAuthConfig = () => {
 			twoFactor({ issuer: "Reactive Resume" }),
 			passkey({ rpName: "Reactive Resume", rpID: "localhost" }),
 			genericOAuth({ config: authConfigs }),
-			tanstackStartCookies(),
+			// tanstackStartCookies(),
 		],
 	});
 };
