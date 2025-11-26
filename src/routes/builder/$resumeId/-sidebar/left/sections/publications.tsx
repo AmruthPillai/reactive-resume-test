@@ -19,7 +19,7 @@ export function PublicationsSectionBuilder() {
 
 	return (
 		<SectionBase type="publications" className={cn("rounded-md border", section.items.length === 0 && "border-dashed")}>
-			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder} className="touch-none">
+			<Reorder.Group axis="y" values={section.items} onReorder={handleReorder}>
 				<AnimatePresence>
 					{section.items.map((item) => (
 						<SectionItem key={item.id} type="publications" item={item} title={item.title} subtitle={item.publisher} />
