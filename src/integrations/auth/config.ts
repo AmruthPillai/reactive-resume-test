@@ -1,5 +1,6 @@
+import { BetterAuthError } from "@better-auth/core/error";
 import { passkey } from "@better-auth/passkey";
-import { BetterAuthError, betterAuth } from "better-auth";
+import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { type GenericOAuthConfig, genericOAuth, twoFactor } from "better-auth/plugins";
 import { username } from "better-auth/plugins/username";
@@ -57,11 +58,14 @@ const getAuthConfig = () => {
 
 	return betterAuth({
 		appName: "Reactive Resume",
+
+		baseURL: env.APP_URL,
 		secret: env.AUTH_SECRET,
 
 		database: drizzleAdapter(db, { schema, provider: "pg" }),
 
 		telemetry: { enabled: false },
+		trustedOrigins: [env.APP_URL],
 		advanced: {
 			database: { generateId },
 			useSecureCookies: env.APP_URL.startsWith("https://"),

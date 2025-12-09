@@ -132,10 +132,10 @@
 		"vite-tsconfig-paths": "^5.1.4"
 	},
 	"overrides": {
-		"entities": "^7.0.0"
+		"entities": "^7.0.0",
+		"ms": "^4.0.0-nightly.202508271359"
 	},
 	"trustedDependencies": [
-		"@turbodocx/html-to-docx",
 		"esbuild",
 		"sharp"
 	]

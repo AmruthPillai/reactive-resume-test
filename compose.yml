@@ -8,26 +8,10 @@ services:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-    volumes:
-      - postgres_data:/var/lib/postgresql
-    healthcheck:
-      test: ["CMD", "pg_isready", "-h", "localhost"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  pgbouncer:
-    image: edoburu/pgbouncer:latest
-    restart: unless-stopped
     ports:
       - "65432:5432"
-    environment:
-      POOL_MODE: transaction
-      AUTH_TYPE: scram-sha-256
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres
-    depends_on:
-      postgres:
-        condition: service_healthy
+    volumes:
+      - postgres_data:/var/lib/postgresql
     healthcheck:
       test: ["CMD", "pg_isready", "-h", "localhost"]
       interval: 30s
@@ -96,7 +80,7 @@ services:
   #     # Printer
   #     - GOTENBERG_ENDPOINT=http://gotenberg:3000
   #     # Database
-  #     - DATABASE_URL=postgresql://postgres:postgres@pgbouncer:5432/postgres
+  #     - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
   #     # Auth
   #     - AUTH_SECRET=this-is-a-super-secret-key
   #     # Storage
@@ -107,7 +91,7 @@ services:
   #   volumes:
   #     - ./data:/app/data
   #   depends_on:
-  #     pgbouncer:
+  #     postgres:
   #       condition: service_healthy
   #   healthcheck:
   #     test:
@@ -122,6 +106,5 @@ services:
   #     retries: 3
 
 volumes:
-  # rustfs_data:
   postgres_data:
   seaweedfs_data:
