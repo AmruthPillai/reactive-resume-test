@@ -10,6 +10,7 @@ interface CommandPaletteActions {
 	setOpen: (open: boolean) => void;
 	setSearch: (search: string) => void;
 	pushPage: (page: string) => void;
+	peekPage: () => string | undefined;
 	popPage: () => void;
 	reset: () => void;
 	goBack: () => void;
@@ -23,17 +24,17 @@ const initialState: CommandPaletteState = {
 	pages: [],
 };
 
-export const useCommandPaletteStore = create<CommandPaletteStore>((set) => ({
+export const useCommandPaletteStore = create<CommandPaletteStore>((set, get) => ({
 	...initialState,
 
 	setOpen: (open) => {
 		set({ open });
-		if (!open) {
-			set(initialState);
-		}
+		if (!open) set(initialState);
 	},
 
 	setSearch: (search) => set({ search }),
+
+	peekPage: () => get().pages[get().pages.length - 1],
 
 	pushPage: (page) => set((state) => ({ pages: [...state.pages, page], search: "" })),
 

@@ -69,8 +69,6 @@ export const ResumePreview = ({ showPageNumbers, pageClassName, className, ...pr
 		return scoped;
 	}, [metadata.css.enabled, metadata.css.value]);
 
-	console.log(scopedCSS);
-
 	return (
 		<IconContext.Provider value={iconProps}>
 			{/** biome-ignore lint/security/noDangerouslySetInnerHtml: it's okay */}

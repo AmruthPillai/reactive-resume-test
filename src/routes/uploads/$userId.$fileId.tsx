@@ -31,7 +31,7 @@ async function handler({ request }: { request: Request }) {
 
 	if (isNotModified(request.headers, etag)) return makeNotModifiedResponse(etag);
 
-	const shouldForceDownload = [".html", ".svg", ".xml", ".js"].includes(ext);
+	const shouldForceDownload = [".pdf"].includes(ext);
 	const headers = buildResponseHeaders({
 		fileId,
 		storedFile,

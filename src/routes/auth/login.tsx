@@ -57,6 +57,7 @@ function RouteComponent() {
 				// Normal login success
 				router.invalidate();
 				toast.dismiss(toastId);
+				navigate({ to: "/dashboard", replace: true });
 			},
 			onError: ({ error }) => {
 				toast.error(error.message, { id: toastId });

@@ -1,38 +1,29 @@
 import { Trans } from "@lingui/react/macro";
-import { useLocation } from "@tanstack/react-router";
-import { useEffect, useMemo, useRef } from "react";
+import { useRef } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 import { Command, CommandEmpty, CommandInput, CommandList } from "../ui/command";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
-import { type CommandKPage, commandKPages } from "./pages";
+import { NavigationCommandGroup } from "./pages/navigation";
+import { PreferencesCommandGroup } from "./pages/preferences";
+import { ResumesCommandGroup } from "./pages/resumes";
 import { useCommandPaletteStore } from "./store";
 
 export function CommandPalette() {
-	const location = useLocation();
 	const inputRef = useRef<HTMLInputElement>(null);
-	const { open, search, pages, setOpen, setSearch, goBack, reset } = useCommandPaletteStore();
+	const { open, search, pages, setOpen, setSearch, goBack } = useCommandPaletteStore();
 
 	const isFirstPage = pages.length === 0;
 	const currentPage = pages[pages.length - 1];
-
-	const disabled = useMemo(() => {
-		const routeWhitelist = ["/dashboard", "/builder"];
-		return !routeWhitelist.some((route) => location.pathname.startsWith(route));
-	}, [location.pathname]);
 
 	// Toggle command palette with Cmd+K / Ctrl+K
 	useHotkeys(
 		["meta+k", "ctrl+k"],
 		(e) => {
-			if (disabled) return;
 			e.preventDefault();
 			setOpen(!open);
 		},
-		{
-			preventDefault: true,
-			enableOnFormTags: true,
-		},
-		[open, disabled],
+		{ preventDefault: true, enableOnFormTags: true },
+		[open],
 	);
 
 	// Handle backspace: delete text if input has text, go back if empty, close if first page
@@ -76,11 +67,6 @@ export function CommandPalette() {
 		[open],
 	);
 
-	// Reset state when dialog closes
-	useEffect(() => {
-		if (!open) reset();
-	}, [open, reset]);
-
 	const handleOpenChange = (newOpen: boolean) => {
 		setOpen(newOpen);
 	};
@@ -89,14 +75,8 @@ export function CommandPalette() {
 		setSearch(value);
 	};
 
-	const renderPage = () => {
-		const pageKey = (currentPage as CommandKPage) || "home";
-		const PageComponent = commandKPages[pageKey] || commandKPages.home;
-		return <PageComponent />;
-	};
-
 	return (
-		<Dialog open={open && !disabled} onOpenChange={handleOpenChange}>
+		<Dialog open={open} onOpenChange={handleOpenChange}>
 			<DialogHeader className="sr-only">
 				<DialogTitle>
 					<Trans>Builder Command Palette</Trans>
@@ -125,10 +105,12 @@ export function CommandPalette() {
 
 					<CommandList>
 						<CommandEmpty>
-							<Trans>No results found.</Trans>
+							<Trans>The command you're looking for doesn't exist.</Trans>
 						</CommandEmpty>
 
-						{renderPage()}
+						<ResumesCommandGroup />
+						<PreferencesCommandGroup />
+						<NavigationCommandGroup />
 					</CommandList>
 				</Command>
 			</DialogContent>

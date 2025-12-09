@@ -1,22 +1,30 @@
 import { Trans } from "@lingui/react/macro";
 import { PaletteIcon, TranslateIcon } from "@phosphor-icons/react";
-import { CommandGroup, CommandItem } from "@/components/ui/command";
+import { CommandItem } from "@/components/ui/command";
 import { useCommandPaletteStore } from "../../store";
+import { BaseCommandGroup } from "../base";
+import { LanguageCommandPage } from "./language";
+import { ThemeCommandPage } from "./theme";
 
 export function PreferencesCommandGroup() {
 	const pushPage = useCommandPaletteStore((state) => state.pushPage);
 
 	return (
-		<CommandGroup heading={<Trans>Preferences</Trans>}>
-			<CommandItem onSelect={() => pushPage("theme")}>
-				<PaletteIcon />
-				<Trans>Change theme to...</Trans>
-			</CommandItem>
+		<>
+			<BaseCommandGroup heading={<Trans>Preferences</Trans>}>
+				<CommandItem onSelect={() => pushPage("theme")}>
+					<PaletteIcon />
+					<Trans>Change theme to...</Trans>
+				</CommandItem>
 
-			<CommandItem onSelect={() => pushPage("language")}>
-				<TranslateIcon />
-				<Trans>Change language to...</Trans>
-			</CommandItem>
-		</CommandGroup>
+				<CommandItem onSelect={() => pushPage("language")}>
+					<TranslateIcon />
+					<Trans>Change language to...</Trans>
+				</CommandItem>
+			</BaseCommandGroup>
+
+			<ThemeCommandPage />
+			<LanguageCommandPage />
+		</>
 	);
 }

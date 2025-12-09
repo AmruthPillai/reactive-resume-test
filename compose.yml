@@ -76,17 +76,17 @@ services:
   #     - NODE_ENV=production
   #     # App
   #     - APP_URL=http://localhost:3000
-  #     - PRINTER_APP_URL=http://app:3000
+  #     - PRINTER_APP_URL=http://host.docker.internal:3000
   #     # Printer
   #     - GOTENBERG_ENDPOINT=http://gotenberg:3000
   #     # Database
   #     - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
   #     # Auth
-  #     - AUTH_SECRET=this-is-a-super-secret-key
+  #     - AUTH_SECRET=yw/dZpxtHixRpsL95vJ39WeA+s0CzN2vhOFlPQo2FJA=
   #     # Storage
   #     - S3_ACCESS_KEY_ID=seaweedfs
   #     - S3_SECRET_ACCESS_KEY=seaweedfs
-  #     - S3_ENDPOINT=http://localhost:8333
+  #     - S3_ENDPOINT=http://seaweedfs:8333
   #     - S3_BUCKET=reactive-resume-start
   #   volumes:
   #     - ./data:/app/data

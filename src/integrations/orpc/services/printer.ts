@@ -2,6 +2,7 @@ import { ORPCError } from "@orpc/server";
 import { env } from "@/utils/env";
 import { generatePrinterToken } from "@/utils/printer-token";
 import { resumeService } from "./resume";
+import { LocalStorageService } from "./storage";
 
 const pageDimensions = {
 	a4: {
@@ -13,6 +14,8 @@ const pageDimensions = {
 		height: "11in",
 	},
 } as const;
+
+const SCREENSHOT_TTL = 1000 * 60 * 10; // 10 minutes
 
 export const printerService = {
 	printResumeAsPDF: async (input: { id: string }): Promise<File> => {
@@ -62,6 +65,40 @@ export const printerService = {
 	},
 
 	getResumeScreenshot: async (input: { id: string }): Promise<File> => {
+		const localStorageService = new LocalStorageService();
+		const prefix = `screenshots/${input.id}`;
+
+		const existingScreenshots = await localStorageService.list(prefix);
+		const now = Date.now();
+
+		if (existingScreenshots.length > 0) {
+			const sortedFiles = existingScreenshots
+				.map((path) => {
+					const filename = path.split("/").pop();
+					const match = filename?.match(/^(\d+)\.webp$/);
+					return match ? { path, timestamp: Number(match[1]) } : null;
+				})
+				.filter((item): item is { path: string; timestamp: number } => item !== null)
+				.sort((a, b) => b.timestamp - a.timestamp);
+
+			if (sortedFiles.length > 0) {
+				const latest = sortedFiles[0];
+				const age = now - latest.timestamp;
+
+				if (age < SCREENSHOT_TTL) {
+					const result = await localStorageService.read(latest.path);
+
+					if (result) {
+						return new File([result.data.slice()], `resume-${input.id}.webp`, {
+							type: result.contentType ?? "image/webp",
+						});
+					}
+				}
+
+				await Promise.all(sortedFiles.map((file) => localStorageService.delete(file.path)));
+			}
+		}
+
 		const baseUrl = env.PRINTER_APP_URL ?? env.APP_URL;
 
 		const token = generatePrinterToken(input.id);
@@ -99,6 +136,25 @@ export const printerService = {
 		}
 
 		const imageBuffer = await response.arrayBuffer();
-		return new File([new Uint8Array(imageBuffer)], `resume-${input.id}.webp`, { type: "image/webp" });
+		const imageData = new Uint8Array(imageBuffer);
+
+		const timestamp = now;
+		const storageKey = `${prefix}/${timestamp}.webp`;
+
+		await localStorageService.write({
+			key: storageKey,
+			data: imageData,
+			contentType: "image/webp",
+		});
+
+		const result = await localStorageService.read(storageKey);
+
+		if (!result) {
+			throw new ORPCError("INTERNAL_SERVER_ERROR", {
+				message: "Failed to read screenshot from storage after writing",
+			});
+		}
+
+		return new File([result.data.slice()], `resume-${input.id}.webp`, { type: result.contentType ?? "image/webp" });
 	},
 };

@@ -1,5 +1,5 @@
 import z from "zod";
-import { publicProcedure } from "../context";
+import { protectedProcedure, publicProcedure } from "../context";
 import { printerService } from "../services/printer";
 
 export const printerRouter = {
@@ -7,7 +7,7 @@ export const printerRouter = {
 		return printerService.printResumeAsPDF({ id: input.id });
 	}),
 
-	getResumeScreenshot: publicProcedure.input(z.object({ id: z.string() })).handler(async ({ input }) => {
+	getResumeScreenshot: protectedProcedure.input(z.object({ id: z.string() })).handler(async ({ input }) => {
 		return printerService.getResumeScreenshot({ id: input.id });
 	}),
 };

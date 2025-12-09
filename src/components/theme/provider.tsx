@@ -4,8 +4,8 @@ import { setThemeServerFn, type Theme } from "@/utils/theme";
 
 type ThemeContextValue = {
 	theme: Theme;
-	setTheme: (value: Theme) => void;
-	toggleTheme: () => void;
+	setTheme: (value: Theme, options?: { playSound?: boolean }) => void;
+	toggleTheme: (options?: { playSound?: boolean }) => void;
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
@@ -15,10 +15,14 @@ type Props = PropsWithChildren<{ theme: Theme }>;
 export function ThemeProvider({ children, theme }: Props) {
 	const router = useRouter();
 
-	async function setTheme(value: Theme) {
+	async function setTheme(value: Theme, options: { playSound?: boolean } = {}) {
+		const { playSound = true } = options;
+
 		document.documentElement.classList.toggle("dark", value === "dark");
 		await setThemeServerFn({ data: value });
 		router.invalidate();
+
+		if (!playSound) return;
 
 		try {
 			const soundClip = value === "dark" ? "/sounds/switch-off.mp3" : "/sounds/switch-on.mp3";
@@ -29,8 +33,8 @@ export function ThemeProvider({ children, theme }: Props) {
 		}
 	}
 
-	function toggleTheme() {
-		setTheme(theme === "dark" ? "light" : "dark");
+	function toggleTheme(options: { playSound?: boolean } = {}) {
+		setTheme(theme === "dark" ? "light" : "dark", options);
 	}
 
 	return <ThemeContext value={{ theme, setTheme, toggleTheme }}>{children}</ThemeContext>;

@@ -52,16 +52,20 @@ export function inferContentType(filename: string): string {
 	return CONTENT_TYPE_MAP[extension] ?? DEFAULT_CONTENT_TYPE;
 }
 
-class LocalStorageService implements StorageService {
-	constructor(private readonly rootDirectory: string) {}
+export class LocalStorageService implements StorageService {
+	private rootDirectory: string;
+
+	constructor() {
+		this.rootDirectory = join(process.cwd(), "data");
+	}
 
 	async list(prefix: string): Promise<string[]> {
 		const fullPath = this.resolvePath(prefix);
 
 		try {
-			const files = await readdir(fullPath);
+			const files = await readdir(fullPath, { recursive: true });
 
-			return files;
+			return files.map((file) => join(prefix, file));
 		} catch (error: unknown) {
 			// If directory doesn't exist, return empty array
 			if (error && typeof error === "object" && "code" in error && error.code === "ENOENT") {
@@ -139,11 +143,17 @@ class LocalStorageService implements StorageService {
 	}
 }
 
-class S3StorageService implements StorageService {
+export class S3StorageService implements StorageService {
 	private readonly client: Bun.S3Client;
 
-	constructor(configuration: Bun.S3Options) {
-		this.client = new Bun.S3Client(configuration);
+	constructor() {
+		this.client = new Bun.S3Client({
+			bucket: env.S3_BUCKET,
+			region: env.S3_REGION,
+			accessKeyId: env.S3_ACCESS_KEY_ID,
+			secretAccessKey: env.S3_SECRET_ACCESS_KEY,
+			endpoint: env.S3_ENDPOINT,
+		});
 	}
 
 	async list(prefix: string): Promise<string[]> {
@@ -202,6 +212,14 @@ class S3StorageService implements StorageService {
 	}
 }
 
+function createStorageService(): StorageService {
+	if (env.S3_ACCESS_KEY_ID && env.S3_SECRET_ACCESS_KEY && env.S3_BUCKET) {
+		return new S3StorageService();
+	}
+
+	return new LocalStorageService();
+}
+
 let cachedService: StorageService | null = null;
 
 export function getStorageService(): StorageService {
@@ -209,18 +227,4 @@ export function getStorageService(): StorageService {
 
 	cachedService = createStorageService();
 	return cachedService;
-}
-
-function createStorageService(): StorageService {
-	if (env.S3_ACCESS_KEY_ID && env.S3_SECRET_ACCESS_KEY && env.S3_BUCKET) {
-		return new S3StorageService({
-			bucket: env.S3_BUCKET,
-			region: env.S3_REGION,
-			accessKeyId: env.S3_ACCESS_KEY_ID,
-			secretAccessKey: env.S3_SECRET_ACCESS_KEY,
-			endpoint: env.S3_ENDPOINT,
-		});
-	}
-
-	return new LocalStorageService(join(process.cwd(), "data"));
 }

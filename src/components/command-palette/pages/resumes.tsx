@@ -1,20 +1,31 @@
+import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { PlusIcon, ReadCvLogoIcon } from "@phosphor-icons/react";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouteContext } from "@tanstack/react-router";
 import { CommandLoading } from "cmdk";
-import { CommandGroup, CommandItem, CommandShortcut } from "@/components/ui/command";
+import { CommandItem, CommandShortcut } from "@/components/ui/command";
 import { Kbd } from "@/components/ui/kbd";
 import { useDialogStore } from "@/dialogs/store";
 import { orpc } from "@/integrations/orpc/client";
 import { useCommandPaletteStore } from "../store";
+import { BaseCommandGroup } from "./base";
 
-export function ResumesCommandPage() {
+export function ResumesCommandGroup() {
 	const navigate = useNavigate();
 	const { openDialog } = useDialogStore();
+	const { session } = useRouteContext({ strict: false });
 	const reset = useCommandPaletteStore((state) => state.reset);
+	const peekPage = useCommandPaletteStore((state) => state.peekPage);
+	const pushPage = useCommandPaletteStore((state) => state.pushPage);
 
-	const { data: resumes, isLoading } = useQuery(orpc.resume.list.queryOptions());
+	const isResumesPage = peekPage() === "resumes";
+
+	const { data: resumes, isLoading } = useQuery(
+		orpc.resume.list.queryOptions({
+			enabled: !!session && isResumesPage,
+		}),
+	);
 
 	const onCreate = () => {
 		navigate({ to: "/dashboard/resumes" });
@@ -27,34 +38,45 @@ export function ResumesCommandPage() {
 		reset();
 	};
 
+	if (!session) return null;
+
 	return (
-		<CommandGroup>
-			<CommandItem onSelect={onCreate}>
-				<PlusIcon />
-				<Trans>Create a new resume</Trans>
-			</CommandItem>
+		<>
+			<BaseCommandGroup heading={<Trans>Search for...</Trans>}>
+				<CommandItem keywords={[t`Resumes`]} value="search.resumes" onSelect={() => pushPage("resumes")}>
+					<ReadCvLogoIcon />
+					<Trans>Resumes</Trans>
+				</CommandItem>
+			</BaseCommandGroup>
 
-			{isLoading ? (
-				<CommandLoading>
-					<Trans>Loading resumes...</Trans>
-				</CommandLoading>
-			) : (
-				resumes?.map((resume) => (
-					<CommandItem
-						key={resume.id}
-						value={resume.id}
-						keywords={[resume.name]}
-						onSelect={() => onNavigate(`/builder/${resume.id}`)}
-					>
-						<ReadCvLogoIcon />
-						{resume.name}
+			<BaseCommandGroup page="resumes" heading={<Trans>Resumes</Trans>}>
+				<CommandItem onSelect={onCreate}>
+					<PlusIcon />
+					<Trans>Create a new resume</Trans>
+				</CommandItem>
 
-						<CommandShortcut className="opacity-0 transition-opacity group-data-[selected=true]/command-item:opacity-100">
-							Press <Kbd>Enter</Kbd> to open
-						</CommandShortcut>
-					</CommandItem>
-				))
-			)}
-		</CommandGroup>
+				{isLoading ? (
+					<CommandLoading>
+						<Trans>Loading resumes...</Trans>
+					</CommandLoading>
+				) : (
+					resumes?.map((resume) => (
+						<CommandItem
+							key={resume.id}
+							value={resume.id}
+							keywords={[resume.name]}
+							onSelect={() => onNavigate(`/builder/${resume.id}`)}
+						>
+							<ReadCvLogoIcon />
+							{resume.name}
+
+							<CommandShortcut className="opacity-0 transition-opacity group-data-[selected=true]/command-item:opacity-100">
+								Press <Kbd>Enter</Kbd> to open
+							</CommandShortcut>
+						</CommandItem>
+					))
+				)}
+			</BaseCommandGroup>
+		</>
 	);
 }

@@ -1,20 +1,21 @@
 import { Trans } from "@lingui/react/macro";
 import { MoonIcon, SunIcon } from "@phosphor-icons/react";
 import { useTheme } from "@/components/theme/provider";
-import { CommandGroup, CommandItem } from "@/components/ui/command";
+import { CommandItem } from "@/components/ui/command";
 import { useCommandPaletteStore } from "../../store";
+import { BaseCommandGroup } from "../base";
 
 export function ThemeCommandPage() {
 	const { setTheme } = useTheme();
 	const setOpen = useCommandPaletteStore((state) => state.setOpen);
 
 	const handleThemeChange = (theme: "light" | "dark") => {
-		setTheme(theme);
+		setTheme(theme, { playSound: false });
 		setOpen(false);
 	};
 
 	return (
-		<CommandGroup heading={<Trans>Theme</Trans>}>
+		<BaseCommandGroup page="theme" heading={<Trans>Theme</Trans>}>
 			<CommandItem value="light" onSelect={() => handleThemeChange("light")}>
 				<SunIcon />
 				<Trans>Light theme</Trans>
@@ -24,6 +25,6 @@ export function ThemeCommandPage() {
 				<MoonIcon />
 				<Trans>Dark theme</Trans>
 			</CommandItem>
-		</CommandGroup>
+		</BaseCommandGroup>
 	);
 }

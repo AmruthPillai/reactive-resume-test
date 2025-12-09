@@ -1,12 +1,14 @@
 import { useLingui } from "@lingui/react";
+import { Trans } from "@lingui/react/macro";
 import { useRouter } from "@tanstack/react-router";
-import { CommandGroup, CommandItem } from "@/components/ui/command";
+import { CommandItem } from "@/components/ui/command";
 import { isLocale, loadLocale, localeMap, setLocaleServerFn } from "@/utils/locale";
 import { useCommandPaletteStore } from "../../store";
+import { BaseCommandGroup } from "../base";
 
 export function LanguageCommandPage() {
-	const { i18n } = useLingui();
 	const router = useRouter();
+	const { i18n } = useLingui();
 	const setOpen = useCommandPaletteStore((state) => state.setOpen);
 
 	const handleLocaleChange = async (value: string) => {
@@ -18,13 +20,13 @@ export function LanguageCommandPage() {
 	};
 
 	return (
-		<CommandGroup heading="Language">
+		<BaseCommandGroup page="language" heading={<Trans>Language</Trans>}>
 			{Object.entries(localeMap).map(([value, label]) => (
 				<CommandItem key={value} onSelect={() => handleLocaleChange(value)}>
 					<span className="font-mono text-muted-foreground text-xs">{value}</span>
 					{i18n.t(label)}
 				</CommandItem>
 			))}
-		</CommandGroup>
+		</BaseCommandGroup>
 	);
 }
