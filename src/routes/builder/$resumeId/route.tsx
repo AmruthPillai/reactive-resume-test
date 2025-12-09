@@ -128,13 +128,13 @@ function BuilderLayout({ initialLayout, ...props }: BuilderLayoutProps) {
 const defaultLayout = [30, 40, 30];
 const BUILDER_LAYOUT_COOKIE_NAME = "builder_layout";
 
-export const setBuilderLayoutServerFn = createServerFn({ method: "POST" })
+const setBuilderLayoutServerFn = createServerFn({ method: "POST" })
 	.inputValidator(z.array(z.number()))
 	.handler(async ({ data }) => {
 		setCookie(BUILDER_LAYOUT_COOKIE_NAME, JSON.stringify(data));
 	});
 
-export const getBuilderLayoutServerFn = createServerFn({ method: "GET" }).handler(async () => {
+const getBuilderLayoutServerFn = createServerFn({ method: "GET" }).handler(async () => {
 	const layout = getCookie(BUILDER_LAYOUT_COOKIE_NAME);
 	if (!layout) return defaultLayout;
 	return z.array(z.number()).parse(JSON.parse(layout));

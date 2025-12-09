@@ -1,18 +1,20 @@
-import { createORPCClient } from "@orpc/client";
+import { createORPCClient, onError } from "@orpc/client";
 import { RPCLink } from "@orpc/client/fetch";
-import { SimpleCsrfProtectionLinkPlugin } from "@orpc/client/plugins";
-import type { InferRouterInputs, InferRouterOutputs, RouterClient } from "@orpc/server";
-import { createRouterClient } from "@orpc/server";
+import { createRouterClient, type InferRouterInputs, type InferRouterOutputs, type RouterClient } from "@orpc/server";
 import { createTanstackQueryUtils } from "@orpc/tanstack-query";
 import { createIsomorphicFn } from "@tanstack/react-start";
 import { getRequestHeaders } from "@tanstack/react-start/server";
-
 import router from "@/integrations/orpc/router";
 import { getLocale } from "@/utils/locale";
 
 const getORPCClient = createIsomorphicFn()
 	.server(() =>
 		createRouterClient(router, {
+			interceptors: [
+				onError((error) => {
+					console.error(error);
+				}),
+			],
 			context: async () => {
 				const locale = await getLocale();
 				const reqHeaders = getRequestHeaders();
@@ -27,10 +29,14 @@ const getORPCClient = createIsomorphicFn()
 	.client((): RouterClient<typeof router> => {
 		const link = new RPCLink({
 			url: `${window.location.origin}/api/rpc`,
-			plugins: [new SimpleCsrfProtectionLinkPlugin()],
 			fetch: (request, init) => {
 				return fetch(request, { ...init, credentials: "include" });
 			},
+			interceptors: [
+				onError((error) => {
+					console.error(error);
+				}),
+			],
 		});
 
 		return createORPCClient(link);

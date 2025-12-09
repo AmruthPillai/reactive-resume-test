@@ -131,7 +131,7 @@ export function UpdateLanguageDialog({ open, onOpenChange, data }: DialogProps<"
 	);
 }
 
-export function LanguageForm() {
+function LanguageForm() {
 	const form = useFormContext<FormValues>();
 
 	return (

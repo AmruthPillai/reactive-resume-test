@@ -136,7 +136,7 @@ export function UpdateProfileDialog({ open, onOpenChange, data }: DialogProps<"r
 	);
 }
 
-export function ProfileForm() {
+function ProfileForm() {
 	const form = useFormContext<FormValues>();
 	const networkState = useFormState({ control: form.control, name: "network" });
 

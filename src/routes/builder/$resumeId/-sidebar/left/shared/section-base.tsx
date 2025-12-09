@@ -1,11 +1,11 @@
 import { CaretRightIcon } from "@phosphor-icons/react";
-import { useSectionStore } from "@/builder/-store/section";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/animate-ui/accordion";
 import { useResumeStore } from "@/components/resume/store/resume";
 import { Button } from "@/components/ui/button";
 import type { SectionType } from "@/schema/resume/data";
 import { getSectionIcon, getSectionTitle, type LeftSidebarSection } from "@/utils/resume/section";
 import { cn } from "@/utils/style";
+import { useSectionStore } from "../../../-store/section";
 import { SectionDropdownMenu } from "./section-menu";
 
 type Props = React.ComponentProps<typeof AccordionContent> & {

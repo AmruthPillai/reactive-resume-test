@@ -1,0 +1,10 @@
+{
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"tags": ["-lintignore"],
+	"entry": ["src/router.tsx"],
+	"project": ["src/**/*.{js,jsx,ts,tsx}"],
+	"tailwind": { "entry": ["src/styles.css"] },
+	"ignoreDependencies": ["npm-check-updates", "node-addon-api", "node-gyp"],
+	"ignore": ["src/components/**/*.{ts,tsx}", "src/schema/resume/data.ts"],
+	"ignoreExportsUsedInFile": { "type": true, "interface": true }
+}

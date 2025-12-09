@@ -5,7 +5,7 @@ import { getCookie, setCookie } from "@tanstack/react-start/server";
 import Cookies from "js-cookie";
 import z from "zod";
 
-export const localeSchema = z.union([z.literal("en-US"), z.literal("de-DE"), z.literal("zu-ZA")]);
+const localeSchema = z.union([z.literal("en-US"), z.literal("de-DE"), z.literal("zu-ZA")]);
 
 export type Locale = z.infer<typeof localeSchema>;
 

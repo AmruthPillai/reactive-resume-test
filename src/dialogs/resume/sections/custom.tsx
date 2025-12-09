@@ -134,7 +134,7 @@ export function UpdateCustomSectionDialog({ open, onOpenChange, data }: DialogPr
 	);
 }
 
-export function CustomSectionForm() {
+function CustomSectionForm() {
 	const form = useFormContext<FormValues>();
 
 	return (

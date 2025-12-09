@@ -52,7 +52,6 @@ export const getRouter = async () => {
 	setupRouterSsrQueryIntegration({
 		router,
 		queryClient,
-		handleRedirects: true,
 		wrapQueryClient: true,
 	});
 

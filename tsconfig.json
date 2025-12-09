@@ -4,7 +4,7 @@
 		"target": "ES2022",
 		"jsx": "react-jsx",
 		"module": "ESNext",
-		"types": ["vite/client", "bun-types"],
+		"types": ["vite/client"],
 		"lib": ["ES2022", "DOM", "DOM.Iterable"],
 
 		/* Bundler mode */
@@ -24,8 +24,7 @@
 		/* Paths */
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./src/*"],
-			"@/builder/*": ["./src/routes/builder/$resumeId/*"]
+			"@/*": ["./src/*"]
 		}
 	}
 }

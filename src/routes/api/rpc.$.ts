@@ -1,19 +1,23 @@
+import { onError } from "@orpc/server";
 import { RPCHandler } from "@orpc/server/fetch";
-import { RequestHeadersPlugin, SimpleCsrfProtectionHandlerPlugin } from "@orpc/server/plugins";
+import { RequestHeadersPlugin } from "@orpc/server/plugins";
 import { createFileRoute } from "@tanstack/react-router";
 import router from "@/integrations/orpc/router";
 import { getLocale } from "@/utils/locale";
 
-const handler = new RPCHandler(router, {
-	plugins: [new RequestHeadersPlugin(), new SimpleCsrfProtectionHandlerPlugin()],
+const rpcHandler = new RPCHandler(router, {
+	interceptors: [
+		onError((error) => {
+			console.error(error);
+		}),
+	],
+	plugins: [new RequestHeadersPlugin()],
 });
 
-async function handle({ request }: { request: Request }) {
-	const { response } = await handler.handle(request, {
+async function handler({ request }: { request: Request }) {
+	const { response } = await rpcHandler.handle(request, {
 		prefix: "/api/rpc",
-		context: {
-			locale: await getLocale(),
-		},
+		context: { locale: await getLocale() },
 	});
 
 	if (!response) return new Response("NOT_FOUND", { status: 404 });
@@ -24,12 +28,7 @@ async function handle({ request }: { request: Request }) {
 export const Route = createFileRoute("/api/rpc/$")({
 	server: {
 		handlers: {
-			HEAD: handle,
-			GET: handle,
-			POST: handle,
-			PUT: handle,
-			PATCH: handle,
-			DELETE: handle,
+			ANY: handler,
 		},
 	},
 });

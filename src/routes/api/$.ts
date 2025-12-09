@@ -5,11 +5,15 @@ import { onError } from "@orpc/server";
 import { RequestHeadersPlugin } from "@orpc/server/plugins";
 import { ZodToJsonSchemaConverter } from "@orpc/zod/zod4";
 import { createFileRoute } from "@tanstack/react-router";
-import { getRequestHeaders } from "@tanstack/react-start/server";
 import router from "@/integrations/orpc/router";
 import { getLocale } from "@/utils/locale";
 
-const handler = new OpenAPIHandler(router, {
+const openapiHandler = new OpenAPIHandler(router, {
+	interceptors: [
+		onError((error) => {
+			console.error(error);
+		}),
+	],
 	plugins: [
 		new RequestHeadersPlugin(),
 		new SmartCoercionPlugin({
@@ -25,20 +29,14 @@ const handler = new OpenAPIHandler(router, {
 			},
 		}),
 	],
-	interceptors: [
-		onError((error) => {
-			console.error(error);
-		}),
-	],
 });
 
-async function handle({ request }: { request: Request }) {
+async function handler({ request }: { request: Request }) {
 	const locale = await getLocale();
-	const reqHeaders = getRequestHeaders();
 
-	const { response } = await handler.handle(request, {
+	const { response } = await openapiHandler.handle(request, {
 		prefix: "/api",
-		context: { locale, reqHeaders },
+		context: { locale, reqHeaders: request.headers },
 	});
 
 	if (!response) return new Response("NOT_FOUND", { status: 404 });
@@ -49,12 +47,7 @@ async function handle({ request }: { request: Request }) {
 export const Route = createFileRoute("/api/$")({
 	server: {
 		handlers: {
-			HEAD: handle,
-			GET: handle,
-			POST: handle,
-			PUT: handle,
-			PATCH: handle,
-			DELETE: handle,
+			ANY: handler,
 		},
 	},
 });

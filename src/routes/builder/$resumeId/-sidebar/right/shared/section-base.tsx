@@ -1,9 +1,9 @@
 import { CaretRightIcon } from "@phosphor-icons/react";
-import { useSectionStore } from "@/builder/-store/section";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/animate-ui/accordion";
 import { Button } from "@/components/ui/button";
 import { getSectionIcon, getSectionTitle, type RightSidebarSection } from "@/utils/resume/section";
 import { cn } from "@/utils/style";
+import { useSectionStore } from "../../../-store/section";
 
 type Props = React.ComponentProps<typeof AccordionContent> & {
 	type: RightSidebarSection;

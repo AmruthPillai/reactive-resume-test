@@ -143,7 +143,7 @@ export function UpdatePublicationDialog({
 	);
 }
 
-export function PublicationForm() {
+function PublicationForm() {
 	const form = useFormContext<FormValues>();
 
 	return (

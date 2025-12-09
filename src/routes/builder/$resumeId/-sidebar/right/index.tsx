@@ -1,6 +1,5 @@
 import { Fragment, useCallback, useRef } from "react";
 import { match } from "ts-pattern";
-import { useBuilderSidebar } from "@/builder/-store/sidebar";
 import { Button } from "@/components/ui/button";
 import { Copyright } from "@/components/ui/copyright";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -12,6 +11,7 @@ import {
 	rightSidebarSections,
 } from "@/utils/resume/section";
 import { BuilderSidebarEdge } from "../../-components/edge";
+import { useBuilderSidebar } from "../../-store/sidebar";
 import { CSSSectionBuilder } from "./sections/css";
 import { DesignSectionBuilder } from "./sections/design";
 import { ExportSectionBuilder } from "./sections/export";

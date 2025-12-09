@@ -141,7 +141,7 @@ export function UpdateEducationDialog({ open, onOpenChange, data }: DialogProps<
 	);
 }
 
-export function EducationForm() {
+function EducationForm() {
 	const form = useFormContext<FormValues>();
 
 	return (

@@ -133,7 +133,7 @@ export function UpdateInterestDialog({ open, onOpenChange, data }: DialogProps<"
 	);
 }
 
-export function InterestForm() {
+function InterestForm() {
 	const form = useFormContext<FormValues>();
 	const nameState = useFormState({ control: form.control, name: "name" });
 

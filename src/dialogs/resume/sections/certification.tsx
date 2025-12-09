@@ -143,7 +143,7 @@ export function UpdateCertificationDialog({
 	);
 }
 
-export function CertificationForm() {
+function CertificationForm() {
 	const form = useFormContext<FormValues>();
 
 	return (

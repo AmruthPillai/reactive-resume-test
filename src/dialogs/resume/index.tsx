@@ -283,7 +283,7 @@ export function DuplicateResumeDialog({ open, onOpenChange, data }: DialogProps<
 	);
 }
 
-export function ResumeForm() {
+function ResumeForm() {
 	const form = useFormContext<FormValues>();
 	const { data: session } = authClient.useSession();
 

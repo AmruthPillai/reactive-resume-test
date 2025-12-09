@@ -139,7 +139,7 @@ export function UpdateSkillDialog({ open, onOpenChange, data }: DialogProps<"res
 	);
 }
 
-export function SkillForm() {
+function SkillForm() {
 	const form = useFormContext<FormValues>();
 	const nameState = useFormState({ control: form.control, name: "name" });
 

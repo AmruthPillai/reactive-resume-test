@@ -1,6 +1,5 @@
 import { Fragment, useCallback, useRef } from "react";
 import { match } from "ts-pattern";
-import { useBuilderSidebar } from "@/builder/-store/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -9,6 +8,7 @@ import { UserDropdownMenu } from "@/components/user/dropdown-menu";
 import { getSectionIcon, getSectionTitle, type LeftSidebarSection, leftSidebarSections } from "@/utils/resume/section";
 import { getInitials } from "@/utils/string";
 import { BuilderSidebarEdge } from "../../-components/edge";
+import { useBuilderSidebar } from "../../-store/sidebar";
 import { AwardsSectionBuilder } from "./sections/awards";
 import { BasicsSectionBuilder } from "./sections/basics";
 import { CertificationsSectionBuilder } from "./sections/certifications";

@@ -128,7 +128,7 @@ export function UpdateReferenceDialog({ open, onOpenChange, data }: DialogProps<
 	);
 }
 
-export function ReferenceForm() {
+function ReferenceForm() {
 	const form = useFormContext<FormValues>();
 
 	return (

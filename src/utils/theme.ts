@@ -5,7 +5,7 @@ import { getCookie, setCookie } from "@tanstack/react-start/server";
 import Cookies from "js-cookie";
 import z from "zod";
 
-export const themeSchema = z.union([z.literal("light"), z.literal("dark")]);
+const themeSchema = z.union([z.literal("light"), z.literal("dark")]);
 
 export type Theme = z.infer<typeof themeSchema>;
 

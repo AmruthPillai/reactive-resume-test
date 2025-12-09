@@ -20,7 +20,9 @@ async function getSession(context: ORPCContext): Promise<AuthSession | null> {
 	}
 }
 
-export const publicProcedure = os.$context<ORPCContext>().use(async ({ context, next }) => {
+const base = os.$context<ORPCContext>();
+
+export const publicProcedure = base.use(async ({ context, next }) => {
 	const session = await getSession(context);
 
 	return next({

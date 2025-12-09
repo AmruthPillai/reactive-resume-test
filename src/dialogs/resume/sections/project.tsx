@@ -133,7 +133,7 @@ export function UpdateProjectDialog({ open, onOpenChange, data }: DialogProps<"r
 	);
 }
 
-export function ProjectForm() {
+function ProjectForm() {
 	const form = useFormContext<FormValues>();
 
 	return (

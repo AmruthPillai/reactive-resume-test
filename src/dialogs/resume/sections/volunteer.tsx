@@ -135,7 +135,7 @@ export function UpdateVolunteerDialog({ open, onOpenChange, data }: DialogProps<
 	);
 }
 
-export function VolunteerForm() {
+function VolunteerForm() {
 	const form = useFormContext<FormValues>();
 
 	return (

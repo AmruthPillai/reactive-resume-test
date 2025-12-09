@@ -135,7 +135,7 @@ export function UpdateAwardDialog({ open, onOpenChange, data }: DialogProps<"res
 	);
 }
 
-export function AwardForm() {
+function AwardForm() {
 	const form = useFormContext<FormValues>();
 
 	return (

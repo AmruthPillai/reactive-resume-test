@@ -137,7 +137,7 @@ export function UpdateExperienceDialog({ open, onOpenChange, data }: DialogProps
 	);
 }
 
-export function ExperienceForm() {
+function ExperienceForm() {
 	const form = useFormContext<FormValues>();
 
 	return (
