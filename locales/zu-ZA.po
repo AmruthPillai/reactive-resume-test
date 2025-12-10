@@ -200,6 +200,8 @@ msgstr ""
 msgid "Anyone with the link can view and download the resume."
 msgstr ""
 
+#: src/components/command-palette/pages/navigation.tsx:87
+#: src/components/command-palette/pages/navigation.tsx:92
 #: src/routes/dashboard/-components/sidebar.tsx:69
 #: src/routes/dashboard/settings/api-keys.tsx:14
 msgid "API Keys"
@@ -214,7 +216,7 @@ msgid "Are you sure you want to delete this passkey?"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-components/header.tsx:102
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:72
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:91
 msgid "Are you sure you want to delete this resume?"
 msgstr ""
 
@@ -223,7 +225,7 @@ msgid "Are you sure you want to delete your account?"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-components/header.tsx:84
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:54
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:73
 msgid "Are you sure you want to lock this resume?"
 msgstr ""
 
@@ -235,6 +237,8 @@ msgstr ""
 msgid "Area of Study"
 msgstr ""
 
+#: src/components/command-palette/pages/navigation.tsx:96
+#: src/components/command-palette/pages/navigation.tsx:101
 #: src/routes/dashboard/-components/sidebar.tsx:74
 #: src/routes/dashboard/settings/ai.tsx:14
 msgid "Artificial Intelligence"
@@ -244,6 +248,8 @@ msgstr ""
 msgid "Aspect Ratio"
 msgstr ""
 
+#: src/components/command-palette/pages/navigation.tsx:78
+#: src/components/command-palette/pages/navigation.tsx:83
 #: src/routes/dashboard/-components/sidebar.tsx:64
 #: src/routes/dashboard/settings/authentication/index.tsx:21
 msgid "Authentication"
@@ -290,7 +296,7 @@ msgstr ""
 msgid "Border Width"
 msgstr ""
 
-#: src/components/command-palette/index.tsx:102
+#: src/components/command-palette/index.tsx:82
 msgid "Builder Command Palette"
 msgstr ""
 
@@ -348,11 +354,11 @@ msgstr ""
 msgid "Certifications"
 msgstr ""
 
-#: src/components/command-palette/pages/preferences/index.tsx:18
+#: src/components/command-palette/pages/preferences/index.tsx:22
 msgid "Change language to..."
 msgstr ""
 
-#: src/components/command-palette/pages/preferences/index.tsx:13
+#: src/components/command-palette/pages/preferences/index.tsx:17
 msgid "Change theme to..."
 msgstr ""
 
@@ -491,7 +497,7 @@ msgstr ""
 msgid "Create a new reference"
 msgstr ""
 
-#: src/components/command-palette/pages/resumes.tsx:34
+#: src/components/command-palette/pages/resumes.tsx:55
 #: src/dialogs/resume/index.tsx:111
 #: src/routes/dashboard/resumes/-components/create-card.tsx:11
 msgid "Create a new resume"
@@ -530,6 +536,8 @@ msgstr ""
 msgid "Custom Sections"
 msgstr ""
 
+#: src/components/command-palette/pages/navigation.tsx:105
+#: src/components/command-palette/pages/navigation.tsx:110
 #: src/routes/dashboard/-components/sidebar.tsx:79
 #: src/routes/dashboard/settings/danger-zone.tsx:56
 msgid "Danger Zone"
@@ -540,7 +548,7 @@ msgstr ""
 msgid "Dark"
 msgstr ""
 
-#: src/components/command-palette/pages/preferences/theme.tsx:25
+#: src/components/command-palette/pages/preferences/theme.tsx:26
 msgid "Dark theme"
 msgstr ""
 
@@ -557,7 +565,7 @@ msgstr ""
 #: src/routes/builder/$resumeId/-components/header.tsx:152
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:170
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:116
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:139
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:164
 msgid "Delete"
 msgstr ""
 
@@ -594,7 +602,7 @@ msgid "Deleting your passkey..."
 msgstr ""
 
 #: src/routes/builder/$resumeId/-components/header.tsx:108
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:78
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:97
 msgid "Deleting your resume..."
 msgstr ""
 
@@ -634,7 +642,7 @@ msgstr ""
 msgid "Documentation"
 msgstr ""
 
-#: src/routes/auth/login.tsx:89
+#: src/routes/auth/login.tsx:90
 msgid "Don't have an account? <0><1>Create one now <2/></1></0>"
 msgstr ""
 
@@ -666,7 +674,7 @@ msgstr ""
 #: src/routes/builder/$resumeId/-components/header.tsx:140
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:144
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:107
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:127
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:152
 msgid "Duplicate"
 msgstr ""
 
@@ -692,13 +700,13 @@ msgid "Email"
 msgstr ""
 
 #: src/routes/auth/forgot-password.tsx:86
-#: src/routes/auth/login.tsx:108
+#: src/routes/auth/login.tsx:109
 #: src/routes/auth/register.tsx:147
 #: src/routes/dashboard/settings/profile.tsx:175
 msgid "Email Address"
 msgstr ""
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/css.tsx:59
+#: src/routes/builder/$resumeId/-sidebar/right/sections/css.tsx:244
 msgctxt "Turn On/Apply Custom CSS"
 msgid "Enable"
 msgstr ""
@@ -786,7 +794,7 @@ msgstr ""
 msgid "For example, information regarding which companies you sent this resume to or the links to the job descriptions can be noted down here."
 msgstr ""
 
-#: src/routes/auth/login.tsx:133
+#: src/routes/auth/login.tsx:134
 msgid "Forgot Password?"
 msgstr ""
 
@@ -819,7 +827,7 @@ msgstr ""
 msgid "Go Back"
 msgstr ""
 
-#: src/components/command-palette/pages/navigation.tsx:18
+#: src/components/command-palette/pages/navigation.tsx:31
 msgid "Go to..."
 msgstr ""
 
@@ -878,8 +886,8 @@ msgstr ""
 msgid "Highlight"
 msgstr ""
 
-#: src/components/command-palette/pages/navigation.tsx:19
-#: src/components/command-palette/pages/navigation.tsx:21
+#: src/components/command-palette/pages/navigation.tsx:32
+#: src/components/command-palette/pages/navigation.tsx:34
 msgid "Home"
 msgstr ""
 
@@ -934,6 +942,7 @@ msgid "Landscape"
 msgstr ""
 
 #: src/components/command-palette/pages/builder/add-section.tsx:39
+#: src/components/command-palette/pages/preferences/language.tsx:23
 #: src/components/user/dropdown-menu.tsx:75
 #: src/dialogs/resume/sections/language.tsx:145
 #: src/routes/dashboard/settings/preferences.tsx:33
@@ -949,7 +958,7 @@ msgstr ""
 msgid "Last downloaded on {0}"
 msgstr ""
 
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:98
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:117
 msgid "Last updated on {updatedAt}"
 msgstr ""
 
@@ -990,7 +999,7 @@ msgstr ""
 msgid "Light"
 msgstr ""
 
-#: src/components/command-palette/pages/preferences/theme.tsx:20
+#: src/components/command-palette/pages/preferences/theme.tsx:21
 msgid "Light theme"
 msgstr ""
 
@@ -1003,7 +1012,7 @@ msgstr ""
 msgid "Linking your {providerName} account..."
 msgstr ""
 
-#: src/components/command-palette/pages/resumes.tsx:39
+#: src/components/command-palette/pages/resumes.tsx:60
 msgid "Loading resumes..."
 msgstr ""
 
@@ -1019,7 +1028,7 @@ msgid "Location"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-components/header.tsx:145
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:132
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:157
 msgid "Lock"
 msgstr ""
 
@@ -1066,7 +1075,6 @@ msgstr ""
 msgid "New Password"
 msgstr ""
 
-#: src/components/command-palette/index.tsx:128
 #: src/components/ui/combobox.tsx:39
 #: src/components/ui/multiple-combobox.tsx:51
 msgid "No results found."
@@ -1076,7 +1084,7 @@ msgstr ""
 msgid "Notes"
 msgstr ""
 
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:114
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:139
 msgid "Open"
 msgstr ""
 
@@ -1110,7 +1118,7 @@ msgstr ""
 msgid "Page {0}"
 msgstr ""
 
-#: src/components/resume/preview.tsx:57
+#: src/components/resume/preview.tsx:87
 msgid "Page {pageNumber} of {totalNumberOfPages}"
 msgstr ""
 
@@ -1124,7 +1132,7 @@ msgstr ""
 
 #: src/dialogs/auth/disable-two-factor.tsx:82
 #: src/dialogs/auth/enable-two-factor.tsx:183
-#: src/routes/auth/login.tsx:128
+#: src/routes/auth/login.tsx:129
 #: src/routes/auth/register.tsx:169
 #: src/routes/auth/reset-password.tsx:84
 #: src/routes/auth/resume-password.tsx:104
@@ -1175,7 +1183,9 @@ msgstr ""
 msgid "Position"
 msgstr ""
 
-#: src/components/command-palette/pages/preferences/index.tsx:10
+#: src/components/command-palette/pages/navigation.tsx:69
+#: src/components/command-palette/pages/navigation.tsx:74
+#: src/components/command-palette/pages/preferences/index.tsx:14
 #: src/routes/dashboard/-components/sidebar.tsx:59
 #: src/routes/dashboard/settings/preferences.tsx:19
 msgid "Preferences"
@@ -1190,6 +1200,8 @@ msgid "Proficiency"
 msgstr ""
 
 #: src/components/command-palette/pages/builder/add-section.tsx:19
+#: src/components/command-palette/pages/navigation.tsx:60
+#: src/components/command-palette/pages/navigation.tsx:65
 #: src/routes/dashboard/-components/sidebar.tsx:54
 #: src/routes/dashboard/settings/profile.tsx:118
 msgid "Profile"
@@ -1299,9 +1311,11 @@ msgstr ""
 msgid "Resetting your password..."
 msgstr ""
 
-#: src/components/command-palette/pages/home.tsx:24
-#: src/components/command-palette/pages/navigation.tsx:24
-#: src/components/command-palette/pages/navigation.tsx:26
+#: src/components/command-palette/pages/navigation.tsx:39
+#: src/components/command-palette/pages/navigation.tsx:44
+#: src/components/command-palette/pages/resumes.tsx:46
+#: src/components/command-palette/pages/resumes.tsx:48
+#: src/components/command-palette/pages/resumes.tsx:52
 #: src/routes/dashboard/-components/sidebar.tsx:46
 #: src/routes/dashboard/resumes/index.tsx:58
 msgid "Resumes"
@@ -1346,7 +1360,7 @@ msgstr ""
 msgid "Search for an icon"
 msgstr ""
 
-#: src/components/command-palette/pages/home.tsx:21
+#: src/components/command-palette/pages/resumes.tsx:45
 msgid "Search for..."
 msgstr ""
 
@@ -1382,8 +1396,9 @@ msgstr ""
 msgid "Set Password"
 msgstr ""
 
-#: src/components/command-palette/pages/navigation.tsx:30
-#: src/components/command-palette/pages/navigation.tsx:35
+#: src/components/command-palette/pages/navigation.tsx:49
+#: src/components/command-palette/pages/navigation.tsx:54
+#: src/components/command-palette/pages/navigation.tsx:58
 #: src/routes/dashboard/-components/sidebar.tsx:141
 msgid "Settings"
 msgstr ""
@@ -1413,11 +1428,11 @@ msgstr ""
 msgid "Sidebar Width"
 msgstr ""
 
-#: src/routes/auth/login.tsx:158
+#: src/routes/auth/login.tsx:159
 msgid "Sign in"
 msgstr ""
 
-#: src/routes/auth/login.tsx:85
+#: src/routes/auth/login.tsx:86
 msgid "Sign in to your account"
 msgstr ""
 
@@ -1531,6 +1546,10 @@ msgstr ""
 msgid "Text Color"
 msgstr ""
 
+#: src/components/command-palette/index.tsx:108
+msgid "The command you're looking for doesn't exist."
+msgstr ""
+
 #: src/routes/auth/resume-password.tsx:75
 msgid "The password you entered is incorrect"
 msgstr ""
@@ -1543,7 +1562,7 @@ msgstr ""
 msgid "The URL you entered is not valid."
 msgstr ""
 
-#: src/components/command-palette/pages/preferences/theme.tsx:17
+#: src/components/command-palette/pages/preferences/theme.tsx:18
 #: src/components/user/dropdown-menu.tsx:91
 #: src/routes/dashboard/settings/preferences.tsx:26
 msgid "Theme"
@@ -1554,7 +1573,7 @@ msgid "Then, enter the 6 digit code that the app provides to continue."
 msgstr ""
 
 #: src/routes/builder/$resumeId/-components/header.tsx:103
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:73
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:92
 msgid "This action cannot be undone."
 msgstr ""
 
@@ -1634,7 +1653,7 @@ msgstr ""
 msgid "Type \"{CONFIRMATION_TEXT}\" to confirm"
 msgstr ""
 
-#: src/components/command-palette/index.tsx:105
+#: src/components/command-palette/index.tsx:85
 msgid "Type a command or search..."
 msgstr ""
 
@@ -1652,7 +1671,7 @@ msgstr ""
 
 #: src/routes/auth/resume-password.tsx:128
 #: src/routes/builder/$resumeId/-components/header.tsx:145
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:132
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:157
 msgid "Unlock"
 msgstr ""
 
@@ -1663,7 +1682,7 @@ msgstr ""
 #: src/routes/builder/$resumeId/-components/header.tsx:135
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:139
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:102
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:122
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:147
 msgid "Update"
 msgstr ""
 
@@ -1829,11 +1848,11 @@ msgid "What do you want to rename this section to?"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-components/header.tsx:85
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:55
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:74
 msgid "When locked, the resume cannot be updated or deleted."
 msgstr ""
 
-#: src/routes/auth/login.tsx:115
+#: src/routes/auth/login.tsx:116
 msgid "You can also use your username to login."
 msgstr ""
 
@@ -1885,7 +1904,7 @@ msgid "Your resume has been created successfully."
 msgstr ""
 
 #: src/routes/builder/$resumeId/-components/header.tsx:114
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:84
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:103
 msgid "Your resume has been deleted successfully."
 msgstr ""
 

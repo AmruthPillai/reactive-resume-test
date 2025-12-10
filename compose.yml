@@ -1,8 +1,27 @@
 name: reactive-resume-start
 
 services:
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - ADMINER_DESIGN=hever
+      - ADMINER_DEFAULT_DRIVER=pgsql
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
   postgres:
-    image: postgres:latest
+    build:
+      context: ./deployment/postgres
+      dockerfile: Dockerfile
     restart: unless-stopped
     environment:
       POSTGRES_DB: postgres

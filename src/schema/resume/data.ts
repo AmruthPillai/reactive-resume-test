@@ -277,7 +277,7 @@ export const typographySchema = z.object({
 	heading: typographyItemSchema,
 });
 
-export const templateSchema = z.enum(["onyx", "ditto", "bronzor"]);
+export const templateSchema = z.enum(["onyx", "ditto", "bronzor", "chikorita"]);
 
 export const metadataSchema = z.object({
 	locale: localeSchema.catch("en-US"),

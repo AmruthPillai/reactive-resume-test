@@ -10,6 +10,7 @@ import { useWebfonts } from "./hooks/use-webfonts";
 import styles from "./preview.module.css";
 import { useResumeStore } from "./store/resume";
 import { BronzorTemplate } from "./templates/bronzor";
+import { ChikoritaTemplate } from "./templates/chikorita";
 import { DittoTemplate } from "./templates/ditto";
 import { OnyxTemplate } from "./templates/onyx";
 
@@ -23,6 +24,7 @@ function getTemplateComponent(template: z.infer<typeof templateSchema>) {
 		.with("onyx", () => OnyxTemplate)
 		.with("ditto", () => DittoTemplate)
 		.with("bronzor", () => BronzorTemplate)
+		.with("chikorita", () => ChikoritaTemplate)
 		.exhaustive();
 }
 

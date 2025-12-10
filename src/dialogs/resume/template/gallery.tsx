@@ -44,6 +44,13 @@ const templates: Template[] = [
 		imageUrl: "https://picsum.photos/800/1203",
 		tags: ["Single Column", "Minimalist", "Monochrome", "Professional", "ATS Friendly"],
 	},
+	{
+		id: "chikorita",
+		name: "Chikorita",
+		description: msg`A clean and minimal two-column layout with a hint of color, suited for beginners with minimal experience.`,
+		imageUrl: "https://picsum.photos/800/1203",
+		tags: ["Two Column", "Minimalist", "Monochrome", "Professional", "ATS Friendly"],
+	},
 ];
 
 export function TemplateGalleryDialog({ open, onOpenChange }: DialogProps<"resume.template.gallery">) {
