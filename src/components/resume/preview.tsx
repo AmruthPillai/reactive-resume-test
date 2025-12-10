@@ -12,6 +12,7 @@ import { useResumeStore } from "./store/resume";
 import { BronzorTemplate } from "./templates/bronzor";
 import { ChikoritaTemplate } from "./templates/chikorita";
 import { DittoTemplate } from "./templates/ditto";
+import { GengarTemplate } from "./templates/gengar";
 import { OnyxTemplate } from "./templates/onyx";
 
 type Props = React.ComponentProps<"div"> & {
@@ -25,6 +26,7 @@ function getTemplateComponent(template: z.infer<typeof templateSchema>) {
 		.with("ditto", () => DittoTemplate)
 		.with("bronzor", () => BronzorTemplate)
 		.with("chikorita", () => ChikoritaTemplate)
+		.with("gengar", () => GengarTemplate)
 		.exhaustive();
 }
 
