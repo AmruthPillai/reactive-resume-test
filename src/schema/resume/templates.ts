@@ -2,7 +2,20 @@ import type { MessageDescriptor } from "@lingui/core";
 import { msg } from "@lingui/core/macro";
 import z from "zod";
 
-export const templateSchema = z.enum(["onyx", "ditto", "bronzor", "chikorita", "gengar", "azurill"]);
+export const templateSchema = z.enum([
+	"azurill",
+	"bronzor",
+	"chikorita",
+	"ditto",
+	"gengar",
+	// "glalie",
+	// "kakuna",
+	// "leafish",
+	// "nosepass",
+	"onyx",
+	// "pikachu",
+	// "rhyhorn"
+]);
 
 export type Template = z.infer<typeof templateSchema>;
 
