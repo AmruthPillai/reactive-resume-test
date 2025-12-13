@@ -287,7 +287,7 @@ function PictureSectionForm() {
 												{...field}
 												type="number"
 												min={0}
-												max={50}
+												max={100}
 												step={1}
 												onChange={(e) => {
 													const value = Number(e.target.value);
@@ -295,14 +295,14 @@ function PictureSectionForm() {
 												}}
 											/>
 										</FormControl>
-										<InputGroupAddon align="inline-end">%</InputGroupAddon>
+										<InputGroupAddon align="inline-end">pt</InputGroupAddon>
 									</InputGroup>
 
 									<ButtonGroup className="shrink-0">
 										<Button
 											size="icon"
 											variant="outline"
-											title="0%"
+											title="0pt"
 											onClick={() => {
 												field.onChange(0);
 												form.handleSubmit(onSubmit)();
@@ -313,7 +313,7 @@ function PictureSectionForm() {
 										<Button
 											size="icon"
 											variant="outline"
-											title="10%"
+											title="10pt"
 											onClick={() => {
 												field.onChange(10);
 												form.handleSubmit(onSubmit)();
@@ -324,13 +324,13 @@ function PictureSectionForm() {
 										<Button
 											size="icon"
 											variant="outline"
-											title="50%"
+											title="100pt"
 											onClick={() => {
-												field.onChange(50);
+												field.onChange(100);
 												form.handleSubmit(onSubmit)();
 											}}
 										>
-											<div className="size-3 rounded-[50%] border border-primary" />
+											<div className="size-3 rounded-full border border-primary" />
 										</Button>
 									</ButtonGroup>
 								</div>

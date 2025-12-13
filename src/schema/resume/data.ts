@@ -1,216 +1,310 @@
 import z from "zod";
-import type { IconName } from "@/components/input/icon-picker";
-import type { Locale } from "@/utils/locale";
-import { templateSchema } from "./templates";
+import type { IconName } from "../icons";
+import { templateSchema } from "../templates";
 
-export const iconSchema = z.custom<IconName>();
+export const iconSchema = z
+	.custom<IconName>()
+	.describe(
+		"The icon to display for the custom field. Must be a valid icon name from phosphor-icons icon set. Leave blank to hide. Default to 'star' if unsure which icons are available.",
+	);
 
-export const localeSchema = z.custom<Locale>();
+export const localeSchema = z
+	.union([z.literal("en-US"), z.literal("de-DE"), z.literal("zu-ZA")])
+	.describe("The language used in the resume, used for displaying pre-translated section headings, if not overridden.")
+	.catch("en-US");
 
 export const urlSchema = z.object({
-	url: z.url().or(z.literal("")),
-	label: z.string(),
+	url: z
+		.url()
+		.or(z.literal(""))
+		.describe(
+			"The URL to show as a link. Must be a valid URL with a protocol (http:// or https://). Leave blank to hide.",
+		),
+	label: z.string().describe("The label to display for the URL. Leave blank to display the URL as-is."),
 });
 
 export const pictureSchema = z.object({
-	hidden: z.boolean(),
-	url: z.url().or(z.literal("")),
-	size: z.number().min(32).max(512),
-	rotation: z.number().min(0).max(360),
-	aspectRatio: z.number().min(0.5).max(2.5),
-	borderRadius: z.number().min(0).max(50),
-	borderColor: z.string(),
-	borderWidth: z.number().min(0),
-	shadowColor: z.string(),
-	shadowWidth: z.number().min(0),
+	hidden: z.boolean().describe("Whether to hide the picture from the resume."),
+	url: z
+		.url()
+		.or(z.literal(""))
+		.describe(
+			"The URL to the picture to display on the resume. Must be a valid URL with a protocol (http:// or https://). Leave blank to hide.",
+		),
+	size: z
+		.number()
+		.min(32)
+		.max(512)
+		.describe("The size of the picture to display on the resume, defined in points (pt)."),
+	rotation: z
+		.number()
+		.min(0)
+		.max(360)
+		.describe("The rotation of the picture to display on the resume, defined in degrees (°)."),
+	aspectRatio: z
+		.number()
+		.min(0.5)
+		.max(2.5)
+		.describe(
+			"The aspect ratio of the picture to display on the resume, defined as width / height (e.g. 1.5 for 1.5:1 or 0.5 for 1:2).",
+		),
+	borderRadius: z
+		.number()
+		.min(0)
+		.max(100)
+		.describe("The border radius of the picture to display on the resume, defined in points (pt)."),
+	borderColor: z
+		.string()
+		.describe("The color of the border of the picture to display on the resume, defined as rgba(r, g, b, a)."),
+	borderWidth: z
+		.number()
+		.min(0)
+		.describe("The width of the border of the picture to display on the resume, defined in points (pt)."),
+	shadowColor: z
+		.string()
+		.describe("The color of the shadow of the picture to display on the resume, defined as rgba(r, g, b, a)."),
+	shadowWidth: z
+		.number()
+		.min(0)
+		.describe("The width of the shadow of the picture to display on the resume, defined in points (pt)."),
 });
 
 export const customFieldSchema = z.object({
-	id: z.string(),
+	id: z.string().describe("The unique identifier for the custom field. Usually generated as a UUID."),
 	icon: iconSchema,
-	text: z.string(),
+	text: z.string().describe("The text to display for the custom field."),
 });
 
 export const basicsSchema = z.object({
-	name: z.string(),
-	headline: z.string(),
-	email: z.email().or(z.literal("")),
-	phone: z.string(),
-	location: z.string(),
-	website: urlSchema,
-	customFields: z.array(customFieldSchema),
+	name: z.string().describe("The full name of the author of the resume."),
+	headline: z.string().describe("The headline of the author of the resume."),
+	email: z.email().or(z.literal("")).describe("The email address of the author of the resume. Leave blank to hide."),
+	phone: z.string().describe("The phone number of the author of the resume. Leave blank to hide."),
+	location: z.string().describe("The location of the author of the resume."),
+	website: urlSchema.describe("The website of the author of the resume."),
+	customFields: z.array(customFieldSchema).describe("The custom fields to display on the resume."),
 });
 
 export const summarySchema = z.object({
-	title: z.string(),
-	columns: z.number(),
-	hidden: z.boolean(),
-	content: z.string(),
+	title: z.string().describe("The title of the summary of the resume."),
+	columns: z.number().describe("The number of columns the summary should span across."),
+	hidden: z.boolean().describe("Whether to hide the summary from the resume."),
+	content: z
+		.string()
+		.describe("The content of the summary of the resume. This should be a HTML-formatted string. Leave blank to hide."),
 });
 
 export const baseItemSchema = z.object({
-	id: z.string(),
-	hidden: z.boolean(),
+	id: z.string().describe("The unique identifier for the item. Usually generated as a UUID."),
+	hidden: z.boolean().describe("Whether to hide the item from the resume."),
 });
 
 export const awardItemSchema = baseItemSchema.extend({
-	title: z.string().min(1),
-	awarder: z.string(),
-	date: z.string(),
-	website: urlSchema,
-	description: z.string(),
+	title: z.string().min(1).describe("The title of the award."),
+	awarder: z.string().describe("The awarder of the award."),
+	date: z.string().describe("The date when the award was received."),
+	website: urlSchema.describe("The website of the award, if any."),
+	description: z
+		.string()
+		.describe("The description of the award. This should be a HTML-formatted string. Leave blank to hide."),
 });
 
 export const certificationItemSchema = baseItemSchema.extend({
-	title: z.string().min(1),
-	issuer: z.string(),
-	date: z.string(),
-	website: urlSchema,
-	description: z.string(),
+	title: z.string().min(1).describe("The title of the certification."),
+	issuer: z.string().describe("The issuer of the certification."),
+	date: z.string().describe("The date when the certification was received."),
+	website: urlSchema.describe("The website of the certification, if any."),
+	description: z
+		.string()
+		.describe("The description of the certification. This should be a HTML-formatted string. Leave blank to hide."),
 });
 
 export const educationItemSchema = baseItemSchema.extend({
-	school: z.string().min(1),
-	degree: z.string(),
-	area: z.string(),
-	grade: z.string(),
-	location: z.string(),
-	period: z.string(),
-	website: urlSchema,
-	description: z.string(),
+	school: z.string().min(1).describe("The name of the school or institution."),
+	degree: z.string().describe("The degree or qualification obtained."),
+	area: z.string().describe("The area of study or specialization."),
+	grade: z.string().describe("The grade or score achieved."),
+	location: z.string().describe("The location of the school or institution."),
+	period: z.string().describe("The period of time the education was obtained over."),
+	website: urlSchema.describe("The website of the school or institution, if any."),
+	description: z
+		.string()
+		.describe("The description of the education. This should be a HTML-formatted string. Leave blank to hide."),
 });
 
 export const experienceItemSchema = baseItemSchema.extend({
-	company: z.string().min(1),
-	position: z.string(),
-	location: z.string(),
-	period: z.string(),
-	website: urlSchema,
-	description: z.string(),
+	company: z.string().min(1).describe("The name of the company or organization."),
+	position: z.string().describe("The position held at the company or organization."),
+	location: z.string().describe("The location of the company or organization."),
+	period: z.string().describe("The period of time the author was employed at the company or organization."),
+	website: urlSchema.describe("The website of the company or organization, if any."),
+	description: z
+		.string()
+		.describe("The description of the experience. This should be a HTML-formatted string. Leave blank to hide."),
 });
 
 export const interestItemSchema = baseItemSchema.extend({
 	icon: iconSchema,
-	name: z.string().min(1),
-	keywords: z.array(z.string()).catch([]),
+	name: z.string().min(1).describe("The name of the interest/hobby."),
+	keywords: z
+		.array(z.string())
+		.catch([])
+		.describe("The keywords associated with the interest/hobby, if any. These are displayed as tags below the name."),
 });
 
 export const languageItemSchema = baseItemSchema.extend({
-	language: z.string().min(1),
-	fluency: z.string(),
-	level: z.number().min(0).max(5).catch(0),
+	language: z.string().min(1).describe("The name of the language the author knows."),
+	fluency: z
+		.string()
+		.describe(
+			"The fluency level of the language. Can be any text, such as 'Native', 'Fluent', 'Conversational', etc. or can also be a CEFR level (A1, A2, B1, B2, C1, C2).",
+		),
+	level: z
+		.number()
+		.min(0)
+		.max(5)
+		.catch(0)
+		.describe(
+			"The proficiency level of the language, defined as a number between 0 and 5. If set to 0, the icons displaying the level will be hidden.",
+		),
 });
 
 export const profileItemSchema = baseItemSchema.extend({
 	icon: iconSchema,
-	network: z.string().min(1),
-	username: z.string(),
-	website: urlSchema,
+	network: z.string().min(1).describe("The name of the network or platform."),
+	username: z.string().describe("The username of the author on the network or platform."),
+	website: urlSchema.describe("The link to the profile of the author on the network or platform, if any."),
 });
 
 export const projectItemSchema = baseItemSchema.extend({
-	name: z.string().min(1),
-	period: z.string(),
-	website: urlSchema,
-	description: z.string(),
+	name: z.string().min(1).describe("The name of the project."),
+	period: z.string().describe("The period of time the project was worked on."),
+	website: urlSchema.describe("The link to the project, if any."),
+	description: z
+		.string()
+		.describe("The description of the project. This should be a HTML-formatted string. Leave blank to hide."),
 });
 
 export const publicationItemSchema = baseItemSchema.extend({
-	title: z.string().min(1),
-	publisher: z.string(),
-	date: z.string(),
-	website: urlSchema,
-	description: z.string(),
+	title: z.string().min(1).describe("The title of the publication."),
+	publisher: z.string().describe("The publisher of the publication."),
+	date: z.string().describe("The date when the publication was published."),
+	website: urlSchema.describe("The link to the publication, if any."),
+	description: z
+		.string()
+		.describe("The description of the publication. This should be a HTML-formatted string. Leave blank to hide."),
 });
 
 export const referenceItemSchema = baseItemSchema.extend({
-	name: z.string().min(1),
-	description: z.string(),
+	name: z.string().min(1).describe("The name of the reference, or a note such as 'Available upon request'."),
+	description: z
+		.string()
+		.describe(
+			"The description of the reference. Can be used to display a quote, a testimonial, etc. This should be a HTML-formatted string. Leave blank to hide.",
+		),
 });
 
 export const skillItemSchema = baseItemSchema.extend({
 	icon: iconSchema,
-	name: z.string().min(1),
-	proficiency: z.string(),
-	level: z.number().min(0).max(5).catch(0),
-	keywords: z.array(z.string()).catch([]),
+	name: z.string().min(1).describe("The name of the skill."),
+	proficiency: z
+		.string()
+		.describe(
+			"The proficiency level of the skill. Can be any text, such as 'Beginner', 'Intermediate', 'Advanced', etc.",
+		),
+	level: z
+		.number()
+		.min(0)
+		.max(5)
+		.catch(0)
+		.describe(
+			"The proficiency level of the skill, defined as a number between 0 and 5. If set to 0, the icons displaying the level will be hidden.",
+		),
+	keywords: z
+		.array(z.string())
+		.catch([])
+		.describe("The keywords associated with the skill, if any. These are displayed as tags below the name."),
 });
 
 export const volunteerItemSchema = baseItemSchema.extend({
-	organization: z.string().min(1),
-	location: z.string(),
-	period: z.string(),
-	website: urlSchema,
-	description: z.string(),
+	organization: z.string().min(1).describe("The name of the organization or company."),
+	location: z.string().describe("The location of the organization or company."),
+	period: z.string().describe("The period of time the author was volunteered at the organization or company."),
+	website: urlSchema.describe("The link to the organization or company, if any."),
+	description: z
+		.string()
+		.describe(
+			"The description of the volunteer experience. This should be a HTML-formatted string. Leave blank to hide.",
+		),
 });
 
 export const baseSectionSchema = z.object({
-	title: z.string(),
-	columns: z.number(),
-	hidden: z.boolean(),
+	title: z.string().describe("The title of the section."),
+	columns: z.number().describe("The number of columns the section should span across."),
+	hidden: z.boolean().describe("Whether to hide the section from the resume."),
 });
 
 export const awardsSectionSchema = baseSectionSchema.extend({
-	items: z.array(awardItemSchema),
+	items: z.array(awardItemSchema).describe("The items to display in the awards section."),
 });
 
 export const certificationsSectionSchema = baseSectionSchema.extend({
-	items: z.array(certificationItemSchema),
+	items: z.array(certificationItemSchema).describe("The items to display in the certifications section."),
 });
 
 export const educationSectionSchema = baseSectionSchema.extend({
-	items: z.array(educationItemSchema),
+	items: z.array(educationItemSchema).describe("The items to display in the education section."),
 });
 
 export const experienceSectionSchema = baseSectionSchema.extend({
-	items: z.array(experienceItemSchema),
+	items: z.array(experienceItemSchema).describe("The items to display in the experience section."),
 });
 
 export const interestsSectionSchema = baseSectionSchema.extend({
-	items: z.array(interestItemSchema),
+	items: z.array(interestItemSchema).describe("The items to display in the interests section."),
 });
 
 export const languagesSectionSchema = baseSectionSchema.extend({
-	items: z.array(languageItemSchema),
+	items: z.array(languageItemSchema).describe("The items to display in the languages section."),
 });
 
 export const profilesSectionSchema = baseSectionSchema.extend({
-	items: z.array(profileItemSchema),
+	items: z.array(profileItemSchema).describe("The items to display in the profiles section."),
 });
 
 export const projectsSectionSchema = baseSectionSchema.extend({
-	items: z.array(projectItemSchema),
+	items: z.array(projectItemSchema).describe("The items to display in the projects section."),
 });
 
 export const publicationsSectionSchema = baseSectionSchema.extend({
-	items: z.array(publicationItemSchema),
+	items: z.array(publicationItemSchema).describe("The items to display in the publications section."),
 });
 
 export const referencesSectionSchema = baseSectionSchema.extend({
-	items: z.array(referenceItemSchema),
+	items: z.array(referenceItemSchema).describe("The items to display in the references section."),
 });
 
 export const skillsSectionSchema = baseSectionSchema.extend({
-	items: z.array(skillItemSchema),
+	items: z.array(skillItemSchema).describe("The items to display in the skills section."),
 });
 
 export const volunteerSectionSchema = baseSectionSchema.extend({
-	items: z.array(volunteerItemSchema),
+	items: z.array(volunteerItemSchema).describe("The items to display in the volunteer section."),
 });
 
 export const sectionsSchema = z.object({
-	profiles: profilesSectionSchema,
-	experience: experienceSectionSchema,
-	education: educationSectionSchema,
-	projects: projectsSectionSchema,
-	skills: skillsSectionSchema,
-	languages: languagesSectionSchema,
-	interests: interestsSectionSchema,
-	awards: awardsSectionSchema,
-	certifications: certificationsSectionSchema,
-	publications: publicationsSectionSchema,
-	volunteer: volunteerSectionSchema,
-	references: referencesSectionSchema,
+	profiles: profilesSectionSchema.describe("The section to display the profiles of the author."),
+	experience: experienceSectionSchema.describe("The section to display the experience of the author."),
+	education: educationSectionSchema.describe("The section to display the education of the author."),
+	projects: projectsSectionSchema.describe("The section to display the projects of the author."),
+	skills: skillsSectionSchema.describe("The section to display the skills of the author."),
+	languages: languagesSectionSchema.describe("The section to display the languages of the author."),
+	interests: interestsSectionSchema.describe("The section to display the interests of the author."),
+	awards: awardsSectionSchema.describe("The section to display the awards of the author."),
+	certifications: certificationsSectionSchema.describe("The section to display the certifications of the author."),
+	publications: publicationsSectionSchema.describe("The section to display the publications of the author."),
+	volunteer: volunteerSectionSchema.describe("The section to display the volunteer experience of the author."),
+	references: referencesSectionSchema.describe("The section to display the references of the author."),
 });
 
 export type SectionType = keyof z.infer<typeof sectionsSchema>;
@@ -218,8 +312,10 @@ export type SectionData<T extends SectionType = SectionType> = z.infer<typeof se
 export type SectionItem<T extends SectionType = SectionType> = SectionData<T>["items"][number];
 
 export const customSectionSchema = baseSectionSchema.extend({
-	id: z.string(),
-	content: z.string(),
+	id: z.string().describe("The unique identifier for the custom section. Usually generated as a UUID."),
+	content: z
+		.string()
+		.describe("The content of the custom section. This should be a HTML-formatted string. Leave blank to hide."),
 });
 
 export type CustomSection = z.infer<typeof customSectionSchema>;
@@ -229,43 +325,83 @@ export const customSectionsSchema = z.array(customSectionSchema);
 export const fontWeightSchema = z.enum(["100", "200", "300", "400", "500", "600", "700", "800", "900"]);
 
 export const typographyItemSchema = z.object({
-	fontFamily: z.string(),
-	fontWeights: z.array(fontWeightSchema).catch(["400"]),
-	fontSize: z.number().min(6).max(24).catch(11),
-	lineHeight: z.number().min(0.5).max(4).catch(1.5),
+	fontFamily: z.string().describe("The family of the font to use. Must be a font that is available on Google Fonts."),
+	fontWeights: z
+		.array(fontWeightSchema)
+		.catch(["400"])
+		.describe(
+			"The weight of the font, defined as a number between 100 and 900. Default to 400 when unsure if the weight is available in the font.",
+		),
+	fontSize: z.number().min(6).max(24).catch(11).describe("The size of the font to use, defined in points (pt)."),
+	lineHeight: z
+		.number()
+		.min(0.5)
+		.max(4)
+		.catch(1.5)
+		.describe("The line height of the font to use, defined as a multiplier of the font size (e.g. 1.5 for 1.5x)."),
 });
 
 export const pageLayoutSchema = z.object({
-	fullWidth: z.boolean(),
-	main: z.array(z.string()),
-	sidebar: z.array(z.string()),
+	fullWidth: z
+		.boolean()
+		.describe(
+			"Whether the layout of the page should be full width. If true, the main column will span the entire width of the page. This means that there should be no items in the sidebar column.",
+		),
+	main: z
+		.array(z.string())
+		.describe(
+			"The items to display in the main column of the page. A string array of section IDs (experience, education, projects, skills, languages, interests, awards, certifications, publications, volunteer, references, profiles, summary or UUIDs for custom sections).",
+		),
+	sidebar: z
+		.array(z.string())
+		.describe(
+			"The items to display in the sidebar column of the page. A string array of section IDs (experience, education, projects, skills, languages, interests, awards, certifications, publications, volunteer, references, profiles, summary or UUIDs for custom sections).",
+		),
 });
 
 export const layoutSchema = z.object({
-	sidebarWidth: z.number().min(10).max(50).catch(30),
-	pages: z.array(pageLayoutSchema),
+	sidebarWidth: z
+		.number()
+		.min(10)
+		.max(50)
+		.catch(35)
+		.describe("The width of the sidebar column, defined as a percentage of the page width."),
+	pages: z.array(pageLayoutSchema).describe("The pages to display in the layout."),
 });
 
 export const cssSchema = z.object({
-	enabled: z.boolean(),
-	value: z.string(),
+	enabled: z.boolean().describe("Whether to enable custom CSS for the resume."),
+	value: z.string().describe("The custom CSS to apply to the resume. This should be a valid CSS string."),
 });
 
 export const pageSchema = z.object({
-	marginX: z.number(),
-	marginY: z.number(),
-	format: z.enum(["a4", "letter"]),
+	gapX: z.number().min(0).describe("The horizontal gap between the sections of the page, defined in points (pt)."),
+	gapY: z.number().min(0).describe("The vertical gap between the sections of the page, defined in points (pt)."),
+	marginX: z.number().min(0).describe("The horizontal margin of the page, defined in points (pt)."),
+	marginY: z.number().min(0).describe("The vertical margin of the page, defined in points (pt)."),
+	format: z.enum(["a4", "letter"]).describe("The format of the page. Can be 'a4' or 'letter'."),
+	locale: localeSchema,
 });
 
 export const levelDesignSchema = z.object({
 	icon: iconSchema,
-	type: z.enum(["hidden", "circle", "square", "rectangle", "rectangle-full", "progress-bar", "icon"]),
+	type: z
+		.enum(["hidden", "circle", "square", "rectangle", "rectangle-full", "progress-bar", "icon"])
+		.describe(
+			"The type of the level design. 'hidden' will hide the level design, 'circle' will display a circle, 'square' will display a square, 'rectangle' will display a rectangle, 'rectangle-full' will display a full rectangle, 'progress-bar' will display a progress bar, and 'icon' will display an icon. If 'icon' is selected, the icon to display should be specified in the 'icon' field.",
+		),
 });
 
 export const colorDesignSchema = z.object({
-	primary: z.string(),
-	text: z.string(),
-	background: z.string(),
+	primary: z.string().describe("The primary color of the design, defined as rgba(r, g, b, a)."),
+	text: z
+		.string()
+		.describe("The text color of the design, defined as rgba(r, g, b, a). Usually set to black: rgba(0, 0, 0, 1)."),
+	background: z
+		.string()
+		.describe(
+			"The background color of the design, defined as rgba(r, g, b, a). Usually set to white: rgba(255, 255, 255, 1).",
+		),
 });
 
 export const designSchema = z.object({
@@ -274,29 +410,63 @@ export const designSchema = z.object({
 });
 
 export const typographySchema = z.object({
-	body: typographyItemSchema,
-	heading: typographyItemSchema,
+	body: typographyItemSchema.describe("The typography for the body of the resume."),
+	heading: typographyItemSchema.describe("The typography for the headings of the resume."),
 });
 
 export const metadataSchema = z.object({
-	locale: localeSchema.catch("en-US"),
-	template: templateSchema.catch("onyx"),
-	layout: layoutSchema,
-	css: cssSchema,
-	page: pageSchema,
-	design: designSchema,
-	typography: typographySchema,
-	notes: z.string(),
+	template: templateSchema
+		.catch("onyx")
+		.describe("The template to use for the resume. Determines the overall design and appearance of the resume."),
+	layout: layoutSchema.describe(
+		"The layout of the resume. Determines the structure and arrangement of the sections on the resume.",
+	),
+	css: cssSchema.describe(
+		"Custom CSS to apply to the resume. Can be used to override the default styles of the template.",
+	),
+	page: pageSchema.describe(
+		"The page settings of the resume. Determines the margins, format, and locale of the resume.",
+	),
+	design: designSchema.describe(
+		"The design settings of the resume. Determines the colors, level designs, and typography of the resume.",
+	),
+	typography: typographySchema.describe(
+		"The typography settings of the resume. Determines the fonts and sizes of the body and headings of the resume.",
+	),
+	notes: z
+		.string()
+		.describe(
+			"Personal notes for the resume. Can be used to add any additional information or instructions for the resume. These notes are not displayed on the resume, they are only visible to the author of the resume when editing the resume. This should be a HTML-formatted string.",
+		),
 });
 
 export const resumeDataSchema = z.object({
-	picture: pictureSchema,
-	basics: basicsSchema,
-	summary: summarySchema,
-	sections: sectionsSchema,
-	customSections: customSectionsSchema,
-	metadata: metadataSchema,
+	picture: pictureSchema.describe("Configuration for photograph displayed on the resume"),
+	basics: basicsSchema.describe(
+		"Basic information about the author, such as name, email, phone, location, and website",
+	),
+	summary: summarySchema.describe("Summary section of the resume, useful for a short bio or introduction"),
+	sections: sectionsSchema.describe("Various sections of the resume, such as experience, education, projects, etc."),
+	customSections: customSectionsSchema.describe(
+		"Custom sections of the resume, such as a custom section for notes, etc.",
+	),
+	metadata: metadataSchema.describe(
+		"Metadata for the resume, such as template, layout, typography, etc. This section describes the overall design and appearance of the resume.",
+	),
 });
+
+export const resumeDataJSONSchema = z.toJSONSchema(
+	resumeDataSchema.extend({
+		version: z.literal("5.0.0").describe("The version of the Reactive Resume JSON Schema"),
+		$schema: z
+			.literal("https://rxresu.me/schema.json")
+			.describe("The URL of the Reactive Resume JSON Schema, used for validation and documentation purposes."),
+	}),
+	{
+		reused: "ref",
+		unrepresentable: "any",
+	},
+);
 
 export type ResumeData = z.infer<typeof resumeDataSchema>;
 
@@ -308,9 +478,9 @@ export const defaultResumeData: ResumeData = {
 		rotation: 0,
 		aspectRatio: 1,
 		borderRadius: 0,
-		borderColor: "rgba(0, 0, 0, 1)",
+		borderColor: "rgba(0, 0, 0, 0.5)",
 		borderWidth: 0,
-		shadowColor: "rgba(0, 0, 0, 0.25)",
+		shadowColor: "rgba(0, 0, 0, 0.5)",
 		shadowWidth: 0,
 	},
 	basics: {
@@ -404,10 +574,9 @@ export const defaultResumeData: ResumeData = {
 	},
 	customSections: [],
 	metadata: {
-		locale: "en-US",
 		template: "onyx",
 		layout: {
-			sidebarWidth: 30,
+			sidebarWidth: 35,
 			pages: [
 				{
 					fullWidth: false,
@@ -417,7 +586,7 @@ export const defaultResumeData: ResumeData = {
 			],
 		},
 		css: { enabled: false, value: "" },
-		page: { marginX: 14, marginY: 16, format: "a4" },
+		page: { gapX: 4, gapY: 4, marginX: 14, marginY: 16, format: "a4", locale: "en-US" },
 		design: {
 			colors: {
 				primary: "rgba(220, 38, 38, 1)",
@@ -450,41 +619,36 @@ export const defaultResumeData: ResumeData = {
 export const sampleResumeData: ResumeData = {
 	picture: {
 		hidden: false,
-		url: "https://picsum.photos/800",
-		size: 80,
+		url: "https://i.imgur.com/o4Jpt1p.jpeg",
+		size: 100,
 		rotation: 0,
 		aspectRatio: 1,
 		borderRadius: 0,
-		borderColor: "rgba(0, 0, 0, 1)",
+		borderColor: "rgba(0, 0, 0, 0.5)",
 		borderWidth: 0,
-		shadowColor: "rgba(0, 0, 0, 0.25)",
+		shadowColor: "rgba(0, 0, 0, 0.5)",
 		shadowWidth: 0,
 	},
 	basics: {
-		name: "Sarah Chen",
-		headline: "Senior Full-Stack Developer & Technical Lead",
-		email: "sarah.chen@email.com",
-		phone: "+1 (555) 123-4567",
-		location: "San Francisco, CA",
+		name: "David Kowalski",
+		headline: "Game Developer | Unity & Unreal Engine Specialist",
+		email: "david.kowalski@email.com",
+		phone: "+1 (555) 291-4756",
+		location: "Seattle, WA",
 		website: {
-			url: "https://sarahchen.dev",
-			label: "sarahchen.dev",
+			url: "https://davidkowalski.games",
+			label: "davidkowalski.games",
 		},
 		customFields: [
 			{
-				id: "linkedin",
-				icon: "linkedin-logo",
-				text: "linkedin.com/in/sarahchen",
-			},
-			{
-				id: "github",
+				id: "cf1",
 				icon: "github-logo",
-				text: "github.com/sarahchen",
+				text: "github.com/dkowalski-dev",
 			},
 			{
-				id: "portfolio",
-				icon: "globe",
-				text: "portfolio.sarahchen.dev",
+				id: "cf2",
+				icon: "game-controller",
+				text: "itch.io/dkowalski",
 			},
 		],
 	},
@@ -493,95 +657,95 @@ export const sampleResumeData: ResumeData = {
 		columns: 1,
 		hidden: false,
 		content:
-			'<h1>This is a heading 1</h1><h2>This is a heading 2</h2><h3>This is a heading 3</h3><h4>This is a heading 4</h4><h5>This is a heading 5</h5><h6>This is a heading 6</h6><p><strong>Experienced full-stack developer with 8+</strong> years of expert<em>ise in building scalable web applications. Spe</em>cialized in React, Typ<u>eScript, Node.js, and cloud infrastructure. Pro</u>ven track record of le<mark class="bg-yellow-200 group-data-editor:text-zinc-950! rounded-md px-0.5 py-px">ading cross-functional teams, archi</mark>tecting microse<s>rvices, and del</s>ivering <code>high-impact p</code>roducts us<strong><em>ed by millions of users. Passionate about deve</em></strong>loper experience<u>, code quality, and mentoring junior engin</u>eers.</p><p><a target="_blank" rel="noopener noreferrer nofollow" href="https://google.com">This is a link.</a></p><ul><li><p>This is a list item.</p></li><li><p>This is another list item.</p><ul><li><p>This is a nested list item.</p><ul><li><p>Here\'s another nested list item.</p></li></ul></li></ul></li><li><p>And we\'re back to the start.</p></li></ul><p style="text-align: justify;">Lorem consequat nisi mollit elit qui reprehenderit nisi. Fugiat dolor pariatur veniam quis cillum amet laborum velit. Aute qui dolore laboris. Eu est nulla pariatur nostrud mollit cupidatat dolor eu elit ad sit culpa laboris tempor ad. Dolore officia quis officia esse velit consectetur duis in non magna mollit quis.</p>',
+			"<p>Passionate game developer with 5+ years of professional experience creating engaging gameplay systems and polished player experiences across multiple platforms. Specialized in Unity and Unreal Engine with strong expertise in C#, C++, and game design principles. Proven ability to collaborate effectively with cross-functional teams including designers, artists, and QA to deliver high-quality games on time and within scope. Deep understanding of game mechanics, AI systems, physics, and performance optimization for PC, console, and mobile platforms.</p>",
 	},
 	sections: {
 		profiles: {
-			title: "Online Profiles",
+			title: "Online Presence",
 			columns: 3,
 			hidden: false,
 			items: [
 				{
-					id: "profile-1",
-					hidden: false,
-					icon: "linkedin-logo",
-					network: "LinkedIn",
-					username: "sarahchen",
-					website: {
-						url: "https://linkedin.com/in/sarahchen",
-						label: "",
-					},
-				},
-				{
-					id: "profile-2",
+					id: "profile1",
 					hidden: false,
 					icon: "github-logo",
 					network: "GitHub",
-					username: "sarahchen",
+					username: "dkowalski-dev",
 					website: {
-						url: "https://github.com/sarahchen",
-						label: "",
+						url: "https://github.com/dkowalski-dev",
+						label: "github.com/dkowalski-dev",
 					},
 				},
 				{
-					id: "profile-3",
+					id: "profile2",
 					hidden: false,
-					icon: "twitter-logo",
-					network: "Twitter",
-					username: "@sarahcodes",
+					icon: "linkedin-logo",
+					network: "LinkedIn",
+					username: "davidkowalski",
 					website: {
-						url: "https://twitter.com/sarahcodes",
-						label: "",
+						url: "https://linkedin.com/in/davidkowalski",
+						label: "linkedin.com/in/davidkowalski",
+					},
+				},
+				{
+					id: "profile3",
+					hidden: false,
+					icon: "game-controller",
+					network: "itch.io",
+					username: "dkowalski",
+					website: {
+						url: "https://itch.io/dkowalski",
+						label: "itch.io/dkowalski",
 					},
 				},
 			],
 		},
 		experience: {
-			title: "Work Experience",
+			title: "Professional Experience",
 			columns: 1,
 			hidden: false,
 			items: [
 				{
-					id: "experience-1",
+					id: "exp1",
 					hidden: false,
-					company: "TechFlow Inc.",
-					position: "Senior Full-Stack Engineer & Tech Lead",
-					location: "San Francisco, CA",
-					period: "January 2021 - Present",
-					website: {
-						url: "https://techflow.com",
-						label: "techflow.com",
-					},
-					description:
-						"Leading a team of 6 engineers developing a real-time collaboration platform serving 2M+ users. Architected microservices infrastructure using Node.js, TypeScript, and Kubernetes. Implemented CI/CD pipelines reducing deployment time by 60%. Mentored junior developers and conducted technical interviews. Key technologies: React, TypeScript, GraphQL, PostgreSQL, Redis, AWS.",
-				},
-				{
-					id: "experience-2",
-					hidden: false,
-					company: "DataSync Solutions",
-					position: "Full-Stack Developer",
+					company: "Cascade Studios",
+					position: "Senior Game Developer",
 					location: "Seattle, WA",
-					period: "March 2019 - December 2020",
+					period: "March 2022 - Present",
 					website: {
-						url: "https://datasync.io",
-						label: "datasync.io",
+						url: "",
+						label: "",
 					},
 					description:
-						"Developed and maintained data integration platform connecting 50+ third-party APIs. Built responsive web applications using React and TypeScript. Optimized database queries improving performance by 40%. Collaborated with product managers and designers in agile environment. Technologies: React, Node.js, Express, MongoDB, Docker.",
+						"<ul><li>Lead gameplay programmer on an unannounced AAA action-adventure title built in Unreal Engine 5 for PC and next-gen consoles</li><li>Architected and implemented core combat system including hit detection, combo mechanics, and enemy AI behavior trees serving 15+ enemy types</li><li>Developed custom editor tools in C++ that reduced level designer iteration time by 40% and improved workflow efficiency across the team</li><li>Optimized rendering pipeline and gameplay systems to maintain 60 FPS performance target on all supported platforms, achieving 95% frame rate stability</li><li>Mentor two junior developers on programming best practices, code architecture, and game engine fundamentals</li><li>Collaborate with design team to prototype and iterate on new gameplay mechanics, balancing player agency with technical feasibility</li><li>Participate in code reviews and maintain high code quality standards across 200K+ lines of C++ codebase</li></ul>",
 				},
 				{
-					id: "experience-3",
+					id: "exp2",
 					hidden: false,
-					company: "StartupLab",
-					position: "Junior Software Developer",
-					location: "Austin, TX",
-					period: "June 2017 - February 2019",
+					company: "Pixel Forge Interactive",
+					position: "Game Developer",
+					location: "Bellevue, WA",
+					period: "June 2020 - February 2022",
 					website: {
-						url: "https://startuplab.co",
-						label: "startuplab.co",
+						url: "",
+						label: "",
 					},
 					description:
-						"Contributed to multiple client projects building custom web applications. Implemented RESTful APIs and database schemas. Participated in code reviews and pair programming sessions. Gained experience in full software development lifecycle. Stack: JavaScript, React, Python, Django, PostgreSQL.",
+						"<ul><li>Core developer on 'Starbound Odyssey,' a sci-fi roguelike that achieved 500K+ sales on Steam with 'Very Positive' user reviews</li><li>Implemented procedural generation systems for level layouts, enemy encounters, and loot drops using Unity and C#</li><li>Designed and programmed player progression systems including skill trees, equipment upgrades, and meta-progression mechanics</li><li>Created robust save/load system supporting cloud saves and cross-platform play between PC and Nintendo Switch</li><li>Integrated third-party SDKs for analytics (GameAnalytics), achievements (Steamworks), and multiplayer networking (Photon)</li><li>Fixed critical bugs and balanced gameplay based on community feedback and telemetry data, releasing 12 post-launch content updates</li><li>Worked closely with artists to implement VFX, animations, and shaders that enhanced visual polish while maintaining performance targets</li></ul>",
+				},
+				{
+					id: "exp3",
+					hidden: false,
+					company: "Mobile Games Studio",
+					position: "Junior Game Developer",
+					location: "Remote",
+					period: "September 2018 - May 2020",
+					website: {
+						url: "",
+						label: "",
+					},
+					description:
+						"<ul><li>Contributed to development of three mobile puzzle games built in Unity, collectively downloaded 2M+ times on iOS and Android</li><li>Implemented UI systems, touch controls, and gesture recognition optimized for mobile devices and various screen sizes</li><li>Developed monetization features including rewarded video ads, in-app purchases, and daily reward systems that increased retention by 25%</li><li>Optimized memory usage and load times for mobile platforms, reducing app size by 35% through asset compression and code optimization</li><li>Collaborated with game designers to balance puzzle difficulty curves and progression pacing using A/B testing data</li><li>Maintained live operations for released games, pushing regular content updates and seasonal events to sustain player engagement</li></ul>",
 				},
 			],
 		},
@@ -591,36 +755,20 @@ export const sampleResumeData: ResumeData = {
 			hidden: false,
 			items: [
 				{
-					id: "education-1",
+					id: "edu1",
 					hidden: false,
-					school: "University of California, Berkeley",
+					school: "University of Washington",
 					degree: "Bachelor of Science",
 					area: "Computer Science",
-					grade: "3.8 GPA",
-					location: "Berkeley, CA",
-					period: "September 2013 - May 2017",
+					grade: "3.6 GPA",
+					location: "Seattle, WA",
+					period: "2014 - 2018",
 					website: {
-						url: "https://berkeley.edu",
-						label: "berkeley.edu",
+						url: "",
+						label: "",
 					},
 					description:
-						"Relevant coursework: Data Structures, Algorithms, Database Systems, Web Development, Machine Learning, Software Engineering. Dean's List all semesters. Member of ACM and Women in Computer Science.",
-				},
-				{
-					id: "education-2",
-					hidden: false,
-					school: "Stanford University",
-					degree: "Certificate",
-					area: "Machine Learning Specialization",
-					grade: "",
-					location: "Online",
-					period: "January 2022 - June 2022",
-					website: {
-						url: "https://online.stanford.edu",
-						label: "online.stanford.edu",
-					},
-					description:
-						"Completed intensive program covering supervised learning, neural networks, and practical ML implementation. Final project: Built recommendation system achieving 92% accuracy.",
+						"<p>Concentration in Game Development. Relevant Coursework: Game Engine Architecture, Computer Graphics, Artificial Intelligence, Physics Simulation, 3D Mathematics, Software Engineering, Data Structures & Algorithms</p>",
 				},
 			],
 		},
@@ -630,178 +778,193 @@ export const sampleResumeData: ResumeData = {
 			hidden: false,
 			items: [
 				{
-					id: "project-1",
+					id: "proj1",
 					hidden: false,
-					name: "DevCollab - Real-time Code Collaboration Tool",
-					period: "2023",
+					name: "Echoes of the Void (Indie Game)",
+					period: "2023 - Present",
 					website: {
-						url: "https://github.com/sarahchen/devcollab",
-						label: "github.com/sarahchen/devcollab",
+						url: "https://itch.io/echoes-of-the-void",
+						label: "View on itch.io",
 					},
 					description:
-						"Open-source real-time collaborative code editor with video chat integration. Built with React, WebRTC, and operational transformation algorithms. 2.5K GitHub stars, featured in JavaScript Weekly.",
+						"<p>Solo developer for a narrative-driven 2D platformer built in Unity. Features custom dialogue system, branching story paths, and atmospheric pixel art. Currently in development with demo released on itch.io garnering 5K+ downloads and positive community feedback. Planned Steam release Q2 2025.</p>",
 				},
 				{
-					id: "project-2",
+					id: "proj2",
 					hidden: false,
-					name: "TaskFlow - Project Management API",
-					period: "2022",
+					name: "Open Source: Unity Dialogue Framework",
+					period: "2021 - 2023",
 					website: {
-						url: "https://github.com/sarahchen/taskflow",
-						label: "github.com/sarahchen/taskflow",
+						url: "https://github.com/dkowalski-dev/unity-dialogue",
+						label: "View on GitHub",
 					},
 					description:
-						"RESTful API for project management with advanced filtering and analytics. Implemented with Node.js, Express, PostgreSQL, and Redis caching. Comprehensive documentation and test coverage >90%.",
+						"<p>Created and maintain an open-source dialogue system for Unity with visual node-based editor, localization support, and voice acting integration. Project has 800+ GitHub stars and is actively used by indie developers worldwide. Includes comprehensive documentation and example projects.</p>",
 				},
 				{
-					id: "project-3",
+					id: "proj3",
 					hidden: false,
-					name: "UI Component Library",
-					period: "2021-Present",
+					name: "Game Jam Participation",
+					period: "2019 - Present",
 					website: {
-						url: "https://components.sarahchen.dev",
-						label: "components.sarahchen.dev",
+						url: "",
+						label: "",
 					},
 					description:
-						"Accessible, customizable React component library with TypeScript support. Published to NPM with 15K+ weekly downloads. Includes Storybook documentation and comprehensive testing suite.",
+						"<p>Regular participant in Ludum Dare and Global Game Jam events. Created 12+ game prototypes exploring experimental mechanics and art styles. Won 'Best Gameplay' award at Ludum Dare 48 with puzzle game 'Deeper and Deeper' that ranked in top 5% overall.</p>",
 				},
 			],
 		},
 		skills: {
 			title: "Technical Skills",
-			columns: 3,
+			columns: 2,
 			hidden: false,
 			items: [
 				{
-					id: "skill-1",
+					id: "skill1",
 					hidden: false,
-					icon: "file-js",
-					name: "JavaScript (ES2021+)",
+					icon: "code",
+					name: "Unity Engine",
 					proficiency: "Expert",
 					level: 5,
-					keywords: ["ES2021 Features", "Asynchronous", "Promises", "Event Loop"],
+					keywords: ["C#", "Editor Tools", "Performance Profiling"],
 				},
 				{
-					id: "skill-2",
+					id: "skill2",
 					hidden: false,
-					icon: "file-ts",
-					name: "TypeScript",
+					icon: "brackets-curly",
+					name: "Unreal Engine",
+					proficiency: "Advanced",
+					level: 4,
+					keywords: ["C++", "Blueprints", "UE5 Features"],
+				},
+				{
+					id: "skill3",
+					hidden: false,
+					icon: "cpu",
+					name: "Programming Languages",
 					proficiency: "Expert",
 					level: 5,
-					keywords: ["Types", "Generics", "Type Safety", "Type Guards"],
+					keywords: ["C#", "C++", "Python", "HLSL/GLSL"],
 				},
 				{
-					id: "skill-3",
+					id: "skill4",
 					hidden: false,
-					icon: "atom",
-					name: "React",
-					proficiency: "Expert",
+					icon: "brain",
+					name: "Game AI",
+					proficiency: "Advanced",
+					level: 4,
+					keywords: ["Behavior Trees", "FSM", "Pathfinding", "Navigation"],
+				},
+				{
+					id: "skill5",
+					hidden: false,
+					icon: "shooting-star",
+					name: "Physics & Mathematics",
+					proficiency: "Advanced",
+					level: 4,
+					keywords: ["3D Math", "Collision Detection", "Rigid Body Dynamics"],
+				},
+				{
+					id: "skill6",
+					hidden: false,
+					icon: "chart-line-up",
+					name: "Performance Optimization",
+					proficiency: "Advanced",
+					level: 4,
+					keywords: ["Profiling", "Memory Management", "Frame Rate"],
+				},
+				{
+					id: "skill7",
+					hidden: false,
+					icon: "git-branch",
+					name: "Version Control",
+					proficiency: "Advanced",
 					level: 5,
-					keywords: ["Hooks", "Context API", "State Management", "Component Design"],
+					keywords: ["Git", "Perforce", "Plastic SCM"],
 				},
 				{
-					id: "skill-4",
+					id: "skill8",
 					hidden: false,
-					icon: "function",
-					name: "Next.js",
+					icon: "devices",
+					name: "Platform Development",
 					proficiency: "Advanced",
 					level: 4,
-					keywords: ["SSR", "Static Generation", "API Routes", "App Router"],
+					keywords: ["PC", "Console (PS5/Xbox)", "Mobile", "Switch"],
 				},
 				{
-					id: "skill-5",
+					id: "skill9",
 					hidden: false,
-					icon: "leaf",
-					name: "Node.js",
-					proficiency: "Advanced",
-					level: 4,
-					keywords: ["Express", "Performance", "REST APIs", "CLI Tools"],
+					icon: "network",
+					name: "Multiplayer/Networking",
+					proficiency: "Intermediate",
+					level: 3,
+					keywords: ["Photon", "Mirror", "Client-Server", "P2P"],
 				},
 				{
-					id: "skill-6",
+					id: "skill10",
 					hidden: false,
-					icon: "database",
-					name: "PostgreSQL",
-					proficiency: "Advanced",
-					level: 4,
-					keywords: ["Query Optimization", "Indices", "JSONB", "Migrations"],
+					icon: "palette",
+					name: "Shaders & VFX",
+					proficiency: "Intermediate",
+					level: 3,
+					keywords: ["Shader Graph", "HLSL", "Particle Systems"],
 				},
 			],
 		},
 		languages: {
 			title: "Languages",
-			columns: 3,
+			columns: 2,
 			hidden: false,
 			items: [
 				{
-					id: "language-1",
+					id: "lang1",
 					hidden: false,
 					language: "English",
 					fluency: "Native",
 					level: 5,
 				},
 				{
-					id: "language-2",
+					id: "lang2",
 					hidden: false,
-					language: "Mandarin Chinese",
-					fluency: "Native",
-					level: 5,
-				},
-				{
-					id: "language-3",
-					hidden: false,
-					language: "Spanish",
-					fluency: "Professional Working",
+					language: "Polish",
+					fluency: "Conversational",
 					level: 3,
 				},
 			],
 		},
 		interests: {
 			title: "Interests",
-			columns: 3,
+			columns: 2,
 			hidden: false,
 			items: [
 				{
-					id: "interest-1",
+					id: "int1",
 					hidden: false,
-					icon: "github-logo",
-					name: "Open Source Contribution",
-					keywords: ["GitHub", "Pull Requests", "Community"],
+					icon: "game-controller",
+					name: "Game Design",
+					keywords: ["Mechanics", "Level Design", "Player Psychology"],
 				},
 				{
-					id: "interest-2",
+					id: "int2",
+					hidden: false,
+					icon: "robot",
+					name: "AI & Procedural Generation",
+					keywords: ["PCG", "Machine Learning", "Emergent Gameplay"],
+				},
+				{
+					id: "int3",
+					hidden: false,
+					icon: "book-open",
+					name: "Indie Game Development",
+					keywords: ["Solo Dev", "Game Jams", "Community"],
+				},
+				{
+					id: "int4",
 					hidden: false,
 					icon: "pen-nib",
-					name: "Technical Writing",
-					keywords: ["Documentation", "Blogging", "Content Creation"],
-				},
-				{
-					id: "interest-3",
-					hidden: false,
-					icon: "mountains",
-					name: "Rock Climbing",
-					keywords: ["Bouldering", "Sport Climbing", "Outdoor Activities"],
-				},
-				{
-					id: "interest-4",
-					hidden: false,
-					icon: "camera",
-					name: "Photography",
-					keywords: ["Travel", "Portrait", "Landscape"],
-				},
-				{
-					id: "interest-5",
-					hidden: false,
-					icon: "cooking-pot",
-					name: "Cooking",
-					keywords: ["International Cuisine", "Recipe Development", "Home Cooking"],
-				},
-				{
-					id: "interest-6",
-					hidden: false,
-					icon: "chalkboard-teacher",
-					name: "Mentoring",
-					keywords: ["Women in Tech", "Peer Mentorship", "Coaching"],
+					name: "Technical Art",
+					keywords: ["Shaders", "VFX", "Optimization"],
 				},
 			],
 		},
@@ -811,43 +974,30 @@ export const sampleResumeData: ResumeData = {
 			hidden: false,
 			items: [
 				{
-					id: "award-1",
+					id: "award1",
 					hidden: false,
-					title: "Tech Excellence Award",
-					awarder: "TechFlow Inc.",
-					date: "December 2023",
+					title: "Best Gameplay - Ludum Dare 48",
+					awarder: "Ludum Dare",
+					date: "April 2021",
 					website: {
 						url: "",
 						label: "",
 					},
 					description:
-						"Recognized for outstanding technical leadership and significant contributions to platform scalability improvements that reduced infrastructure costs by 35%.",
+						"<p>Awarded for puzzle game 'Deeper and Deeper' which ranked in the top 5% overall among 3,000+ submissions</p>",
 				},
 				{
-					id: "award-2",
+					id: "award2",
 					hidden: false,
-					title: "Best Open Source Project",
-					awarder: "DevCon 2023",
-					date: "June 2023",
+					title: "Employee Excellence Award",
+					awarder: "Pixel Forge Interactive",
+					date: "December 2021",
 					website: {
-						url: "https://devcon.tech",
-						label: "devcon.tech",
+						url: "",
+						label: "",
 					},
 					description:
-						"DevCollab project won first place in open source category at annual developer conference, competing against 150+ projects.",
-				},
-				{
-					id: "award-3",
-					hidden: false,
-					title: "Hackathon Winner - FinTech Challenge",
-					awarder: "San Francisco Tech Week",
-					date: "October 2022",
-					website: {
-						url: "https://sftechweek.com",
-						label: "sftechweek.com",
-					},
-					description:
-						"Led team of 4 to build AI-powered financial literacy app in 48 hours. Won $10K prize and mentorship opportunity with venture capital firm.",
+						"<p>Recognized for exceptional contributions to 'Starbound Odyssey' development and dedication to code quality</p>",
 				},
 			],
 		},
@@ -857,135 +1007,94 @@ export const sampleResumeData: ResumeData = {
 			hidden: false,
 			items: [
 				{
-					id: "certification-1",
+					id: "cert1",
 					hidden: false,
-					title: "AWS Certified Solutions Architect - Associate",
-					issuer: "Amazon Web Services",
-					date: "March 2023",
+					title: "Unity Certified Expert: Programmer",
+					issuer: "Unity Technologies",
+					date: "March 2022",
 					website: {
-						url: "https://aws.amazon.com/certification",
-						label: "AWS Certification",
+						url: "",
+						label: "",
 					},
-					description:
-						"Demonstrated expertise in designing distributed systems on AWS platform, including compute, networking, storage, and database services.",
+					description: "",
 				},
 				{
-					id: "certification-2",
+					id: "cert2",
 					hidden: false,
-					title: "Kubernetes Administrator (CKA)",
-					issuer: "Cloud Native Computing Foundation",
-					date: "September 2022",
+					title: "Unreal Engine 5 C++ Developer",
+					issuer: "Epic Games (Udemy)",
+					date: "June 2023",
 					website: {
-						url: "https://www.cncf.io/certification/cka",
-						label: "CNCF Certification",
+						url: "",
+						label: "",
 					},
-					description:
-						"Certified in deploying, managing, and troubleshooting Kubernetes clusters in production environments.",
-				},
-				{
-					id: "certification-3",
-					hidden: false,
-					title: "Professional Scrum Master I (PSM I)",
-					issuer: "Scrum.org",
-					date: "January 2021",
-					website: {
-						url: "https://www.scrum.org/assessments/professional-scrum-master-i-certification",
-						label: "Scrum.org",
-					},
-					description:
-						"Validated understanding of Scrum framework, roles, events, and artifacts for effective agile project management.",
+					description: "",
 				},
 			],
 		},
 		publications: {
-			title: "Publications",
+			title: "Publications & Talks",
 			columns: 1,
 			hidden: false,
 			items: [
 				{
-					id: "publication-1",
+					id: "pub1",
 					hidden: false,
-					title: "Scaling Real-Time Collaboration with WebRTC and OT",
-					publisher: "Smashing Magazine",
-					date: "April 2023",
-					website: {
-						url: "https://www.smashingmagazine.com/2023/04/scaling-realtime-collaboration-webrtc-ot/",
-						label: "smashingmagazine.com/2023/04/scaling-realtime-collaboration-webrtc-ot/",
-					},
-					description:
-						"Explored architecture, challenges, and best practices for building scalable collaborative applications using WebRTC and operational transformation algorithms, based on lessons learned from DevCollab.",
-				},
-				{
-					id: "publication-2",
-					hidden: false,
-					title: "Designing Accessible React Component Libraries",
-					publisher: "DEV Community",
-					date: "October 2022",
-					website: {
-						url: "https://dev.to/sarahchen/designing-accessible-react-component-libraries-4j2h",
-						label: "dev.to/sarahchen/designing-accessible-react-component-libraries-4j2h",
-					},
-					description:
-						"Discussed key strategies for building accessible, tested, and customizable UI components for React, with a focus on usability and open-source processes.",
-				},
-				{
-					id: "publication-3",
-					hidden: false,
-					title: "Modern Project Management APIs in Node.js",
-					publisher: "Javascript Weekly",
-					date: "July 2022",
-					website: {
-						url: "https://javascriptweekly.com/issues/599#feature",
-						label: "javascriptweekly.com/issues/599#feature",
-					},
-					description:
-						"Featured article detailing the design, implementation, and test strategies behind the TaskFlow API, including performance and analytics considerations.",
-				},
-			],
-		},
-		volunteer: {
-			title: "Volunteer",
-			columns: 1,
-			hidden: false,
-			items: [
-				{
-					id: "volunteer-1",
-					hidden: false,
-					organization: "Open Source Mentorship Program",
-					location: "Remote",
-					period: "2021 - Present",
-					website: {
-						url: "https://opensourcementor.org",
-						label: "opensourcementor.org",
-					},
-					description:
-						"Mentor emerging developers worldwide on contributions to React and Node.js projects, helping them gain confidence and technical proficiency in open source.",
-				},
-				{
-					id: "volunteer-2",
-					hidden: false,
-					organization: "Women Who Code San Francisco",
-					location: "San Francisco, CA",
-					period: "2019 - Present",
-					website: {
-						url: "https://womenwhocode.com/sf",
-						label: "womenwhocode.com/sf",
-					},
-					description:
-						"Lead career workshops and technical sessions focused on empowering women in technology, including talks on cloud architecture and agile development.",
-				},
-				{
-					id: "volunteer-3",
-					hidden: false,
-					organization: "Local Food Bank",
-					location: "San Francisco, CA",
-					period: "2018 - 2020",
+					title: "Optimizing Unity Games for Mobile: A Practical Guide",
+					publisher: "Game Developer Magazine",
+					date: "September 2021",
 					website: {
 						url: "",
 						label: "",
 					},
 					description:
-						"Volunteered in weekend food drives, supporting logistics and community outreach to serve underprivileged neighborhoods.",
+						"<p>Technical article covering mobile optimization techniques including draw call batching, LOD systems, and memory management</p>",
+				},
+				{
+					id: "pub2",
+					hidden: false,
+					title: "Building Modular Dialogue Systems",
+					publisher: "Seattle Indie Game Developers Meetup",
+					date: "May 2022",
+					website: {
+						url: "",
+						label: "",
+					},
+					description:
+						"<p>Presented talk on designing flexible dialogue systems for narrative games, attended by 60+ local developers</p>",
+				},
+			],
+		},
+		volunteer: {
+			title: "Community Involvement",
+			columns: 1,
+			hidden: false,
+			items: [
+				{
+					id: "vol1",
+					hidden: false,
+					organization: "Seattle Indies",
+					location: "Seattle, WA",
+					period: "2020 - Present",
+					website: {
+						url: "",
+						label: "",
+					},
+					description:
+						"<p>Active member of local indie game development community. Organize monthly game showcases and provide mentorship to aspiring game developers through code reviews and technical guidance.</p>",
+				},
+				{
+					id: "vol2",
+					hidden: false,
+					organization: "Code.org Game Development Workshops",
+					location: "Seattle, WA",
+					period: "2021 - Present",
+					website: {
+						url: "",
+						label: "",
+					},
+					description:
+						"<p>Volunteer instructor teaching basic game programming concepts to middle school students. Led 8+ workshops introducing Unity fundamentals and game design principles.</p>",
 				},
 			],
 		},
@@ -995,60 +1104,24 @@ export const sampleResumeData: ResumeData = {
 			hidden: false,
 			items: [
 				{
-					id: "reference-1",
+					id: "ref1",
 					hidden: false,
-					name: "Michael Rodriguez - Engineering Manager at TechFlow Inc.",
-					description:
-						"Sarah is an exceptional technical leader who consistently delivers high-quality work. Her ability to mentor junior engineers while architecting complex systems is remarkable. She's been instrumental in our platform's success.",
-				},
-				{
-					id: "reference-2",
-					hidden: false,
-					name: "Jennifer Liu - CTO at DataSync Solutions",
-					description:
-						"Working with Sarah was a pleasure. She quickly became one of our most reliable engineers, tackling challenging problems with creativity and precision. Her communication skills and technical expertise made her invaluable to our team.",
+					name: "Available upon request",
+					description: "",
 				},
 			],
 		},
 	},
-	customSections: [
-		{
-			title: "Volunteer Projects",
-			columns: 1,
-			hidden: false,
-			id: "custom-1",
-			content:
-				"<p>Organized local hackathons for high school students and mentored teams on web development basics.</p>",
-		},
-		{
-			title: "Internships",
-			columns: 1,
-			hidden: false,
-			id: "custom-2",
-			content:
-				"<p>Completed a 6-month remote internship at Open Source Initiative. Contributed bug fixes and helped review community pull requests.</p>",
-		},
-	],
+	customSections: [],
 	metadata: {
-		locale: "en-US",
 		template: "onyx",
 		layout: {
-			sidebarWidth: 30,
+			sidebarWidth: 35,
 			pages: [
 				{
 					fullWidth: false,
-					main: ["summary", "education", "profiles", "skills", "experience", "interests"],
-					sidebar: [
-						"awards",
-						"certifications",
-						"languages",
-						"projects",
-						"volunteer",
-						"references",
-						"publications",
-						"custom-1",
-						"custom-2",
-					],
+					main: ["profiles", "summary", "education", "experience", "projects", "volunteer", "references"],
+					sidebar: ["skills", "certifications", "awards", "languages", "interests", "publications"],
 				},
 			],
 		},
@@ -1057,36 +1130,38 @@ export const sampleResumeData: ResumeData = {
 			value: "",
 		},
 		page: {
-			marginX: 14,
-			marginY: 16,
+			gapX: 4,
+			gapY: 4,
+			marginX: 18,
+			marginY: 18,
 			format: "a4",
+			locale: "en-US",
 		},
 		design: {
 			level: {
 				icon: "star",
-				type: "icon",
+				type: "circle",
 			},
 			colors: {
-				primary: "rgba(236, 0, 63, 1)",
-				text: "rgba(31, 41, 55, 1)",
+				primary: "rgba(239, 68, 68, 1)",
+				text: "rgba(0, 0, 0, 1)",
 				background: "rgba(255, 255, 255, 1)",
 			},
 		},
 		typography: {
 			body: {
 				fontFamily: "IBM Plex Serif",
-				fontWeights: ["400", "500"],
-				fontSize: 10,
+				fontWeights: ["400", "600"],
+				fontSize: 11,
 				lineHeight: 1.5,
 			},
 			heading: {
 				fontFamily: "Oswald",
-				fontWeights: ["400"],
-				fontSize: 16,
+				fontWeights: ["600"],
+				fontSize: 15,
 				lineHeight: 1.5,
 			},
 		},
-		notes:
-			"Resume for senior full-stack developer positions. Emphasis on technical leadership and open source contributions. Please note that these notes are for my own reference and are not displayed in the resume.",
+		notes: "",
 	},
 };

@@ -9,10 +9,14 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { DialogProps } from "@/dialogs/store";
-import { type Template, type TemplateMetadata, templates } from "@/schema/resume/templates";
+import type { Template } from "@/schema/templates";
+import { cn } from "@/utils/style";
+import { type TemplateMetadata, templates } from "./data";
 
 export function TemplateGalleryDialog({ open, onOpenChange }: DialogProps<"resume.template.gallery">) {
 	const scrollAreaRef = useRef<HTMLDivElement | null>(null);
+
+	const selectedTemplate = useResumeStore((state) => state.resume.data.metadata.template);
 	const updateResumeData = useResumeStore((state) => state.updateResumeData);
 
 	function onSelectTemplate(template: Template) {
@@ -44,9 +48,10 @@ export function TemplateGalleryDialog({ open, onOpenChange }: DialogProps<"resum
 						{Object.entries(templates).map(([template, metadata]) => (
 							<TemplateCard
 								key={template}
-								id={template as Template}
 								metadata={metadata}
+								id={template as Template}
 								collisionBoundary={scrollAreaRef}
+								isActive={template === selectedTemplate}
 								onSelect={onSelectTemplate}
 							/>
 						))}
@@ -59,12 +64,13 @@ export function TemplateGalleryDialog({ open, onOpenChange }: DialogProps<"resum
 
 type TemplateCardProps = {
 	id: Template;
+	isActive?: boolean;
 	metadata: TemplateMetadata;
 	collisionBoundary: RefObject<HTMLDivElement | null>;
 	onSelect: (template: Template) => void;
 };
 
-function TemplateCard({ id, metadata, collisionBoundary, onSelect }: TemplateCardProps) {
+function TemplateCard({ id, metadata, isActive, collisionBoundary, onSelect }: TemplateCardProps) {
 	const { i18n } = useLingui();
 
 	return (
@@ -74,11 +80,18 @@ function TemplateCard({ id, metadata, collisionBoundary, onSelect }: TemplateCar
 					<button
 						tabIndex={-1}
 						onClick={() => onSelect(id)}
-						className="block aspect-page size-full cursor-pointer overflow-hidden rounded-md bg-popover outline-none focus:ring-2 focus:ring-ring"
+						className={cn(
+							"relative block aspect-page size-full cursor-pointer overflow-hidden rounded-md bg-popover outline-none",
+							isActive && "ring-2 ring-ring ring-offset-4 ring-offset-background",
+						)}
 					>
 						<img src={metadata.imageUrl} alt={metadata.name} className="size-full object-cover" />
 					</button>
 				</HoverCardTrigger>
+
+				<div className="flex items-center justify-center">
+					<span className="font-bold leading-loose tracking-tight">{metadata.name}</span>
+				</div>
 
 				<HoverCardContent
 					side="right"

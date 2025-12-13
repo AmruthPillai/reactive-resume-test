@@ -1,48 +1,55 @@
 {
-	"version": "7",
-	"dialect": "postgresql",
-	"entries": [
-		{
-			"idx": 0,
-			"version": "7",
-			"when": 1762551808110,
-			"tag": "0000_young_hellcat",
-			"breakpoints": true
-		},
-		{
-			"idx": 1,
-			"version": "7",
-			"when": 1762642429740,
-			"tag": "0001_nifty_cargill",
-			"breakpoints": true
-		},
-		{
-			"idx": 2,
-			"version": "7",
-			"when": 1762896422699,
-			"tag": "0002_lucky_fantastic_four",
-			"breakpoints": true
-		},
-		{
-			"idx": 3,
-			"version": "7",
-			"when": 1763065103369,
-			"tag": "0003_melodic_marten_broadcloak",
-			"breakpoints": true
-		},
-		{
-			"idx": 4,
-			"version": "7",
-			"when": 1763106311757,
-			"tag": "0004_faulty_morgan_stark",
-			"breakpoints": true
-		},
-		{
-			"idx": 5,
-			"version": "7",
-			"when": 1763113327009,
-			"tag": "0005_nervous_wrecking_crew",
-			"breakpoints": true
-		}
-	]
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1762551808110,
+      "tag": "0000_young_hellcat",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1762642429740,
+      "tag": "0001_nifty_cargill",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1762896422699,
+      "tag": "0002_lucky_fantastic_four",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1763065103369,
+      "tag": "0003_melodic_marten_broadcloak",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1763106311757,
+      "tag": "0004_faulty_morgan_stark",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1763113327009,
+      "tag": "0005_nervous_wrecking_crew",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1765569634910,
+      "tag": "0007_smart_photon",
+      "breakpoints": true
+    }
+  ]
 }

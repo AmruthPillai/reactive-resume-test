@@ -9,15 +9,14 @@ type LanguagesItemProps = SectionItem<"languages"> & {
 export function LanguagesItem({ className, ...item }: LanguagesItemProps) {
 	return (
 		<div className={cn("languages-item", className)}>
-			<div className="w-full">
+			<div className="section-item-header">
 				<p className="section-item-name languages-item-name">
 					<strong>{item.language}</strong>
 				</p>
-				<p className="section-item-fluency languages-item-fluency opacity-60">{item.fluency}</p>
-				<div className="section-item-level languages-item-level mt-1.5">
-					<PageLevel level={item.level} />
-				</div>
+				<p className="section-item-fluency languages-item-fluency opacity-80">{item.fluency}</p>
 			</div>
+
+			<PageLevel level={item.level} className="section-item-level languages-item-level" />
 		</div>
 	);
 }

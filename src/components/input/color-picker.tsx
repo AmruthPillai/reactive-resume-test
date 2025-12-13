@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useComposedRefs } from "@/utils/compose-refs";
 import { cn } from "@/utils/style";
-import { Label } from "../ui/label";
 
 interface EyeDropper {
 	open: (options?: { signal?: AbortSignal }) => Promise<{ sRGBHex: string }>;
@@ -886,22 +885,20 @@ function ColorPickerInput(props: ColorPickerInputProps) {
 
 	return (
 		<div data-slot="color-picker-input-wrapper" className="flex items-center gap-2">
-			<Label>
-				<span>Red</span>
-				<Input
-					type="number"
-					aria-label="Red color component (0-255)"
-					placeholder="0"
-					inputMode="numeric"
-					pattern="[0-9]*"
-					min="0"
-					max="255"
-					className="flex-1"
-					value={rValue}
-					onChange={onChannelChange("r", 255)}
-					disabled={context.disabled}
-				/>
-			</Label>
+			<span>R</span>
+			<Input
+				type="number"
+				aria-label="Red color component (0-255)"
+				placeholder="0"
+				inputMode="numeric"
+				pattern="[0-9]*"
+				min="0"
+				max="255"
+				className="flex-1 shrink-0"
+				value={rValue}
+				onChange={onChannelChange("r", 255)}
+				disabled={context.disabled}
+			/>
 			<span>G</span>
 			<Input
 				type="number"
@@ -911,7 +908,7 @@ function ColorPickerInput(props: ColorPickerInputProps) {
 				pattern="[0-9]*"
 				min="0"
 				max="255"
-				className="flex-1"
+				className="flex-1 shrink-0"
 				value={gValue}
 				onChange={onChannelChange("g", 255)}
 				disabled={context.disabled}
@@ -925,7 +922,7 @@ function ColorPickerInput(props: ColorPickerInputProps) {
 				pattern="[0-9]*"
 				min="0"
 				max="255"
-				className="flex-1"
+				className="flex-1 shrink-0"
 				value={bValue}
 				onChange={onChannelChange("b", 255)}
 				disabled={context.disabled}
@@ -941,7 +938,7 @@ function ColorPickerInput(props: ColorPickerInputProps) {
 						pattern="[0-9]*"
 						min="0"
 						max="100"
-						className="flex-1"
+						className="flex-1 shrink-0"
 						value={alphaValue}
 						onChange={onChannelChange("a", 100, true)}
 						disabled={context.disabled}

@@ -13,12 +13,16 @@ import { getTheme } from "./utils/theme";
 const getQueryClient = () => {
 	const queryClient = new QueryClient({
 		defaultOptions: {
-			mutations: { retry: false },
+			mutations: {
+				retry: false,
+			},
 			queries: {
 				retry: false,
-				gcTime: 60 * 1000,
-				staleTime: 60 * 1000,
+				refetchOnMount: false,
+				refetchOnReconnect: false,
 				refetchOnWindowFocus: false,
+				gcTime: 60 * 1000, // 1 minute
+				staleTime: 60 * 1000, // 1 minute
 			},
 		},
 		mutationCache: new MutationCache({

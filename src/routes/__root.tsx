@@ -15,9 +15,9 @@ import { PromptDialogProvider } from "@/hooks/use-prompt";
 import { getSession } from "@/integrations/auth/functions";
 import type { AuthSession } from "@/integrations/auth/types";
 import type { orpc } from "@/integrations/orpc/client";
-import { getLocale, isRTL, type Locale } from "@/utils/locale";
+import { getLocale, isRTL, type Locale, loadLocale } from "@/utils/locale";
 import { getTheme, type Theme } from "@/utils/theme";
-import appCss from "../styles.css?url";
+import appCss from "../styles/globals.css?url";
 
 type RouterContext = {
 	theme: Theme;
@@ -32,6 +32,8 @@ const tagline = "A free and open-source resume builder";
 const title = `${appName} | ${tagline}`;
 const description =
 	"Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume.";
+
+await loadLocale(await getLocale());
 
 export const Route = createRootRouteWithContext<RouterContext>()({
 	shellComponent: RootDocument,

@@ -61,9 +61,4 @@
 	small {
 		font-size: calc(var(--page-body-font-size) * 0.9pt);
 	}
-
-	section,
-	section * {
-		break-inside: avoid;
-	}
 }

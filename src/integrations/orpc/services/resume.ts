@@ -218,7 +218,7 @@ export const resumeService = {
 		const id = generateId();
 
 		input.data = input.data ?? defaultResumeData;
-		input.data.metadata.locale = input.locale;
+		input.data.metadata.page.locale = input.locale;
 
 		await db.insert(schema.resume).values({
 			id,

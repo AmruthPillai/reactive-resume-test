@@ -43,7 +43,7 @@ function RouteComponent() {
 	const { resumeId } = Route.useParams();
 	const { data: resume } = useSuspenseQuery(orpc.resume.getById.queryOptions({ input: { id: resumeId } }));
 
-	const style = useCSSVariables(resume.data.metadata);
+	const style = useCSSVariables(resume.data);
 	const isReady = useResumeStore((state) => state.isReady);
 	const initialize = useResumeStore((state) => state.initialize);
 

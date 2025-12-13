@@ -7,7 +7,7 @@ import { PagePicture } from "../shared/page-picture";
 import { useResumeStore } from "../store/resume";
 import type { TemplateProps } from "./types";
 
-const sectionClassName = cn("space-y-1 [&>.section-content>ul]:space-y-1 [&>h6]:text-(--page-primary-color)");
+const sectionClassName = cn();
 
 /**
  * Template: Onyx
@@ -17,26 +17,24 @@ export function OnyxTemplate({ pageIndex, pageLayout }: TemplateProps) {
 	const { main, sidebar, fullWidth } = pageLayout;
 
 	return (
-		<div className="template-onyx page-content px-(--page-margin-x) py-(--page-margin-y)">
+		<div className="template-onyx page-content space-y-(--page-gap-y) px-(--page-margin-x) py-(--page-margin-y)">
 			{isFirstPage && <Header />}
 
-			<div className="space-y-4">
-				<main className="page-main space-y-4">
-					{main.map((section) => {
+			<main data-layout="main" className="group page-main space-y-(--page-gap-y)">
+				{main.map((section) => {
+					const Component = getSectionComponent(section, { sectionClassName });
+					return <Component key={section} id={section} />;
+				})}
+			</main>
+
+			{!fullWidth && (
+				<aside data-layout="sidebar" className="group page-sidebar space-y-(--page-gap-y)">
+					{sidebar.map((section) => {
 						const Component = getSectionComponent(section, { sectionClassName });
 						return <Component key={section} id={section} />;
 					})}
-				</main>
-
-				{!fullWidth && (
-					<aside className="page-sidebar space-y-4">
-						{sidebar.map((section) => {
-							const Component = getSectionComponent(section, { sectionClassName });
-							return <Component key={section} id={section} />;
-						})}
-					</aside>
-				)}
-			</div>
+				</aside>
+			)}
 		</div>
 	);
 }
@@ -45,47 +43,46 @@ function Header() {
 	const basics = useResumeStore((state) => state.resume.data.basics);
 
 	return (
-		<div className="page-header mb-2 flex items-center gap-x-4 border-(--page-primary-color) border-b pb-(--page-margin-y)">
+		<div className="page-header flex items-center gap-x-4 border-(--page-primary-color) border-b pb-(--page-margin-y)">
 			<PagePicture />
 
-			{/* Basics */}
-			<div className="page-basics flex flex-col gap-y-1.5">
+			<div className="page-basics space-y-2">
 				<div>
-					<h2 className="page-name font-bold leading-snug!">{basics.name}</h2>
-					<p className="page-headline leading-snug!">{basics.headline}</p>
+					<h2 className="basics-name">{basics.name}</h2>
+					<p className="basics-headline">{basics.headline}</p>
 				</div>
 
-				<div className="flex flex-wrap items-center gap-x-3 gap-y-0.5">
+				<div className="basics-items flex flex-wrap gap-x-3 gap-y-0.5 *:flex *:items-center *:gap-x-1.5">
 					{basics.email && (
-						<div className="flex items-center gap-x-1.5">
+						<div className="basics-item-email">
 							<EnvelopeIcon />
 							<PageLink url={`mailto:${basics.email}`} label={basics.email} />
 						</div>
 					)}
 
 					{basics.phone && (
-						<div className="flex items-center gap-x-1.5">
+						<div className="basics-item-phone">
 							<PhoneIcon />
 							<PageLink url={`tel:${basics.phone}`} label={basics.phone} />
 						</div>
 					)}
 
 					{basics.location && (
-						<div className="flex items-center gap-x-1.5">
+						<div className="basics-item-location">
 							<MapPinIcon />
 							<span>{basics.location}</span>
 						</div>
 					)}
 
 					{basics.website.url && (
-						<div className="flex items-center gap-x-1.5">
+						<div className="basics-item-website">
 							<GlobeIcon />
 							<PageLink {...basics.website} />
 						</div>
 					)}
 
 					{basics.customFields.map((field) => (
-						<div key={field.id} className="flex items-center gap-x-1.5">
+						<div key={field.id} className="basics-item-custom">
 							<PageIcon icon={field.icon} />
 							<span>{field.text}</span>
 						</div>

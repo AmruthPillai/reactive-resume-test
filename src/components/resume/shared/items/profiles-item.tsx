@@ -10,17 +10,18 @@ type ProfilesItemProps = SectionItem<"profiles"> & {
 export function ProfilesItem({ className, ...item }: ProfilesItemProps) {
 	return (
 		<div className={cn("profiles-item", className)}>
-			<div className="flex gap-1.5">
-				<PageIcon icon={item.icon} className="section-item-icon profiles-item-icon mt-0.5 shrink-0" />
-				<div className="w-full">
-					<p className="section-item-network profiles-item-network">
-						<strong>{item.network}</strong>
-					</p>
-					<div className="section-item-link profiles-item-link">
-						<PageLink {...item.website} label={item.website.label || item.username} className="block" />
-					</div>
-				</div>
+			<div className="section-item-header flex items-center gap-x-1.5">
+				<PageIcon icon={item.icon} className="section-item-icon profiles-item-icon shrink-0" />
+				<p className="section-item-network profiles-item-network">
+					<strong>{item.network}</strong>
+				</p>
 			</div>
+
+			<PageLink
+				{...item.website}
+				label={item.website.label || item.username}
+				className="section-item-link profiles-item-link"
+			/>
 		</div>
 	);
 }

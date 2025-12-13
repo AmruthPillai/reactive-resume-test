@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import type z from "zod";
-import type { metadataSchema } from "@/schema/resume/data";
+import type { resumeDataSchema } from "@/schema/resume/data";
 
 const pageDimensions = {
 	a4: {
@@ -13,7 +13,9 @@ const pageDimensions = {
 	},
 } as const;
 
-export const useCSSVariables = (metadata: z.infer<typeof metadataSchema>) => {
+type UseCssVariablesProps = Pick<z.infer<typeof resumeDataSchema>, "picture" | "metadata">;
+
+export const useCSSVariables = ({ picture, metadata }: UseCssVariablesProps) => {
 	const fontWeightStyles = useMemo(() => {
 		const lowestBodyFontWeight = Math.min(...metadata.typography.body.fontWeights.map(Number));
 		const lowestHeadingFontWeight = Math.min(...metadata.typography.heading.fontWeights.map(Number));
@@ -25,6 +27,7 @@ export const useCSSVariables = (metadata: z.infer<typeof metadataSchema>) => {
 	}, [metadata.typography.body.fontWeights, metadata.typography.heading.fontWeights]);
 
 	return {
+		"--picture-border-radius": `${picture.borderRadius}pt`,
 		"--page-width": pageDimensions[metadata.page.format].width,
 		"--page-height": pageDimensions[metadata.page.format].height,
 		"--page-sidebar-width": `${metadata.layout.sidebarWidth}%`,
@@ -43,5 +46,7 @@ export const useCSSVariables = (metadata: z.infer<typeof metadataSchema>) => {
 		"--page-heading-line-height": metadata.typography.heading.lineHeight,
 		"--page-margin-x": `${metadata.page.marginX}pt`,
 		"--page-margin-y": `${metadata.page.marginY}pt`,
+		"--page-gap-x": `${metadata.page.gapX}pt`,
+		"--page-gap-y": `${metadata.page.gapY}pt`,
 	} as React.CSSProperties;
 };

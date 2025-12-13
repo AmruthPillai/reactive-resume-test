@@ -4,12 +4,9 @@ import type { levelDesignSchema } from "@/schema/resume/data";
 import { cn } from "@/utils/style";
 import { PageIcon } from "../resume/shared/page-icon";
 
-type Props = z.infer<typeof levelDesignSchema> & {
-	level: number;
-	className?: string;
-};
+type Props = z.infer<typeof levelDesignSchema> & React.ComponentProps<"div"> & { level: number };
 
-export function LevelDisplay({ icon, type, level, className }: Props) {
+export function LevelDisplay({ icon, type, level, className, ...props }: Props) {
 	if (level === 0) return null;
 	if (type === "hidden") return null;
 
@@ -23,6 +20,7 @@ export function LevelDisplay({ icon, type, level, className }: Props) {
 				type === "rectangle-full" && "gap-x-2",
 				className,
 			)}
+			{...props}
 		>
 			{Array.from({ length: 5 }).map((_, index) => {
 				const isActive = index < level;

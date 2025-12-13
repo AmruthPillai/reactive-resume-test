@@ -7,7 +7,11 @@ import { PagePicture } from "../shared/page-picture";
 import { useResumeStore } from "../store/resume";
 import type { TemplateProps } from "./types";
 
-const sectionClassName = cn("space-y-1 [&>.section-content>ul]:space-y-1 [&>h6]:text-(--page-primary-color)");
+const sectionClassName = cn(
+	// Section Item Header in Sidebar Layout
+	"group-data-[layout=sidebar]:[&_.section-item-header>div]:flex-col",
+	"group-data-[layout=sidebar]:[&_.section-item-header>div]:items-start",
+);
 
 /**
  * Template: Ditto
@@ -22,7 +26,10 @@ export function DittoTemplate({ pageIndex, pageLayout }: TemplateProps) {
 
 			<div className="flex py-(--page-margin-y)">
 				{!fullWidth && (
-					<aside className="page-sidebar w-(--page-sidebar-width) shrink-0 space-y-4 overflow-x-hidden pl-(--page-margin-x)">
+					<aside
+						data-layout="sidebar"
+						className="group page-sidebar w-(--page-sidebar-width) shrink-0 space-y-4 overflow-x-hidden pl-(--page-margin-x)"
+					>
 						{sidebar.map((section) => {
 							const Component = getSectionComponent(section, { sectionClassName });
 							return <Component key={section} id={section} />;
@@ -30,7 +37,7 @@ export function DittoTemplate({ pageIndex, pageLayout }: TemplateProps) {
 					</aside>
 				)}
 
-				<main className="page-main grow space-y-4 px-(--page-margin-x)">
+				<main data-layout="main" className="group page-main space-y-4 px-(--page-margin-x)">
 					{main.map((section) => {
 						const Component = getSectionComponent(section, { sectionClassName });
 						return <Component key={section} id={section} />;
@@ -46,15 +53,15 @@ function Header() {
 
 	return (
 		<div className="page-header relative">
-			<div className="bg-(--page-primary-color) text-(--page-background-color)">
-				<div className="flex items-center">
+			<div className="page-basics bg-(--page-primary-color) text-(--page-background-color)">
+				<div className="basics-header flex items-center">
 					<div className="flex w-(--page-sidebar-width) shrink-0 justify-center pl-(--page-margin-x)">
 						<PagePicture className="absolute top-8" />
 					</div>
 
-					<div className="grow px-(--page-margin-x) py-(--page-margin-y)">
-						<h2 className="page-name">{basics.name}</h2>
-						<p className="page-headline">{basics.headline}</p>
+					<div className="px-(--page-margin-x) py-(--page-margin-y)">
+						<h2 className="basics-name">{basics.name}</h2>
+						<p className="basics-headline">{basics.headline}</p>
 					</div>
 				</div>
 			</div>
@@ -62,37 +69,37 @@ function Header() {
 			<div className="flex items-center">
 				<div className="w-(--page-sidebar-width) shrink-0" />
 
-				<div className="flex grow flex-wrap items-center gap-x-3 gap-y-1 px-(--page-margin-x) pt-3">
+				<div className="basics-items flex flex-wrap gap-x-3 gap-y-1 px-(--page-margin-x) pt-3 *:flex *:items-center *:gap-x-1.5">
 					{basics.email && (
-						<div className="flex items-center gap-x-1.5">
+						<div className="basics-item-email">
 							<EnvelopeIcon />
 							<PageLink url={`mailto:${basics.email}`} label={basics.email} />
 						</div>
 					)}
 
 					{basics.phone && (
-						<div className="flex items-center gap-x-1.5">
+						<div className="basics-item-phone">
 							<PhoneIcon />
 							<PageLink url={`tel:${basics.phone}`} label={basics.phone} />
 						</div>
 					)}
 
 					{basics.location && (
-						<div className="flex items-center gap-x-1.5">
+						<div className="basics-item-location">
 							<MapPinIcon />
 							<span>{basics.location}</span>
 						</div>
 					)}
 
 					{basics.website.url && (
-						<div className="flex items-center gap-x-1.5">
+						<div className="basics-item-website">
 							<GlobeIcon />
 							<PageLink {...basics.website} />
 						</div>
 					)}
 
 					{basics.customFields.map((field) => (
-						<div key={field.id} className="flex items-center gap-x-1.5">
+						<div key={field.id} className="basics-item-custom">
 							<PageIcon icon={field.icon} />
 							<span>{field.text}</span>
 						</div>

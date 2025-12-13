@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from "./routes/__root";
+import { Route as SchemaDotjsonRouteImport } from "./routes/schema[.]json";
 import { Route as DashboardRouteRouteImport } from "./routes/dashboard/route";
 import { Route as AuthRouteRouteImport } from "./routes/auth/route";
 import { Route as HomeRouteRouteImport } from "./routes/_home/route";
@@ -24,7 +25,6 @@ import { Route as AuthRegisterRouteImport } from "./routes/auth/register";
 import { Route as AuthLoginRouteImport } from "./routes/auth/login";
 import { Route as AuthForgotPasswordRouteImport } from "./routes/auth/forgot-password";
 import { Route as ApiHealthRouteImport } from "./routes/api/health";
-import { Route as ApiSplatRouteImport } from "./routes/api/$";
 import { Route as UsernameSlugRouteImport } from "./routes/$username/$slug";
 import { Route as BuilderResumeIdRouteRouteImport } from "./routes/builder/$resumeId/route";
 import { Route as DashboardResumesIndexRouteImport } from "./routes/dashboard/resumes/index";
@@ -36,9 +36,15 @@ import { Route as DashboardSettingsDangerZoneRouteImport } from "./routes/dashbo
 import { Route as DashboardSettingsApiKeysRouteImport } from "./routes/dashboard/settings/api-keys";
 import { Route as DashboardSettingsAiRouteImport } from "./routes/dashboard/settings/ai";
 import { Route as ApiRpcSplatRouteImport } from "./routes/api/rpc.$";
+import { Route as ApiOasSplatRouteImport } from "./routes/api/oas.$";
 import { Route as ApiAuthSplatRouteImport } from "./routes/api/auth.$";
 import { Route as DashboardSettingsAuthenticationIndexRouteImport } from "./routes/dashboard/settings/authentication/index";
 
+const SchemaDotjsonRoute = SchemaDotjsonRouteImport.update({
+  id: "/schema.json",
+  path: "/schema.json",
+  getParentRoute: () => rootRouteImport,
+} as any);
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: "/dashboard",
   path: "/dashboard",
@@ -113,11 +119,6 @@ const ApiHealthRoute = ApiHealthRouteImport.update({
   path: "/api/health",
   getParentRoute: () => rootRouteImport,
 } as any);
-const ApiSplatRoute = ApiSplatRouteImport.update({
-  id: "/api/$",
-  path: "/api/$",
-  getParentRoute: () => rootRouteImport,
-} as any);
 const UsernameSlugRoute = UsernameSlugRouteImport.update({
   id: "/$username/$slug",
   path: "/$username/$slug",
@@ -177,6 +178,11 @@ const ApiRpcSplatRoute = ApiRpcSplatRouteImport.update({
   path: "/api/rpc/$",
   getParentRoute: () => rootRouteImport,
 } as any);
+const ApiOasSplatRoute = ApiOasSplatRouteImport.update({
+  id: "/api/oas/$",
+  path: "/api/oas/$",
+  getParentRoute: () => rootRouteImport,
+} as any);
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: "/api/auth/$",
   path: "/api/auth/$",
@@ -192,9 +198,9 @@ const DashboardSettingsAuthenticationIndexRoute =
 export interface FileRoutesByFullPath {
   "/auth": typeof AuthRouteRouteWithChildren;
   "/dashboard": typeof DashboardRouteRouteWithChildren;
+  "/schema.json": typeof SchemaDotjsonRoute;
   "/builder/$resumeId": typeof BuilderResumeIdRouteRouteWithChildren;
   "/$username/$slug": typeof UsernameSlugRoute;
-  "/api/$": typeof ApiSplatRoute;
   "/api/health": typeof ApiHealthRoute;
   "/auth/forgot-password": typeof AuthForgotPasswordRoute;
   "/auth/login": typeof AuthLoginRoute;
@@ -208,6 +214,7 @@ export interface FileRoutesByFullPath {
   "/auth/": typeof AuthIndexRoute;
   "/dashboard/": typeof DashboardIndexRoute;
   "/api/auth/$": typeof ApiAuthSplatRoute;
+  "/api/oas/$": typeof ApiOasSplatRoute;
   "/api/rpc/$": typeof ApiRpcSplatRoute;
   "/dashboard/settings/ai": typeof DashboardSettingsAiRoute;
   "/dashboard/settings/api-keys": typeof DashboardSettingsApiKeysRoute;
@@ -220,8 +227,8 @@ export interface FileRoutesByFullPath {
   "/dashboard/settings/authentication": typeof DashboardSettingsAuthenticationIndexRoute;
 }
 export interface FileRoutesByTo {
+  "/schema.json": typeof SchemaDotjsonRoute;
   "/$username/$slug": typeof UsernameSlugRoute;
-  "/api/$": typeof ApiSplatRoute;
   "/api/health": typeof ApiHealthRoute;
   "/auth/forgot-password": typeof AuthForgotPasswordRoute;
   "/auth/login": typeof AuthLoginRoute;
@@ -235,6 +242,7 @@ export interface FileRoutesByTo {
   "/auth": typeof AuthIndexRoute;
   "/dashboard": typeof DashboardIndexRoute;
   "/api/auth/$": typeof ApiAuthSplatRoute;
+  "/api/oas/$": typeof ApiOasSplatRoute;
   "/api/rpc/$": typeof ApiRpcSplatRoute;
   "/dashboard/settings/ai": typeof DashboardSettingsAiRoute;
   "/dashboard/settings/api-keys": typeof DashboardSettingsApiKeysRoute;
@@ -251,9 +259,9 @@ export interface FileRoutesById {
   "/_home": typeof HomeRouteRouteWithChildren;
   "/auth": typeof AuthRouteRouteWithChildren;
   "/dashboard": typeof DashboardRouteRouteWithChildren;
+  "/schema.json": typeof SchemaDotjsonRoute;
   "/builder/$resumeId": typeof BuilderResumeIdRouteRouteWithChildren;
   "/$username/$slug": typeof UsernameSlugRoute;
-  "/api/$": typeof ApiSplatRoute;
   "/api/health": typeof ApiHealthRoute;
   "/auth/forgot-password": typeof AuthForgotPasswordRoute;
   "/auth/login": typeof AuthLoginRoute;
@@ -267,6 +275,7 @@ export interface FileRoutesById {
   "/auth/": typeof AuthIndexRoute;
   "/dashboard/": typeof DashboardIndexRoute;
   "/api/auth/$": typeof ApiAuthSplatRoute;
+  "/api/oas/$": typeof ApiOasSplatRoute;
   "/api/rpc/$": typeof ApiRpcSplatRoute;
   "/dashboard/settings/ai": typeof DashboardSettingsAiRoute;
   "/dashboard/settings/api-keys": typeof DashboardSettingsApiKeysRoute;
@@ -283,9 +292,9 @@ export interface FileRouteTypes {
   fullPaths:
     | "/auth"
     | "/dashboard"
+    | "/schema.json"
     | "/builder/$resumeId"
     | "/$username/$slug"
-    | "/api/$"
     | "/api/health"
     | "/auth/forgot-password"
     | "/auth/login"
@@ -299,6 +308,7 @@ export interface FileRouteTypes {
     | "/auth/"
     | "/dashboard/"
     | "/api/auth/$"
+    | "/api/oas/$"
     | "/api/rpc/$"
     | "/dashboard/settings/ai"
     | "/dashboard/settings/api-keys"
@@ -311,8 +321,8 @@ export interface FileRouteTypes {
     | "/dashboard/settings/authentication";
   fileRoutesByTo: FileRoutesByTo;
   to:
+    | "/schema.json"
     | "/$username/$slug"
-    | "/api/$"
     | "/api/health"
     | "/auth/forgot-password"
     | "/auth/login"
@@ -326,6 +336,7 @@ export interface FileRouteTypes {
     | "/auth"
     | "/dashboard"
     | "/api/auth/$"
+    | "/api/oas/$"
     | "/api/rpc/$"
     | "/dashboard/settings/ai"
     | "/dashboard/settings/api-keys"
@@ -341,9 +352,9 @@ export interface FileRouteTypes {
     | "/_home"
     | "/auth"
     | "/dashboard"
+    | "/schema.json"
     | "/builder/$resumeId"
     | "/$username/$slug"
-    | "/api/$"
     | "/api/health"
     | "/auth/forgot-password"
     | "/auth/login"
@@ -357,6 +368,7 @@ export interface FileRouteTypes {
     | "/auth/"
     | "/dashboard/"
     | "/api/auth/$"
+    | "/api/oas/$"
     | "/api/rpc/$"
     | "/dashboard/settings/ai"
     | "/dashboard/settings/api-keys"
@@ -373,18 +385,26 @@ export interface RootRouteChildren {
   HomeRouteRoute: typeof HomeRouteRouteWithChildren;
   AuthRouteRoute: typeof AuthRouteRouteWithChildren;
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren;
+  SchemaDotjsonRoute: typeof SchemaDotjsonRoute;
   BuilderResumeIdRouteRoute: typeof BuilderResumeIdRouteRouteWithChildren;
   UsernameSlugRoute: typeof UsernameSlugRoute;
-  ApiSplatRoute: typeof ApiSplatRoute;
   ApiHealthRoute: typeof ApiHealthRoute;
   PrinterResumeIdRoute: typeof PrinterResumeIdRoute;
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute;
+  ApiOasSplatRoute: typeof ApiOasSplatRoute;
   ApiRpcSplatRoute: typeof ApiRpcSplatRoute;
   UploadsUserIdFileIdRoute: typeof UploadsUserIdFileIdRoute;
 }
 
 declare module "@tanstack/react-router" {
   interface FileRoutesByPath {
+    "/schema.json": {
+      id: "/schema.json";
+      path: "/schema.json";
+      fullPath: "/schema.json";
+      preLoaderRoute: typeof SchemaDotjsonRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
     "/dashboard": {
       id: "/dashboard";
       path: "/dashboard";
@@ -490,13 +510,6 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof ApiHealthRouteImport;
       parentRoute: typeof rootRouteImport;
     };
-    "/api/$": {
-      id: "/api/$";
-      path: "/api/$";
-      fullPath: "/api/$";
-      preLoaderRoute: typeof ApiSplatRouteImport;
-      parentRoute: typeof rootRouteImport;
-    };
     "/$username/$slug": {
       id: "/$username/$slug";
       path: "/$username/$slug";
@@ -572,6 +585,13 @@ declare module "@tanstack/react-router" {
       path: "/api/rpc/$";
       fullPath: "/api/rpc/$";
       preLoaderRoute: typeof ApiRpcSplatRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/api/oas/$": {
+      id: "/api/oas/$";
+      path: "/api/oas/$";
+      fullPath: "/api/oas/$";
+      preLoaderRoute: typeof ApiOasSplatRouteImport;
       parentRoute: typeof rootRouteImport;
     };
     "/api/auth/$": {
@@ -671,12 +691,13 @@ const rootRouteChildren: RootRouteChildren = {
   HomeRouteRoute: HomeRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
+  SchemaDotjsonRoute: SchemaDotjsonRoute,
   BuilderResumeIdRouteRoute: BuilderResumeIdRouteRouteWithChildren,
   UsernameSlugRoute: UsernameSlugRoute,
-  ApiSplatRoute: ApiSplatRoute,
   ApiHealthRoute: ApiHealthRoute,
   PrinterResumeIdRoute: PrinterResumeIdRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiOasSplatRoute: ApiOasSplatRoute,
   ApiRpcSplatRoute: ApiRpcSplatRoute,
   UploadsUserIdFileIdRoute: UploadsUserIdFileIdRoute,
 };

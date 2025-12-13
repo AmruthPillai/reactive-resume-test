@@ -24,7 +24,7 @@ export function PageCustomSection({ sectionId, className }: PageCustomSectionPro
 				className,
 			)}
 		>
-			<h6>{section.title}</h6>
+			<h6 className="mb-2 text-(--page-primary-color)">{section.title}</h6>
 
 			<div className="section-content">
 				<TiptapContent style={{ columnCount: section.columns }} content={section.content} />

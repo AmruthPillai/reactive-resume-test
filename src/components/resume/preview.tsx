@@ -2,7 +2,7 @@ import { Trans } from "@lingui/react/macro";
 import { IconContext, type IconProps } from "@phosphor-icons/react";
 import { useMemo } from "react";
 import { match } from "ts-pattern";
-import type { Template } from "@/schema/resume/templates";
+import type { Template } from "@/schema/templates";
 import { cn } from "@/utils/style";
 import { useCSSVariables } from "./hooks/use-css-variables";
 import { useWebfonts } from "./hooks/use-webfonts";
@@ -13,7 +13,13 @@ import { BronzorTemplate } from "./templates/bronzor";
 import { ChikoritaTemplate } from "./templates/chikorita";
 import { DittoTemplate } from "./templates/ditto";
 import { GengarTemplate } from "./templates/gengar";
+import { GlalieTemplate } from "./templates/glalie";
+import { KakunaTemplate } from "./templates/kakuna";
+import { LaprasTemplate } from "./templates/lapras";
+import { LeafishTemplate } from "./templates/leafish";
 import { OnyxTemplate } from "./templates/onyx";
+import { PikachuTemplate } from "./templates/pikachu";
+import { RhyhornTemplate } from "./templates/rhyhorn";
 
 type Props = React.ComponentProps<"div"> & {
 	pageClassName?: string;
@@ -22,22 +28,28 @@ type Props = React.ComponentProps<"div"> & {
 
 function getTemplateComponent(template: Template) {
 	return match(template)
-		.with("onyx", () => OnyxTemplate)
-		.with("ditto", () => DittoTemplate)
+		.with("azurill", () => AzurillTemplate)
 		.with("bronzor", () => BronzorTemplate)
 		.with("chikorita", () => ChikoritaTemplate)
+		.with("ditto", () => DittoTemplate)
 		.with("gengar", () => GengarTemplate)
-		.with("azurill", () => AzurillTemplate)
+		.with("glalie", () => GlalieTemplate)
+		.with("kakuna", () => KakunaTemplate)
+		.with("lapras", () => LaprasTemplate)
+		.with("leafish", () => LeafishTemplate)
+		.with("onyx", () => OnyxTemplate)
+		.with("pikachu", () => PikachuTemplate)
+		.with("rhyhorn", () => RhyhornTemplate)
 		.exhaustive();
 }
 
 export const ResumePreview = ({ showPageNumbers, pageClassName, className, ...props }: Props) => {
+	const picture = useResumeStore((state) => state.resume.data.picture);
 	const metadata = useResumeStore((state) => state.resume.data.metadata);
-	const style = useCSSVariables(metadata);
-
-	const totalNumberOfPages = metadata.layout.pages.length;
 
 	useWebfonts(metadata.typography);
+	const style = useCSSVariables({ picture, metadata });
+	const totalNumberOfPages = metadata.layout.pages.length;
 
 	const iconProps = useMemo<IconProps>(() => {
 		return {

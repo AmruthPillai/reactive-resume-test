@@ -143,7 +143,7 @@ export class LocalStorageService implements StorageService {
 	}
 }
 
-export class S3StorageService implements StorageService {
+class S3StorageService implements StorageService {
 	private readonly client: Bun.S3Client;
 
 	constructor() {

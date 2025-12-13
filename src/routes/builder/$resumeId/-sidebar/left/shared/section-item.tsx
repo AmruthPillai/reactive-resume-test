@@ -3,6 +3,8 @@ import {
 	CopySimpleIcon,
 	DotsSixVerticalIcon,
 	DotsThreeVerticalIcon,
+	EyeClosedIcon,
+	EyeIcon,
 	PencilSimpleLineIcon,
 	PlusIcon,
 	TrashSimpleIcon,
@@ -20,6 +22,7 @@ import {
 import { useDialogStore } from "@/dialogs/store";
 import { useConfirm } from "@/hooks/use-confirm";
 import type { SectionItem as SectionItemType, SectionType } from "@/schema/resume/data";
+import { cn } from "@/utils/style";
 
 type Props<T extends SectionItemType> = {
 	type: SectionType;
@@ -33,6 +36,16 @@ export function SectionItem<T extends SectionItemType>({ type, item, title, subt
 	const controls = useDragControls();
 	const { openDialog } = useDialogStore();
 	const updateResumeData = useResumeStore((state) => state.updateResumeData);
+
+	const onToggleVisibility = () => {
+		updateResumeData((draft) => {
+			const section = draft.sections[type];
+			if (!("items" in section)) return;
+			const index = section.items.findIndex((_item) => _item.id === item.id);
+			if (index === -1) return;
+			section.items[index].hidden = !section.items[index].hidden;
+		});
+	};
 
 	const onUpdate = () => {
 		openDialog(`resume.sections.${type}.update`, item);
@@ -81,8 +94,11 @@ export function SectionItem<T extends SectionItemType>({ type, item, title, subt
 			</div>
 
 			<button
-				className="flex flex-1 flex-col items-start justify-center space-y-0.5 pl-1.5 text-left hover:bg-secondary/20 focus:outline-none focus-visible:ring-1"
 				onClick={onUpdate}
+				className={cn(
+					"flex flex-1 flex-col items-start justify-center space-y-0.5 pl-1.5 text-left opacity-100 transition-opacity hover:bg-secondary/20 focus:outline-none focus-visible:ring-1",
+					item.hidden && "opacity-50",
+				)}
 			>
 				<div className="line-clamp-1 font-medium">{title}</div>
 				{subtitle && <div className="line-clamp-1 text-muted-foreground text-xs">{subtitle}</div>}
@@ -96,6 +112,15 @@ export function SectionItem<T extends SectionItemType>({ type, item, title, subt
 				</DropdownMenuTrigger>
 
 				<DropdownMenuContent align="end">
+					<DropdownMenuGroup>
+						<DropdownMenuItem onSelect={onToggleVisibility}>
+							{item.hidden ? <EyeIcon /> : <EyeClosedIcon />}
+							{item.hidden ? <Trans>Show</Trans> : <Trans>Hide</Trans>}
+						</DropdownMenuItem>
+					</DropdownMenuGroup>
+
+					<DropdownMenuSeparator />
+
 					<DropdownMenuGroup>
 						<DropdownMenuItem onSelect={onUpdate}>
 							<PencilSimpleLineIcon />

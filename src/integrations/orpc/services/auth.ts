@@ -7,7 +7,7 @@ import { env } from "@/utils/env";
 import { grantResumeAccess } from "../helpers/resume-access";
 import { getStorageService } from "./storage";
 
-export type ProviderList = { [key in AuthProvider]?: string };
+export type ProviderList = Partial<Record<AuthProvider, string>>;
 
 const providers = {
 	list: (): ProviderList => {

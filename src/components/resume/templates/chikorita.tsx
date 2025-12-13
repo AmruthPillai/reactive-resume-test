@@ -8,9 +8,19 @@ import { useResumeStore } from "../store/resume";
 import type { TemplateProps } from "./types";
 
 const sectionClassName = cn(
-	"space-y-1.5 [&>.section-content>ul]:space-y-1.5",
-	"[&>h6]:border-(--page-primary-color) [&>h6]:border-b-2 [&>h6]:text-(--page-primary-color)",
-	"group-data-[type=sidebar]:[&>h6]:border-(--page-background-color) group-data-[type=sidebar]:[&>h6]:text-(--page-background-color)",
+	// Section Heading
+	"[&>h6]:border-(--page-primary-color) [&>h6]:border-b",
+
+	// Section Heading in Sidebar Layout
+	"group-data-[layout=sidebar]:[&>h6]:text-(--page-background-color)",
+	"group-data-[layout=sidebar]:[&>h6]:border-(--page-background-color)",
+
+	// Icon Colors in Sidebar Layout
+	"group-data-[layout=sidebar]:[&_.section-item_i]:text-(--page-background-color)!",
+
+	// Section Item Header in Sidebar Layout
+	"group-data-[layout=sidebar]:[&_.section-item-header>div]:flex-col",
+	"group-data-[layout=sidebar]:[&_.section-item-header>div]:items-start",
 );
 
 /**
@@ -25,7 +35,7 @@ export function ChikoritaTemplate({ pageIndex, pageLayout }: TemplateProps) {
 			{isFirstPage && <Header />}
 
 			<div className="flex">
-				<main data-type="main" className="group page-main grow space-y-4 px-(--page-margin-x) pb-(--page-margin-y)">
+				<main data-layout="main" className="group page-main space-y-4 px-(--page-margin-x) pb-(--page-margin-y)">
 					{main.map((section) => {
 						const Component = getSectionComponent(section, { sectionClassName });
 						return <Component key={section} id={section} />;
@@ -34,7 +44,7 @@ export function ChikoritaTemplate({ pageIndex, pageLayout }: TemplateProps) {
 
 				{!fullWidth && (
 					<aside
-						data-type="sidebar"
+						data-layout="sidebar"
 						className="group page-sidebar w-(--page-sidebar-width) shrink-0 space-y-4 overflow-x-hidden bg-(--page-primary-color) px-(--page-margin-x) pb-(--page-margin-y) text-(--page-background-color)"
 					>
 						{sidebar.map((section) => {
@@ -56,43 +66,43 @@ function Header() {
 			<div className="flex items-center py-(--page-margin-y) pl-(--page-margin-x)">
 				<PagePicture />
 
-				<div className="flex flex-col gap-y-2 px-(--page-margin-x)">
-					<div className="grow">
-						<h2 className="page-name">{basics.name}</h2>
-						<p className="page-headline">{basics.headline}</p>
+				<div className="page-basics space-y-2 px-(--page-margin-x)">
+					<div>
+						<h2 className="basics-name">{basics.name}</h2>
+						<p className="basics-headline">{basics.headline}</p>
 					</div>
 
-					<div className="flex grow flex-wrap items-center gap-x-2 gap-y-0.5">
+					<div className="basics-items flex flex-wrap gap-x-2 gap-y-0.5 *:flex *:items-center *:gap-x-1.5">
 						{basics.email && (
-							<div className="flex items-center gap-x-1.5">
+							<div className="basics-item-email">
 								<EnvelopeIcon />
 								<PageLink url={`mailto:${basics.email}`} label={basics.email} />
 							</div>
 						)}
 
 						{basics.phone && (
-							<div className="flex items-center gap-x-1.5">
+							<div className="basics-item-phone">
 								<PhoneIcon />
 								<PageLink url={`tel:${basics.phone}`} label={basics.phone} />
 							</div>
 						)}
 
 						{basics.location && (
-							<div className="flex items-center gap-x-1.5">
+							<div className="basics-item-location">
 								<MapPinIcon />
 								<span>{basics.location}</span>
 							</div>
 						)}
 
 						{basics.website.url && (
-							<div className="flex items-center gap-x-1.5">
+							<div className="basics-item-website">
 								<GlobeIcon />
 								<PageLink {...basics.website} />
 							</div>
 						)}
 
 						{basics.customFields.map((field) => (
-							<div key={field.id} className="flex items-center gap-x-1.5">
+							<div key={field.id} className="basics-item-custom">
 								<PageIcon icon={field.icon} />
 								<span>{field.text}</span>
 							</div>

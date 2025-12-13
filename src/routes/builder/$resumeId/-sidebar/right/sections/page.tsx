@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Trans } from "@lingui/react/macro";
 import { useForm } from "react-hook-form";
 import type z from "zod";
+import { getLocaleOptions } from "@/components/locale/combobox";
 import { useResumeStore } from "@/components/resume/store/resume";
 import { Combobox } from "@/components/ui/combobox";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -40,6 +41,29 @@ function PageSectionForm() {
 	return (
 		<Form {...form}>
 			<form onChange={form.handleSubmit(onSubmit)} className="grid @md:grid-cols-2 grid-cols-1 gap-4">
+				<FormField
+					control={form.control}
+					name="locale"
+					render={({ field }) => (
+						<FormItem className="col-span-full">
+							<FormLabel>
+								<Trans>Language</Trans>
+							</FormLabel>
+							<FormControl>
+								<Combobox
+									options={getLocaleOptions()}
+									value={field.value}
+									onValueChange={(locale) => {
+										field.onChange(locale);
+										form.handleSubmit(onSubmit)();
+									}}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
 				<FormField
 					control={form.control}
 					name="format"
@@ -112,6 +136,68 @@ function PageSectionForm() {
 										{...field}
 										min={0}
 										max={100}
+										step={1}
+										type="number"
+										onChange={(e) => {
+											const value = e.target.value;
+											if (value === "") field.onChange("");
+											else field.onChange(Number(value));
+										}}
+									/>
+								</FormControl>
+								<InputGroupAddon align="inline-end">
+									<InputGroupText>pt</InputGroupText>
+								</InputGroupAddon>
+							</InputGroup>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="gapX"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>
+								<Trans>Spacing (Horizontal)</Trans>
+							</FormLabel>
+							<InputGroup>
+								<FormControl>
+									<InputGroupInput
+										{...field}
+										min={0}
+										step={1}
+										type="number"
+										onChange={(e) => {
+											const value = e.target.value;
+											if (value === "") field.onChange("");
+											else field.onChange(Number(value));
+										}}
+									/>
+								</FormControl>
+								<InputGroupAddon align="inline-end">
+									<InputGroupText>pt</InputGroupText>
+								</InputGroupAddon>
+							</InputGroup>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="gapY"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>
+								<Trans>Spacing (Vertical)</Trans>
+							</FormLabel>
+							<InputGroup>
+								<FormControl>
+									<InputGroupInput
+										{...field}
+										min={0}
 										step={1}
 										type="number"
 										onChange={(e) => {

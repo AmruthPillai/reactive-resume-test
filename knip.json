@@ -5,6 +5,6 @@
 	"project": ["src/**/*.{js,jsx,ts,tsx}"],
 	"tailwind": { "entry": ["src/styles.css"] },
 	"ignoreDependencies": ["npm-check-updates", "node-addon-api", "node-gyp"],
-	"ignore": ["src/components/**/*.{ts,tsx}", "src/schema/resume/data.ts"],
+	"ignore": ["src/components/**/*.{ts,tsx}", "src/schema/**/*.ts"],
 	"ignoreExportsUsedInFile": { "type": true, "interface": true }
 }

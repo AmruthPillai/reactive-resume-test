@@ -8,10 +8,29 @@ import { useResumeStore } from "../store/resume";
 import type { TemplateProps } from "./types";
 
 const sectionClassName = cn(
-	"space-y-1 [&>.section-content>ul]:space-y-1 [&>h6]:text-(--page-primary-color)",
-	"group-data-[type=sidebar]:text-center group-data-[type=sidebar]:[&_.section-item-header>div]:flex-col group-data-[type=sidebar]:[&_.section-item-header>div]:gap-y-0.5 group-data-[type=sidebar]:[&_.section-item-header_p]:text-center",
-	"group-data-[type=main]:[&>.section-content]:ml-3 group-data-[type=main]:[&>.section-content]:border-(--page-primary-color) group-data-[type=main]:[&>.section-content]:border-l group-data-[type=main]:[&>.section-content]:pl-4",
-	"group-data-[type=main]:[&>.section-content]:relative group-data-[type=main]:[&>.section-content]:after:absolute group-data-[type=main]:[&>.section-content]:after:top-4 group-data-[type=main]:[&>.section-content]:after:left-0 group-data-[type=main]:[&>.section-content]:after:size-2.5 group-data-[type=main]:[&>.section-content]:after:translate-x-[-50%] group-data-[type=main]:[&>.section-content]:after:translate-y-[-50%] group-data-[type=main]:[&>.section-content]:after:rounded-full group-data-[type=main]:[&>.section-content]:after:border group-data-[type=main]:[&>.section-content]:after:border-(--page-primary-color) group-data-[type=main]:[&>.section-content]:after:bg-(--page-background-color) group-data-[type=main]:[&>.section-content]:after:content-['']",
+	// Section in Sidebar Layout
+	"group-data-[layout=sidebar]:[&_.section-item-header>div]:flex-col",
+	"group-data-[layout=sidebar]:[&_.section-item-header>div]:items-start",
+
+	// Section in Main Layout
+	"group-data-[layout=main]:[&>.section-content]:relative",
+	"group-data-[layout=main]:[&>.section-content]:ml-4",
+	"group-data-[layout=main]:[&>.section-content]:pl-4",
+	"group-data-[layout=main]:[&>.section-content]:border-l",
+	"group-data-[layout=main]:[&>.section-content]:border-(--page-primary-color)",
+
+	// Timeline Marker in Main Layout
+	"group-data-[layout=main]:[&>.section-content]:after:content-['']",
+	"group-data-[layout=main]:[&>.section-content]:after:absolute",
+	"group-data-[layout=main]:[&>.section-content]:after:top-5",
+	"group-data-[layout=main]:[&>.section-content]:after:left-0",
+	"group-data-[layout=main]:[&>.section-content]:after:size-2.5",
+	"group-data-[layout=main]:[&>.section-content]:after:translate-x-[-50%]",
+	"group-data-[layout=main]:[&>.section-content]:after:translate-y-[-50%]",
+	"group-data-[layout=main]:[&>.section-content]:after:rounded-full",
+	"group-data-[layout=main]:[&>.section-content]:after:border",
+	"group-data-[layout=main]:[&>.section-content]:after:border-(--page-primary-color)",
+	"group-data-[layout=main]:[&>.section-content]:after:bg-(--page-background-color)",
 );
 
 /**
@@ -22,14 +41,14 @@ export function AzurillTemplate({ pageIndex, pageLayout }: TemplateProps) {
 	const { main, sidebar, fullWidth } = pageLayout;
 
 	return (
-		<div className="template-azurill page-content">
+		<div className="template-azurill page-content space-y-(--page-gap-y) px-(--page-margin-x) py-(--page-margin-y)">
 			{isFirstPage && <Header />}
 
-			<div className="flex pb-(--page-margin-y)">
+			<div className="flex gap-x-(--page-gap-x)">
 				{!fullWidth && (
 					<aside
-						data-type="sidebar"
-						className="group page-sidebar w-(--page-sidebar-width) shrink-0 space-y-4 overflow-x-hidden pl-(--page-margin-x)"
+						data-layout="sidebar"
+						className="group page-sidebar w-(--page-sidebar-width) shrink-0 space-y-(--page-gap-y) overflow-x-hidden"
 					>
 						{sidebar.map((section) => {
 							const Component = getSectionComponent(section, { sectionClassName });
@@ -38,7 +57,7 @@ export function AzurillTemplate({ pageIndex, pageLayout }: TemplateProps) {
 					</aside>
 				)}
 
-				<main data-type="main" className="group page-main grow space-y-4 px-(--page-margin-x)">
+				<main data-layout="main" className="group page-main grow space-y-(--page-gap-y)">
 					{main.map((section) => {
 						const Component = getSectionComponent(section, { sectionClassName });
 						return <Component key={section} id={section} />;
@@ -53,49 +72,51 @@ function Header() {
 	const basics = useResumeStore((state) => state.resume.data.basics);
 
 	return (
-		<div className="page-header flex flex-col items-center justify-center space-y-1.5 px-(--page-margin-x) py-(--page-margin-y)">
+		<div className="page-header flex flex-col items-center gap-y-2">
 			<PagePicture />
 
-			<div className="text-center">
-				<h2 className="page-name">{basics.name}</h2>
-				<p className="page-headline">{basics.headline}</p>
-			</div>
+			<div className="page-basics space-y-2 text-center">
+				<div className="basics-header">
+					<h2 className="basics-name">{basics.name}</h2>
+					<p className="basics-headline">{basics.headline}</p>
+				</div>
 
-			<div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-				{basics.email && (
-					<div className="flex items-center gap-x-1.5">
-						<EnvelopeIcon />
-						<PageLink url={`mailto:${basics.email}`} label={basics.email} />
-					</div>
-				)}
+				<div className="basics-items flex flex-wrap justify-center gap-x-3 gap-y-1 *:flex *:items-center *:gap-x-1.5">
+					{basics.email && (
+						<div className="basics-item-email">
+							<EnvelopeIcon />
+							<PageLink url={`mailto:${basics.email}`} label={basics.email} />
+						</div>
+					)}
 
-				{basics.phone && (
-					<div className="flex items-center gap-x-1.5">
-						<PhoneIcon />
-						<PageLink url={`tel:${basics.phone}`} label={basics.phone} />
-					</div>
-				)}
+					{basics.phone && (
+						<div className="basics-item-phone">
+							<PhoneIcon />
+							<PageLink url={`tel:${basics.phone}`} label={basics.phone} />
+						</div>
+					)}
 
-				{basics.location && (
-					<div className="flex items-center gap-x-1.5">
-						<MapPinIcon />
-						<span>{basics.location}</span>
-					</div>
-				)}
+					{basics.location && (
+						<div className="basics-item-location">
+							<MapPinIcon />
+							<span>{basics.location}</span>
+						</div>
+					)}
 
-				{basics.website.url && (
-					<div className="flex items-center gap-x-1.5">
-						<GlobeIcon />
-						<PageLink {...basics.website} />
-					</div>
-				)}
+					{basics.website.url && (
+						<div className="basics-item-website">
+							<GlobeIcon />
+							<PageLink {...basics.website} />
+						</div>
+					)}
 
-				{basics.customFields.map((field) => (
-					<div key={field.id} className="flex items-center gap-x-1.5">
-						<PageIcon icon={field.icon} />
-						<span>{field.text}</span>
-					</div>
-				))}
+					{basics.customFields.map((field) => (
+						<div key={field.id} className="basics-item-custom">
+							<PageIcon icon={field.icon} />
+							<span>{field.text}</span>
+						</div>
+					))}
+				</div>
 			</div>
 		</div>
 	);

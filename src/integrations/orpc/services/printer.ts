@@ -20,14 +20,17 @@ const SCREENSHOT_TTL = 1000 * 60 * 10; // 10 minutes
 export const printerService = {
 	printResumeAsPDF: async (input: { id: string }): Promise<File> => {
 		const resume = await resumeService.getByIdForPrinter({ id: input.id });
-		const pageFormat = resume.data.metadata.page.format;
+		const format = resume.data.metadata.page.format;
+		const locale = resume.data.metadata.page.locale;
 
 		const baseUrl = env.PRINTER_APP_URL ?? env.APP_URL;
+		const domain = new URL(baseUrl).hostname;
 
 		const token = generatePrinterToken(input.id);
 		const url = `${baseUrl}/printer/${input.id}?token=${token}`;
 
 		const formData = new FormData();
+		const cookies = [{ name: "locale", value: locale, domain }];
 
 		formData.append("url", url);
 		formData.append("marginTop", "0");
@@ -36,8 +39,9 @@ export const printerService = {
 		formData.append("marginBottom", "0");
 		formData.append("printBackground", "true");
 		formData.append("skipNetworkIdleEvent", "false");
-		formData.append("paperWidth", pageDimensions[pageFormat].width);
-		formData.append("paperHeight", pageDimensions[pageFormat].height);
+		formData.append("cookies", JSON.stringify(cookies));
+		formData.append("paperWidth", pageDimensions[format].width);
+		formData.append("paperHeight", pageDimensions[format].height);
 
 		const headers = new Headers();
 

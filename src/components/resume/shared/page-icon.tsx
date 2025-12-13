@@ -1,6 +1,6 @@
 import { IconContext } from "@phosphor-icons/react";
 import { use } from "react";
-import type { IconName } from "@/components/input/icon-picker";
+import type { IconName } from "@/schema/icons";
 import { cn } from "@/utils/style";
 
 export function PageIcon({ icon, className }: { icon: IconName; className?: string }) {

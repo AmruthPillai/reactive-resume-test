@@ -34,6 +34,7 @@ const getORPCClient = createIsomorphicFn()
 			},
 			interceptors: [
 				onError((error) => {
+					if (error instanceof DOMException) return;
 					console.error(error);
 				}),
 			],

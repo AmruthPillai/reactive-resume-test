@@ -45,13 +45,21 @@ msgstr "<0>Reactive Resume thrives thanks to its vibrant community. This project
 msgid "<0>Thank you for using Reactive Resume! This app is a labor of love, created mostly in my spare time, with wonderful support from open-source contributors around the world.</0><1>If Reactive Resume has been helpful to you, and you'd like to help keep it free and open for everyone, please consider making a donation. Every little bit is appreciated!</1>"
 msgstr "<0>Thank you for using Reactive Resume! This app is a labor of love, created mostly in my spare time, with wonderful support from open-source contributors around the world.</0><1>If Reactive Resume has been helpful to you, and you'd like to help keep it free and open for everyone, please consider making a donation. Every little bit is appreciated!</1>"
 
-#: src/dialogs/resume/template/gallery.tsx:36
-msgid "A bold two-column layout with accent colors, featuring a sidebar for short sections and main content area for professional experience."
-msgstr "A bold two-column layout with accent colors, featuring a sidebar for short sections and main content area for professional experience."
+#: src/dialogs/api-key/create.tsx:129
+msgid "1 month"
+msgstr "1 month"
 
-#: src/dialogs/resume/template/gallery.tsx:43
-msgid "A clean and minimal single-column layout with a hint of color, suited for beginners with minimal experience."
-msgstr "A clean and minimal single-column layout with a hint of color, suited for beginners with minimal experience."
+#: src/dialogs/api-key/create.tsx:144
+msgid "1 year"
+msgstr "1 year"
+
+#: src/dialogs/api-key/create.tsx:134
+msgid "3 months"
+msgstr "3 months"
+
+#: src/dialogs/api-key/create.tsx:139
+msgid "6 months"
+msgstr "6 months"
 
 #: src/routes/dashboard/settings/profile.tsx:83
 msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
@@ -65,10 +73,6 @@ msgstr "A link to your resume has been copied to clipboard."
 #: src/routes/dashboard/settings/profile.tsx:104
 msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
 msgstr "A new verification link has been sent to your email address. Please check your inbox to verify your account."
-
-#: src/dialogs/resume/template/gallery.tsx:29
-msgid "A simple, single-column layout that works well for multiple pages, perfect for professionals with a lot of experience."
-msgstr "A simple, single-column layout that works well for multiple pages, perfect for professionals with a lot of experience."
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom-fields.tsx:98
 msgid "Add a custom field"
@@ -203,13 +207,17 @@ msgstr "Anyone with the link can view and download the resume."
 #: src/components/command-palette/pages/navigation.tsx:87
 #: src/components/command-palette/pages/navigation.tsx:92
 #: src/routes/dashboard/-components/sidebar.tsx:69
-#: src/routes/dashboard/settings/api-keys.tsx:14
+#: src/routes/dashboard/settings/api-keys.tsx:59
 msgid "API Keys"
 msgstr "API Keys"
 
 #: src/routes/dashboard/-components/sidebar.tsx:132
 msgid "App"
 msgstr "App"
+
+#: src/routes/dashboard/settings/api-keys.tsx:38
+msgid "Are you sure you want to delete this API key?"
+msgstr "Are you sure you want to delete this API key?"
 
 #: src/routes/dashboard/settings/authentication/-components/passkeys.tsx:75
 msgid "Are you sure you want to delete this passkey?"
@@ -284,6 +292,11 @@ msgstr "Backup codes copied to clipboard."
 msgid "Basics"
 msgstr "Basics"
 
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:51
+msgctxt "Body Text (paragraphs, lists, etc.)"
+msgid "Body"
+msgstr "Body"
+
 #: src/components/input/rich-input.tsx:322
 msgid "Bold"
 msgstr "Bold"
@@ -337,6 +350,7 @@ msgstr "By the community, for the community."
 #: src/dialogs/resume/sections/volunteer.tsx:124
 #: src/hooks/use-prompt.tsx:52
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:84
+#: src/routes/dashboard/settings/api-keys.tsx:41
 #: src/routes/dashboard/settings/danger-zone.tsx:35
 #: src/routes/dashboard/settings/profile.tsx:222
 msgid "Cancel"
@@ -362,7 +376,7 @@ msgstr "Change language to..."
 msgid "Change theme to..."
 msgstr "Change theme to..."
 
-#: src/dialogs/resume/index.tsx:196
+#: src/dialogs/resume/index.tsx:195
 msgid "Changed your mind? Rename your resume to something more descriptive."
 msgstr "Changed your mind? Rename your resume to something more descriptive."
 
@@ -395,6 +409,7 @@ msgstr "Columns"
 msgid "Company"
 msgstr "Company"
 
+#: src/dialogs/api-key/create.tsx:213
 #: src/hooks/use-prompt.tsx:53
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:83
 #: src/routes/dashboard/settings/danger-zone.tsx:34
@@ -432,7 +447,12 @@ msgstr "Copy Backup Codes"
 msgid "Copy link to resume"
 msgstr "Copy link to resume"
 
-#: src/dialogs/resume/index.tsx:125
+#: src/dialogs/api-key/create.tsx:192
+msgid "Copy this secret key and use it in your applications to access your data."
+msgstr "Copy this secret key and use it in your applications to access your data."
+
+#: src/dialogs/api-key/create.tsx:156
+#: src/dialogs/resume/index.tsx:124
 #: src/dialogs/resume/sections/award.tsx:72
 #: src/dialogs/resume/sections/certification.tsx:76
 #: src/dialogs/resume/sections/custom.tsx:73
@@ -452,6 +472,11 @@ msgstr "Create"
 #: src/routes/auth/register.tsx:85
 msgid "Create a new account"
 msgstr "Create a new account"
+
+#: src/dialogs/api-key/create.tsx:79
+#: src/routes/dashboard/settings/api-keys.tsx:70
+msgid "Create a new API key"
+msgstr "Create a new API key"
 
 #: src/dialogs/resume/sections/award.tsx:57
 msgid "Create a new award"
@@ -498,7 +523,7 @@ msgid "Create a new reference"
 msgstr "Create a new reference"
 
 #: src/components/command-palette/pages/resumes.tsx:55
-#: src/dialogs/resume/index.tsx:111
+#: src/dialogs/resume/index.tsx:110
 #: src/routes/dashboard/resumes/-components/create-card.tsx:11
 msgid "Create a new resume"
 msgstr "Create a new resume"
@@ -511,12 +536,16 @@ msgstr "Create a new skill"
 msgid "Create a new volunteer experience"
 msgstr "Create a new volunteer experience"
 
-#: src/dialogs/resume/index.tsx:138
+#: src/dialogs/resume/index.tsx:137
 msgid "Create a Sample Resume"
 msgstr "Create a Sample Resume"
 
-#: src/dialogs/resume/index.tsx:68
-#: src/dialogs/resume/index.tsx:92
+#: src/dialogs/api-key/create.tsx:58
+msgid "Creating your API key..."
+msgstr "Creating your API key..."
+
+#: src/dialogs/resume/index.tsx:67
+#: src/dialogs/resume/index.tsx:91
 msgid "Creating your resume..."
 msgstr "Creating your resume..."
 
@@ -564,8 +593,9 @@ msgstr "Degree"
 
 #: src/routes/builder/$resumeId/-components/header.tsx:152
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:170
-#: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:116
+#: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:141
 #: src/routes/dashboard/resumes/-components/resume-card.tsx:164
+#: src/routes/dashboard/settings/api-keys.tsx:40
 msgid "Delete"
 msgstr "Delete"
 
@@ -670,23 +700,23 @@ msgstr "Downloads"
 msgid "Drag and drop sections here to move them between columns"
 msgstr "Drag and drop sections here to move them between columns"
 
-#: src/dialogs/resume/index.tsx:276
+#: src/dialogs/resume/index.tsx:275
 #: src/routes/builder/$resumeId/-components/header.tsx:140
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:144
-#: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:107
+#: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:132
 #: src/routes/dashboard/resumes/-components/resume-card.tsx:152
 msgid "Duplicate"
 msgstr "Duplicate"
 
-#: src/dialogs/resume/index.tsx:263
+#: src/dialogs/resume/index.tsx:262
 msgid "Duplicate Resume"
 msgstr "Duplicate Resume"
 
-#: src/dialogs/resume/index.tsx:266
+#: src/dialogs/resume/index.tsx:265
 msgid "Duplicate your resume to create a new one, just like the original."
 msgstr "Duplicate your resume to create a new one, just like the original."
 
-#: src/dialogs/resume/index.tsx:240
+#: src/dialogs/resume/index.tsx:239
 msgid "Duplicating your resume..."
 msgstr "Duplicating your resume..."
 
@@ -756,6 +786,15 @@ msgstr "Enter your password to disable two-factor authentication. Your account w
 msgid "Experience"
 msgstr "Experience"
 
+#: src/dialogs/api-key/create.tsx:119
+msgid "Expires in"
+msgstr "Expires in"
+
+#. placeholder {0}: key.expiresAt?.toLocaleDateString()
+#: src/routes/dashboard/settings/api-keys.tsx:107
+msgid "Expires on {0}"
+msgstr "Expires on {0}"
+
 #: src/utils/resume/section.tsx:117
 msgid "Export"
 msgstr "Export"
@@ -772,27 +811,31 @@ msgstr "Filter by"
 msgid "Fluency"
 msgstr "Fluency"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:82
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:217
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:62
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:183
 msgid "Font Family"
 msgstr "Font Family"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:133
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:268
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:113
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:234
 msgid "Font Size"
 msgstr "Font Size"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:245
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:211
 msgid "Font Weight"
 msgstr "Font Weight"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:110
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:90
 msgid "Font Weights"
 msgstr "Font Weights"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/notes.tsx:36
 msgid "For example, information regarding which companies you sent this resume to or the links to the job descriptions can be noted down here."
 msgstr "For example, information regarding which companies you sent this resume to or the links to the job descriptions can be noted down here."
+
+#: src/dialogs/api-key/create.tsx:207
+msgid "For security reasons, this key will only be displayed once."
+msgstr "For security reasons, this key will only be displayed once."
 
 #: src/routes/auth/login.tsx:134
 msgid "Forgot Password?"
@@ -802,7 +845,7 @@ msgstr "Forgot Password?"
 msgid "Forgot your password?"
 msgstr "Forgot your password?"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx:49
+#: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx:73
 msgctxt "Page Format (A4 or Letter)"
 msgid "Format"
 msgstr "Format"
@@ -811,7 +854,7 @@ msgstr "Format"
 msgid "Full Width"
 msgstr "Full Width"
 
-#: src/dialogs/resume/index.tsx:313
+#: src/dialogs/resume/index.tsx:312
 msgid "Generate a random name"
 msgstr "Generate a random name"
 
@@ -834,6 +877,11 @@ msgstr "Go to..."
 #: src/dialogs/resume/sections/education.tsx:203
 msgid "Grade"
 msgstr "Grade"
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:172
+msgctxt "Headings or Titles (H1, H2, H3, H4, H5, H6)"
+msgid "Heading"
+msgstr "Heading"
 
 #: src/components/input/rich-input.tsx:410
 msgid "Heading 1"
@@ -867,9 +915,13 @@ msgstr "Headline"
 msgid "Help translate the app to your language"
 msgstr "Help translate the app to your language"
 
-#: src/dialogs/resume/template/gallery.tsx:69
+#: src/dialogs/resume/template/gallery.tsx:38
 msgid "Here's a range of resume templates for different professions and personalities. Whether you prefer modern or classic, bold or simple, there is a design to match you. Look through the options below and choose a template that fits your style."
 msgstr "Here's a range of resume templates for different professions and personalities. Whether you prefer modern or classic, bold or simple, there is a design to match you. Look through the options below and choose a template that fits your style."
+
+#: src/dialogs/api-key/create.tsx:189
+msgid "Here's your new API key"
+msgstr "Here's your new API key"
 
 #: src/components/level/combobox.tsx:14
 #: src/dialogs/resume/sections/language.tsx:189
@@ -878,6 +930,7 @@ msgid "Hidden"
 msgstr "Hidden"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:134
+#: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:118
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx:131
 msgid "Hide"
 msgstr "Hide"
@@ -945,6 +998,7 @@ msgstr "Landscape"
 #: src/components/command-palette/pages/preferences/language.tsx:23
 #: src/components/user/dropdown-menu.tsx:75
 #: src/dialogs/resume/sections/language.tsx:145
+#: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx:50
 #: src/routes/dashboard/settings/preferences.tsx:33
 msgid "Language"
 msgstr "Language"
@@ -990,7 +1044,7 @@ msgstr "Left Align"
 msgid "Level"
 msgstr "Level"
 
-#: src/components/level/display.tsx:19
+#: src/components/level/display.tsx:16
 msgid "Level {level} of 5"
 msgstr "Level {level} of 5"
 
@@ -1003,8 +1057,8 @@ msgstr "Light"
 msgid "Light theme"
 msgstr "Light theme"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:164
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:299
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:144
+#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:265
 msgid "Line Height"
 msgstr "Line Height"
 
@@ -1044,15 +1098,16 @@ msgstr "Lost access to your authenticator?"
 msgid "Main"
 msgstr "Main"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx:75
+#: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx:99
 msgid "Margin (Horizontal)"
 msgstr "Margin (Horizontal)"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx:107
+#: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx:131
 msgid "Margin (Vertical)"
 msgstr "Margin (Vertical)"
 
-#: src/dialogs/resume/index.tsx:306
+#: src/dialogs/api-key/create.tsx:97
+#: src/dialogs/resume/index.tsx:305
 #: src/dialogs/resume/sections/interest.tsx:165
 #: src/dialogs/resume/sections/project.tsx:147
 #: src/dialogs/resume/sections/reference.tsx:142
@@ -1079,6 +1134,21 @@ msgstr "New Password"
 #: src/components/ui/multiple-combobox.tsx:51
 msgid "No results found."
 msgstr "No results found."
+
+#: src/dialogs/resume/template/data.ts:15
+#: src/dialogs/resume/template/data.ts:21
+#: src/dialogs/resume/template/data.ts:27
+#: src/dialogs/resume/template/data.ts:33
+#: src/dialogs/resume/template/data.ts:39
+#: src/dialogs/resume/template/data.ts:45
+#: src/dialogs/resume/template/data.ts:51
+#: src/dialogs/resume/template/data.ts:57
+#: src/dialogs/resume/template/data.ts:63
+#: src/dialogs/resume/template/data.ts:69
+#: src/dialogs/resume/template/data.ts:75
+#: src/dialogs/resume/template/data.ts:81
+msgid "Non reprehenderit elit commodo occaecat laborum Lorem minim eu cupidatat tempor officia anim deserunt."
+msgstr "Non reprehenderit elit commodo occaecat laborum Lorem minim eu cupidatat tempor officia anim deserunt."
 
 #: src/utils/resume/section.tsx:114
 msgid "Notes"
@@ -1118,7 +1188,7 @@ msgstr "Page"
 msgid "Page {0}"
 msgstr "Page {0}"
 
-#: src/components/resume/preview.tsx:87
+#: src/components/resume/preview.tsx:104
 msgid "Page {pageNumber} of {totalNumberOfPages}"
 msgstr "Page {pageNumber} of {totalNumberOfPages}"
 
@@ -1329,7 +1399,7 @@ msgstr "Right Align"
 msgid "Rotation"
 msgstr "Rotation"
 
-#: src/dialogs/resume/index.tsx:206
+#: src/dialogs/resume/index.tsx:205
 #: src/dialogs/resume/sections/award.tsx:128
 #: src/dialogs/resume/sections/certification.tsx:136
 #: src/dialogs/resume/sections/custom.tsx:127
@@ -1355,8 +1425,8 @@ msgstr "Scan the QR code below with your preferred authenticator app. You can al
 msgid "School"
 msgstr "School"
 
-#: src/components/input/icon-picker.tsx:28
 #: src/components/input/icon-picker.tsx:29
+#: src/components/input/icon-picker.tsx:30
 msgid "Search for an icon"
 msgstr "Search for an icon"
 
@@ -1416,6 +1486,7 @@ msgid "Sharing"
 msgstr "Sharing"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:134
+#: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:118
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx:131
 msgid "Show"
 msgstr "Show"
@@ -1467,7 +1538,7 @@ msgstr "Skill"
 msgid "Skills"
 msgstr "Skills"
 
-#: src/dialogs/resume/index.tsx:331
+#: src/dialogs/resume/index.tsx:330
 msgid "Slug"
 msgstr "Slug"
 
@@ -1485,6 +1556,14 @@ msgstr "Sort by"
 msgid "Source Code"
 msgstr "Source Code"
 
+#: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx:163
+msgid "Spacing (Horizontal)"
+msgstr "Spacing (Horizontal)"
+
+#: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx:194
+msgid "Spacing (Vertical)"
+msgstr "Spacing (Vertical)"
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx:64
 msgid "Sponsors"
 msgstr "Sponsors"
@@ -1494,7 +1573,7 @@ msgstr "Sponsors"
 msgid "Square"
 msgstr "Square"
 
-#: src/dialogs/resume/index.tsx:114
+#: src/dialogs/resume/index.tsx:113
 msgid "Start building your resume by giving it a name."
 msgstr "Start building your resume by giving it a name."
 
@@ -1518,19 +1597,15 @@ msgstr "Summary"
 msgid "Support the app by doing what you can!"
 msgstr "Support the app by doing what you can!"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:203
-msgid "Synchronize heading styles with the settings configured above."
-msgstr "Synchronize heading styles with the settings configured above."
-
 #: src/components/input/rich-input.tsx:581
 msgid "Table"
 msgstr "Table"
 
-#: src/dialogs/resume/index.tsx:355
+#: src/dialogs/resume/index.tsx:354
 msgid "Tags"
 msgstr "Tags"
 
-#: src/dialogs/resume/index.tsx:362
+#: src/dialogs/resume/index.tsx:361
 msgid "Tags can be used to categorize your resume by keywords."
 msgstr "Tags can be used to categorize your resume by keywords."
 
@@ -1538,13 +1613,21 @@ msgstr "Tags can be used to categorize your resume by keywords."
 msgid "Template"
 msgstr "Template"
 
-#: src/dialogs/resume/template/gallery.tsx:66
+#: src/dialogs/resume/template/gallery.tsx:35
 msgid "Template Gallery"
 msgstr "Template Gallery"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/design.tsx:98
 msgid "Text Color"
 msgstr "Text Color"
+
+#: src/routes/dashboard/settings/api-keys.tsx:53
+msgid "The API key has been deleted successfully."
+msgstr "The API key has been deleted successfully."
+
+#: src/routes/dashboard/settings/api-keys.tsx:39
+msgid "The API key will no longer be able to access your data after deletion. This action cannot be undone."
+msgstr "The API key will no longer be able to access your data after deletion. This action cannot be undone."
 
 #: src/components/command-palette/index.tsx:108
 msgid "The command you're looking for doesn't exist."
@@ -1581,7 +1664,7 @@ msgstr "This action cannot be undone."
 msgid "This action cannot be undone. All your data will be permanently deleted."
 msgstr "This action cannot be undone. All your data will be permanently deleted."
 
-#: src/dialogs/resume/index.tsx:343
+#: src/dialogs/resume/index.tsx:342
 msgid "This is a URL-friendly name for your resume."
 msgstr "This is a URL-friendly name for your resume."
 
@@ -1597,7 +1680,15 @@ msgstr "This section is reserved for your personal notes specific to this resume
 msgid "This step is optional, but recommended."
 msgstr "This step is optional, but recommended."
 
-#: src/dialogs/resume/index.tsx:319
+#: src/dialogs/api-key/create.tsx:82
+msgid "This will generate a new API key to access the Reactive Resume API to allow machines to interact with your resume data."
+msgstr "This will generate a new API key to access the Reactive Resume API to allow machines to interact with your resume data."
+
+#: src/dialogs/api-key/create.tsx:104
+msgid "Tip: Give your API key a name, corresponding to the purpose of the key, to help you identify it later."
+msgstr "Tip: Give your API key a name, corresponding to the purpose of the key, to help you identify it later."
+
+#: src/dialogs/resume/index.tsx:318
 msgid "Tip: You can name the resume referring to the position you are applying for."
 msgstr "Tip: You can name the resume referring to the position you are applying for."
 
@@ -1681,7 +1772,7 @@ msgstr "Unverified"
 
 #: src/routes/builder/$resumeId/-components/header.tsx:135
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:139
-#: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:102
+#: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:127
 #: src/routes/dashboard/resumes/-components/resume-card.tsx:147
 msgid "Update"
 msgstr "Update"
@@ -1743,7 +1834,7 @@ msgstr "Update an existing volunteer experience"
 msgid "Update Password"
 msgstr "Update Password"
 
-#: src/dialogs/resume/index.tsx:193
+#: src/dialogs/resume/index.tsx:192
 msgid "Update Resume"
 msgstr "Update Resume"
 
@@ -1755,7 +1846,7 @@ msgstr "Update your password"
 msgid "Updating your password..."
 msgstr "Updating your password..."
 
-#: src/dialogs/resume/index.tsx:174
+#: src/dialogs/resume/index.tsx:173
 msgid "Updating your resume..."
 msgstr "Updating your resume..."
 
@@ -1770,10 +1861,6 @@ msgstr "URL"
 #: src/routes/auth/verify-2fa-backup.tsx:114
 msgid "Use Authenticator App"
 msgstr "Use Authenticator App"
-
-#: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:201
-msgid "Use the same style for headings"
-msgstr "Use the same style for headings"
 
 #: src/dialogs/resume/sections/profile.tsx:185
 #: src/routes/auth/register.tsx:124
@@ -1856,10 +1943,18 @@ msgstr "When locked, the resume cannot be updated or deleted."
 msgid "You can also use your username to login."
 msgstr "You can also use your username to login."
 
+#: src/routes/dashboard/settings/api-keys.tsx:82
+msgid "You can use API keys to authenticate external applications to access your data stored on Reactive Resume. Please keep your API keys secure and do not share them with anyone."
+msgstr "You can use API keys to authenticate external applications to access your data stored on Reactive Resume. Please keep your API keys secure and do not share them with anyone."
+
 #. placeholder {0}: passkey.name ?? "(WebAuthn Device)"
 #: src/routes/dashboard/settings/authentication/-components/passkeys.tsx:76
 msgid "You cannot use the passkey \"{0}\" anymore to sign in after deletion. This action cannot be undone."
 msgstr "You cannot use the passkey \"{0}\" anymore to sign in after deletion. This action cannot be undone."
+
+#: src/routes/dashboard/settings/api-keys.tsx:79
+msgid "You don't have any API keys yet."
+msgstr "You don't have any API keys yet."
 
 #: src/routes/auth/forgot-password.tsx:110
 #: src/routes/auth/register.tsx:207
@@ -1877,6 +1972,10 @@ msgstr "Your {providerName} account has been unlinked successfully."
 #: src/routes/dashboard/settings/danger-zone.tsx:44
 msgid "Your account has been deleted successfully."
 msgstr "Your account has been deleted successfully."
+
+#: src/dialogs/api-key/create.tsx:176
+msgid "Your API key has been copied to the clipboard."
+msgstr "Your API key has been copied to the clipboard."
 
 #: src/routes/dashboard/settings/authentication/-components/passkeys.tsx:29
 msgid "Your passkey has been added successfully."
@@ -1898,8 +1997,8 @@ msgstr "Your password has been updated successfully."
 msgid "Your profile has been updated successfully."
 msgstr "Your profile has been updated successfully."
 
-#: src/dialogs/resume/index.tsx:72
-#: src/dialogs/resume/index.tsx:96
+#: src/dialogs/resume/index.tsx:71
+#: src/dialogs/resume/index.tsx:95
 msgid "Your resume has been created successfully."
 msgstr "Your resume has been created successfully."
 
@@ -1908,11 +2007,11 @@ msgstr "Your resume has been created successfully."
 msgid "Your resume has been deleted successfully."
 msgstr "Your resume has been deleted successfully."
 
-#: src/dialogs/resume/index.tsx:244
+#: src/dialogs/resume/index.tsx:243
 msgid "Your resume has been duplicated successfully."
 msgstr "Your resume has been duplicated successfully."
 
-#: src/dialogs/resume/index.tsx:178
+#: src/dialogs/resume/index.tsx:177
 msgid "Your resume has been updated successfully."
 msgstr "Your resume has been updated successfully."
 

@@ -1,4 +1,3 @@
-import { faker } from "@faker-js/faker";
 import { motion } from "motion/react";
 
 export function Testimonials() {
@@ -48,8 +47,11 @@ export function Testimonials() {
 function Testimonial() {
 	return (
 		<div className="relative flex h-[180px] w-[360px] shrink-0 flex-col space-y-1.5 overflow-hidden rounded-md border p-4">
-			<h3 className="font-medium tracking-tight">{faker.person.fullName()}</h3>
-			<p className="text-muted-foreground text-sm leading-relaxed">{faker.lorem.paragraph()}</p>
+			<h3 className="font-medium tracking-tight">John Doe</h3>
+			<p className="text-muted-foreground text-sm leading-relaxed">
+				Fugiat laborum enim sunt excepteur nostrud exercitation ut voluptate commodo. Ex adipisicing aliquip culpa
+				occaecat id sint ut aliqua nostrud. Amet sint anim id anim sunt. Adipisicing sint eiusmod ex ex pariatur cillum.
+			</p>
 		</div>
 	);
 }

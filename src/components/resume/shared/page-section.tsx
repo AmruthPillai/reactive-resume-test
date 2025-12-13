@@ -12,20 +12,25 @@ type PageSectionProps<T extends SectionType> = {
 export function PageSection<T extends SectionType>({ type, className, children }: PageSectionProps<T>) {
 	const section = useResumeStore((state) => state.resume.data.sections[type]);
 
+	const items = section.items.filter((item) => !item.hidden);
+
 	if (section.hidden) return null;
-	if (section.items.length === 0) return null;
+	if (items.length === 0) return null;
 
 	return (
 		<section className={cn(`page-section page-section-${type}`, className)}>
-			<h6>{section.title || getSectionTitle(type)}</h6>
+			<h6 className="mb-1 text-(--page-primary-color)">{section.title || getSectionTitle(type)}</h6>
 
-			<div className="section-content">
-				<ul className="grid gap-x-4 gap-y-2" style={{ gridTemplateColumns: `repeat(${section.columns}, 1fr)` }}>
-					{section.items.map((item) => (
-						<li key={item.id}>{children(item)}</li>
-					))}
-				</ul>
-			</div>
+			<ul
+				className="section-content grid gap-x-(--page-gap-x) gap-y-(--page-gap-y)"
+				style={{ gridTemplateColumns: `repeat(${section.columns}, 1fr)` }}
+			>
+				{items.map((item) => (
+					<li key={item.id} className={cn(`section-item section-item-${type}`, "*:space-y-1")}>
+						{children(item)}
+					</li>
+				))}
+			</ul>
 		</section>
 	);
 }

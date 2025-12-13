@@ -3,8 +3,8 @@ import { SwapIcon } from "@phosphor-icons/react";
 import { useResumeStore } from "@/components/resume/store/resume";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { templates } from "@/dialogs/resume/template/data";
 import { useDialogStore } from "@/dialogs/store";
-import { templates } from "@/schema/resume/templates";
 import { SectionBase } from "../shared/section-base";
 
 export function TemplateSectionBuilder() {

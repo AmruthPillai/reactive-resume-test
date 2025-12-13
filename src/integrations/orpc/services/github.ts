@@ -3,7 +3,7 @@ import { join } from "node:path";
 const GITHUB_API_URL = "https://api.github.com/repos/AmruthPillai/Reactive-Resume";
 const GITHUB_STARS_CACHE_FILE = join(process.cwd(), "data", "github", "stars.txt");
 const CACHE_DURATION_MS = 6 * 60 * 60 * 1000; // 6 hours
-const LAST_KNOWN_STARS_COUNT = 33_920;
+const LAST_KNOWN_STARS_COUNT = 34_073;
 
 /**
  * Reads and validates cached star count.

@@ -1,20 +1,38 @@
 import { ORPCError, os } from "@orpc/server";
 import type { RequestHeadersPluginContext } from "@orpc/server/plugins";
+import type { User } from "better-auth";
+import { eq } from "drizzle-orm";
 import { env } from "@/utils/env";
 import type { Locale } from "@/utils/locale";
 import { auth } from "../auth/config";
-import type { AuthSession } from "../auth/types";
+import { db } from "../drizzle/client";
+import { user } from "../drizzle/schema";
 
 interface ORPCContext extends RequestHeadersPluginContext {
 	locale: Locale;
+	apiUserId?: string; // The user ID of the API key used to authenticate the request (only set for API key requests)
 }
 
-async function getSession(context: ORPCContext): Promise<AuthSession | null> {
+async function getUserFromHeaders(headers: Headers): Promise<User | null> {
 	try {
-		const headers = context.reqHeaders ?? new Headers();
 		const result = await auth.api.getSession({ headers });
+		if (!result || !result.user) return null;
 
-		return result;
+		return result.user;
+	} catch {
+		return null;
+	}
+}
+
+async function getUserFromApiKey(apiKey: string): Promise<User | null> {
+	try {
+		const result = await auth.api.verifyApiKey({ body: { key: apiKey } });
+		if (!result.key || !result.valid) return null;
+
+		const [userResult] = await db.select().from(user).where(eq(user.id, result.key.userId)).limit(1);
+		if (!userResult) return null;
+
+		return userResult;
 	} catch {
 		return null;
 	}
@@ -23,25 +41,26 @@ async function getSession(context: ORPCContext): Promise<AuthSession | null> {
 const base = os.$context<ORPCContext>();
 
 export const publicProcedure = base.use(async ({ context, next }) => {
-	const session = await getSession(context);
+	const headers = context.reqHeaders ?? new Headers();
+	const apiKey = headers.get("x-api-key");
+
+	const user = apiKey ? await getUserFromApiKey(apiKey) : await getUserFromHeaders(headers);
 
 	return next({
 		context: {
 			...context,
-			user: session?.user ?? null,
-			session: session?.session ?? null,
+			user: user ?? null,
 		},
 	});
 });
 
 export const protectedProcedure = publicProcedure.use(async ({ context, next }) => {
-	if (!context.user || !context.session) throw new ORPCError("UNAUTHORIZED");
+	if (!context.user) throw new ORPCError("UNAUTHORIZED");
 
 	return next({
 		context: {
 			...context,
 			user: context.user,
-			session: context.session,
 		},
 	});
 });

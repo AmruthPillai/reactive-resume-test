@@ -64,7 +64,6 @@ export function CreateResumeDialog({ open, onOpenChange }: DialogProps<"resume.c
 	}, [form, name]);
 
 	const onSubmit = (data: FormValues) => {
-		console.log("data", data);
 		const toastId = toast.loading(t`Creating your resume...`);
 
 		createResume(data, {
