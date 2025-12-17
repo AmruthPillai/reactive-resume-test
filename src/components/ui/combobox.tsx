@@ -18,6 +18,7 @@ type ComboboxProps<TValue extends string | number = string> = Omit<
 	React.ComponentProps<typeof PopoverContent>,
 	"value" | "defaultValue" | "children"
 > & {
+	clearable?: boolean;
 	options: ReadonlyArray<ComboboxOption<TValue>>;
 	value?: TValue | null;
 	defaultValue?: TValue | null;
@@ -31,6 +32,7 @@ type ComboboxProps<TValue extends string | number = string> = Omit<
 };
 
 function Combobox<TValue extends string | number = string>({
+	clearable = true,
 	options,
 	value,
 	defaultValue = null,
@@ -59,11 +61,17 @@ function Combobox<TValue extends string | number = string>({
 	const onSelect = React.useCallback(
 		(current: string) => {
 			const next = (current as unknown as TValue) ?? null;
+
+			if (!clearable && selectedValue === next) {
+				setOpen(false);
+				return;
+			}
+
 			const toggled = selectedValue === next ? null : next;
 			setSelectedValue(toggled);
 			setOpen(false);
 		},
-		[selectedValue, setSelectedValue],
+		[clearable, selectedValue, setSelectedValue],
 	);
 
 	return (
@@ -91,7 +99,7 @@ function Combobox<TValue extends string | number = string>({
 				</Button>
 			</PopoverTrigger>
 
-			<PopoverContent align="start" className={cn("w-[200px] p-0", className)} {...props}>
+			<PopoverContent align="start" className={cn("min-w-[200px] p-0", className)} {...props}>
 				<Command>
 					<CommandInput placeholder={searchPlaceholder} />
 					<CommandList>

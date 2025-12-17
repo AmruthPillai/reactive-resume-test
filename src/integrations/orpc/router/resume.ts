@@ -1,5 +1,6 @@
 import z from "zod";
 import { resumeDataSchema, sampleResumeData } from "@/schema/resume/data";
+import { generateRandomName, slugify } from "@/utils/string";
 import { protectedProcedure, publicProcedure, serverOnlyProcedure } from "../context";
 import { resumeService } from "../services/resume";
 
@@ -161,12 +162,35 @@ export const resumeRouter = {
 		.output(z.string().describe("The ID of the created resume."))
 		.handler(async ({ context, input }) => {
 			return await resumeService.create({
-				userId: context.user.id,
 				name: input.name,
 				slug: input.slug,
 				tags: input.tags,
 				locale: context.locale,
+				userId: context.user.id,
 				data: input.withSampleData ? sampleResumeData : undefined,
+			});
+		}),
+
+	import: protectedProcedure
+		.route({
+			method: "POST",
+			path: "/resume/import",
+			tags: ["Resume"],
+			description: "Import a resume from a file.",
+		})
+		.input(z.object({ data: resumeDataSchema }))
+		.output(z.string().describe("The ID of the imported resume."))
+		.handler(async ({ context, input }) => {
+			const name = generateRandomName();
+			const slug = slugify(name);
+
+			return await resumeService.create({
+				name,
+				slug,
+				tags: [],
+				data: input.data,
+				locale: context.locale,
+				userId: context.user.id,
 			});
 		}),
 

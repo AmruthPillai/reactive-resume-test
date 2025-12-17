@@ -26,6 +26,7 @@ const dialogTypeSchema = z.discriminatedUnion("type", [
 		type: z.literal("resume.update"),
 		data: z.object({ id: z.string(), name: z.string(), slug: z.string(), tags: z.array(z.string()) }),
 	}),
+	z.object({ type: z.literal("resume.import"), data: z.undefined() }),
 	z.object({
 		type: z.literal("resume.duplicate"),
 		data: z.object({

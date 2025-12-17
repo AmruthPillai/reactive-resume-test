@@ -15,6 +15,7 @@ import { orpc } from "@/integrations/orpc/client";
 import { cn } from "@/utils/style";
 import { DashboardHeader } from "../-components/header";
 import { CreateResumeCard } from "./-components/create-card";
+import { ImportResumeCard } from "./-components/import-card";
 import { ResumeCard } from "./-components/resume-card";
 
 type SortOption = "lastUpdatedAt" | "createdAt" | "name";
@@ -108,6 +109,15 @@ function RouteComponent() {
 					<CreateResumeCard />
 				</motion.div>
 
+				<motion.div
+					initial={{ opacity: 0, x: -50 }}
+					animate={{ opacity: 1, x: 0 }}
+					exit={{ opacity: 0, x: -50 }}
+					transition={{ delay: 0.05 }}
+				>
+					<ImportResumeCard />
+				</motion.div>
+
 				<AnimatePresence>
 					{resumes?.map((resume, index) => (
 						<motion.div
@@ -116,7 +126,7 @@ function RouteComponent() {
 							initial={{ opacity: 0, x: -50 }}
 							animate={{ opacity: 1, x: 0 }}
 							exit={{ opacity: 0, y: -50, filter: "blur(12px)" }}
-							transition={{ delay: (index + 1) * 0.05 }}
+							transition={{ delay: (index + 2) * 0.05 }}
 						>
 							<ResumeCard resume={resume} />
 						</motion.div>

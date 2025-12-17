@@ -455,19 +455,6 @@ export const resumeDataSchema = z.object({
 	),
 });
 
-export const resumeDataJSONSchema = z.toJSONSchema(
-	resumeDataSchema.extend({
-		version: z.literal("5.0.0").describe("The version of the Reactive Resume JSON Schema"),
-		$schema: z
-			.literal("https://rxresu.me/schema.json")
-			.describe("The URL of the Reactive Resume JSON Schema, used for validation and documentation purposes."),
-	}),
-	{
-		reused: "ref",
-		unrepresentable: "any",
-	},
-);
-
 export type ResumeData = z.infer<typeof resumeDataSchema>;
 
 export const defaultResumeData: ResumeData = {
@@ -586,7 +573,7 @@ export const defaultResumeData: ResumeData = {
 			],
 		},
 		css: { enabled: false, value: "" },
-		page: { gapX: 4, gapY: 4, marginX: 14, marginY: 16, format: "a4", locale: "en-US" },
+		page: { gapX: 4, gapY: 6, marginX: 14, marginY: 12, format: "a4", locale: "en-US" },
 		design: {
 			colors: {
 				primary: "rgba(220, 38, 38, 1)",
@@ -595,7 +582,7 @@ export const defaultResumeData: ResumeData = {
 			},
 			level: {
 				icon: "star",
-				type: "rectangle-full",
+				type: "circle",
 			},
 		},
 		typography: {
@@ -1131,9 +1118,9 @@ export const sampleResumeData: ResumeData = {
 		},
 		page: {
 			gapX: 4,
-			gapY: 4,
+			gapY: 6,
 			marginX: 18,
-			marginY: 18,
+			marginY: 16,
 			format: "a4",
 			locale: "en-US",
 		},
