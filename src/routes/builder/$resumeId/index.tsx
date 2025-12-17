@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { ResumePreview } from "@/components/resume/preview";
+import { BuilderDock } from "./-components/dock";
 
 export const Route = createFileRoute("/builder/$resumeId/")({
 	component: RouteComponent,
@@ -8,8 +9,8 @@ export const Route = createFileRoute("/builder/$resumeId/")({
 
 function RouteComponent() {
 	return (
-		<div className="absolute inset-0">
-			<TransformWrapper limitToBounds={false} minScale={0.3} maxScale={6}>
+		<div className="fixed inset-0">
+			<TransformWrapper centerOnInit limitToBounds={false} minScale={0.3} maxScale={6}>
 				<TransformComponent wrapperClass="h-full! w-full!">
 					<ResumePreview
 						showPageNumbers
@@ -17,6 +18,8 @@ function RouteComponent() {
 						pageClassName="shadow-xl rounded-md overflow-hidden"
 					/>
 				</TransformComponent>
+
+				<BuilderDock />
 			</TransformWrapper>
 		</div>
 	);

@@ -42,7 +42,7 @@ function Switch({ className, pressedWidth = 20, startIcon, endIcon, thumbIcon, .
 			{startIcon && (
 				<SwitchIconPrimitive
 					position="left"
-					className="-translate-y-1/2 absolute top-1/2 left-0.5 text-neutral-400 dark:text-neutral-500 [&_svg]:size-[9px]"
+					className="absolute top-1/2 left-0.5 -translate-y-1/2 text-neutral-400 dark:text-neutral-500 [&_svg]:size-[9px]"
 				>
 					{startIcon}
 				</SwitchIconPrimitive>
@@ -50,7 +50,7 @@ function Switch({ className, pressedWidth = 20, startIcon, endIcon, thumbIcon, .
 			{endIcon && (
 				<SwitchIconPrimitive
 					position="right"
-					className="-translate-y-1/2 absolute top-1/2 right-0.5 text-neutral-500 dark:text-neutral-400 [&_svg]:size-[9px]"
+					className="absolute top-1/2 right-0.5 -translate-y-1/2 text-neutral-500 dark:text-neutral-400 [&_svg]:size-[9px]"
 				>
 					{endIcon}
 				</SwitchIconPrimitive>

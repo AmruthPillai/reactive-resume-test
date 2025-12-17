@@ -1,7 +1,15 @@
-@import "@fontsource-variable/ibm-plex-sans";
-
 @import "tailwindcss";
 @import "tw-animate-css";
+
+/* Fonts */
+@import "@fontsource-variable/ibm-plex-sans";
+
+/* Phosphor Icons */
+@import "@phosphor-icons/web/regular/style.css";
+
+/* Fumadocs */
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
 
 @custom-variant dark (&:is(.dark *));
 

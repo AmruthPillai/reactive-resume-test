@@ -7,7 +7,7 @@ export async function seedDatabase() {
 	console.log("⌛ Seeding database...");
 
 	const client = new Bun.SQL(env.DATABASE_URL);
-	const db = drizzle(client);
+	const db = drizzle({ client, schema });
 
 	try {
 		const userId = generateId();

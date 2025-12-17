@@ -24,16 +24,11 @@ export function ExportSectionBuilder() {
 	}, [resume]);
 
 	const onDownloadPDF = useCallback(async () => {
-		const time = performance.now();
-
 		const filename = generateFilename(resume.data.basics.name, "pdf");
 		const file = await printResumeAsPDF({ id: resume.id });
 		const blob = new Blob([file], { type: "application/pdf" });
 
 		downloadWithAnchor(blob, filename);
-
-		const timeTaken = performance.now() - time;
-		console.log(`Time taken: ${timeTaken.toFixed(2)} milliseconds`);
 	}, [resume, printResumeAsPDF]);
 
 	return (

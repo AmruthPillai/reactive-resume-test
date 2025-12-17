@@ -75,6 +75,7 @@ msgid "A confirmation link has been sent to your current email address. Please c
 msgstr ""
 
 #: src/components/command-palette/pages/builder/index.tsx:27
+#: src/routes/builder/$resumeId/-components/dock.tsx:49
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:37
 msgid "A link to your resume has been copied to clipboard."
 msgstr ""
@@ -393,6 +394,10 @@ msgstr ""
 msgid "Center Align"
 msgstr ""
 
+#: src/routes/builder/$resumeId/-components/dock.tsx:72
+msgid "Center view"
+msgstr ""
+
 #: src/components/command-palette/pages/builder/add-section.tsx:51
 msgid "Certification"
 msgstr ""
@@ -486,6 +491,10 @@ msgstr ""
 
 #: src/dialogs/api-key/create.tsx:192
 msgid "Copy this secret key and use it in your applications to access your data."
+msgstr ""
+
+#: src/routes/builder/$resumeId/-components/dock.tsx:74
+msgid "Copy URL"
 msgstr ""
 
 #: src/dialogs/api-key/create.tsx:156
@@ -730,12 +739,16 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:50
+#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:45
 msgid "Download a copy of your resume in JSON format. Use this file for backup or to import your resume into other applications, including AI assistants."
 msgstr ""
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:73
+#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:68
 msgid "Download a copy of your resume in PDF format. Use this file for printing or to easily share your resume with recruiters."
+msgstr ""
+
+#: src/routes/builder/$resumeId/-components/dock.tsx:76
+msgid "Download PDF"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:48
@@ -1495,6 +1508,10 @@ msgstr ""
 msgid "Reset your password"
 msgstr ""
 
+#: src/routes/builder/$resumeId/-components/dock.tsx:71
+msgid "Reset zoom"
+msgstr ""
+
 #: src/routes/auth/reset-password.tsx:51
 msgid "Resetting your password..."
 msgstr ""
@@ -2176,6 +2193,14 @@ msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:137
 msgid "Your resume's public link is currently protected by a password. Share the password only with people you trust."
+msgstr ""
+
+#: src/routes/builder/$resumeId/-components/dock.tsx:69
+msgid "Zoom in"
+msgstr ""
+
+#: src/routes/builder/$resumeId/-components/dock.tsx:70
+msgid "Zoom out"
 msgstr ""
 
 #: src/utils/locale.ts:18

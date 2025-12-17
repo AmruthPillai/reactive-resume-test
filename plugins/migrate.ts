@@ -1,6 +1,5 @@
 import { drizzle } from "drizzle-orm/bun-sql";
 import { migrate } from "drizzle-orm/bun-sql/migrator";
-
 import { definePlugin } from "nitro";
 
 export default definePlugin(async () => {
@@ -11,7 +10,7 @@ export default definePlugin(async () => {
 	}
 
 	const client = new Bun.SQL(process.env.DATABASE_URL);
-	const db = drizzle(client);
+	const db = drizzle({ client });
 
 	try {
 		await migrate(db, { migrationsFolder: "./migrations" });

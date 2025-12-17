@@ -6,7 +6,7 @@ export async function migrateDatabase() {
 	console.log("⌛ Running database migrations...");
 
 	const client = new Bun.SQL(env.DATABASE_URL);
-	const db = drizzle(client);
+	const db = drizzle({ client });
 
 	try {
 		await migrate(db, { migrationsFolder: "./migrations" });

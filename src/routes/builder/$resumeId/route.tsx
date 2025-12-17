@@ -94,39 +94,37 @@ function BuilderLayout({ initialLayout, ...props }: BuilderLayoutProps) {
 		<div className="flex h-svh flex-col" {...props}>
 			<BuilderHeader />
 
-			<div className="mt-14 flex-1">
-				<ResizableGroup orientation="horizontal" onLayoutChange={onLayoutChange}>
-					<ResizablePanel
-						collapsible
-						id="left"
-						panelRef={leftSidebarRef}
-						maxSize={maxSidebarSize}
-						minSize={collapsedSidebarSize}
-						collapsedSize={collapsedSidebarSize}
-						defaultSize={leftSidebarSize}
-						className="h-[calc(100svh-3.5rem)]"
-					>
-						<BuilderSidebarLeft />
-					</ResizablePanel>
-					<ResizableSeparator withHandle />
-					<ResizablePanel id="artboard" defaultSize={artboardSize} className="h-[calc(100svh-3.5rem)]">
-						<Outlet />
-					</ResizablePanel>
-					<ResizableSeparator withHandle />
-					<ResizablePanel
-						collapsible
-						id="right"
-						panelRef={rightSidebarRef}
-						maxSize={maxSidebarSize}
-						minSize={collapsedSidebarSize}
-						collapsedSize={collapsedSidebarSize}
-						defaultSize={rightSidebarSize}
-						className="h-[calc(100svh-3.5rem)]"
-					>
-						<BuilderSidebarRight />
-					</ResizablePanel>
-				</ResizableGroup>
-			</div>
+			<ResizableGroup orientation="horizontal" onLayoutChange={onLayoutChange} className="mt-14 flex-1">
+				<ResizablePanel
+					collapsible
+					id="left"
+					panelRef={leftSidebarRef}
+					maxSize={maxSidebarSize}
+					minSize={collapsedSidebarSize * 2}
+					collapsedSize={collapsedSidebarSize}
+					defaultSize={leftSidebarSize}
+					className="z-20 h-[calc(100svh-3.5rem)]"
+				>
+					<BuilderSidebarLeft />
+				</ResizablePanel>
+				<ResizableSeparator withHandle />
+				<ResizablePanel id="artboard" defaultSize={artboardSize} className="h-[calc(100svh-3.5rem)]">
+					<Outlet />
+				</ResizablePanel>
+				<ResizableSeparator withHandle />
+				<ResizablePanel
+					collapsible
+					id="right"
+					panelRef={rightSidebarRef}
+					maxSize={maxSidebarSize}
+					minSize={collapsedSidebarSize * 2}
+					collapsedSize={collapsedSidebarSize}
+					defaultSize={rightSidebarSize}
+					className="z-20 h-[calc(100svh-3.5rem)]"
+				>
+					<BuilderSidebarRight />
+				</ResizablePanel>
+			</ResizableGroup>
 		</div>
 	);
 }

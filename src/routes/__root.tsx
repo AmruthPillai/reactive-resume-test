@@ -1,5 +1,3 @@
-import "@phosphor-icons/web/regular/style.css";
-
 import { i18n } from "@lingui/core";
 import { I18nProvider } from "@lingui/react";
 import { IconContext } from "@phosphor-icons/react";
@@ -29,7 +27,7 @@ type RouterContext = {
 
 const appName = "Reactive Resume";
 const tagline = "A free and open-source resume builder";
-const title = `${appName} | ${tagline}`;
+const title = `${appName} — ${tagline}`;
 const description =
 	"Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume.";
 

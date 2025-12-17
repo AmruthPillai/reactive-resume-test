@@ -1,7 +1,7 @@
 import { t } from "@lingui/core/macro";
 import { CountUp } from "@/components/animation/count-up";
 
-export const getStatistics = () => [
+const getStatistics = () => [
 	{
 		id: "users",
 		label: t`Users`,

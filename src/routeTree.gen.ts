@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from "./routes/__root";
 import { Route as SchemaDotjsonRouteImport } from "./routes/schema[.]json";
+import { Route as DocsRouteRouteImport } from "./routes/docs/route";
 import { Route as DashboardRouteRouteImport } from "./routes/dashboard/route";
 import { Route as AuthRouteRouteImport } from "./routes/auth/route";
 import { Route as HomeRouteRouteImport } from "./routes/_home/route";
@@ -17,6 +18,7 @@ import { Route as DashboardIndexRouteImport } from "./routes/dashboard/index";
 import { Route as AuthIndexRouteImport } from "./routes/auth/index";
 import { Route as HomeIndexRouteImport } from "./routes/_home/index";
 import { Route as PrinterResumeIdRouteImport } from "./routes/printer/$resumeId";
+import { Route as DocsSplatRouteImport } from "./routes/docs/$";
 import { Route as AuthVerify2faBackupRouteImport } from "./routes/auth/verify-2fa-backup";
 import { Route as AuthVerify2faRouteImport } from "./routes/auth/verify-2fa";
 import { Route as AuthResumePasswordRouteImport } from "./routes/auth/resume-password";
@@ -24,6 +26,7 @@ import { Route as AuthResetPasswordRouteImport } from "./routes/auth/reset-passw
 import { Route as AuthRegisterRouteImport } from "./routes/auth/register";
 import { Route as AuthLoginRouteImport } from "./routes/auth/login";
 import { Route as AuthForgotPasswordRouteImport } from "./routes/auth/forgot-password";
+import { Route as ApiSearchRouteImport } from "./routes/api/search";
 import { Route as ApiHealthRouteImport } from "./routes/api/health";
 import { Route as UsernameSlugRouteImport } from "./routes/$username/$slug";
 import { Route as BuilderResumeIdRouteRouteImport } from "./routes/builder/$resumeId/route";
@@ -43,6 +46,11 @@ import { Route as DashboardSettingsAuthenticationIndexRouteImport } from "./rout
 const SchemaDotjsonRoute = SchemaDotjsonRouteImport.update({
   id: "/schema.json",
   path: "/schema.json",
+  getParentRoute: () => rootRouteImport,
+} as any);
+const DocsRouteRoute = DocsRouteRouteImport.update({
+  id: "/docs",
+  path: "/docs",
   getParentRoute: () => rootRouteImport,
 } as any);
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
@@ -79,6 +87,11 @@ const PrinterResumeIdRoute = PrinterResumeIdRouteImport.update({
   path: "/printer/$resumeId",
   getParentRoute: () => rootRouteImport,
 } as any);
+const DocsSplatRoute = DocsSplatRouteImport.update({
+  id: "/$",
+  path: "/$",
+  getParentRoute: () => DocsRouteRoute,
+} as any);
 const AuthVerify2faBackupRoute = AuthVerify2faBackupRouteImport.update({
   id: "/verify-2fa-backup",
   path: "/verify-2fa-backup",
@@ -113,6 +126,11 @@ const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
   id: "/forgot-password",
   path: "/forgot-password",
   getParentRoute: () => AuthRouteRoute,
+} as any);
+const ApiSearchRoute = ApiSearchRouteImport.update({
+  id: "/api/search",
+  path: "/api/search",
+  getParentRoute: () => rootRouteImport,
 } as any);
 const ApiHealthRoute = ApiHealthRouteImport.update({
   id: "/api/health",
@@ -198,10 +216,12 @@ const DashboardSettingsAuthenticationIndexRoute =
 export interface FileRoutesByFullPath {
   "/auth": typeof AuthRouteRouteWithChildren;
   "/dashboard": typeof DashboardRouteRouteWithChildren;
+  "/docs": typeof DocsRouteRouteWithChildren;
   "/schema.json": typeof SchemaDotjsonRoute;
   "/builder/$resumeId": typeof BuilderResumeIdRouteRouteWithChildren;
   "/$username/$slug": typeof UsernameSlugRoute;
   "/api/health": typeof ApiHealthRoute;
+  "/api/search": typeof ApiSearchRoute;
   "/auth/forgot-password": typeof AuthForgotPasswordRoute;
   "/auth/login": typeof AuthLoginRoute;
   "/auth/register": typeof AuthRegisterRoute;
@@ -209,6 +229,7 @@ export interface FileRoutesByFullPath {
   "/auth/resume-password": typeof AuthResumePasswordRoute;
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
+  "/docs/$": typeof DocsSplatRoute;
   "/printer/$resumeId": typeof PrinterResumeIdRoute;
   "/": typeof HomeIndexRoute;
   "/auth/": typeof AuthIndexRoute;
@@ -227,9 +248,11 @@ export interface FileRoutesByFullPath {
   "/dashboard/settings/authentication": typeof DashboardSettingsAuthenticationIndexRoute;
 }
 export interface FileRoutesByTo {
+  "/docs": typeof DocsRouteRouteWithChildren;
   "/schema.json": typeof SchemaDotjsonRoute;
   "/$username/$slug": typeof UsernameSlugRoute;
   "/api/health": typeof ApiHealthRoute;
+  "/api/search": typeof ApiSearchRoute;
   "/auth/forgot-password": typeof AuthForgotPasswordRoute;
   "/auth/login": typeof AuthLoginRoute;
   "/auth/register": typeof AuthRegisterRoute;
@@ -237,6 +260,7 @@ export interface FileRoutesByTo {
   "/auth/resume-password": typeof AuthResumePasswordRoute;
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
+  "/docs/$": typeof DocsSplatRoute;
   "/printer/$resumeId": typeof PrinterResumeIdRoute;
   "/": typeof HomeIndexRoute;
   "/auth": typeof AuthIndexRoute;
@@ -259,10 +283,12 @@ export interface FileRoutesById {
   "/_home": typeof HomeRouteRouteWithChildren;
   "/auth": typeof AuthRouteRouteWithChildren;
   "/dashboard": typeof DashboardRouteRouteWithChildren;
+  "/docs": typeof DocsRouteRouteWithChildren;
   "/schema.json": typeof SchemaDotjsonRoute;
   "/builder/$resumeId": typeof BuilderResumeIdRouteRouteWithChildren;
   "/$username/$slug": typeof UsernameSlugRoute;
   "/api/health": typeof ApiHealthRoute;
+  "/api/search": typeof ApiSearchRoute;
   "/auth/forgot-password": typeof AuthForgotPasswordRoute;
   "/auth/login": typeof AuthLoginRoute;
   "/auth/register": typeof AuthRegisterRoute;
@@ -270,6 +296,7 @@ export interface FileRoutesById {
   "/auth/resume-password": typeof AuthResumePasswordRoute;
   "/auth/verify-2fa": typeof AuthVerify2faRoute;
   "/auth/verify-2fa-backup": typeof AuthVerify2faBackupRoute;
+  "/docs/$": typeof DocsSplatRoute;
   "/printer/$resumeId": typeof PrinterResumeIdRoute;
   "/_home/": typeof HomeIndexRoute;
   "/auth/": typeof AuthIndexRoute;
@@ -292,10 +319,12 @@ export interface FileRouteTypes {
   fullPaths:
     | "/auth"
     | "/dashboard"
+    | "/docs"
     | "/schema.json"
     | "/builder/$resumeId"
     | "/$username/$slug"
     | "/api/health"
+    | "/api/search"
     | "/auth/forgot-password"
     | "/auth/login"
     | "/auth/register"
@@ -303,6 +332,7 @@ export interface FileRouteTypes {
     | "/auth/resume-password"
     | "/auth/verify-2fa"
     | "/auth/verify-2fa-backup"
+    | "/docs/$"
     | "/printer/$resumeId"
     | "/"
     | "/auth/"
@@ -321,9 +351,11 @@ export interface FileRouteTypes {
     | "/dashboard/settings/authentication";
   fileRoutesByTo: FileRoutesByTo;
   to:
+    | "/docs"
     | "/schema.json"
     | "/$username/$slug"
     | "/api/health"
+    | "/api/search"
     | "/auth/forgot-password"
     | "/auth/login"
     | "/auth/register"
@@ -331,6 +363,7 @@ export interface FileRouteTypes {
     | "/auth/resume-password"
     | "/auth/verify-2fa"
     | "/auth/verify-2fa-backup"
+    | "/docs/$"
     | "/printer/$resumeId"
     | "/"
     | "/auth"
@@ -352,10 +385,12 @@ export interface FileRouteTypes {
     | "/_home"
     | "/auth"
     | "/dashboard"
+    | "/docs"
     | "/schema.json"
     | "/builder/$resumeId"
     | "/$username/$slug"
     | "/api/health"
+    | "/api/search"
     | "/auth/forgot-password"
     | "/auth/login"
     | "/auth/register"
@@ -363,6 +398,7 @@ export interface FileRouteTypes {
     | "/auth/resume-password"
     | "/auth/verify-2fa"
     | "/auth/verify-2fa-backup"
+    | "/docs/$"
     | "/printer/$resumeId"
     | "/_home/"
     | "/auth/"
@@ -385,10 +421,12 @@ export interface RootRouteChildren {
   HomeRouteRoute: typeof HomeRouteRouteWithChildren;
   AuthRouteRoute: typeof AuthRouteRouteWithChildren;
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren;
+  DocsRouteRoute: typeof DocsRouteRouteWithChildren;
   SchemaDotjsonRoute: typeof SchemaDotjsonRoute;
   BuilderResumeIdRouteRoute: typeof BuilderResumeIdRouteRouteWithChildren;
   UsernameSlugRoute: typeof UsernameSlugRoute;
   ApiHealthRoute: typeof ApiHealthRoute;
+  ApiSearchRoute: typeof ApiSearchRoute;
   PrinterResumeIdRoute: typeof PrinterResumeIdRoute;
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute;
   ApiOasSplatRoute: typeof ApiOasSplatRoute;
@@ -403,6 +441,13 @@ declare module "@tanstack/react-router" {
       path: "/schema.json";
       fullPath: "/schema.json";
       preLoaderRoute: typeof SchemaDotjsonRouteImport;
+      parentRoute: typeof rootRouteImport;
+    };
+    "/docs": {
+      id: "/docs";
+      path: "/docs";
+      fullPath: "/docs";
+      preLoaderRoute: typeof DocsRouteRouteImport;
       parentRoute: typeof rootRouteImport;
     };
     "/dashboard": {
@@ -454,6 +499,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof PrinterResumeIdRouteImport;
       parentRoute: typeof rootRouteImport;
     };
+    "/docs/$": {
+      id: "/docs/$";
+      path: "/$";
+      fullPath: "/docs/$";
+      preLoaderRoute: typeof DocsSplatRouteImport;
+      parentRoute: typeof DocsRouteRoute;
+    };
     "/auth/verify-2fa-backup": {
       id: "/auth/verify-2fa-backup";
       path: "/verify-2fa-backup";
@@ -502,6 +554,13 @@ declare module "@tanstack/react-router" {
       fullPath: "/auth/forgot-password";
       preLoaderRoute: typeof AuthForgotPasswordRouteImport;
       parentRoute: typeof AuthRouteRoute;
+    };
+    "/api/search": {
+      id: "/api/search";
+      path: "/api/search";
+      fullPath: "/api/search";
+      preLoaderRoute: typeof ApiSearchRouteImport;
+      parentRoute: typeof rootRouteImport;
     };
     "/api/health": {
       id: "/api/health";
@@ -676,6 +735,18 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
   DashboardRouteRouteChildren,
 );
 
+interface DocsRouteRouteChildren {
+  DocsSplatRoute: typeof DocsSplatRoute;
+}
+
+const DocsRouteRouteChildren: DocsRouteRouteChildren = {
+  DocsSplatRoute: DocsSplatRoute,
+};
+
+const DocsRouteRouteWithChildren = DocsRouteRoute._addFileChildren(
+  DocsRouteRouteChildren,
+);
+
 interface BuilderResumeIdRouteRouteChildren {
   BuilderResumeIdIndexRoute: typeof BuilderResumeIdIndexRoute;
 }
@@ -691,10 +762,12 @@ const rootRouteChildren: RootRouteChildren = {
   HomeRouteRoute: HomeRouteRouteWithChildren,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
+  DocsRouteRoute: DocsRouteRouteWithChildren,
   SchemaDotjsonRoute: SchemaDotjsonRoute,
   BuilderResumeIdRouteRoute: BuilderResumeIdRouteRouteWithChildren,
   UsernameSlugRoute: UsernameSlugRoute,
   ApiHealthRoute: ApiHealthRoute,
+  ApiSearchRoute: ApiSearchRoute,
   PrinterResumeIdRoute: PrinterResumeIdRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiOasSplatRoute: ApiOasSplatRoute,

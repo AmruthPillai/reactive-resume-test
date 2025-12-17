@@ -1,217 +1,243 @@
-import { boolean, index, integer, jsonb, pgTable, text, timestamp, unique } from "drizzle-orm/pg-core";
+import * as pg from "drizzle-orm/pg-core";
 import { defaultResumeData, type ResumeData } from "@/schema/resume/data";
 import { generateId } from "@/utils/string";
 
-export const user = pgTable("user", {
-	id: text("id")
+export const user = pg.pgTable("user", {
+	id: pg
+		.text("id")
 		.notNull()
 		.primaryKey()
 		.$defaultFn(() => generateId()),
-	image: text("image"),
-	name: text("name").notNull(),
-	email: text("email").notNull().unique(),
-	emailVerified: boolean("email_verified").notNull().default(false),
-	username: text("username").notNull().unique(),
-	displayUsername: text("display_username").notNull().unique(),
-	twoFactorEnabled: boolean("two_factor_enabled").notNull().default(false),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	updatedAt: timestamp("updated_at")
+	image: pg.text("image"),
+	name: pg.text("name").notNull(),
+	email: pg.text("email").notNull().unique(),
+	emailVerified: pg.boolean("email_verified").notNull().default(false),
+	username: pg.text("username").notNull().unique(),
+	displayUsername: pg.text("display_username").notNull().unique(),
+	twoFactorEnabled: pg.boolean("two_factor_enabled").notNull().default(false),
+	createdAt: pg.timestamp("created_at").notNull().defaultNow(),
+	updatedAt: pg
+		.timestamp("updated_at")
 		.notNull()
 		.defaultNow()
 		.$onUpdate(() => /* @__PURE__ */ new Date()),
 });
 
-export const session = pgTable(
+export const session = pg.pgTable(
 	"session",
 	{
-		id: text("id")
+		id: pg
+			.text("id")
 			.notNull()
 			.primaryKey()
 			.$defaultFn(() => generateId()),
-		token: text("token").notNull().unique(),
-		ipAddress: text("ip_address"),
-		userAgent: text("user_agent"),
-		userId: text("user_id")
+		token: pg.text("token").notNull().unique(),
+		ipAddress: pg.text("ip_address"),
+		userAgent: pg.text("user_agent"),
+		userId: pg
+			.text("user_id")
 			.notNull()
 			.references(() => user.id, { onDelete: "cascade" }),
-		expiresAt: timestamp("expires_at").notNull(),
-		createdAt: timestamp("created_at").notNull().defaultNow(),
-		updatedAt: timestamp("updated_at")
+		expiresAt: pg.timestamp("expires_at").notNull(),
+		createdAt: pg.timestamp("created_at").notNull().defaultNow(),
+		updatedAt: pg
+			.timestamp("updated_at")
 			.notNull()
 			.defaultNow()
 			.$onUpdate(() => /* @__PURE__ */ new Date()),
 	},
-	(t) => [index().on(t.token, t.userId)],
+	(t) => [pg.index().on(t.token, t.userId)],
 );
 
-export const account = pgTable(
+export const account = pg.pgTable(
 	"account",
 	{
-		id: text("id")
+		id: pg
+			.text("id")
 			.notNull()
 			.primaryKey()
 			.$defaultFn(() => generateId()),
-		accountId: text("account_id").notNull(),
-		providerId: text("provider_id").notNull().default("credential"),
-		userId: text("user_id")
+		accountId: pg.text("account_id").notNull(),
+		providerId: pg.text("provider_id").notNull().default("credential"),
+		userId: pg
+			.text("user_id")
 			.notNull()
 			.references(() => user.id, { onDelete: "cascade" }),
-		scope: text("scope"),
-		idToken: text("id_token"),
-		password: text("password"),
-		accessToken: text("access_token"),
-		refreshToken: text("refresh_token"),
-		accessTokenExpiresAt: timestamp("access_token_expires_at"),
-		refreshTokenExpiresAt: timestamp("refresh_token_expires_at"),
-		createdAt: timestamp("created_at").notNull().defaultNow(),
-		updatedAt: timestamp("updated_at")
+		scope: pg.text("scope"),
+		idToken: pg.text("id_token"),
+		password: pg.text("password"),
+		accessToken: pg.text("access_token"),
+		refreshToken: pg.text("refresh_token"),
+		accessTokenExpiresAt: pg.timestamp("access_token_expires_at"),
+		refreshTokenExpiresAt: pg.timestamp("refresh_token_expires_at"),
+		createdAt: pg.timestamp("created_at").notNull().defaultNow(),
+		updatedAt: pg
+			.timestamp("updated_at")
 			.notNull()
 			.defaultNow()
 			.$onUpdate(() => /* @__PURE__ */ new Date()),
 	},
-	(t) => [index().on(t.userId)],
+	(t) => [pg.index().on(t.userId)],
 );
 
-export const verification = pgTable("verification", {
-	id: text("id")
+export const verification = pg.pgTable("verification", {
+	id: pg
+		.text("id")
 		.notNull()
 		.primaryKey()
 		.$defaultFn(() => generateId()),
-	identifier: text("identifier").notNull().unique(),
-	value: text("value").notNull(),
-	expiresAt: timestamp("expires_at").notNull(),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	updatedAt: timestamp("updated_at")
+	identifier: pg.text("identifier").notNull().unique(),
+	value: pg.text("value").notNull(),
+	expiresAt: pg.timestamp("expires_at").notNull(),
+	createdAt: pg.timestamp("created_at").notNull().defaultNow(),
+	updatedAt: pg
+		.timestamp("updated_at")
 		.notNull()
 		.defaultNow()
 		.$onUpdate(() => /* @__PURE__ */ new Date()),
 });
 
-export const twoFactor = pgTable(
+export const twoFactor = pg.pgTable(
 	"two_factor",
 	{
-		id: text("id")
+		id: pg
+			.text("id")
 			.notNull()
 			.primaryKey()
 			.$defaultFn(() => generateId()),
-		userId: text("user_id")
+		userId: pg
+			.text("user_id")
 			.notNull()
 			.references(() => user.id, { onDelete: "cascade" }),
-		secret: text("secret"),
-		backupCodes: text("backup_codes"),
-		createdAt: timestamp("created_at").notNull().defaultNow(),
-		updatedAt: timestamp("updated_at")
+		secret: pg.text("secret"),
+		backupCodes: pg.text("backup_codes"),
+		createdAt: pg.timestamp("created_at").notNull().defaultNow(),
+		updatedAt: pg
+			.timestamp("updated_at")
 			.notNull()
 			.defaultNow()
 			.$onUpdate(() => /* @__PURE__ */ new Date()),
 	},
-	(t) => [index().on(t.userId)],
+	(t) => [pg.index().on(t.userId)],
 );
 
-export const passkey = pgTable(
+export const passkey = pg.pgTable(
 	"passkey",
 	{
-		id: text("id")
+		id: pg
+			.text("id")
 			.notNull()
 			.primaryKey()
 			.$defaultFn(() => generateId()),
-		name: text("name"),
-		aaguid: text("aaguid"),
-		publicKey: text("public_key").notNull(),
-		credentialID: text("credential_id").notNull(),
-		counter: integer("counter").notNull(),
-		deviceType: text("device_type").notNull(),
-		backedUp: boolean("backed_up").notNull().default(false),
-		transports: text("transports").notNull(),
-		userId: text("user_id")
+		name: pg.text("name"),
+		aaguid: pg.text("aaguid"),
+		publicKey: pg.text("public_key").notNull(),
+		credentialID: pg.text("credential_id").notNull(),
+		counter: pg.integer("counter").notNull(),
+		deviceType: pg.text("device_type").notNull(),
+		backedUp: pg.boolean("backed_up").notNull().default(false),
+		transports: pg.text("transports").notNull(),
+		userId: pg
+			.text("user_id")
 			.notNull()
 			.references(() => user.id, { onDelete: "cascade" }),
-		createdAt: timestamp("created_at").notNull().defaultNow(),
-		updatedAt: timestamp("updated_at")
+		createdAt: pg.timestamp("created_at").notNull().defaultNow(),
+		updatedAt: pg
+			.timestamp("updated_at")
 			.notNull()
 			.defaultNow()
 			.$onUpdate(() => /* @__PURE__ */ new Date()),
 	},
-	(t) => [index().on(t.userId)],
+	(t) => [pg.index().on(t.userId)],
 );
 
-export const resume = pgTable(
+export const resume = pg.pgTable(
 	"resume",
 	{
-		id: text("id")
+		id: pg
+			.text("id")
 			.notNull()
 			.primaryKey()
 			.$defaultFn(() => generateId()),
-		name: text("name").notNull(),
-		slug: text("slug").notNull(),
-		tags: text("tags").array().notNull().default([]),
-		isPublic: boolean("is_public").notNull().default(false),
-		isLocked: boolean("is_locked").notNull().default(false),
-		password: text("password"),
-		data: jsonb("data")
+		name: pg.text("name").notNull(),
+		slug: pg.text("slug").notNull(),
+		tags: pg.text("tags").array().notNull().default([]),
+		isPublic: pg.boolean("is_public").notNull().default(false),
+		isLocked: pg.boolean("is_locked").notNull().default(false),
+		password: pg.text("password"),
+		data: pg
+			.jsonb("data")
 			.notNull()
 			.$type<ResumeData>()
 			.$defaultFn(() => defaultResumeData),
-		userId: text("user_id")
+		userId: pg
+			.text("user_id")
 			.notNull()
 			.references(() => user.id, { onDelete: "cascade" }),
-		createdAt: timestamp("created_at").notNull().defaultNow(),
-		updatedAt: timestamp("updated_at")
+		createdAt: pg.timestamp("created_at").notNull().defaultNow(),
+		updatedAt: pg
+			.timestamp("updated_at")
 			.notNull()
 			.defaultNow()
 			.$onUpdate(() => /* @__PURE__ */ new Date()),
 	},
-	(t) => [unique().on(t.slug, t.userId), index().on(t.isPublic, t.slug, t.userId)],
+	(t) => [pg.unique().on(t.slug, t.userId), pg.index().on(t.isPublic, t.slug, t.userId)],
 );
 
-export const resumeStatistics = pgTable("resume_statistics", {
-	id: text("id")
+export const resumeStatistics = pg.pgTable("resume_statistics", {
+	id: pg
+		.text("id")
 		.notNull()
 		.primaryKey()
 		.$defaultFn(() => generateId()),
-	views: integer("views").notNull().default(0),
-	downloads: integer("downloads").notNull().default(0),
-	lastViewedAt: timestamp("last_viewed_at"),
-	lastDownloadedAt: timestamp("last_downloaded_at"),
-	resumeId: text("resume_id")
+	views: pg.integer("views").notNull().default(0),
+	downloads: pg.integer("downloads").notNull().default(0),
+	lastViewedAt: pg.timestamp("last_viewed_at"),
+	lastDownloadedAt: pg.timestamp("last_downloaded_at"),
+	resumeId: pg
+		.text("resume_id")
 		.unique()
 		.notNull()
 		.references(() => resume.id, { onDelete: "cascade" }),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	updatedAt: timestamp("updated_at")
+	createdAt: pg.timestamp("created_at").notNull().defaultNow(),
+	updatedAt: pg
+		.timestamp("updated_at")
 		.notNull()
 		.defaultNow()
 		.$onUpdate(() => /* @__PURE__ */ new Date()),
 });
 
-export const apikey = pgTable("apikey", {
-	id: text("id")
+export const apikey = pg.pgTable("apikey", {
+	id: pg
+		.text("id")
 		.notNull()
 		.primaryKey()
 		.$defaultFn(() => generateId()),
-	name: text("name"),
-	start: text("start"),
-	prefix: text("prefix"),
-	key: text("key").notNull(),
-	userId: text("user_id")
+	name: pg.text("name"),
+	start: pg.text("start"),
+	prefix: pg.text("prefix"),
+	key: pg.text("key").notNull(),
+	userId: pg
+		.text("user_id")
 		.notNull()
 		.references(() => user.id, { onDelete: "cascade" }),
-	refillInterval: integer("refill_interval"),
-	refillAmount: integer("refill_amount"),
-	lastRefillAt: timestamp("last_refill_at"),
-	enabled: boolean("enabled").notNull().default(true),
-	rateLimitEnabled: boolean("rate_limit_enabled").notNull().default(false),
-	rateLimitTimeWindow: integer("rate_limit_time_window"),
-	rateLimitMax: integer("rate_limit_max"),
-	requestCount: integer("request_count").notNull().default(0),
-	remaining: integer("remaining"),
-	lastRequest: timestamp("last_request"),
-	expiresAt: timestamp("expires_at"),
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-	updatedAt: timestamp("updated_at")
+	refillInterval: pg.integer("refill_interval"),
+	refillAmount: pg.integer("refill_amount"),
+	lastRefillAt: pg.timestamp("last_refill_at"),
+	enabled: pg.boolean("enabled").notNull().default(true),
+	rateLimitEnabled: pg.boolean("rate_limit_enabled").notNull().default(false),
+	rateLimitTimeWindow: pg.integer("rate_limit_time_window"),
+	rateLimitMax: pg.integer("rate_limit_max"),
+	requestCount: pg.integer("request_count").notNull().default(0),
+	remaining: pg.integer("remaining"),
+	lastRequest: pg.timestamp("last_request"),
+	expiresAt: pg.timestamp("expires_at"),
+	createdAt: pg.timestamp("created_at").notNull().defaultNow(),
+	updatedAt: pg
+		.timestamp("updated_at")
 		.notNull()
 		.defaultNow()
 		.$onUpdate(() => /* @__PURE__ */ new Date()),
-	permissions: text("permissions"),
-	metadata: jsonb("metadata"),
+	permissions: pg.text("permissions"),
+	metadata: pg.jsonb("metadata"),
 });

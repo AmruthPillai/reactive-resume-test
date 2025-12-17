@@ -33,7 +33,7 @@ type FeatureCardProps = Feature & {
 	index: number;
 };
 
-export const getFeatures = (): Feature[] => [
+const getFeatures = (): Feature[] => [
 	{
 		id: "free",
 		icon: CurrencyDollarIcon,

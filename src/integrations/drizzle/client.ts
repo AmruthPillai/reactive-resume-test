@@ -1,5 +1,6 @@
 import { createServerOnlyFn } from "@tanstack/react-start";
-import { type BunSQLDatabase, drizzle } from "drizzle-orm/bun-sql";
+import { drizzle } from "drizzle-orm/bun-sql";
+import type { BunSQLDatabase } from "drizzle-orm/bun-sql/postgres/driver";
 import { schema } from "@/integrations/drizzle";
 import { env } from "@/utils/env";
 

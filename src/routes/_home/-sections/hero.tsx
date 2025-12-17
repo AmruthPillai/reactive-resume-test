@@ -55,7 +55,7 @@ export function Hero() {
 					</Button>
 
 					<Button asChild size="lg" variant="link">
-						<Link to="/">
+						<Link to="/docs">
 							<BookIcon />
 							<Trans>Learn More</Trans>
 						</Link>

@@ -1,1 +1,0 @@
-ALTER TABLE "resume" ADD COLUMN "password" text;

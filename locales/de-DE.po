@@ -75,6 +75,7 @@ msgid "A confirmation link has been sent to your current email address. Please c
 msgstr "Ein Bestätigungslink wurde an Ihre aktuelle E-Mail-Adresse gesendet. Bitte prüfen Sie Ihren Posteingang, um die Änderung zu bestätigen."
 
 #: src/components/command-palette/pages/builder/index.tsx:27
+#: src/routes/builder/$resumeId/-components/dock.tsx:49
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:37
 msgid "A link to your resume has been copied to clipboard."
 msgstr "Ein Link zu Ihrem Lebenslauf wurde in die Zwischenablage kopiert."
@@ -393,6 +394,10 @@ msgstr "Abbrechen"
 msgid "Center Align"
 msgstr "Zentriert"
 
+#: src/routes/builder/$resumeId/-components/dock.tsx:72
+msgid "Center view"
+msgstr ""
+
 #: src/components/command-palette/pages/builder/add-section.tsx:51
 msgid "Certification"
 msgstr "Zertifizierung"
@@ -486,6 +491,10 @@ msgstr "Link zum Lebenslauf kopieren"
 
 #: src/dialogs/api-key/create.tsx:192
 msgid "Copy this secret key and use it in your applications to access your data."
+msgstr ""
+
+#: src/routes/builder/$resumeId/-components/dock.tsx:74
+msgid "Copy URL"
 msgstr ""
 
 #: src/dialogs/api-key/create.tsx:156
@@ -730,13 +739,17 @@ msgstr "An Reactive Resume spenden"
 msgid "Download"
 msgstr "Herunterladen"
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:50
+#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:45
 msgid "Download a copy of your resume in JSON format. Use this file for backup or to import your resume into other applications, including AI assistants."
 msgstr "Laden Sie eine Kopie Ihres Lebenslaufs im JSON-Format herunter. Nutzen Sie diese Datei für Backups oder zum Importieren in andere Anwendungen, einschließlich KI-Assistenten."
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:73
+#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:68
 msgid "Download a copy of your resume in PDF format. Use this file for printing or to easily share your resume with recruiters."
 msgstr "Laden Sie eine Kopie Ihres Lebenslaufs im PDF-Format herunter. Nutzen Sie diese Datei zum Drucken oder zum einfachen Teilen mit Personalvermittlern."
+
+#: src/routes/builder/$resumeId/-components/dock.tsx:76
+msgid "Download PDF"
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:48
 msgid "Downloads"
@@ -1495,6 +1508,10 @@ msgstr "Passwort zurücksetzen"
 msgid "Reset your password"
 msgstr "Setzen Sie Ihr Passwort zurück"
 
+#: src/routes/builder/$resumeId/-components/dock.tsx:71
+msgid "Reset zoom"
+msgstr ""
+
 #: src/routes/auth/reset-password.tsx:51
 msgid "Resetting your password..."
 msgstr "Ihr Passwort wird zurückgesetzt..."
@@ -2177,6 +2194,14 @@ msgstr "Ihr Lebenslauf wurde erfolgreich aktualisiert."
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:137
 msgid "Your resume's public link is currently protected by a password. Share the password only with people you trust."
 msgstr "Der öffentliche Link Ihres Lebenslaufs ist derzeit mit einem Passwort geschützt. Teilen Sie das Passwort nur mit Personen, denen Sie vertrauen."
+
+#: src/routes/builder/$resumeId/-components/dock.tsx:69
+msgid "Zoom in"
+msgstr ""
+
+#: src/routes/builder/$resumeId/-components/dock.tsx:70
+msgid "Zoom out"
+msgstr ""
 
 #: src/utils/locale.ts:18
 msgid "Zulu"
