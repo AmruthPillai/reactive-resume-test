@@ -72,15 +72,12 @@ function TestimonialCard({ testimonial, index }: TestimonialCardProps) {
 		<motion.div
 			ref={ref}
 			className="group relative"
-			variants={variants}
 			initial="hidden"
+			variants={variants}
 			whileInView="visible"
+			style={{ x: xSpring, y: ySpring }}
 			viewport={{ once: true, margin: "-50px" }}
 			transition={{ duration: 0.5, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-			style={{
-				x: xSpring,
-				y: ySpring,
-			}}
 			onMouseMove={handleMouseMove}
 			onMouseLeave={handleMouseLeave}
 		>
@@ -110,6 +107,8 @@ function TestimonialCard({ testimonial, index }: TestimonialCardProps) {
 				>
 					<QuotesIcon />
 				</motion.div>
+
+				<div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-12 rounded-b-lg bg-linear-to-b from-transparent to-background" />
 			</motion.div>
 		</motion.div>
 	);
@@ -117,7 +116,7 @@ function TestimonialCard({ testimonial, index }: TestimonialCardProps) {
 
 export function Testimonials() {
 	return (
-		<section id="testimonials" className="flex flex-col gap-y-8 p-4 md:p-8">
+		<section id="testimonials" className="flex flex-col gap-y-8 p-4 md:p-8 xl:py-16">
 			<div className="space-y-4">
 				<h2 className="font-semibold text-2xl tracking-tight md:text-4xl xl:text-5xl">
 					<Trans>Testimonials</Trans>
@@ -131,7 +130,7 @@ export function Testimonials() {
 				</p>
 			</div>
 
-			<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+			<div className="grid grid-cols-2 gap-4 lg:grid-cols-3 xl:gap-8">
 				{testimonials.map((testimonial, index) => (
 					<TestimonialCard key={index} testimonial={testimonial} index={index} />
 				))}

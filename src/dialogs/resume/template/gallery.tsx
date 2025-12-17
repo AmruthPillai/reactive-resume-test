@@ -43,7 +43,7 @@ export function TemplateGalleryDialog({ open, onOpenChange }: DialogProps<"resum
 					</DialogDescription>
 				</DialogHeader>
 
-				<ScrollArea ref={scrollAreaRef} className="max-h-[80svh]">
+				<ScrollArea ref={scrollAreaRef} className="max-h-[80svh] pb-8">
 					<div className="grid grid-cols-2 gap-6 p-4 md:grid-cols-3 lg:grid-cols-4">
 						{Object.entries(templates).map(([template, metadata]) => (
 							<TemplateCard
@@ -75,7 +75,7 @@ function TemplateCard({ id, metadata, isActive, collisionBoundary, onSelect }: T
 
 	return (
 		<HoverCard openDelay={0} closeDelay={0}>
-			<CometCard translateDepth={3} rotateDepth={6}>
+			<CometCard translateDepth={3} rotateDepth={6} glareOpacity={0}>
 				<HoverCardTrigger>
 					<button
 						tabIndex={-1}

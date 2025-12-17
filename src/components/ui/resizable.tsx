@@ -3,9 +3,9 @@ import { DotsSixVerticalIcon } from "@phosphor-icons/react";
 import * as ResizablePrimitive from "react-resizable-panels";
 import { cn } from "@/utils/style";
 
-function ResizablePanelGroup({ className, ...props }: React.ComponentProps<typeof ResizablePrimitive.PanelGroup>) {
+function ResizableGroup({ className, ...props }: React.ComponentProps<typeof ResizablePrimitive.Group>) {
 	return (
-		<ResizablePrimitive.PanelGroup
+		<ResizablePrimitive.Group
 			data-slot="resizable-panel-group"
 			className={cn("flex h-full w-full data-[panel-group-direction=vertical]:flex-col", className)}
 			{...props}
@@ -17,18 +17,18 @@ function ResizablePanel({ className, ...props }: React.ComponentProps<typeof Res
 	return <ResizablePrimitive.Panel data-slot="resizable-panel" className={cn("relative", className)} {...props} />;
 }
 
-function ResizableHandle({
+function ResizableSeparator({
 	withHandle,
 	className,
 	...props
-}: React.ComponentProps<typeof ResizablePrimitive.PanelResizeHandle> & {
+}: React.ComponentProps<typeof ResizablePrimitive.Separator> & {
 	withHandle?: boolean;
 }) {
 	return (
-		<ResizablePrimitive.PanelResizeHandle
+		<ResizablePrimitive.Separator
 			data-slot="resizable-handle"
 			className={cn(
-				"after:-translate-x-1/2 data-[panel-group-direction=vertical]:after:-translate-y-1/2 relative flex w-px items-center justify-center bg-border after:absolute after:inset-y-0 after:left-1/2 after:w-1 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 data-[panel-group-direction=vertical]:h-px data-[panel-group-direction=vertical]:w-full data-[panel-group-direction=vertical]:after:left-0 data-[panel-group-direction=vertical]:after:h-1 data-[panel-group-direction=vertical]:after:w-full data-[panel-group-direction=vertical]:after:translate-x-0 [&[data-panel-group-direction=vertical]>div]:rotate-90",
+				"relative flex w-px items-center justify-center bg-border after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 data-[panel-group-direction=vertical]:h-px data-[panel-group-direction=vertical]:w-full data-[panel-group-direction=vertical]:after:left-0 data-[panel-group-direction=vertical]:after:h-1 data-[panel-group-direction=vertical]:after:w-full data-[panel-group-direction=vertical]:after:translate-x-0 data-[panel-group-direction=vertical]:after:-translate-y-1/2 [&[data-panel-group-direction=vertical]>div]:rotate-90",
 				"bg-transparent transition-colors hover:bg-sky-700",
 				className,
 			)}
@@ -39,8 +39,8 @@ function ResizableHandle({
 					<DotsSixVerticalIcon className="size-2.5" />
 				</div>
 			)}
-		</ResizablePrimitive.PanelResizeHandle>
+		</ResizablePrimitive.Separator>
 	);
 }
 
-export { ResizablePanelGroup, ResizablePanel, ResizableHandle };
+export { ResizableGroup, ResizablePanel, ResizableSeparator };

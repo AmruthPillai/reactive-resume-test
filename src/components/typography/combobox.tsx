@@ -3,11 +3,25 @@ import { cn } from "@/utils/style";
 import { Combobox, type ComboboxProps } from "../ui/combobox";
 import { MultipleCombobox, type MultipleComboboxProps } from "../ui/multiple-combobox";
 import { FontDisplay } from "./font-display";
-import type { WebFont } from "./types";
+import type { LocalFont, WebFont } from "./types";
 import webFontListJSON from "./webfontlist.json";
 
 type Weight = "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
 
+const localFontList = [
+	{ category: "sans-serif", family: "Arial", weights: ["400", "600", "700"] },
+	{ category: "sans-serif", family: "Calibri", weights: ["400", "600", "700"] },
+	{ category: "sans-serif", family: "Helvetica", weights: ["400", "600", "700"] },
+	{ category: "sans-serif", family: "Tahoma", weights: ["400", "600", "700"] },
+	{ category: "sans-serif", family: "Trebuchet MS", weights: ["400", "600", "700"] },
+	{ category: "sans-serif", family: "Verdana", weights: ["400", "600", "700"] },
+	{ category: "serif", family: "Bookman", weights: ["400", "600", "700"] },
+	{ category: "serif", family: "Cambria", weights: ["400", "600", "700"] },
+	{ category: "serif", family: "Garamond", weights: ["400", "600", "700"] },
+	{ category: "serif", family: "Georgia", weights: ["400", "600", "700"] },
+	{ category: "serif", family: "Palatino", weights: ["400", "600", "700"] },
+	{ category: "serif", family: "Times New Roman", weights: ["400", "600", "700"] },
+] as LocalFont[];
 const webFontList = webFontListJSON as WebFont[];
 
 function buildWebFontMap() {
@@ -33,10 +47,10 @@ type FontFamilyComboboxProps = Omit<ComboboxProps, "options">;
 
 export function FontFamilyCombobox({ className, ...props }: FontFamilyComboboxProps) {
 	const options = useMemo(() => {
-		return webFontList.map((font) => ({
+		return [...localFontList, ...webFontList].map((font: LocalFont | WebFont) => ({
 			value: font.family,
 			keywords: [font.family],
-			label: <FontDisplay name={font.family} url={font.preview} />,
+			label: <FontDisplay name={font.family} url={"preview" in font ? font.preview : undefined} />,
 		}));
 	}, []);
 

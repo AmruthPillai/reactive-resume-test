@@ -15,7 +15,10 @@ export function BaseCard({ title, description, tags, className, children, ...pro
 		<CometCard translateDepth={3} rotateDepth={6}>
 			<div
 				{...props}
-				className={cn("relative flex aspect-page size-full overflow-hidden rounded-md bg-popover shadow", className)}
+				className={cn(
+					"relative flex aspect-page size-full overflow-hidden rounded-md bg-popover shadow transition-shadow hover:shadow-xl",
+					className,
+				)}
 			>
 				{children}
 

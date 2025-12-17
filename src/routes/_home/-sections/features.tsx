@@ -20,6 +20,7 @@ import {
 	TranslateIcon,
 } from "@phosphor-icons/react";
 import { motion } from "motion/react";
+import { cn } from "@/utils/style";
 
 type Feature = {
 	id: string;
@@ -133,7 +134,12 @@ export const getFeatures = (): Feature[] => [
 
 function FeatureCard({ icon: Icon, title, description, index }: FeatureCardProps) {
 	return (
-		<div className="flex min-h-48 flex-col gap-4 border-r border-b bg-background p-6 transition-colors hover:bg-secondary/20">
+		<div
+			className={cn(
+				"flex min-h-48 flex-col gap-4 border-b bg-background p-6 transition-colors hover:bg-secondary/20",
+				"not-nth-[2n]:border-r xl:not-nth-[4n]:border-r",
+			)}
+		>
 			<motion.div
 				initial={{ opacity: 0, y: 10 }}
 				whileInView={{ opacity: 1, y: 0 }}
@@ -161,8 +167,8 @@ export function Features() {
 	return (
 		<section id="features">
 			{/* Header */}
-			<div className="space-y-2 p-4 md:p-8">
-				<h2 className="font-semibold text-2xl tracking-tight md:text-4xl">
+			<div className="space-y-4 p-4 md:p-8 xl:py-16">
+				<h2 className="font-semibold text-2xl tracking-tight md:text-4xl xl:text-5xl">
 					<Trans>Features</Trans>
 				</h2>
 

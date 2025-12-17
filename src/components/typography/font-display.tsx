@@ -4,7 +4,7 @@ import { cn } from "@/utils/style";
 
 interface FontDisplayProps {
 	name: string;
-	url: string;
+	url?: string;
 }
 
 const loadedFonts = new Set<string>();
@@ -17,7 +17,7 @@ export function FontDisplay({ name, url }: FontDisplayProps) {
 	const isInView = useInView(containerRef, { once: true, amount: 0.1, margin: "50px" });
 
 	useEffect(() => {
-		if (!isInView || isLoaded) return;
+		if (!isInView || isLoaded || !url) return;
 
 		const fontFace = new FontFace(previewName, `url(${url})`, { display: "swap" });
 

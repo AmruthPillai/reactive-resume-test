@@ -1,17 +1,19 @@
 import { useCallback, useMemo } from "react";
-import type { ImperativePanelHandle } from "react-resizable-panels";
+import type { usePanelRef } from "react-resizable-panels";
 import { useWindowSize } from "usehooks-ts";
 import { create } from "zustand/react";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+export type PanelImperativeHandle = ReturnType<typeof usePanelRef>;
+
 interface BuilderSidebarState {
-	leftSidebar: ImperativePanelHandle | null;
-	rightSidebar: ImperativePanelHandle | null;
+	leftSidebar: PanelImperativeHandle | null;
+	rightSidebar: PanelImperativeHandle | null;
 }
 
 interface BuilderSidebarActions {
-	setLeftSidebar: (ref: ImperativePanelHandle | null) => void;
-	setRightSidebar: (ref: ImperativePanelHandle | null) => void;
+	setLeftSidebar: (ref: PanelImperativeHandle | null) => void;
+	setRightSidebar: (ref: PanelImperativeHandle | null) => void;
 }
 
 type BuilderSidebar = BuilderSidebarState & BuilderSidebarActions;
@@ -25,7 +27,7 @@ export const useBuilderSidebarStore = create<BuilderSidebar>((set) => ({
 }));
 
 type UseBuilderSidebarReturn = {
-	maxSidebarSize: number;
+	maxSidebarSize: string | number;
 	collapsedSidebarSize: number;
 	isCollapsed: (side: "left" | "right") => boolean;
 	toggleSidebar: (side: "left" | "right", forceState?: boolean) => void;
@@ -35,21 +37,24 @@ export function useBuilderSidebar<T = UseBuilderSidebarReturn>(selector?: (build
 	const isMobile = useIsMobile();
 	const { width } = useWindowSize();
 
-	const maxSidebarSize = useMemo(() => {
-		if (!width) return 100;
-		return Math.round((800 / width) * 100);
-	}, [width]);
-
-	const collapsedSidebarSize = useMemo(() => {
+	const maxSidebarSize = useMemo((): string | number => {
 		if (!width) return 0;
-		return isMobile ? 0 : (48 / width) * 100;
+		return isMobile ? "95%" : "45%";
 	}, [width, isMobile]);
 
-	const expandSize = useMemo(() => (isMobile ? 95 : 30), [isMobile]);
+	const collapsedSidebarSize = useMemo((): number => {
+		if (!width) return 0;
+		return isMobile ? 0 : 48;
+	}, [width, isMobile]);
+
+	const expandSize = useMemo(() => (isMobile ? "95%" : "30%"), [isMobile]);
 
 	const isCollapsed = useCallback((side: "left" | "right") => {
 		const sidebar =
-			side === "left" ? useBuilderSidebarStore.getState().leftSidebar : useBuilderSidebarStore.getState().rightSidebar;
+			side === "left"
+				? useBuilderSidebarStore.getState().leftSidebar?.current
+				: useBuilderSidebarStore.getState().rightSidebar?.current;
+
 		if (!sidebar) return false;
 		return sidebar.isCollapsed();
 	}, []);
@@ -58,13 +63,14 @@ export function useBuilderSidebar<T = UseBuilderSidebarReturn>(selector?: (build
 		(side: "left" | "right", forceState?: boolean) => {
 			const sidebar =
 				side === "left"
-					? useBuilderSidebarStore.getState().leftSidebar
-					: useBuilderSidebarStore.getState().rightSidebar;
+					? useBuilderSidebarStore.getState().leftSidebar?.current
+					: useBuilderSidebarStore.getState().rightSidebar?.current;
 
 			if (!sidebar) return;
 
 			const shouldExpand = forceState === undefined ? sidebar.isCollapsed() : forceState;
-			if (shouldExpand) sidebar.expand(expandSize);
+
+			if (shouldExpand) sidebar.resize(expandSize);
 			else sidebar.collapse();
 		},
 		[expandSize],
