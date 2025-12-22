@@ -1,12 +1,12 @@
 import { create } from "zustand/react";
 
-interface CommandPaletteState {
+type CommandPaletteState = {
 	open: boolean;
 	search: string;
 	pages: string[];
-}
+};
 
-interface CommandPaletteActions {
+type CommandPaletteActions = {
 	setOpen: (open: boolean) => void;
 	setSearch: (search: string) => void;
 	pushPage: (page: string) => void;
@@ -14,7 +14,7 @@ interface CommandPaletteActions {
 	popPage: () => void;
 	reset: () => void;
 	goBack: () => void;
-}
+};
 
 type CommandPaletteStore = CommandPaletteState & CommandPaletteActions;
 

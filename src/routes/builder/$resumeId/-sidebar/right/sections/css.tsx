@@ -224,7 +224,7 @@ function CSSSectionForm() {
 
 	return (
 		<Form {...form}>
-			<form onChange={form.handleSubmit(onSubmit)} className="-mb-2 mt-2 space-y-4">
+			<form onChange={form.handleSubmit(onSubmit)} className="mt-2 -mb-2 space-y-4">
 				<FormField
 					control={form.control}
 					name="enabled"

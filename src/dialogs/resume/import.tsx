@@ -21,6 +21,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
 import { JSONResumeImporter } from "@/integrations/import/json-resume";
+import { PDFParser } from "@/integrations/import/pdf-parser";
 import { ReactiveResumeJSONImporter } from "@/integrations/import/reactive-resume-json";
 import { orpc } from "@/integrations/orpc/client";
 import type { ResumeData } from "@/schema/resume/data";
@@ -96,25 +97,30 @@ export function ImportResumeDialog({ open, onOpenChange }: DialogProps<"resume.i
 	const onSubmit = async (values: FormValues) => {
 		if (values.type === "") return;
 
-		let data: ResumeData | undefined;
-
 		const toastId = toast.loading(t`Importing your resume...`);
 
-		if (values.type === "json-resume-json") {
-			const json = await values.file.text();
-			const importer = new JSONResumeImporter();
-			data = importer.parse(json);
-		}
-
-		if (values.type === "reactive-resume-json") {
-			const json = await values.file.text();
-			const importer = new ReactiveResumeJSONImporter();
-			data = importer.parse(json);
-		}
-
-		if (!data) return;
-
 		try {
+			let data: ResumeData | undefined;
+
+			if (values.type === "json-resume-json") {
+				const json = await values.file.text();
+				const importer = new JSONResumeImporter();
+				data = importer.parse(json);
+			}
+
+			if (values.type === "reactive-resume-json") {
+				const json = await values.file.text();
+				const importer = new ReactiveResumeJSONImporter();
+				data = importer.parse(json);
+			}
+
+			if (values.type === "pdf") {
+				const parser = new PDFParser();
+				data = await parser.parse(values.file);
+			}
+
+			if (!data) return;
+
 			await importResume({ data });
 			toast.success(t`Your resume has been imported successfully.`, { id: toastId });
 			closeDialog();

@@ -76,8 +76,8 @@ function useIconSearch() {
 }
 
 type IconPickerProps = Omit<React.ComponentProps<typeof Button>, "value" | "onChange"> & {
-	value: IconName;
-	onChange: (icon: IconName) => void;
+	value: string;
+	onChange: (icon: string) => void;
 	popoverProps?: React.ComponentProps<typeof Popover>;
 };
 

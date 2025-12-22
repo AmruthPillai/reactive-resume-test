@@ -154,20 +154,19 @@ function PictureSectionForm() {
 									<Trans>Size</Trans>
 								</FormLabel>
 								<InputGroup>
-									<FormControl>
-										<InputGroupInput
-											{...field}
-											type="number"
-											min={32}
-											max={512}
-											step={1}
-											onChange={(e) => {
-												const value = e.target.value;
-												if (value === "") field.onChange("");
-												else field.onChange(Number(value));
-											}}
-										/>
-									</FormControl>
+									<InputGroupInput
+										{...field}
+										type="number"
+										min={32}
+										max={512}
+										step={1}
+										onChange={(e) => {
+											const value = e.target.value;
+											if (value === "") field.onChange("");
+											else field.onChange(Number(value));
+										}}
+									/>
+
 									<InputGroupAddon align="inline-end">
 										<InputGroupText>pt</InputGroupText>
 									</InputGroupAddon>

@@ -1,85 +1,107 @@
+import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { CaretRightIcon } from "@phosphor-icons/react";
+import { motion } from "motion/react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/animate-ui/accordion";
 import { cn } from "@/utils/style";
 
-type FAQItem = {
+type FAQItemData = {
 	question: string;
 	answer: React.ReactNode;
 };
 
-const faqItems: FAQItem[] = [
+const getFaqItems = (): FAQItemData[] => [
 	{
-		question: "Nisi do quis adipisicing laboris ut nostrud?",
-		answer:
-			"Nisi ea voluptate ea consectetur nostrud exercitation duis nostrud ad ut officia dolore culpa. Nisi esse tempor ullamco magna nostrud culpa. Do cupidatat do aliquip do. Ex sit ut ullamco magna fugiat eiusmod sint voluptate sunt eu ut. Magna exercitation elit tempor. Lorem sint exercitation in fugiat anim adipisicing pariatur. Pariatur aliquip pariatur cupidatat deserunt et non cillum Lorem sit. Laborum officia tempor velit laborum officia Lorem eu dolor aute. Et cupidatat quis deserunt esse pariatur et. Id consectetur deserunt amet ad ipsum irure cupidatat amet Lorem pariatur aliquip velit nostrud. Lorem culpa eu velit id minim quis velit Lorem ex nisi officia reprehenderit quis incididunt.",
+		question: t`Is Reactive Resume really free?`,
+		answer: t`Yes! Reactive Resume is completely free to use, with no hidden costs, premium tiers, or subscription fees. It's open-source and will always remain free.`,
 	},
 	{
-		question: "Consectetur enim cupidatat fugiat non est dolore amet?",
-		answer:
-			"Nisi ea voluptate ea consectetur nostrud exercitation duis nostrud ad ut officia dolore culpa. Nisi esse tempor ullamco magna nostrud culpa. Do cupidatat do aliquip do. Ex sit ut ullamco magna fugiat eiusmod sint voluptate sunt eu ut. Magna exercitation elit tempor. Lorem sint exercitation in fugiat anim adipisicing pariatur. Pariatur aliquip pariatur cupidatat deserunt et non cillum Lorem sit. Laborum officia tempor velit laborum officia Lorem eu dolor aute. Et cupidatat quis deserunt esse pariatur et. Id consectetur deserunt amet ad ipsum irure cupidatat amet Lorem pariatur aliquip velit nostrud. Lorem culpa eu velit id minim quis velit Lorem ex nisi officia reprehenderit quis incididunt.",
+		question: t`How is my data protected?`,
+		answer: t`Your data is stored securely and is never shared with third parties. You can also self-host Reactive Resume on your own servers for complete control over your data.`,
 	},
 	{
-		question: "Ullamco sit voluptate deserunt incididunt?",
-		answer:
-			"Nisi ea voluptate ea consectetur nostrud exercitation duis nostrud ad ut officia dolore culpa. Nisi esse tempor ullamco magna nostrud culpa. Do cupidatat do aliquip do. Ex sit ut ullamco magna fugiat eiusmod sint voluptate sunt eu ut. Magna exercitation elit tempor. Lorem sint exercitation in fugiat anim adipisicing pariatur. Pariatur aliquip pariatur cupidatat deserunt et non cillum Lorem sit. Laborum officia tempor velit laborum officia Lorem eu dolor aute. Et cupidatat quis deserunt esse pariatur et. Id consectetur deserunt amet ad ipsum irure cupidatat amet Lorem pariatur aliquip velit nostrud. Lorem culpa eu velit id minim quis velit Lorem ex nisi officia reprehenderit quis incididunt.",
+		question: t`Can I export my resume to PDF?`,
+		answer: t`Absolutely! You can export your resume to PDF with a single click. The exported PDF maintains all your formatting and styling perfectly.`,
 	},
 	{
-		question: "Nisi nisi eu exercitation pariatur do nulla reprehenderit sint quis pariatur?",
-		answer:
-			"Nisi ea voluptate ea consectetur nostrud exercitation duis nostrud ad ut officia dolore culpa. Nisi esse tempor ullamco magna nostrud culpa. Do cupidatat do aliquip do. Ex sit ut ullamco magna fugiat eiusmod sint voluptate sunt eu ut. Magna exercitation elit tempor. Lorem sint exercitation in fugiat anim adipisicing pariatur. Pariatur aliquip pariatur cupidatat deserunt et non cillum Lorem sit. Laborum officia tempor velit laborum officia Lorem eu dolor aute. Et cupidatat quis deserunt esse pariatur et. Id consectetur deserunt amet ad ipsum irure cupidatat amet Lorem pariatur aliquip velit nostrud. Lorem culpa eu velit id minim quis velit Lorem ex nisi officia reprehenderit quis incididunt.",
+		question: t`What makes Reactive Resume different from other resume builders?`,
+		answer: t`Reactive Resume is open-source, privacy-focused, and completely free. Unlike other builders, we don't show ads, track your data, or limit your features behind a paywall.`,
 	},
 	{
-		question: "Voluptate id labore fugiat proident et est?",
-		answer:
-			"Nisi ea voluptate ea consectetur nostrud exercitation duis nostrud ad ut officia dolore culpa. Nisi esse tempor ullamco magna nostrud culpa. Do cupidatat do aliquip do. Ex sit ut ullamco magna fugiat eiusmod sint voluptate sunt eu ut. Magna exercitation elit tempor. Lorem sint exercitation in fugiat anim adipisicing pariatur. Pariatur aliquip pariatur cupidatat deserunt et non cillum Lorem sit. Laborum officia tempor velit laborum officia Lorem eu dolor aute. Et cupidatat quis deserunt esse pariatur et. Id consectetur deserunt amet ad ipsum irure cupidatat amet Lorem pariatur aliquip velit nostrud. Lorem culpa eu velit id minim quis velit Lorem ex nisi officia reprehenderit quis incididunt.",
+		question: t`Can I customize the templates?`,
+		answer: t`Yes! Every template is fully customizable. You can change colors, fonts, spacing, and even write custom CSS for complete control over your resume's appearance.`,
 	},
 	{
-		question: "Magna sit esse aliquip duis cupidatat elit Quis magna reprehenderit exercitation?",
-		answer:
-			"Nisi ea voluptate ea consectetur nostrud exercitation duis nostrud ad ut officia dolore culpa. Nisi esse tempor ullamco magna nostrud culpa. Do cupidatat do aliquip do. Ex sit ut ullamco magna fugiat eiusmod sint voluptate sunt eu ut. Magna exercitation elit tempor. Lorem sint exercitation in fugiat anim adipisicing pariatur. Pariatur aliquip pariatur cupidatat deserunt et non cillum Lorem sit. Laborum officia tempor velit laborum officia Lorem eu dolor aute. Et cupidatat quis deserunt esse pariatur et. Id consectetur deserunt amet ad ipsum irure cupidatat amet Lorem pariatur aliquip velit nostrud. Lorem culpa eu velit id minim quis velit Lorem ex nisi officia reprehenderit quis incididunt.",
+		question: t`How do I share my resume?`,
+		answer: t`You can share your resume via a unique public URL, protect it with a password, or download it as a PDF to share directly. The choice is yours!`,
 	},
 ];
 
 export function FAQ() {
+	const faqItems = getFaqItems();
+
 	return (
-		<section id="frequently-asked-questions" className="flex flex-col gap-x-32 gap-y-4 p-4 md:flex-row md:p-8">
-			<h2
+		<section
+			id="frequently-asked-questions"
+			className="flex flex-col gap-x-16 gap-y-6 p-4 md:p-8 lg:flex-row lg:gap-x-24 xl:py-16"
+		>
+			<motion.h2
 				className={cn(
 					"font-semibold text-2xl tracking-tight md:text-4xl xl:text-5xl",
-					"flex flex-wrap items-center gap-x-1.5 md:flex-col md:items-start",
+					"flex shrink-0 flex-wrap items-center gap-x-1.5 lg:flex-col lg:items-start",
 				)}
+				initial={{ opacity: 0, x: -20 }}
+				whileInView={{ opacity: 1, x: 0 }}
+				viewport={{ once: true }}
+				transition={{ duration: 0.6 }}
 			>
 				<Trans context="Every word needs to be wrapped in a tag">
 					<span>Frequently</span>
 					<span>Asked</span>
 					<span>Questions</span>
 				</Trans>
-			</h2>
+			</motion.h2>
 
-			<div className="max-w-2xl flex-1 md:ml-auto 2xl:max-w-4xl">
+			<motion.div
+				className="max-w-2xl flex-1 lg:ml-auto 2xl:max-w-3xl"
+				initial={{ opacity: 0, y: 20 }}
+				whileInView={{ opacity: 1, y: 0 }}
+				viewport={{ once: true }}
+				transition={{ duration: 0.6, delay: 0.1 }}
+			>
 				<Accordion type="multiple">
-					{faqItems.map((item) => (
-						<FAQItem key={item.question} item={item} />
+					{faqItems.map((item, index) => (
+						<FAQItemComponent key={item.question} item={item} index={index} />
 					))}
 				</Accordion>
-			</div>
+			</motion.div>
 		</section>
 	);
 }
 
-type FAQItemProps = {
-	item: FAQItem;
+type FAQItemComponentProps = {
+	item: FAQItemData;
+	index: number;
 };
 
-function FAQItem({ item }: FAQItemProps) {
+function FAQItemComponent({ item, index }: FAQItemComponentProps) {
 	return (
-		<AccordionItem value={item.question}>
-			<AccordionTrigger>
-				{item.question}
-				<CaretRightIcon />
-			</AccordionTrigger>
-			<AccordionContent>{item.answer}</AccordionContent>
-		</AccordionItem>
+		<motion.div
+			initial={{ opacity: 0, y: 10 }}
+			whileInView={{ opacity: 1, y: 0 }}
+			viewport={{ once: true }}
+			transition={{ duration: 0.4, delay: index * 0.05 }}
+		>
+			<AccordionItem
+				value={item.question}
+				className="group border-border/50 border-b transition-colors hover:border-border"
+			>
+				<AccordionTrigger className="py-5 text-left font-medium transition-colors group-hover:text-primary data-[state=open]:text-primary">
+					{item.question}
+					<CaretRightIcon className="shrink-0 transition-transform duration-200" />
+				</AccordionTrigger>
+				<AccordionContent className="pb-5 text-muted-foreground leading-relaxed">{item.answer}</AccordionContent>
+			</AccordionItem>
+		</motion.div>
 	);
 }

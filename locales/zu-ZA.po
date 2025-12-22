@@ -14,17 +14,17 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. js-lingui-explicit-id
-#: src/routes/dashboard/resumes/index.tsx:50
+#: src/routes/dashboard/resumes/index.tsx:51
 msgid "Last Updated"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/routes/dashboard/resumes/index.tsx:51
+#: src/routes/dashboard/resumes/index.tsx:52
 msgid "Created"
 msgstr ""
 
 #. js-lingui-explicit-id
-#: src/routes/dashboard/resumes/index.tsx:52
+#: src/routes/dashboard/resumes/index.tsx:53
 msgid "Name"
 msgstr ""
 
@@ -206,6 +206,10 @@ msgstr ""
 msgid "An unknown error occurred while adding your passkey."
 msgstr ""
 
+#: src/dialogs/resume/import.tsx:131
+msgid "An unknown error occurred while importing your resume."
+msgstr ""
+
 #: src/routes/_home/-sections/features.tsx:130
 msgid "And many more..."
 msgstr ""
@@ -232,12 +236,12 @@ msgstr ""
 
 #: src/components/command-palette/pages/navigation.tsx:87
 #: src/components/command-palette/pages/navigation.tsx:92
-#: src/routes/dashboard/-components/sidebar.tsx:68
+#: src/routes/dashboard/-components/sidebar.tsx:69
 #: src/routes/dashboard/settings/api-keys.tsx:58
 msgid "API Keys"
 msgstr ""
 
-#: src/routes/dashboard/-components/sidebar.tsx:126
+#: src/routes/dashboard/-components/sidebar.tsx:132
 msgid "App"
 msgstr ""
 
@@ -273,6 +277,7 @@ msgstr ""
 
 #: src/components/command-palette/pages/navigation.tsx:96
 #: src/components/command-palette/pages/navigation.tsx:101
+#: src/routes/dashboard/-components/sidebar.tsx:74
 #: src/routes/dashboard/settings/ai.tsx:14
 msgid "Artificial Intelligence"
 msgstr ""
@@ -283,7 +288,7 @@ msgstr ""
 
 #: src/components/command-palette/pages/navigation.tsx:78
 #: src/components/command-palette/pages/navigation.tsx:83
-#: src/routes/dashboard/-components/sidebar.tsx:63
+#: src/routes/dashboard/-components/sidebar.tsx:64
 #: src/routes/dashboard/settings/authentication/index.tsx:21
 msgid "Authentication"
 msgstr ""
@@ -434,6 +439,10 @@ msgstr ""
 msgid "Clear selection"
 msgstr ""
 
+#: src/dialogs/resume/import.tsx:203
+msgid "Click here to select a file to import"
+msgstr ""
+
 #: src/components/input/rich-input.tsx:571
 msgid "Code Block"
 msgstr ""
@@ -471,6 +480,14 @@ msgstr ""
 #: src/dialogs/auth/enable-two-factor.tsx:305
 #: src/routes/auth/register.tsx:225
 msgid "Continue"
+msgstr ""
+
+#: src/routes/dashboard/resumes/-components/import-card.tsx:12
+msgid "Continue where you left off"
+msgstr ""
+
+#: src/dialogs/resume/import.tsx:145
+msgid "Continue where you left off by importing an existing resume you created using Reactive Resume or any another resume builder. Supported formats include PDF, Microsoft Word, as well as JSON files from Reactive Resume."
 msgstr ""
 
 #: src/dialogs/auth/enable-two-factor.tsx:297
@@ -618,7 +635,7 @@ msgstr ""
 
 #: src/components/command-palette/pages/navigation.tsx:105
 #: src/components/command-palette/pages/navigation.tsx:110
-#: src/routes/dashboard/-components/sidebar.tsx:73
+#: src/routes/dashboard/-components/sidebar.tsx:79
 #: src/routes/dashboard/settings/danger-zone.tsx:56
 msgid "Danger Zone"
 msgstr ""
@@ -882,7 +899,7 @@ msgstr ""
 msgid "Features"
 msgstr ""
 
-#: src/routes/dashboard/resumes/index.tsx:90
+#: src/routes/dashboard/resumes/index.tsx:91
 msgid "Filter by"
 msgstr ""
 
@@ -1044,6 +1061,23 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
+#: src/dialogs/resume/import.tsx:217
+msgid "Import"
+msgstr ""
+
+#: src/dialogs/resume/import.tsx:142
+#: src/routes/dashboard/resumes/-components/import-card.tsx:11
+msgid "Import an existing resume"
+msgstr ""
+
+#: src/dialogs/resume/import.tsx:100
+msgid "Importing your resume..."
+msgstr ""
+
+#: src/dialogs/resume/import.tsx:217
+msgid "Importing..."
+msgstr ""
+
 #: src/utils/resume/section.tsx:118
 msgid "Information"
 msgstr ""
@@ -1070,6 +1104,10 @@ msgstr ""
 
 #: src/components/input/rich-input.tsx:334
 msgid "Italic"
+msgstr ""
+
+#: src/dialogs/resume/import.tsx:170
+msgid "JSON Resume"
 msgstr ""
 
 #: src/components/input/rich-input.tsx:490
@@ -1201,6 +1239,10 @@ msgstr ""
 msgid "Margin (Vertical)"
 msgstr ""
 
+#: src/dialogs/resume/import.tsx:172
+msgid "Microsoft Word"
+msgstr ""
+
 #: src/routes/_home/-sections/features.tsx:70
 msgid "Multilingual"
 msgstr ""
@@ -1237,7 +1279,7 @@ msgstr ""
 msgid "No Advertising, No Tracking"
 msgstr ""
 
-#: src/components/ui/combobox.tsx:39
+#: src/components/ui/combobox.tsx:41
 #: src/components/ui/multiple-combobox.tsx:51
 msgid "No results found."
 msgstr ""
@@ -1345,6 +1387,10 @@ msgstr ""
 msgid "Password protection has been enabled."
 msgstr ""
 
+#: src/dialogs/resume/import.tsx:171
+msgid "PDF"
+msgstr ""
+
 #: src/dialogs/resume/sections/education.tsx:235
 #: src/dialogs/resume/sections/experience.tsx:199
 #: src/dialogs/resume/sections/project.tsx:163
@@ -1383,7 +1429,7 @@ msgstr ""
 #: src/components/command-palette/pages/navigation.tsx:69
 #: src/components/command-palette/pages/navigation.tsx:74
 #: src/components/command-palette/pages/preferences/index.tsx:14
-#: src/routes/dashboard/-components/sidebar.tsx:58
+#: src/routes/dashboard/-components/sidebar.tsx:59
 #: src/routes/dashboard/settings/preferences.tsx:19
 msgid "Preferences"
 msgstr ""
@@ -1399,7 +1445,7 @@ msgstr ""
 #: src/components/command-palette/pages/builder/add-section.tsx:19
 #: src/components/command-palette/pages/navigation.tsx:60
 #: src/components/command-palette/pages/navigation.tsx:65
-#: src/routes/dashboard/-components/sidebar.tsx:53
+#: src/routes/dashboard/-components/sidebar.tsx:54
 #: src/routes/dashboard/settings/profile.tsx:118
 msgid "Profile"
 msgstr ""
@@ -1438,6 +1484,10 @@ msgstr ""
 
 #: src/dialogs/resume/sections/publication.tsx:173
 msgid "Publisher"
+msgstr ""
+
+#: src/dialogs/resume/import.tsx:169
+msgid "Reactive Resume (JSON)"
 msgstr ""
 
 #: src/routes/_home/-sections/hero.tsx:44
@@ -1522,8 +1572,8 @@ msgstr ""
 #: src/components/command-palette/pages/resumes.tsx:48
 #: src/components/command-palette/pages/resumes.tsx:52
 #: src/routes/_home/-sections/statistics.tsx:12
-#: src/routes/dashboard/-components/sidebar.tsx:45
-#: src/routes/dashboard/resumes/index.tsx:58
+#: src/routes/dashboard/-components/sidebar.tsx:46
+#: src/routes/dashboard/resumes/index.tsx:59
 msgid "Resumes"
 msgstr ""
 
@@ -1570,7 +1620,7 @@ msgstr ""
 msgid "Search for..."
 msgstr ""
 
-#: src/components/ui/combobox.tsx:38
+#: src/components/ui/combobox.tsx:40
 #: src/components/ui/multiple-combobox.tsx:50
 msgid "Search..."
 msgstr ""
@@ -1579,7 +1629,7 @@ msgstr ""
 msgid "Secret copied to clipboard."
 msgstr ""
 
-#: src/components/ui/combobox.tsx:37
+#: src/components/ui/combobox.tsx:39
 #: src/components/ui/multiple-combobox.tsx:49
 msgid "Select..."
 msgstr ""
@@ -1609,7 +1659,7 @@ msgstr ""
 #: src/components/command-palette/pages/navigation.tsx:49
 #: src/components/command-palette/pages/navigation.tsx:54
 #: src/components/command-palette/pages/navigation.tsx:58
-#: src/routes/dashboard/-components/sidebar.tsx:135
+#: src/routes/dashboard/-components/sidebar.tsx:141
 msgid "Settings"
 msgstr ""
 
@@ -1700,7 +1750,7 @@ msgstr ""
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: src/routes/dashboard/resumes/index.tsx:71
+#: src/routes/dashboard/resumes/index.tsx:72
 msgid "Sort by"
 msgstr ""
 
@@ -1896,6 +1946,7 @@ msgstr ""
 msgid "Two-factor authentication has been setup successfully."
 msgstr ""
 
+#: src/dialogs/resume/import.tsx:161
 #: src/routes/builder/$resumeId/-sidebar/right/sections/design.tsx:272
 msgid "Type"
 msgstr ""
@@ -2185,6 +2236,10 @@ msgstr ""
 
 #: src/dialogs/resume/index.tsx:243
 msgid "Your resume has been duplicated successfully."
+msgstr ""
+
+#: src/dialogs/resume/import.tsx:125
+msgid "Your resume has been imported successfully."
 msgstr ""
 
 #: src/dialogs/resume/index.tsx:177

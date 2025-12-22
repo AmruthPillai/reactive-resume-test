@@ -3,6 +3,7 @@ import { msg } from "@lingui/core/macro";
 import { useLingui } from "@lingui/react";
 import { Trans } from "@lingui/react/macro";
 import {
+	BrainIcon,
 	GearSixIcon,
 	KeyIcon,
 	ReadCvLogoIcon,
@@ -69,6 +70,11 @@ const settingsSidebarItems = [
 		href: "/dashboard/settings/api-keys",
 	},
 	{
+		icon: <BrainIcon />,
+		label: msg`Artificial Intelligence`,
+		href: "/dashboard/settings/ai",
+	},
+	{
 		icon: <WarningIcon />,
 		label: msg`Danger Zone`,
 		href: "/dashboard/settings/danger-zone",
@@ -89,7 +95,7 @@ function SidebarItemList({ items }: SidebarItemListProps) {
 					<SidebarMenuButton asChild title={i18n.t(item.label)}>
 						<Link to={item.href} activeProps={{ className: "bg-sidebar-accent" }}>
 							{item.icon}
-							<span className="group-data-[collapsible=icon]:-ml-8 shrink-0 transition-[margin,opacity] duration-200 ease-in-out group-data-[collapsible=icon]:opacity-0">
+							<span className="shrink-0 transition-[margin,opacity] duration-200 ease-in-out group-data-[collapsible=icon]:-ml-8 group-data-[collapsible=icon]:opacity-0">
 								{i18n.t(item.label)}
 							</span>
 						</Link>
@@ -155,7 +161,7 @@ export function DashboardSidebar() {
 										</AvatarFallback>
 									</Avatar>
 
-									<div className="group-data-[collapsible=icon]:-ml-8 transition-[margin,opacity] duration-200 ease-in-out group-data-[collapsible=icon]:opacity-0">
+									<div className="transition-[margin,opacity] duration-200 ease-in-out group-data-[collapsible=icon]:-ml-8 group-data-[collapsible=icon]:opacity-0">
 										<p className="font-medium">{session.user.name}</p>
 										<p className="text-muted-foreground text-xs">{session.user.email}</p>
 									</div>

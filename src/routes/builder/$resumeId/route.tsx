@@ -107,11 +107,11 @@ function BuilderLayout({ initialLayout, ...props }: BuilderLayoutProps) {
 				>
 					<BuilderSidebarLeft />
 				</ResizablePanel>
-				<ResizableSeparator withHandle />
+				<ResizableSeparator />
 				<ResizablePanel id="artboard" defaultSize={artboardSize} className="h-[calc(100svh-3.5rem)]">
 					<Outlet />
 				</ResizablePanel>
-				<ResizableSeparator withHandle />
+				<ResizableSeparator />
 				<ResizablePanel
 					collapsible
 					id="right"

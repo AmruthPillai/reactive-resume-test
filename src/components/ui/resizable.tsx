@@ -35,7 +35,7 @@ function ResizableSeparator({
 			{...props}
 		>
 			{withHandle && (
-				<div className="absolute z-10 flex h-4 w-3 items-center justify-center rounded-xs border bg-border">
+				<div className="absolute z-50 flex h-4 w-3 items-center justify-center rounded-xs border bg-border">
 					<DotsSixVerticalIcon className="size-2.5" />
 				</div>
 			)}

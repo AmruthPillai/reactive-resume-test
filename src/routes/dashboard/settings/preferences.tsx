@@ -2,6 +2,7 @@ import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
 import { ArrowRightIcon, GearSixIcon } from "@phosphor-icons/react";
 import { createFileRoute } from "@tanstack/react-router";
+import { motion } from "motion/react";
 import { LocaleCombobox } from "@/components/locale/combobox";
 import { ThemeCombobox } from "@/components/theme/combobox";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,12 @@ function RouteComponent() {
 
 			<Separator />
 
-			<div className="grid max-w-xl gap-6">
+			<motion.div
+				initial={{ opacity: 0, y: -20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.3 }}
+				className="grid max-w-xl gap-6"
+			>
 				<div className="grid gap-1.5">
 					<Label className="mb-0.5">
 						<Trans>Theme</Trans>
@@ -45,7 +51,7 @@ function RouteComponent() {
 						</a>
 					</Button>
 				</div>
-			</div>
+			</motion.div>
 		</div>
 	);
 }

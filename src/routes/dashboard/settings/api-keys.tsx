@@ -1,6 +1,6 @@
 import { t } from "@lingui/core/macro";
 import { Trans } from "@lingui/react/macro";
-import { ArrowRightIcon, BookOpenIcon, KeyIcon, PlusIcon, TrashSimpleIcon } from "@phosphor-icons/react";
+import { BookOpenIcon, KeyIcon, LinkSimpleIcon, PlusIcon, TrashSimpleIcon } from "@phosphor-icons/react";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "motion/react";
@@ -59,32 +59,35 @@ function RouteComponent() {
 
 			<Separator />
 
-			<div className="max-w-xl space-y-4">
-				<div className="flex flex-col gap-4 rounded-lg border bg-muted/30 p-6">
-					<div className="flex items-start gap-4">
-						<div className="rounded-md bg-primary/10 p-2.5">
-							<BookOpenIcon className="text-primary" size={24} />
-						</div>
-						<div className="flex-1 space-y-2">
-							<h3 className="font-semibold">
+			<motion.div
+				initial={{ opacity: 0, y: -20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.3 }}
+				className="grid max-w-xl gap-6"
+			>
+				<div className="flex items-start gap-4 rounded-sm border bg-popover p-6">
+					<div className="rounded-sm bg-primary/10 p-2.5">
+						<BookOpenIcon className="text-primary" size={24} />
+					</div>
+
+					<div className="flex-1 space-y-2">
+						<h3 className="font-semibold">
+							<Trans>What can I do with the API?</Trans>
+						</h3>
+
+						<p className="text-muted-foreground leading-relaxed">
+							<Trans>
+								Explore the API documentation to learn how to integrate Reactive Resume with your applications. Find
+								detailed endpoints, request examples, and authentication methods.
+							</Trans>
+						</p>
+
+						<Button asChild variant="link">
+							<a href="/api/oas" target="_blank" rel="noopener noreferrer">
+								<LinkSimpleIcon />
 								<Trans>API Documentation</Trans>
-							</h3>
-							<p className="text-muted-foreground text-sm leading-relaxed">
-								<Trans>
-									Explore the API reference documentation to learn how to integrate Reactive Resume with your
-									applications. Find detailed endpoints, request examples, and authentication methods.
-								</Trans>
-							</p>
-							<a
-								href="/api/oas"
-								target="_blank"
-								rel="noopener noreferrer"
-								className="inline-flex items-center gap-2 font-medium text-primary text-sm transition-colors hover:underline"
-							>
-								<Trans>View API Documentation</Trans>
-								<ArrowRightIcon size={16} />
 							</a>
-						</div>
+						</Button>
 					</div>
 				</div>
 
@@ -126,7 +129,7 @@ function RouteComponent() {
 						))}
 					</AnimatePresence>
 				</div>
-			</div>
+			</motion.div>
 		</div>
 	);
 }

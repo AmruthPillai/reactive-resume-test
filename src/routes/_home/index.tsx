@@ -14,11 +14,11 @@ export const Route = createFileRoute("/_home/")({
 
 function RouteComponent() {
 	return (
-		<>
+		<main className="relative">
 			<Hero />
 
-			<div className="container mx-auto px-6 lg:px-12">
-				<div className="border-x [&>section:first-child]:border-t-0 [&>section]:border-t">
+			<div className="container mx-auto px-4 sm:px-6 lg:px-12">
+				<div className="border-border border-x [&>section:first-child]:border-t-0 [&>section]:border-border [&>section]:border-t">
 					<Statistics />
 					<Features />
 					<Templates />
@@ -28,6 +28,6 @@ function RouteComponent() {
 					<Footer />
 				</div>
 			</div>
-		</>
+		</main>
 	);
 }

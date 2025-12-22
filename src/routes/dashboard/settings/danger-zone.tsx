@@ -57,29 +57,32 @@ function RouteComponent() {
 
 			<Separator />
 
-			<motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
-				<div className="flex max-w-xl flex-col gap-y-4">
-					<p className="text-muted-foreground leading-relaxed">
-						<Trans>To delete your account, you need to enter the confirmation text and click the button below.</Trans>
-					</p>
+			<motion.div
+				initial={{ opacity: 0, y: -20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.3 }}
+				className="grid max-w-xl gap-6"
+			>
+				<p className="leading-relaxed">
+					<Trans>To delete your account, you need to enter the confirmation text and click the button below.</Trans>
+				</p>
 
-					<Input
-						type="text"
-						value={confirmationText}
-						onChange={(e) => setConfirmationText(e.target.value)}
-						placeholder={t`Type "${CONFIRMATION_TEXT}" to confirm`}
-					/>
+				<Input
+					type="text"
+					value={confirmationText}
+					onChange={(e) => setConfirmationText(e.target.value)}
+					placeholder={t`Type "${CONFIRMATION_TEXT}" to confirm`}
+				/>
 
-					<Button
-						className="self-end"
-						variant="destructive"
-						onClick={handleDeleteAccount}
-						disabled={!isConfirmationValid}
-					>
-						<TrashSimpleIcon />
-						<Trans>Delete Account</Trans>
-					</Button>
-				</div>
+				<Button
+					className="justify-self-end"
+					variant="destructive"
+					onClick={handleDeleteAccount}
+					disabled={!isConfirmationValid}
+				>
+					<TrashSimpleIcon />
+					<Trans>Delete Account</Trans>
+				</Button>
 			</motion.div>
 		</div>
 	);

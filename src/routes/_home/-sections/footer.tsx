@@ -1,53 +1,119 @@
+import { t } from "@lingui/core/macro";
+import type { Icon } from "@phosphor-icons/react";
+import { GithubLogoIcon, LinkedinLogoIcon, XLogoIcon } from "@phosphor-icons/react";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { BrandIcon } from "@/components/ui/brand-icon";
 import { Copyright } from "@/components/ui/copyright";
 
+type FooterLinkItem = {
+	url: string;
+	label: string;
+};
+
+type FooterLinkGroupProps = {
+	title: string;
+	links: FooterLinkItem[];
+};
+
+type SocialLink = {
+	url: string;
+	label: string;
+	icon: Icon;
+};
+
+const getResourceLinks = (): FooterLinkItem[] => [
+	{ url: "https://docs.rxresu.me", label: t`Documentation` },
+	{ url: "https://github.com/AmruthPillai/Reactive-Resume", label: t`Source Code` },
+	{ url: "https://crowdin.com/project/reactive-resume", label: t`Translations` },
+	{ url: "https://opencollective.com/reactive-resume", label: t`Donate` },
+];
+
+const getCommunityLinks = (): FooterLinkItem[] => [
+	{ url: "https://github.com/AmruthPillai/Reactive-Resume/discussions", label: t`Discussions` },
+	{ url: "https://github.com/AmruthPillai/Reactive-Resume/issues", label: t`Report an Issue` },
+	{ url: "https://crowdin.com/project/reactive-resume", label: t`Help Translate` },
+	{ url: "https://github.com/AmruthPillai/Reactive-Resume/blob/main/CONTRIBUTING.md", label: t`Contributing` },
+];
+
+const socialLinks: SocialLink[] = [
+	{ url: "https://github.com/AmruthPillai/Reactive-Resume", label: "GitHub", icon: GithubLogoIcon },
+	{ url: "https://linkedin.com/company/reactive-resume", label: "LinkedIn", icon: LinkedinLogoIcon },
+	{ url: "https://x.com/rxresu_me", label: "X (Twitter)", icon: XLogoIcon },
+];
+
 export function Footer() {
 	return (
-		<section id="footer" className="p-4 pb-8 md:p-8 md:pb-16">
-			<div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-5 2xl:grid-cols-6">
-				<div className="order-3 col-span-2 space-y-4 md:order-1 2xl:col-span-1">
-					<BrandIcon variant="logo" />
+		<motion.section
+			id="footer"
+			className="p-4 pb-8 md:p-8 md:pb-12"
+			initial={{ opacity: 0 }}
+			whileInView={{ opacity: 1 }}
+			viewport={{ once: true }}
+			transition={{ duration: 0.6 }}
+		>
+			<div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+				{/* Brand Column */}
+				<div className="space-y-4 sm:col-span-2 lg:col-span-1">
+					<BrandIcon variant="logo" className="size-10" />
 
 					<div className="space-y-2">
 						<h1 className="font-bold text-lg tracking-tight">Reactive Resume</h1>
-						<p className="text-muted-foreground leading-relaxed">
+						<p className="max-w-xs text-muted-foreground text-sm leading-relaxed">
 							A free and open-source resume builder that simplifies the process of creating, updating, and sharing your
 							resume.
 						</p>
 					</div>
 
-					<Copyright className="mt-8" />
+					{/* Social Links */}
+					<div className="flex items-center gap-2 pt-2">
+						{socialLinks.map((social) => (
+							<motion.a
+								key={social.label}
+								href={social.url}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="flex size-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+								whileHover={{ scale: 1.05 }}
+								whileTap={{ scale: 0.95 }}
+								aria-label={social.label}
+							>
+								<social.icon size={18} />
+							</motion.a>
+						))}
+					</div>
 				</div>
 
-				<div className="order-1 space-y-4 md:order-2 md:col-start-4 2xl:col-start-5">
-					<h2 className="text-muted-foreground tracking-tight">Links</h2>
+				{/* Resources Column */}
+				<FooterLinkGroup title={t`Resources`} links={getResourceLinks()} />
 
-					<ul className="space-y-4">
-						<FooterLink url="https://docs.rxresu.me" label="Documentation" />
-						<FooterLink url="https://github.com/AmruthPillai/Reactive-Resume" label="Source Code" />
-						<FooterLink url="https://crowdin.com/project/reactive-resume" label="Translations" />
-						<FooterLink url="https://opencollective.com/reactive-resume" label="Donate" />
-					</ul>
-				</div>
+				{/* Community Column */}
+				<FooterLinkGroup title={t`Community`} links={getCommunityLinks()} />
 
-				<div className="order-2 space-y-4 md:order-3">
-					<h2 className="text-muted-foreground tracking-tight">Links</h2>
-
-					<ul className="space-y-4">
-						<FooterLink url="https://docs.rxresu.me" label="Documentation" />
-						<FooterLink url="https://github.com/AmruthPillai/Reactive-Resume" label="Source Code" />
-						<FooterLink url="https://crowdin.com/project/reactive-resume" label="Translations" />
-						<FooterLink url="https://opencollective.com/reactive-resume" label="Donate" />
-					</ul>
+				{/* Copyright Column */}
+				<div className="space-y-4 sm:col-span-2 lg:col-span-1">
+					<Copyright />
 				</div>
 			</div>
-		</section>
+		</motion.section>
 	);
 }
 
-function FooterLink({ url, label }: { url: string; label: string }) {
+function FooterLinkGroup({ title, links }: FooterLinkGroupProps) {
+	return (
+		<div className="space-y-4">
+			<h2 className="font-medium text-muted-foreground text-sm tracking-tight">{title}</h2>
+
+			<ul className="space-y-3">
+				{links.map((link) => (
+					<FooterLink key={link.url} url={link.url} label={link.label} />
+				))}
+			</ul>
+		</div>
+	);
+}
+
+function FooterLink({ url, label }: FooterLinkItem) {
 	const [isHovered, setIsHovered] = useState(false);
 
 	return (
@@ -56,16 +122,15 @@ function FooterLink({ url, label }: { url: string; label: string }) {
 				href={url}
 				target="_blank"
 				rel="noopener noreferrer"
-				className="relative font-medium"
-				style={{ display: "inline-block" }}
+				className="relative inline-block text-sm transition-colors hover:text-foreground"
 			>
 				{label}
 
 				<motion.div
 					initial={{ width: 0, opacity: 0 }}
 					animate={isHovered ? { width: "100%", opacity: 1 } : { width: 0, opacity: 0 }}
-					transition={{ duration: 0.3, ease: "easeInOut" }}
-					className="-bottom-0.5 pointer-events-none absolute left-0 h-px rounded bg-primary"
+					transition={{ duration: 0.25, ease: "easeOut" }}
+					className="pointer-events-none absolute -bottom-0.5 left-0 h-px rounded bg-primary"
 				/>
 			</a>
 		</li>

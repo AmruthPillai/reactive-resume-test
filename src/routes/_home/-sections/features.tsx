@@ -134,32 +134,33 @@ const getFeatures = (): Feature[] => [
 
 function FeatureCard({ icon: Icon, title, description, index }: FeatureCardProps) {
 	return (
-		<div
+		<motion.div
 			className={cn(
-				"flex min-h-48 flex-col gap-4 border-b bg-background p-6 transition-colors hover:bg-secondary/20",
+				"group relative flex min-h-48 flex-col gap-4 overflow-hidden border-b bg-background p-6 transition-[background-color] duration-300",
 				"not-nth-[2n]:border-r xl:not-nth-[4n]:border-r",
+				"hover:bg-secondary/30",
 			)}
+			initial={{ opacity: 0, y: 20 }}
+			whileInView={{ opacity: 1, y: 0 }}
+			viewport={{ once: true, amount: 0.1 }}
+			transition={{ duration: 0.4, delay: index * 0.03, ease: "easeOut" }}
 		>
-			<motion.div
-				initial={{ opacity: 0, y: 10 }}
-				whileInView={{ opacity: 1, y: 0 }}
-				viewport={{ once: true, amount: 0.45 }}
-				transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
-			>
-				<Icon size={32} weight="thin" />
-			</motion.div>
+			{/* Hover gradient overlay */}
+			<div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-			<motion.div
-				initial={{ opacity: 0, y: 12 }}
-				whileInView={{ opacity: 1, y: 0 }}
-				viewport={{ once: true, amount: 0.45 }}
-				transition={{ duration: 0.5, delay: index * 0.05 + 0.05, ease: "easeOut" }}
-				className="flex flex-col gap-y-1"
-			>
-				<h3 className="font-medium text-base tracking-tight">{title}</h3>
-				<p className="text-muted-foreground leading-relaxed">{description}</p>
-			</motion.div>
-		</div>
+			{/* Icon */}
+			<div className="relative">
+				<div className="inline-flex rounded-lg bg-primary/5 p-2.5 text-foreground transition-colors group-hover:bg-primary/10 group-hover:text-primary">
+					<Icon size={24} weight="thin" />
+				</div>
+			</div>
+
+			{/* Content */}
+			<div className="relative flex flex-col gap-y-1.5">
+				<h3 className="font-semibold text-base tracking-tight transition-colors group-hover:text-primary">{title}</h3>
+				<p className="text-muted-foreground text-sm leading-relaxed">{description}</p>
+			</div>
+		</motion.div>
 	);
 }
 
@@ -167,21 +168,27 @@ export function Features() {
 	return (
 		<section id="features">
 			{/* Header */}
-			<div className="space-y-4 p-4 md:p-8 xl:py-16">
+			<motion.div
+				className="space-y-4 p-4 md:p-8 xl:py-16"
+				initial={{ opacity: 0, y: 20 }}
+				whileInView={{ opacity: 1, y: 0 }}
+				viewport={{ once: true }}
+				transition={{ duration: 0.6 }}
+			>
 				<h2 className="font-semibold text-2xl tracking-tight md:text-4xl xl:text-5xl">
 					<Trans>Features</Trans>
 				</h2>
 
-				<p className="text-muted-foreground leading-relaxed">
+				<p className="max-w-2xl text-muted-foreground leading-relaxed">
 					<Trans>
 						Everything you need to create, customize, and share professional resumes. Built with privacy in mind,
 						powered by open source, and completely free forever.
 					</Trans>
 				</p>
-			</div>
+			</motion.div>
 
 			{/* Features Grid */}
-			<div className="grid grid-cols-2 border-t xl:grid-cols-4">
+			<div className="grid grid-cols-1 xs:grid-cols-2 border-t xl:grid-cols-4">
 				{getFeatures().map((feature, index) => (
 					<FeatureCard key={feature.id} {...feature} index={index} />
 				))}

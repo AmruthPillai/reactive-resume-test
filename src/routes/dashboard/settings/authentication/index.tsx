@@ -1,6 +1,7 @@
 import { t } from "@lingui/core/macro";
 import { ShieldCheckIcon } from "@phosphor-icons/react";
 import { createFileRoute } from "@tanstack/react-router";
+import { motion } from "motion/react";
 import { Separator } from "@/components/ui/separator";
 import { DashboardHeader } from "../../-components/header";
 import { useEnabledProviders } from "./-components/hooks";
@@ -22,7 +23,12 @@ function RouteComponent() {
 
 			<Separator />
 
-			<div className="max-w-xl space-y-4">
+			<motion.div
+				initial={{ opacity: 0, y: -20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.3 }}
+				className="grid max-w-xl gap-4"
+			>
 				<PasswordSection />
 
 				<TwoFactorSection />
@@ -36,7 +42,7 @@ function RouteComponent() {
 				{"custom" in enabledProviders && (
 					<SocialProviderSection provider="custom" animationDelay={0.6} name={enabledProviders.custom} />
 				)}
-			</div>
+			</motion.div>
 		</div>
 	);
 }

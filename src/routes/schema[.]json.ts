@@ -13,10 +13,6 @@ function handler({ request }: { request: Request }) {
 				.literal(`${url.origin}/schema.json`)
 				.describe("The URL of the Reactive Resume JSON Schema, used for validation and documentation purposes."),
 		}),
-		{
-			reused: "ref",
-			unrepresentable: "any",
-		},
 	);
 
 	return json(resumeDataJSONSchema, {

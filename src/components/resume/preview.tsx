@@ -99,7 +99,7 @@ export const ResumePreview = ({ showPageNumbers, pageClassName, className, ...pr
 					return (
 						<div key={pageIndex} className="relative">
 							{showPageNumbers && totalNumberOfPages > 1 && (
-								<div className="-top-6 absolute left-0">
+								<div className="absolute -top-6 left-0">
 									<span className="font-medium text-foreground text-xs">
 										<Trans>
 											Page {pageNumber} of {totalNumberOfPages}

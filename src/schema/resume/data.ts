@@ -1,11 +1,10 @@
 import z from "zod";
-import type { IconName } from "../icons";
 import { templateSchema } from "../templates";
 
 export const iconSchema = z
-	.custom<IconName>()
+	.string()
 	.describe(
-		"The icon to display for the custom field. Must be a valid icon name from phosphor-icons icon set. Leave blank to hide. Default to 'star' if unsure which icons are available.",
+		"The icon to display for the custom field. Must be a valid icon name from @phosphor-icons/web icon set, or an empty string to hide. Default to '' (empty string) when unsure which icons are available.",
 	);
 
 export const localeSchema = z
@@ -15,8 +14,7 @@ export const localeSchema = z
 
 export const urlSchema = z.object({
 	url: z
-		.url()
-		.or(z.literal(""))
+		.string()
 		.describe(
 			"The URL to show as a link. Must be a valid URL with a protocol (http:// or https://). Leave blank to hide.",
 		),
@@ -26,8 +24,7 @@ export const urlSchema = z.object({
 export const pictureSchema = z.object({
 	hidden: z.boolean().describe("Whether to hide the picture from the resume."),
 	url: z
-		.url()
-		.or(z.literal(""))
+		.string()
 		.describe(
 			"The URL to the picture to display on the resume. Must be a valid URL with a protocol (http:// or https://). Leave blank to hide.",
 		),

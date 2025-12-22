@@ -192,13 +192,13 @@ function RouteComponent() {
 										</p>
 									))
 									.with(false, () => (
-										<p className="flex items-center gap-x-1.5 text-warning text-xs">
+										<p className="flex items-center gap-x-1.5 text-amber-600 text-xs">
 											<WarningIcon className="size-3.5" />
 											<Trans>Unverified</Trans>
 											<span>|</span>
 											<Button
 												variant="link"
-												className="h-auto gap-x-1.5 p-0! text-inherit"
+												className="h-auto gap-x-1.5 p-0! text-inherit text-xs"
 												onClick={handleResendVerificationEmail}
 											>
 												<Trans>Resend verification email</Trans>
