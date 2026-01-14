@@ -65,8 +65,6 @@ function MarqueeRow({ templates, rowId, direction, duration = 40 }: MarqueeRowPr
 }
 
 export function Templates() {
-	const email = "hello@amruthpillai.com";
-
 	// Split templates into two rows and duplicate for seamless infinite scroll
 	const { row1, row2 } = useMemo(() => {
 		const entries = Object.entries(templates);
@@ -97,15 +95,7 @@ export function Templates() {
 				<p className="max-w-2xl text-muted-foreground leading-relaxed">
 					<Trans>
 						Explore our diverse selection of templates, each designed to fit different styles, professions, and
-						personalities. Reactive Resume currently offers 12 templates, with more on the way. If you have ideas or
-						requests for new templates, please share them with me at{" "}
-						<a
-							className="font-medium text-foreground underline underline-offset-2 transition-colors hover:text-primary"
-							href={`mailto:${email}`}
-						>
-							{email}
-						</a>
-						.
+						personalities. Reactive Resume currently offers 12 templates, with more on the way.
 					</Trans>
 				</p>
 			</motion.div>

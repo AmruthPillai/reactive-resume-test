@@ -166,10 +166,10 @@ export function ImportResumeDialog({ open, onOpenChange }: DialogProps<"resume.i
 											value={field.value}
 											onValueChange={field.onChange}
 											options={[
-												{ label: t`Reactive Resume (JSON)`, value: "reactive-resume-json" },
-												{ label: t`JSON Resume`, value: "json-resume-json" },
-												{ label: t`PDF`, value: "pdf" },
-												{ label: t`Microsoft Word`, value: "docx" },
+												{ label: "Reactive Resume (JSON)", value: "reactive-resume-json" },
+												{ label: "JSON Resume", value: "json-resume-json" },
+												{ label: "PDF", value: "pdf" },
+												{ label: "Microsoft Word", value: "docx" },
 											]}
 										/>
 									</FormControl>

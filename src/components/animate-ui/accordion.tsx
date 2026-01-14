@@ -19,8 +19,8 @@ function Accordion(props: AccordionProps) {
 
 type AccordionItemProps = AccordionItemPrimitiveProps;
 
-function AccordionItem({ className, ...props }: AccordionItemProps) {
-	return <AccordionItemPrimitive className={cn("border-b last:border-b-0", className)} {...props} />;
+function AccordionItem(props: AccordionItemProps) {
+	return <AccordionItemPrimitive {...props} />;
 }
 
 type AccordionTriggerProps = AccordionTriggerPrimitiveProps;

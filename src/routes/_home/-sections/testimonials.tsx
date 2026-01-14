@@ -5,6 +5,8 @@ import { useMemo } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { getInitials } from "@/utils/string";
 
+const email = "hello@amruthpillai.com";
+
 type Testimonial = {
 	name: string;
 	text: string;
@@ -118,10 +120,10 @@ export function Testimonials() {
 						A lot of people have written to me over the years to share their experiences with Reactive Resume and how it
 						has helped them, and I never get tired of reading them. If you have a story to share, drop me an email at{" "}
 						<a
-							href="mailto:hello@amruthpillai.com"
+							href={`mailto:${email}`}
 							className="font-medium text-foreground underline underline-offset-2 transition-colors hover:text-primary"
 						>
-							hello@amruthpillai.com
+							{email}
 						</a>
 						.
 					</Trans>

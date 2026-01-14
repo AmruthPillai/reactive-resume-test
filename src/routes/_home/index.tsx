@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { DonationBanner } from "./-sections/donate";
 import { FAQ } from "./-sections/faq";
 import { Features } from "./-sections/features";
 import { Footer } from "./-sections/footer";
@@ -23,6 +24,7 @@ function RouteComponent() {
 					<Features />
 					<Templates />
 					<Testimonials />
+					<DonationBanner />
 					<FAQ />
 					<Prefooter />
 					<Footer />

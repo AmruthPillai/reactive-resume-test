@@ -28,6 +28,11 @@ msgstr "Erstellt"
 msgid "Name"
 msgstr "Name"
 
+#. placeholder {0}: testimonials.length
+#: src/routes/_home/-sections/testimonials.tsx:134
+msgid "{0}+ testimonials and counting"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:157
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx:149
 msgid "{column, plural, one {# Column} other {# Columns}}"
@@ -37,7 +42,7 @@ msgstr "{column, plural, one {# Spalte} other {# Spalten}}"
 msgid "<0>Finally,</0><1>A free and open-source resume builder</1>"
 msgstr "<0>Endlich,</0><1>ein kostenloser und quelloffener Lebenslauf-Builder</1>"
 
-#: src/routes/_home/-sections/faq.tsx:58
+#: src/routes/_home/-sections/faq.tsx:62
 msgctxt "Every word needs to be wrapped in a tag"
 msgid "<0>Frequently</0><1>Asked</1><2>Questions</2>"
 msgstr ""
@@ -70,14 +75,26 @@ msgstr ""
 msgid "A confirmation link has been sent to your current email address. Please check your inbox to confirm the change."
 msgstr "Ein Bestätigungslink wurde an Ihre aktuelle E-Mail-Adresse gesendet. Bitte prüfen Sie Ihren Posteingang, um die Änderung zu bestätigen."
 
+#: src/routes/_home/-sections/footer.tsx:65
+msgid "A free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume."
+msgstr ""
+
 #: src/routes/builder/$resumeId/-components/dock.tsx:49
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:39
 msgid "A link to your resume has been copied to clipboard."
 msgstr "Ein Link zu Ihrem Lebenslauf wurde in die Zwischenablage kopiert."
 
+#: src/routes/_home/-sections/testimonials.tsx:119
+msgid "A lot of people have written to me over the years to share their experiences with Reactive Resume and how it has helped them, and I never get tired of reading them. If you have a story to share, drop me an email at <0>{email}</0>."
+msgstr ""
+
 #: src/routes/dashboard/settings/profile.tsx:104
 msgid "A new verification link has been sent to your email address. Please check your inbox to verify your account."
 msgstr "Ein neuer Verifizierungslink wurde an Ihre E-Mail-Adresse gesendet. Bitte prüfen Sie Ihren Posteingang, um Ihr Konto zu verifizieren."
+
+#: src/components/ui/copyright.tsx:24
+msgid "A passion project by <0>Amruth Pillai</0>."
+msgstr ""
 
 #: src/routes/_home/-sections/faq.tsx:24
 msgid "Absolutely! You can export your resume to PDF with a single click. The exported PDF maintains all your formatting and styling perfectly."
@@ -350,12 +367,13 @@ msgstr "Befehlspalette des Builders"
 msgid "Bullet List"
 msgstr "Aufzählungsliste"
 
+#: src/components/ui/copyright.tsx:20
 #: src/routes/_home/-sections/features.tsx:47
-#: src/routes/_home/-sections/prefooter.tsx:27
+#: src/routes/_home/-sections/prefooter.tsx:25
 msgid "By the community, for the community."
 msgstr "Von der Gemeinschaft, für die Gemeinschaft."
 
-#: src/routes/_home/-sections/faq.tsx:31
+#: src/routes/_home/-sections/faq.tsx:35
 msgid "Can I customize the templates?"
 msgstr ""
 
@@ -451,7 +469,7 @@ msgstr "Code-Block"
 msgid "Columns"
 msgstr "Spalten"
 
-#: src/routes/_home/-sections/footer.tsx:91
+#: src/routes/_home/-sections/footer.tsx:88
 msgid "Community"
 msgstr ""
 
@@ -493,8 +511,12 @@ msgstr ""
 msgid "Continue where you left off by importing an existing resume you created using Reactive Resume or any another resume builder. Supported formats include PDF, Microsoft Word, as well as JSON files from Reactive Resume."
 msgstr ""
 
-#: src/routes/_home/-sections/footer.tsx:36
+#: src/routes/_home/-sections/footer.tsx:38
 msgid "Contributing"
+msgstr ""
+
+#: src/routes/_home/-sections/donate.tsx:187
+msgid "Contributions fund bug fixes, security updates, and continuous improvements to keep the app running smoothly."
 msgstr ""
 
 #: src/dialogs/auth/enable-two-factor.tsx:297
@@ -639,7 +661,7 @@ msgstr "Benutzerdefinierte Abschnitte"
 msgid "Danger Zone"
 msgstr "Gefahrenbereich"
 
-#: src/components/user/dropdown-menu.tsx:99
+#: src/components/user/dropdown-menu.tsx:98
 #: src/utils/theme.ts:17
 msgid "Dark"
 msgstr "Dunkel"
@@ -743,11 +765,11 @@ msgstr "Die Zwei-Faktor-Authentifizierung wird deaktiviert..."
 msgid "Disconnect"
 msgstr "Trennen"
 
-#: src/routes/_home/-sections/footer.tsx:33
+#: src/routes/_home/-sections/footer.tsx:35
 msgid "Discussions"
 msgstr ""
 
-#: src/routes/_home/-sections/footer.tsx:26
+#: src/routes/_home/-sections/footer.tsx:28
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx:40
 msgid "Documentation"
 msgstr "Dokumentation"
@@ -756,8 +778,7 @@ msgstr "Dokumentation"
 msgid "Don't have an account? <0><1>Create one now <2/></1></0>"
 msgstr "Sie haben noch kein Konto? <0><1>Jetzt erstellen <2/></1></0>"
 
-#: src/routes/_home/-sections/footer.tsx:29
-#: src/routes/_home/-sections/prefooter.tsx:57
+#: src/routes/_home/-sections/footer.tsx:31
 msgid "Donate"
 msgstr ""
 
@@ -877,6 +898,10 @@ msgstr "Geben Sie Ihr Passwort ein, um die Einrichtung der Zwei-Faktor-Authentif
 msgid "Enter your password to disable two-factor authentication. Your account will be less secure without 2FA enabled."
 msgstr "Geben Sie Ihr Passwort ein, um die Zwei-Faktor-Authentifizierung zu deaktivieren. Ihr Konto ist ohne 2FA weniger sicher."
 
+#: src/routes/_home/-sections/donate.tsx:229
+msgid "Every contribution, big or small, makes a huge difference to the project.<0/>Thank you for your support!"
+msgstr ""
+
 #: src/routes/_home/-sections/features.tsx:183
 msgid "Everything you need to create, customize, and share professional resumes. Built with privacy in mind, powered by open source, and completely free forever."
 msgstr ""
@@ -894,8 +919,8 @@ msgstr ""
 msgid "Expires on {0}"
 msgstr ""
 
-#: src/routes/_home/-sections/templates.tsx:98
-msgid "Explore our diverse selection of templates, each designed to fit different styles, professions, and personalities. Reactive Resume currently offers 12 templates, with more on the way. If you have ideas or requests for new templates, please share them with me at <0>{email}</0>."
+#: src/routes/_home/-sections/templates.tsx:96
+msgid "Explore our diverse selection of templates, each designed to fit different styles, professions, and personalities. Reactive Resume currently offers 12 templates, with more on the way."
 msgstr ""
 
 #: src/routes/dashboard/settings/api-keys.tsx:79
@@ -1001,6 +1026,10 @@ msgstr "Gehe zu..."
 msgid "Grade"
 msgstr "Note"
 
+#: src/routes/_home/-sections/donate.tsx:192
+msgid "Grow the Team"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:172
 msgctxt "Headings or Titles (H1, H2, H3, H4, H5, H6)"
 msgid "Heading"
@@ -1034,11 +1063,11 @@ msgstr "Überschrift 6"
 msgid "Headline"
 msgstr "Überschrift"
 
-#: src/routes/_home/-sections/testimonials.tsx:157
-msgid "Hear from the people who are using Reactive Resume to build their careers. If you have a story to share, please reach out to me at <0>hello@amruthpillai.com</0>."
+#: src/routes/_home/-sections/donate.tsx:193
+msgid "Help me bring more experienced contributors on board, reducing the burden on a single maintainer and accelerating development."
 msgstr ""
 
-#: src/routes/_home/-sections/footer.tsx:35
+#: src/routes/_home/-sections/footer.tsx:37
 msgid "Help Translate"
 msgstr ""
 
@@ -1075,7 +1104,7 @@ msgstr "Hervorheben"
 msgid "Home"
 msgstr "Startseite"
 
-#: src/routes/_home/-sections/faq.tsx:35
+#: src/routes/_home/-sections/faq.tsx:39
 msgid "How do I share my resume?"
 msgstr ""
 
@@ -1121,6 +1150,10 @@ msgstr "Tabelle einfügen"
 msgid "Interests"
 msgstr "Interessen"
 
+#: src/routes/_home/-sections/faq.tsx:27
+msgid "Is Reactive Resume available in multiple languages?"
+msgstr ""
+
 #: src/routes/_home/-sections/faq.tsx:15
 msgid "Is Reactive Resume really free?"
 msgstr ""
@@ -1132,10 +1165,6 @@ msgstr "Aussteller"
 #: src/components/input/rich-input.tsx:334
 msgid "Italic"
 msgstr "Kursiv"
-
-#: src/dialogs/resume/import.tsx:170
-msgid "JSON Resume"
-msgstr ""
 
 #: src/components/input/rich-input.tsx:490
 msgid "Justify Align"
@@ -1154,8 +1183,8 @@ msgstr "Beschriftung"
 msgid "Landscape"
 msgstr "Querformat"
 
-#: src/components/command-palette/pages/preferences/language.tsx:23
-#: src/components/user/dropdown-menu.tsx:75
+#: src/components/command-palette/pages/preferences/language.tsx:17
+#: src/components/user/dropdown-menu.tsx:74
 #: src/dialogs/resume/sections/language.tsx:145
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx:50
 #: src/routes/dashboard/settings/preferences.tsx:39
@@ -1206,7 +1235,11 @@ msgstr "Niveau"
 msgid "Level {level} of 5"
 msgstr "Niveau {level} von 5"
 
-#: src/components/user/dropdown-menu.tsx:96
+#: src/components/ui/copyright.tsx:10
+msgid "Licensed under <0>MIT</0>."
+msgstr ""
+
+#: src/components/user/dropdown-menu.tsx:95
 #: src/utils/theme.ts:16
 msgid "Light"
 msgstr "Hell"
@@ -1244,9 +1277,13 @@ msgstr "Standort"
 msgid "Lock"
 msgstr "Sperren"
 
-#: src/components/user/dropdown-menu.tsx:110
+#: src/components/user/dropdown-menu.tsx:109
 msgid "Logout"
 msgstr "Abmelden"
+
+#: src/routes/_home/-sections/donate.tsx:180
+msgid "Long-term Sustainability"
+msgstr ""
 
 #: src/routes/auth/verify-2fa.tsx:117
 msgid "Lost access to your authenticator?"
@@ -1263,10 +1300,6 @@ msgstr "Rand (horizontal)"
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx:131
 msgid "Margin (Vertical)"
 msgstr "Rand (vertikal)"
-
-#: src/dialogs/resume/import.tsx:172
-msgid "Microsoft Word"
-msgstr ""
 
 #: src/routes/dashboard/settings/ai.tsx:60
 msgid "Model"
@@ -1334,6 +1367,10 @@ msgstr "Notizen"
 
 #: src/routes/_home/-sections/features.tsx:76
 msgid "One-Click Sign-In"
+msgstr ""
+
+#: src/routes/_home/-sections/donate.tsx:186
+msgid "Ongoing Maintenance"
 msgstr ""
 
 #: src/routes/dashboard/resumes/-components/resume-card.tsx:139
@@ -1415,10 +1452,6 @@ msgstr "Der Passwortschutz wurde deaktiviert."
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:73
 msgid "Password protection has been enabled."
 msgstr "Der Passwortschutz wurde aktiviert."
-
-#: src/dialogs/resume/import.tsx:171
-msgid "PDF"
-msgstr ""
 
 #: src/dialogs/resume/sections/education.tsx:235
 #: src/dialogs/resume/sections/experience.tsx:199
@@ -1510,20 +1543,20 @@ msgstr "Veröffentlichungen"
 msgid "Publisher"
 msgstr "Verlag"
 
-#: src/dialogs/resume/import.tsx:169
-msgid "Reactive Resume (JSON)"
+#: src/routes/_home/-sections/prefooter.tsx:29
+msgid "Reactive Resume continues to grow thanks to its vibrant community. This project owes its progress to numerous individuals who've dedicated their time and skills to make it better. We celebrate the coders who've enhanced its features on GitHub, the linguists whose translations on Crowdin have made it accessible to a broader audience, and the people who've donated to support its continued development."
+msgstr ""
+
+#: src/routes/_home/-sections/donate.tsx:169
+msgid "Reactive Resume is a free and open-source project, built with love and maintained by me and a community of contributors. Your donations help keep the lights on and the code flowing."
 msgstr ""
 
 #: src/routes/_home/-sections/hero.tsx:71
 msgid "Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume."
 msgstr "Reactive Resume ist ein kostenloser und quelloffener Lebenslauf-Builder, der das Erstellen, Aktualisieren und Teilen Ihres Lebenslaufs vereinfacht."
 
-#: src/routes/_home/-sections/faq.tsx:28
+#: src/routes/_home/-sections/faq.tsx:32
 msgid "Reactive Resume is open-source, privacy-focused, and completely free. Unlike other builders, we don't show ads, track your data, or limit your features behind a paywall."
-msgstr ""
-
-#: src/routes/_home/-sections/prefooter.tsx:31
-msgid "Reactive Resume thrives thanks to its vibrant community. This project owes its progress to numerous individuals who've dedicated their time and skills to make it better. We celebrate the coders who've enhanced its features on GitHub, the linguists whose translations on Crowdin have made it accessible to a broader audience, and the people who've donated to support its continued development."
 msgstr ""
 
 #: src/components/level/combobox.tsx:17
@@ -1566,7 +1599,7 @@ msgstr "Umbenennen"
 msgid "Report a Bug"
 msgstr "Fehler melden"
 
-#: src/routes/_home/-sections/footer.tsx:34
+#: src/routes/_home/-sections/footer.tsx:36
 msgid "Report an Issue"
 msgstr ""
 
@@ -1598,7 +1631,7 @@ msgstr ""
 msgid "Resetting your password..."
 msgstr "Ihr Passwort wird zurückgesetzt..."
 
-#: src/routes/_home/-sections/footer.tsx:88
+#: src/routes/_home/-sections/footer.tsx:85
 msgid "Resources"
 msgstr ""
 
@@ -1607,7 +1640,7 @@ msgstr ""
 #: src/components/command-palette/pages/resumes.tsx:46
 #: src/components/command-palette/pages/resumes.tsx:48
 #: src/components/command-palette/pages/resumes.tsx:52
-#: src/routes/_home/-sections/statistics.tsx:23
+#: src/routes/_home/-sections/statistics.tsx:25
 #: src/routes/dashboard/-components/sidebar.tsx:46
 #: src/routes/dashboard/resumes/index.tsx:59
 msgid "Resumes"
@@ -1756,7 +1789,7 @@ msgstr "Registrieren"
 msgid "Signing in..."
 msgstr "Anmeldung läuft..."
 
-#: src/components/user/dropdown-menu.tsx:49
+#: src/components/user/dropdown-menu.tsx:48
 msgid "Signing out..."
 msgstr "Abmeldung läuft..."
 
@@ -1786,7 +1819,7 @@ msgstr "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
 msgid "Sort by"
 msgstr "Sortieren nach"
 
-#: src/routes/_home/-sections/footer.tsx:27
+#: src/routes/_home/-sections/footer.tsx:29
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx:46
 msgid "Source Code"
 msgstr "Quellcode"
@@ -1808,10 +1841,6 @@ msgstr "Sponsoren"
 msgid "Square"
 msgstr "Quadrat"
 
-#: src/routes/_home/-sections/prefooter.tsx:50
-msgid "Star on GitHub"
-msgstr ""
-
 #: src/dialogs/resume/index.tsx:113
 msgid "Start building your resume by giving it a name."
 msgstr "Beginnen Sie mit dem Erstellen Ihres Lebenslaufs, indem Sie ihm einen Namen geben."
@@ -1831,6 +1860,10 @@ msgstr "Durchgestrichen"
 #: src/utils/resume/section.tsx:92
 msgid "Summary"
 msgstr "Zusammenfassung"
+
+#: src/routes/_home/-sections/donate.tsx:159
+msgid "Support Reactive Resume"
+msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx:11
 msgid "Support the app by doing what you can!"
@@ -1856,11 +1889,11 @@ msgstr "Vorlage"
 msgid "Template Gallery"
 msgstr "Vorlagen-Galerie"
 
-#: src/routes/_home/-sections/templates.tsx:94
+#: src/routes/_home/-sections/templates.tsx:92
 msgid "Templates"
 msgstr ""
 
-#: src/routes/_home/-sections/testimonials.tsx:153
+#: src/routes/_home/-sections/testimonials.tsx:115
 msgid "Testimonials"
 msgstr ""
 
@@ -1893,7 +1926,7 @@ msgid "The URL you entered is not valid."
 msgstr "Die eingegebene URL ist nicht gültig."
 
 #: src/components/command-palette/pages/preferences/theme.tsx:18
-#: src/components/user/dropdown-menu.tsx:91
+#: src/components/user/dropdown-menu.tsx:90
 #: src/routes/dashboard/settings/preferences.tsx:32
 msgid "Theme"
 msgstr "Design"
@@ -1954,7 +1987,7 @@ msgstr "Um Ihr Konto zu löschen, müssen Sie den Bestätigungstext eingeben und
 msgid "Track your resume's views and downloads"
 msgstr "Verfolgen Sie die Aufrufe und Downloads Ihres Lebenslaufs"
 
-#: src/routes/_home/-sections/footer.tsx:28
+#: src/routes/_home/-sections/footer.tsx:30
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx:58
 msgid "Translations"
 msgstr "Übersetzungen"
@@ -2113,7 +2146,7 @@ msgstr "Authenticator-App verwenden"
 msgid "Username"
 msgstr "Benutzername"
 
-#: src/routes/_home/-sections/statistics.tsx:17
+#: src/routes/_home/-sections/statistics.tsx:19
 msgid "Users"
 msgstr ""
 
@@ -2183,7 +2216,7 @@ msgstr "Wie möchten Sie diesen Passkey nennen?"
 msgid "What do you want to rename this section to?"
 msgstr "Wie möchten Sie diesen Abschnitt umbenennen?"
 
-#: src/routes/_home/-sections/faq.tsx:27
+#: src/routes/_home/-sections/faq.tsx:31
 msgid "What makes Reactive Resume different from other resume builders?"
 msgstr ""
 
@@ -2200,7 +2233,11 @@ msgstr "Wenn gesperrt, kann der Lebenslauf nicht aktualisiert oder gelöscht wer
 msgid "Write your own CSS (or use an AI to generate it for you) to customize your resume to the fullest."
 msgstr ""
 
-#: src/routes/_home/-sections/faq.tsx:32
+#: src/routes/_home/-sections/faq.tsx:28
+msgid "Yes, Reactive Resume is available in multiple languages. You can choose your preferred language in the settings page, or using the language switcher in the top right corner. If you don't see your language, or you would like to improve the existing translations, you can contribute to the translations on Crowdin."
+msgstr ""
+
+#: src/routes/_home/-sections/faq.tsx:36
 msgid "Yes! Every template is fully customizable. You can change colors, fonts, spacing, and even write custom CSS for complete control over your resume's appearance."
 msgstr ""
 
@@ -2216,7 +2253,7 @@ msgstr ""
 msgid "You can also use your username to login."
 msgstr "Sie können sich auch mit Ihrem Benutzernamen anmelden."
 
-#: src/routes/_home/-sections/faq.tsx:36
+#: src/routes/_home/-sections/faq.tsx:40
 msgid "You can share your resume via a unique public URL, protect it with a password, or download it as a PDF to share directly. The choice is yours!"
 msgstr ""
 
@@ -2303,6 +2340,10 @@ msgstr "Ihr Lebenslauf wurde erfolgreich aktualisiert."
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:139
 msgid "Your resume's public link is currently protected by a password. Share the password only with people you trust."
 msgstr "Der öffentliche Link Ihres Lebenslaufs ist derzeit mit einem Passwort geschützt. Teilen Sie das Passwort nur mit Personen, denen Sie vertrauen."
+
+#: src/routes/_home/-sections/donate.tsx:181
+msgid "Your support ensures the project remains free and accessible for everyone, now and in the future."
+msgstr ""
 
 #: src/routes/builder/$resumeId/-components/dock.tsx:71
 msgid "Zoom in"

@@ -40,9 +40,8 @@ export function UserDropdownMenu({ children }: Props) {
 
 	async function handleLocaleChange(value: string) {
 		if (!isLocale(value)) return;
-		await loadLocale(value);
-		await setLocaleServerFn({ data: value });
-		router.invalidate();
+		await Promise.all([loadLocale(value), setLocaleServerFn({ data: value })]);
+		window.location.reload();
 	}
 
 	function handleLogout() {

@@ -1,4 +1,5 @@
 import { t } from "@lingui/core/macro";
+import { Trans } from "@lingui/react/macro";
 import type { Icon } from "@phosphor-icons/react";
 import { GithubLogoIcon, LinkedinLogoIcon, XLogoIcon } from "@phosphor-icons/react";
 import { motion } from "motion/react";
@@ -61,8 +62,10 @@ export function Footer() {
 					<div className="space-y-2">
 						<h1 className="font-bold text-lg tracking-tight">Reactive Resume</h1>
 						<p className="max-w-xs text-muted-foreground text-sm leading-relaxed">
-							A free and open-source resume builder that simplifies the process of creating, updating, and sharing your
-							resume.
+							<Trans>
+								A free and open-source resume builder that simplifies the process of creating, updating, and sharing
+								your resume.
+							</Trans>
 						</p>
 					</div>
 

@@ -91,16 +91,14 @@ type FAQItemComponentProps = {
 function FAQItemComponent({ item, index }: FAQItemComponentProps) {
 	return (
 		<motion.div
+			className="last:border-b"
 			initial={{ opacity: 0, y: 10 }}
 			whileInView={{ opacity: 1, y: 0 }}
 			viewport={{ once: true }}
 			transition={{ duration: 0.4, delay: index * 0.05 }}
 		>
-			<AccordionItem
-				value={item.question}
-				className="group border-border/50 border-b transition-colors hover:border-border"
-			>
-				<AccordionTrigger className="py-5 text-left font-medium transition-colors group-hover:text-primary data-[state=open]:text-primary">
+			<AccordionItem value={item.question} className="group border-t">
+				<AccordionTrigger className="py-5">
 					{item.question}
 					<CaretRightIcon className="shrink-0 transition-transform duration-200" />
 				</AccordionTrigger>

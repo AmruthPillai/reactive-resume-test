@@ -1,6 +1,5 @@
 import { i18n } from "@lingui/core";
 import { useLingui } from "@lingui/react";
-import { useRouter } from "@tanstack/react-router";
 import { isLocale, type Locale, loadLocale, localeMap, setLocaleServerFn } from "@/utils/locale";
 import { Combobox, type ComboboxProps } from "../ui/combobox";
 
@@ -15,14 +14,12 @@ export const getLocaleOptions = () => {
 };
 
 export function LocaleCombobox(props: Props) {
-	const router = useRouter();
 	const { i18n } = useLingui();
 
 	const onLocaleChange = async (value: string | null) => {
 		if (!value || !isLocale(value)) return;
-		await loadLocale(value);
-		await setLocaleServerFn({ data: value });
-		router.invalidate();
+		await Promise.all([loadLocale(value), setLocaleServerFn({ data: value })]);
+		window.location.reload();
 	};
 
 	return <Combobox options={getLocaleOptions()} defaultValue={i18n.locale} onValueChange={onLocaleChange} {...props} />;
