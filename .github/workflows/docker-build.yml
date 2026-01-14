@@ -6,6 +6,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: docker-image-build-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   IMAGE_NAME: ${{ github.repository }}
 
@@ -61,6 +65,14 @@ jobs:
             type=sha,prefix=,format=short
             type=raw,value=v${{ steps.version.outputs.VERSION }}
 
+      - name: Cache Docker layers
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v6
         with:
@@ -70,3 +82,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
