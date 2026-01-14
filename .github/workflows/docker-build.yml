@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  IMAGE: ${{ github.actor }}/${{ github.repository }}
+  IMAGE: ${{ github.repository }}
 
 jobs:
   build-and-push:
