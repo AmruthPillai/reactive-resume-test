@@ -4,8 +4,11 @@
 	"name": "Reactive Resume",
 	"favicon": "/favicon.svg",
 	"description": "A one-of-a-kind resume builder that keeps your privacy in mind. Completely secure, customizable, portable, open-source and free forever. Try it out today!",
-	"appearance": {
-		"default": "dark"
+	"seo": {
+		"indexing": "all",
+		"metatags": {
+			"canonical": "https://docs.rxresu.me"
+		}
 	},
 	"fonts": {
 		"heading": {
@@ -16,7 +19,7 @@
 		}
 	},
 	"colors": {
-		"primary": "#16A34A",
+		"primary": "#166534",
 		"light": "#07C983",
 		"dark": "#15803D"
 	},
@@ -27,7 +30,7 @@
 				"groups": [
 					{
 						"group": "Getting Started",
-						"pages": ["getting-started/index", "getting-started/quickstart"]
+						"pages": ["getting-started/index", "getting-started/quickstart", "getting-started/changelog"]
 					},
 					{
 						"group": "Account",
@@ -42,6 +45,7 @@
 						"group": "Resume Builder",
 						"pages": [
 							"guides/creating-your-first-resume",
+							"guides/choosing-a-template",
 							"guides/exporting-your-resume",
 							"guides/sharing-your-resume-publicly",
 							"guides/using-custom-css"
@@ -97,7 +101,7 @@
 		"links": [
 			{
 				"label": "Support",
-				"href": "mailto:hello@amruthpillai.com"
+				"href": "https://github.com/AmruthPillai/Reactive-Resume/issues"
 			}
 		],
 		"primary": {
@@ -111,9 +115,8 @@
 	},
 	"footer": {
 		"socials": {
-			"x": "https://x.com/KingOKings",
-			"github": "https://github.com/AmruthPillai",
-			"linkedin": "https://linkedin.com/in/amruthpillai"
+			"website": "https://rxresu.me",
+			"github": "https://github.com/AmruthPillai/Reactive-Resume"
 		}
 	}
 }

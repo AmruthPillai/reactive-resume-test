@@ -9,7 +9,7 @@ export const authRouter = {
 				method: "GET",
 				path: "/auth/providers/list",
 				tags: ["Authentication"],
-				summary: "List all authentication providers",
+				summary: "List all auth providers",
 				description:
 					"A list of all authentication providers, and their display names, supported by the instance of Reactive Resume.",
 			})
