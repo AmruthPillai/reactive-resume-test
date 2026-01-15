@@ -1,17 +1,30 @@
+<div align="center" markdown="1">
+  <a href="https://go.warp.dev/Reactive-Resume">
+    <img alt="Warp Sponsorship" width="400" src="https://github.com/warpdotdev/brand-assets/blob/main/Github/Sponsor/Warp-Github-LG-03.png?raw=true" />
+  </a>
+
+  ### [Warp, built for coding with multiple AI agents.](https://go.warp.dev/Reactive-Resume)
+
+  [Available for MacOS, Linux, & Windows](https://go.warp.dev/Reactive-Resume)
+</div>
+
+---
+
 <div align="center">
 
 <a href="https://rxresu.me">
-  <img src="public/pwa-512x512.png" alt="Reactive Resume" width="256px" />
+  <img src="public/opengraph/banner.jpg" alt="Reactive Resume" />
 </a>
 
 <h1>Reactive Resume</h1>
-<p>A free and open-source resume builder that respects your privacy.</p>
 
-<h3>
+<p>Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume.</p>
+
+<p>
   <a href="https://rxresu.me"><strong>Get Started</strong></a>
   ·
   <a href="https://docs.rxresu.me"><strong>Learn More</strong></a>
-</h3>
+</p>
 
 <p>
   <img src="https://img.shields.io/github/stars/AmruthPillai/Reactive-Resume?style=flat-square" alt="Stars" />
