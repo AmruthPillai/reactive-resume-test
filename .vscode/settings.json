@@ -1,17 +1,18 @@
 {
-	"editor.defaultFormatter": "biomejs.biome",
+	"[mdx]": {
+		"editor.defaultFormatter": "unifiedjs.vscode-mdx"
+	},
 	"biome.enabled": true,
 	"editor.codeActionsOnSave": {
 		"source.biome": "explicit",
 		"source.fixAll.biome": "explicit",
 		"source.organizeImports.biome": "explicit"
 	},
-	"editor.quickSuggestions": {
-		"other": "on",
-		"comments": "on",
-		"strings": "on"
-	},
+	"editor.defaultFormatter": "biomejs.biome",
 	"eslint.enable": false,
+	"files.associations": {
+		"*.css": "tailwindcss"
+	},
 	"files.readonlyInclude": {
 		"**/routeTree.gen.ts": true,
 		"bun.lock": true
@@ -28,13 +29,12 @@
 		"**/routeTree.gen.ts": true,
 		"bun.lock": true
 	},
-	"files.associations": {
-		"*.css": "tailwindcss"
-	},
 	"tailwindCSS.classFunctions": ["cn", "cva"],
-	"tailwindCSS.experimental.classRegex": ["class:\\s*?[\"'`]([^\"'`]*).*?,"],
+	"tailwindCSS.experimental.classRegex": [
+		["class:\\s*?[\"'`]([^\"'`]*).*?,"],
+		["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+		["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+	],
 	"tailwindCSS.experimental.configFile": "src/styles/globals.css",
-	"[mdx]": {
-		"editor.defaultFormatter": "unifiedjs.vscode-mdx"
-	}
+	"typescript.tsdk": "node_modules/typescript/lib"
 }

@@ -54,6 +54,7 @@ import { match } from "ts-pattern";
 import z from "zod";
 import { usePrompt } from "@/hooks/use-prompt";
 import { isRTL } from "@/utils/locale";
+import { sanitizeHtml } from "@/utils/sanitize";
 import { cn } from "@/utils/style";
 import { Button } from "../ui/button";
 import {
@@ -653,10 +654,12 @@ type TiptapContentProps = React.ComponentProps<"div"> & {
 };
 
 export function TiptapContent({ content, className, ...props }: TiptapContentProps) {
+	const sanitizedContent = useMemo(() => sanitizeHtml(content), [content]);
+
 	return (
 		<div
-			// biome-ignore lint/security/noDangerouslySetInnerHtml: Safe to render HTML content
-			dangerouslySetInnerHTML={{ __html: content }}
+			// biome-ignore lint/security/noDangerouslySetInnerHtml: Content is sanitized with DOMPurify
+			dangerouslySetInnerHTML={{ __html: sanitizedContent }}
 			className={cn(styles.tiptap_content, className)}
 			{...props}
 		/>

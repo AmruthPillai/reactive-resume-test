@@ -1,7 +1,7 @@
 import { BetterAuthError } from "@better-auth/core/error";
 import { passkey } from "@better-auth/passkey";
-import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { betterAuth } from "better-auth/minimal";
 import { apiKey, type GenericOAuthConfig, genericOAuth, twoFactor } from "better-auth/plugins";
 import { username } from "better-auth/plugins/username";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
@@ -31,7 +31,7 @@ const getAuthConfig = () => {
 				if (!profile.email) {
 					throw new BetterAuthError(
 						"OAuth Provider did not return an email address. This is required for user creation.",
-						"EMAIL_REQUIRED",
+						{ cause: "EMAIL_REQUIRED" },
 					);
 				}
 

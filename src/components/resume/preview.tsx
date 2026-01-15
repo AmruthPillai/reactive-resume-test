@@ -3,6 +3,7 @@ import { IconContext, type IconProps } from "@phosphor-icons/react";
 import { useMemo } from "react";
 import { match } from "ts-pattern";
 import type { Template } from "@/schema/templates";
+import { sanitizeCss } from "@/utils/sanitize";
 import { cn } from "@/utils/style";
 import { useCSSVariables } from "./hooks/use-css-variables";
 import { useWebfonts } from "./hooks/use-webfonts";
@@ -62,10 +63,12 @@ export const ResumePreview = ({ showPageNumbers, pageClassName, className, ...pr
 	const scopedCSS = useMemo(() => {
 		if (!metadata.css.enabled || !metadata.css.value.trim()) return null;
 
-		const css = metadata.css.value;
+		// First sanitize the CSS to remove any potential XSS vectors
+		const sanitizedCss = sanitizeCss(metadata.css.value);
+
 		// Simple approach: prefix each top-level selector with .resume-preview-container
 		// This handles most common cases like .class-name, #id, element, etc.
-		const scoped = css
+		const scoped = sanitizedCss
 			.split(/\n(?=\s*[.#a-zA-Z])/) // Split on newlines that start a new rule
 			.map((rule) => {
 				const trimmed = rule.trim();
@@ -88,7 +91,7 @@ export const ResumePreview = ({ showPageNumbers, pageClassName, className, ...pr
 
 	return (
 		<IconContext.Provider value={iconProps}>
-			{/** biome-ignore lint/security/noDangerouslySetInnerHtml: it's okay */}
+			{/** biome-ignore lint/security/noDangerouslySetInnerHtml: CSS is sanitized with sanitizeCss */}
 			{scopedCSS && <style dangerouslySetInnerHTML={{ __html: scopedCSS }} />}
 
 			<div style={style} className={cn("resume-preview-container", className)} {...props}>

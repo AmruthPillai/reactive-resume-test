@@ -9,6 +9,7 @@ import {
 	TrashSimpleIcon,
 } from "@phosphor-icons/react";
 import { AnimatePresence, motion } from "motion/react";
+import { useMemo } from "react";
 import { useResumeStore } from "@/components/resume/store/resume";
 import {
 	DropdownMenu,
@@ -26,6 +27,7 @@ import {
 import { useDialogStore } from "@/dialogs/store";
 import { useConfirm } from "@/hooks/use-confirm";
 import type { CustomSection } from "@/schema/resume/data";
+import { sanitizeHtml } from "@/utils/sanitize";
 import { cn } from "@/utils/style";
 import { SectionBase } from "../shared/section-base";
 import { SectionAddItemButton } from "../shared/section-item";
@@ -52,6 +54,7 @@ function CustomSectionItem({ section }: { section: CustomSection }) {
 	const confirm = useConfirm();
 	const { openDialog } = useDialogStore();
 	const updateResumeData = useResumeStore((state) => state.updateResumeData);
+	const sanitizedContent = useMemo(() => sanitizeHtml(section.content), [section.content]);
 
 	const onUpdate = () => {
 		openDialog("resume.sections.custom.update", section);
@@ -112,8 +115,8 @@ function CustomSectionItem({ section }: { section: CustomSection }) {
 				<div className="line-clamp-1 font-medium text-base">{section.title}</div>
 				<div
 					className="line-clamp-2 text-muted-foreground text-xs"
-					// biome-ignore lint/security/noDangerouslySetInnerHtml: safe to use
-					dangerouslySetInnerHTML={{ __html: section.content }}
+					// biome-ignore lint/security/noDangerouslySetInnerHtml: Content is sanitized with DOMPurify
+					dangerouslySetInnerHTML={{ __html: sanitizedContent }}
 				/>
 			</button>
 

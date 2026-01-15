@@ -11,30 +11,28 @@
 ---
 
 <div align="center">
+  <a href="https://rxresu.me">
+    <img src="public/opengraph/banner.jpg" alt="Reactive Resume" />
+  </a>
 
-<a href="https://rxresu.me">
-  <img src="public/opengraph/banner.jpg" alt="Reactive Resume" />
-</a>
+  <h1>Reactive Resume</h1>
 
-<h1>Reactive Resume</h1>
+  <p>Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume.</p>
 
-<p>Reactive Resume is a free and open-source resume builder that simplifies the process of creating, updating, and sharing your resume.</p>
+  <p>
+    <a href="https://rxresu.me"><strong>Get Started</strong></a>
+    ·
+    <a href="https://docs.rxresu.me"><strong>Learn More</strong></a>
+  </p>
 
-<p>
-  <a href="https://rxresu.me"><strong>Get Started</strong></a>
-  ·
-  <a href="https://docs.rxresu.me"><strong>Learn More</strong></a>
-</p>
-
-<p>
-  <img src="https://img.shields.io/github/stars/AmruthPillai/Reactive-Resume?style=flat-square" alt="Stars" />
-  <img src="https://img.shields.io/github/license/AmruthPillai/Reactive-Resume?style=flat-square" alt="License" />
-  <img src="https://img.shields.io/docker/pulls/amruthpillai/reactive-resume?style=flat-square" alt="Docker Pulls" />
-  <a href="https://discord.gg/hzwkZbyvUW"><img src="https://img.shields.io/discord/1173518977851473940?label=Discord&style=flat-square&logo=discord" alt="Discord" /></a>
-  <a href="https://crowdin.com/project/reactive-resume"><img src="https://badges.crowdin.net/reactive-resume/localized.svg?style=flat-square" alt="Crowdin" /></a>
-  <a href="https://opencollective.com/reactive-resume"><img src="https://img.shields.io/opencollective/all/reactive-resume?style=flat-square" alt="Open Collective" /></a>
-</p>
-
+  <p>
+    <img src="https://img.shields.io/github/stars/AmruthPillai/Reactive-Resume?style=flat-square" alt="Stars" />
+    <img src="https://img.shields.io/github/license/AmruthPillai/Reactive-Resume?style=flat-square" alt="License" />
+    <img src="https://img.shields.io/docker/pulls/amruthpillai/reactive-resume?style=flat-square" alt="Docker Pulls" />
+    <a href="https://discord.gg/hzwkZbyvUW"><img src="https://img.shields.io/discord/1173518977851473940?label=Discord&style=flat-square&logo=discord" alt="Discord" /></a>
+    <a href="https://crowdin.com/project/reactive-resume"><img src="https://badges.crowdin.net/reactive-resume/localized.svg?style=flat-square" alt="Crowdin" /></a>
+    <a href="https://opencollective.com/reactive-resume"><img src="https://img.shields.io/opencollective/all/reactive-resume?style=flat-square" alt="Open Collective" /></a>
+  </p>
 </div>
 
 ---

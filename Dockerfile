@@ -1,14 +1,18 @@
+# syntax=docker/dockerfile:1
+
 # ---------- Dependencies Layer ----------
 FROM oven/bun:1-slim AS dependencies
 
-RUN mkdir -p /tmp/dev
-RUN mkdir -p /tmp/prod
+RUN mkdir -p /tmp/dev /tmp/prod
 
-COPY package.json bun.lock bunfig.toml /tmp/dev
-COPY package.json bun.lock bunfig.toml /tmp/prod
+COPY package.json bun.lock bunfig.toml /tmp/dev/
+COPY package.json bun.lock bunfig.toml /tmp/prod/
 
-RUN cd /tmp/dev && bun install --frozen-lockfile
-RUN cd /tmp/prod && bun install --frozen-lockfile --production
+RUN --mount=type=cache,target=/root/.bun/install/cache \
+    cd /tmp/dev && bun install --frozen-lockfile
+
+RUN --mount=type=cache,target=/root/.bun/install/cache \
+    cd /tmp/prod && bun install --frozen-lockfile --production
 
 # ---------- Builder Layer ----------
 FROM oven/bun:1-slim AS builder
@@ -16,7 +20,6 @@ FROM oven/bun:1-slim AS builder
 WORKDIR /app
 
 COPY --from=dependencies /tmp/dev/node_modules ./node_modules
-
 COPY . .
 
 RUN bun run build
