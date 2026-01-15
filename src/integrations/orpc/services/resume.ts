@@ -9,6 +9,7 @@ import type { Locale } from "@/utils/locale";
 import { hashPassword } from "@/utils/password";
 import { generateId } from "@/utils/string";
 import { hasResumeAccess } from "../helpers/resume-access";
+import { getStorageService } from "./storage";
 
 const tags = {
 	list: async (input: { userId: string }): Promise<string[]> => {
@@ -289,10 +290,16 @@ export const resumeService = {
 	},
 
 	delete: async (input: { id: string; userId: string }): Promise<void> => {
-		await db
+		const storageService = getStorageService();
+
+		const deleteResumePromise = db
 			.delete(schema.resume)
 			.where(
 				and(eq(schema.resume.id, input.id), eq(schema.resume.isLocked, false), eq(schema.resume.userId, input.userId)),
 			);
+
+		const deleteScreenshotsPromise = storageService.delete(`screenshots/${input.id}`);
+
+		await Promise.allSettled([deleteResumePromise, deleteScreenshotsPromise]);
 	},
 };

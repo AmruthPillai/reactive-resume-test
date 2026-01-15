@@ -1,4 +1,4 @@
-import { access, constants as fsConstants, mkdir, readdir } from "node:fs/promises";
+import { access, constants as fsConstants, mkdir, readdir, rm } from "node:fs/promises";
 import { dirname, extname, join } from "node:path";
 import { env } from "@/utils/env";
 
@@ -102,13 +102,23 @@ export class LocalStorageService implements StorageService {
 
 	async delete(key: string): Promise<boolean> {
 		const fullPath = this.resolvePath(key);
-		const file = Bun.file(fullPath);
 
-		if (!(await file.exists())) return false;
+		// Check if the path exists and whether it's a file or folder
+		try {
+			const stats = await Bun.file(fullPath).stat();
 
-		await file.delete();
-
-		return true;
+			if (stats.isDirectory()) {
+				// Delete the directory and its contents recursively
+				await rm(fullPath, { recursive: true });
+				return true;
+			} else {
+				await Bun.file(fullPath).delete();
+				return true;
+			}
+		} catch {
+			// Path does not exist
+			return false;
+		}
 	}
 
 	async healthcheck(): Promise<StorageHealthResult> {
