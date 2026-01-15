@@ -6,7 +6,6 @@ dist
 .vercel
 coverage
 .DS_Store
-scripts/migration
 .tanstack
 node_modules
 !.env.example
