@@ -1,9 +1,9 @@
 import { and, eq, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/bun-sql";
 import { schema } from "@/integrations/drizzle";
-import { generateId } from "@/utils/string";
 import { ReactiveResumeV4JSONImporter } from "@/integrations/import/reactive-resume-v4-json";
 import { defaultResumeData } from "@/schema/resume/data";
+import { generateId } from "@/utils/string";
 
 // Types for the production database
 type Visibility = "public" | "private";
@@ -88,7 +88,6 @@ export async function migrateResumes() {
 		const resumes = (await productionDb.execute(sql`
 			SELECT id, title, slug, data, visibility, locked, "userId", "createdAt", "updatedAt"
 			FROM "Resume"
-      WHERE "userId" = 'cmkdvkx0p0c4svs0sj09igqs1'
 			ORDER BY "id" ASC
 			LIMIT ${BATCH_SIZE} OFFSET ${currentOffset}
 		`)) as unknown as ProductionResume[];
@@ -129,24 +128,16 @@ export async function migrateResumes() {
 				// Get the new userId from the mapping
 				const newUserId = userIdMap.get(resume.userId);
 				if (!newUserId) {
-					console.log(
-						`⏭️  Skipping resume at index ${runningIndex} (userId ${resume.userId} not found in userIdMap)`,
-					);
+					console.log(`⏭️  Skipping resume at index ${runningIndex} (userId ${resume.userId} not found in userIdMap)`);
 					skipped++;
 					continue;
 				}
 
 				// Check if the user exists in the local database
-				const existingUser = await localDb
-					.select()
-					.from(schema.user)
-					.where(eq(schema.user.id, newUserId))
-					.limit(1);
+				const existingUser = await localDb.select().from(schema.user).where(eq(schema.user.id, newUserId)).limit(1);
 
 				if (existingUser.length === 0) {
-					console.log(
-						`⏭️  Skipping resume at index ${runningIndex} (userId ${newUserId} not found in local database)`,
-					);
+					console.log(`⏭️  Skipping resume at index ${runningIndex} (userId ${newUserId} not found in local database)`);
 					skipped++;
 					continue;
 				}
@@ -173,10 +164,7 @@ export async function migrateResumes() {
 					const dataJson = typeof resume.data === "string" ? resume.data : JSON.stringify(resume.data);
 					transformedData = importer.parse(dataJson);
 				} catch (error) {
-					console.error(
-						`⚠️  Failed to parse resume data at index ${runningIndex}, using default data:`,
-						error,
-					);
+					console.error(`⚠️  Failed to parse resume data at index ${runningIndex}, using default data:`, error);
 					// Use default data if parsing fails
 					transformedData = defaultResumeData;
 				}

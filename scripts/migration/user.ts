@@ -109,7 +109,6 @@ export async function migrateUsers() {
 		const users = (await productionDb.execute(sql`
 			SELECT id, name, picture, username, email, locale, "emailVerified", "twoFactorEnabled", "createdAt", "updatedAt", provider
 			FROM "User"
-      WHERE "email" = 'amruthpillai.de@gmail.com'
 			ORDER BY "id" ASC
 			LIMIT ${BATCH_SIZE} OFFSET ${currentOffset}
 		`)) as unknown as ProductionUser[];
@@ -234,8 +233,6 @@ export async function migrateUsers() {
 				await saveUserIdMapToFile(userIdMap);
 			} catch (error) {
 				console.error(`🚨 Failed to migrate user at index ${runningIndex}:`, error);
-				// Still save mapping so we can resume/max safety
-				await saveUserIdMapToFile(userIdMap);
 			}
 		}
 
