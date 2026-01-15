@@ -4,7 +4,7 @@
   <img src="public/pwa-512x512.png" alt="Reactive Resume" width="256px" />
 </a>
 
-<h3>Reactive Resume</h3>
+<h2>Reactive Resume</h2>
 <p>A free and open-source resume builder that respects your privacy.</p>
 
 <p>
@@ -17,9 +17,9 @@
   <img src="https://img.shields.io/github/stars/AmruthPillai/Reactive-Resume?style=flat-square" alt="Stars" />
   <img src="https://img.shields.io/github/license/AmruthPillai/Reactive-Resume?style=flat-square" alt="License" />
   <img src="https://img.shields.io/docker/pulls/amruthpillai/reactive-resume?style=flat-square" alt="Docker Pulls" />
-  <a href="https://discord.gg/hbHqF6V"><img src="https://img.shields.io/discord/787558964360036382?label=Discord&style=flat-square&logo=discord" alt="Discord" /></a>
+  <a href="https://discord.gg/hzwkZbyvUW"><img src="https://img.shields.io/discord/1173518977851473940?label=Discord&style=flat-square&logo=discord" alt="Discord" /></a>
   <a href="https://crowdin.com/project/reactive-resume"><img src="https://badges.crowdin.net/reactive-resume/localized.svg?style=flat-square" alt="Crowdin" /></a>
-  <a href="https://opencollective.com/reactive-resume"><img src="https://img.shields.io/opencollective/sponsors/reactive-resume?style=flat-square" alt="Open Collective" /></a>
+  <a href="https://opencollective.com/reactive-resume"><img src="https://img.shields.io/opencollective/all/reactive-resume?style=flat-square" alt="Open Collective" /></a>
 </p>
 
 </div>
@@ -131,7 +131,7 @@ The quickest way to run Reactive Resume locally:
 git clone https://github.com/AmruthPillai/Reactive-Resume.git
 cd Reactive-Resume
 
-# Start infrastructure services
+# Start all services
 docker compose up -d
 
 # Access the app
@@ -171,8 +171,8 @@ Comprehensive guides are available at [docs.rxresu.me](https://docs.rxresu.me):
 Reactive Resume can be self-hosted using Docker. The stack includes:
 
 - **PostgreSQL** — Database for storing user data and resumes
-- **SeaweedFS** — S3-compatible storage for file uploads
 - **Gotenberg** — Headless Chrome service for PDF generation
+- **SeaweedFS** (optional) — S3-compatible storage for file uploads
 
 Pull the latest image from Docker Hub or GitHub Container Registry:
 
@@ -188,7 +188,7 @@ See the [self-hosting guide](https://docs.rxresu.me/guides/self-hosting-with-doc
 
 ## Support
 
-Reactive Resume is and always will be free and open-source. If it has helped you land a job or saved you time, consider supporting continued development:
+Reactive Resume is and always will be free and open-source. If it has helped you land a job or saved you time, please consider supporting continued development:
 
 <p>
   <a href="https://github.com/sponsors/AmruthPillai">
@@ -216,21 +216,7 @@ Contributions make open-source thrive. Whether fixing a typo or adding a feature
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-See the [development setup guide](https://docs.rxresu.me/contributing/development) for detailed instructions.
-
-## Community
-
-<p>
-  <a href="https://github.com/AmruthPillai/Reactive-Resume">
-    <img src="https://img.shields.io/badge/GitHub-Repository-181717?style=flat-square&logo=github" alt="GitHub" />
-  </a>
-  <a href="https://discord.gg/hzwkZbyvUW">
-    <img src="https://img.shields.io/badge/Discord-Join-5865F2?style=flat-square&logo=discord&logoColor=white" alt="Discord" />
-  </a>
-  <a href="https://reddit.com/r/reactiveresume">
-    <img src="https://img.shields.io/badge/Reddit-Community-FF4500?style=flat-square&logo=reddit&logoColor=white" alt="Reddit" />
-  </a>
-</p>
+See the [development setup guide](https://docs.rxresu.me/contributing/development) for detailed instructions on how to set up the project locally.
 
 ## License
 

@@ -1,13 +1,9 @@
-name: reactive-resume-start
+name: reactive_resume
 
 services:
   postgres:
-    build:
-      context: ./deployment/postgres
-      dockerfile: Dockerfile
+    image: postgres:latest
     restart: unless-stopped
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
@@ -16,6 +12,20 @@ services:
       - postgres_data:/var/lib/postgresql
     healthcheck:
       test: ["CMD", "pg_isready", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  gotenberg:
+    image: gotenberg/gotenberg:latest
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - CHROMIUM_AUTO_START=true
+      - LIBREOFFICE_DISABLE_ROUTES=true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -42,69 +52,56 @@ services:
       /bin/sh -c "
         sleep 5;
         mc alias set seaweedfs http://seaweedfs:8333 seaweedfs seaweedfs;
-        mc mb seaweedfs/reactive-resume-start;
+        mc mb seaweedfs/reactive-resume;
         exit 0;
       "
     depends_on:
       seaweedfs:
         condition: service_healthy
 
-  gotenberg:
-    image: gotenberg/gotenberg:edge
-    restart: unless-stopped
-    ports:
-      - "4000:3000"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+  reactive_resume:
+    image: ghcr.io/amruthpillai/reactive-resume:latest
     environment:
-      - CHROMIUM_AUTO_START=true
-      - LIBREOFFICE_DISABLE_ROUTES=true
+      - TZ=UTC
+      - NODE_ENV=production
+      # App
+      - APP_URL=http://localhost:3000
+      - PRINTER_APP_URL=http://app:3000
+      # Printer
+      - GOTENBERG_ENDPOINT=http://gotenberg:3000
+      # Database
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
+      # Auth
+      - AUTH_SECRET=change-me-to-a-secure-secret-key-in-production
+      # Storage
+      - S3_ACCESS_KEY_ID=seaweedfs
+      - S3_SECRET_ACCESS_KEY=seaweedfs
+      - S3_ENDPOINT=http://seaweedfs:8333
+      - S3_BUCKET=reactive-resume
+    volumes:
+      - reactive_resume_data:/app/data
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      gotenberg:
+        condition: service_healthy
+      seaweedfs-create-bucket:
+        condition: service_completed_successfully
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      test:
+        [
+          "CMD",
+          "bun",
+          "-e",
+          "fetch('http://localhost:3000/api/health').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
 
-  # app:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     - TZ=UTC
-  #     - NODE_ENV=production
-  #     # App
-  #     - APP_URL=http://localhost:3000
-  #     - PRINTER_APP_URL=http://host.docker.internal:3000
-  #     # Printer
-  #     - GOTENBERG_ENDPOINT=http://gotenberg:3000
-  #     # Database
-  #     - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/postgres
-  #     # Auth
-  #     - AUTH_SECRET=yw/dZpxtHixRpsL95vJ39WeA+s0CzN2vhOFlPQo2FJA=
-  #     # Storage
-  #     - S3_ACCESS_KEY_ID=seaweedfs
-  #     - S3_SECRET_ACCESS_KEY=seaweedfs
-  #     - S3_ENDPOINT=http://seaweedfs:8333
-  #     - S3_BUCKET=reactive-resume-start
-  #   volumes:
-  #     - ./data:/app/data
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  #   healthcheck:
-  #     test:
-  #       [
-  #         "CMD",
-  #         "bun",
-  #         "-e",
-  #         "fetch('http://localhost:3000/api/health').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))",
-  #       ]
-  #     interval: 30s
-  #     timeout: 10s
-  #     retries: 3
-
 volumes:
   postgres_data:
   seaweedfs_data:
+  reactive_resume_data:
