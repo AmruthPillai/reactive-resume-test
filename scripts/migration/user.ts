@@ -61,7 +61,11 @@ const localClient = new Bun.SQL({ url: localUrl });
 const USER_ID_MAP_FILE = "./scripts/migration/user-id-map.json";
 
 // You may tune this for your use case
-const BATCH_SIZE = 10000;
+// Reduced from 10000 to avoid PostgreSQL message format errors
+const BATCH_SIZE = 500;
+
+// Chunk size for actual inserts - smaller to avoid PostgreSQL message size limits
+const INSERT_CHUNK_SIZE = 100;
 
 async function loadUserIdMapFromFile(): Promise<Map<string, string>> {
 	try {
@@ -124,7 +128,8 @@ export async function migrateUsers() {
 		const userIds = users.map((u) => u.id);
 
 		// Drizzle does not interpolate arrays, so we join and use a custom SQL string
-		const userIdsForSql = userIds.map((id) => `'${id}'`).join(", ");
+		// Escape single quotes in IDs (though UUIDs shouldn't contain them, this is safer)
+		const userIdsForSql = userIds.map((id) => `'${id.replace(/'/g, "''")}'`).join(", ");
 
 		const secrets = (await productionDb.execute(sql`
 			SELECT id, password, "lastSignedIn", "verificationToken", "twoFactorSecret", "twoFactorBackupCodes", "refreshToken", "resetToken", "userId"
@@ -226,10 +231,14 @@ export async function migrateUsers() {
 			};
 		});
 
-		// Bulk insert users
+		// Bulk insert users (chunked to avoid PostgreSQL message size limits)
 		const batchStart = performance.now();
 		try {
-			await localDb.insert(schema.user).values(usersToInsertData.map(({ userData }) => userData));
+			const userDataList = usersToInsertData.map(({ userData }) => userData);
+			for (let i = 0; i < userDataList.length; i += INSERT_CHUNK_SIZE) {
+				const chunk = userDataList.slice(i, i + INSERT_CHUNK_SIZE);
+				await localDb.insert(schema.user).values(chunk);
+			}
 			usersCreated += usersToInsertData.length;
 
 			// Prepare accounts for bulk insert
@@ -250,8 +259,11 @@ export async function migrateUsers() {
 				};
 			});
 
-			// Bulk insert accounts
-			await localDb.insert(schema.account).values(accountsToInsert);
+			// Bulk insert accounts (chunked)
+			for (let i = 0; i < accountsToInsert.length; i += INSERT_CHUNK_SIZE) {
+				const chunk = accountsToInsert.slice(i, i + INSERT_CHUNK_SIZE);
+				await localDb.insert(schema.account).values(chunk);
+			}
 			accountsCreated += accountsToInsert.length;
 
 			// Prepare two-factor entries for bulk insert
@@ -273,9 +285,12 @@ export async function migrateUsers() {
 				})
 				.filter((entry): entry is NonNullable<typeof entry> => entry !== null);
 
-			// Bulk insert two-factor entries
+			// Bulk insert two-factor entries (chunked)
 			if (twoFactorToInsert.length > 0) {
-				await localDb.insert(schema.twoFactor).values(twoFactorToInsert);
+				for (let i = 0; i < twoFactorToInsert.length; i += INSERT_CHUNK_SIZE) {
+					const chunk = twoFactorToInsert.slice(i, i + INSERT_CHUNK_SIZE);
+					await localDb.insert(schema.twoFactor).values(chunk);
+				}
 				twoFactorCreated += twoFactorToInsert.length;
 			}
 

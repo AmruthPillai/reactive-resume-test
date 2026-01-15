@@ -42,7 +42,12 @@ const localClient = new Bun.SQL({ url: localUrl });
 const USER_ID_MAP_FILE = "./scripts/migration/user-id-map.json";
 
 // You may tune this for your use case
-const BATCH_SIZE = 10000;
+// Reduced from 10000 to avoid PostgreSQL message format errors
+const BATCH_SIZE = 500;
+
+// Chunk size for actual inserts - smaller to avoid PostgreSQL message size limits
+// Especially important for resumes as they contain large JSONB data
+const INSERT_CHUNK_SIZE = 50;
 
 async function loadUserIdMapFromFile(): Promise<Map<string, string>> {
 	try {
@@ -103,7 +108,8 @@ export async function migrateResumes() {
 		const resumeIds = resumes.map((r) => r.id);
 
 		// Drizzle does not interpolate arrays, so we join and use a custom SQL string
-		const resumeIdsForSql = resumeIds.map((id) => `'${id}'`).join(", ");
+		// Escape single quotes in IDs (though UUIDs shouldn't contain them, this is safer)
+		const resumeIdsForSql = resumeIds.map((id) => `'${id.replace(/'/g, "''")}'`).join(", ");
 
 		const statistics = (await productionDb.execute(sql`
 			SELECT id, views, downloads, "resumeId", "createdAt", "updatedAt"
@@ -236,8 +242,13 @@ export async function migrateResumes() {
 				};
 			});
 
-			// Bulk insert resumes
-			await localDb.insert(schema.resume).values(resumesToInsertData.map(({ resumeData }) => resumeData));
+			// Bulk insert resumes (chunked to avoid PostgreSQL message size limits)
+			// Resumes contain large JSONB data, so we use smaller chunks
+			const resumeDataList = resumesToInsertData.map(({ resumeData }) => resumeData);
+			for (let i = 0; i < resumeDataList.length; i += INSERT_CHUNK_SIZE) {
+				const chunk = resumeDataList.slice(i, i + INSERT_CHUNK_SIZE);
+				await localDb.insert(schema.resume).values(chunk);
+			}
 			resumesCreated += resumesToInsertData.length;
 
 			// Prepare statistics for bulk insert
@@ -259,9 +270,12 @@ export async function migrateResumes() {
 				})
 				.filter((stat): stat is NonNullable<typeof stat> => stat !== null);
 
-			// Bulk insert statistics
+			// Bulk insert statistics (chunked)
 			if (statisticsToInsert.length > 0) {
-				await localDb.insert(schema.resumeStatistics).values(statisticsToInsert);
+				for (let i = 0; i < statisticsToInsert.length; i += INSERT_CHUNK_SIZE) {
+					const chunk = statisticsToInsert.slice(i, i + INSERT_CHUNK_SIZE);
+					await localDb.insert(schema.resumeStatistics).values(chunk);
+				}
 				statisticsCreated += statisticsToInsert.length;
 			}
 
