@@ -34,6 +34,17 @@ const clampLevel = (level: number): number => clamp(level, 0, 5);
 
 const convertAndClampFontSize = (px: number): number => clampFontSize(pxToPt(px));
 
+const isValidEmail = (email: string): boolean => {
+	if (!email) return false;
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	return emailRegex.test(email);
+};
+
+const sanitizeEmail = (email: string | undefined): string => {
+	if (!email) return "";
+	return isValidEmail(email) ? email : "";
+};
+
 type FontWeight = "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900";
 
 const FONT_WEIGHT_MAP: Record<string, FontWeight> = {
@@ -401,7 +412,7 @@ export class ReactiveResumeV4JSONImporter {
 				basics: {
 					name: v4Data.basics.name ?? "",
 					headline: v4Data.basics.headline ?? "",
-					email: v4Data.basics.email ?? "",
+					email: sanitizeEmail(v4Data.basics.email),
 					phone: v4Data.basics.phone ?? "",
 					location: v4Data.basics.location ?? "",
 					website: {
