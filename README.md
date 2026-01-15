@@ -9,7 +9,7 @@
 
 <h3>
   <a href="https://rxresu.me"><strong>Get Started</strong></a>
-  ‎‎·‎‎
+  ·
   <a href="https://docs.rxresu.me"><strong>Learn More</strong></a>
 </h3>
 
