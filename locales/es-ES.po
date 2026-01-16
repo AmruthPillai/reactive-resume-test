@@ -8,7 +8,7 @@ msgstr ""
 "Language: es\n"
 "Project-Id-Version: reactive-resume\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-01-15 22:41\n"
+"PO-Revision-Date: 2026-01-16 10:32\n"
 "Last-Translator: \n"
 "Language-Team: Spanish\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -202,12 +202,20 @@ msgstr ""
 msgid "Adding your passkey..."
 msgstr ""
 
+#: src/utils/locale.ts:70
+msgid "Afrikaans"
+msgstr ""
+
 #: src/dialogs/resume/import.tsx:213
 #: src/dialogs/resume/import.tsx:221
 msgid "AI"
 msgstr ""
 
-#: src/routes/dashboard/settings/ai.tsx:107
+#: src/utils/locale.ts:110
+msgid "Albanian"
+msgstr ""
+
+#: src/routes/dashboard/settings/ai.tsx:110
 msgid "All data entered here is stored locally in your browser and is never sent to our servers. Your API keys and configuration remain private and secure on your device."
 msgstr ""
 
@@ -217,6 +225,10 @@ msgstr ""
 
 #: src/routes/auth/register.tsx:89
 msgid "Already have an account? <0><1>Sign in now <2/></1></0>"
+msgstr ""
+
+#: src/utils/locale.ts:71
+msgid "Amharic"
 msgstr ""
 
 #: src/components/layout/error-screen.tsx:16
@@ -252,7 +264,7 @@ msgstr ""
 msgid "API Access"
 msgstr ""
 
-#: src/routes/dashboard/settings/ai.tsx:73
+#: src/routes/dashboard/settings/ai.tsx:74
 msgid "API Key"
 msgstr ""
 
@@ -269,6 +281,10 @@ msgstr ""
 
 #: src/routes/dashboard/-components/sidebar.tsx:132
 msgid "App"
+msgstr ""
+
+#: src/utils/locale.ts:72
+msgid "Arabic"
 msgstr ""
 
 #: src/routes/dashboard/settings/api-keys.tsx:37
@@ -304,7 +320,7 @@ msgstr ""
 #: src/components/command-palette/pages/navigation.tsx:96
 #: src/components/command-palette/pages/navigation.tsx:101
 #: src/routes/dashboard/-components/sidebar.tsx:74
-#: src/routes/dashboard/settings/ai.tsx:86
+#: src/routes/dashboard/settings/ai.tsx:89
 msgid "Artificial Intelligence"
 msgstr ""
 
@@ -332,6 +348,10 @@ msgstr ""
 msgid "Awards"
 msgstr ""
 
+#: src/utils/locale.ts:73
+msgid "Azerbaijani"
+msgstr ""
+
 #: src/routes/auth/verify-2fa.tsx:105
 msgid "Back to Login"
 msgstr ""
@@ -350,6 +370,10 @@ msgstr ""
 
 #: src/routes/_home/-sections/features.tsx:107
 msgid "Beautiful templates to choose from, with more on the way."
+msgstr ""
+
+#: src/utils/locale.ts:75
+msgid "Bengali"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/typography.tsx:51
@@ -371,6 +395,10 @@ msgstr ""
 
 #: src/components/command-palette/index.tsx:82
 msgid "Builder Command Palette"
+msgstr ""
+
+#: src/utils/locale.ts:74
+msgid "Bulgarian"
 msgstr ""
 
 #: src/components/input/rich-input.tsx:502
@@ -426,6 +454,10 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+#: src/utils/locale.ts:76
+msgid "Catalan"
+msgstr ""
+
 #: src/components/input/rich-input.tsx:477
 msgid "Center Align"
 msgstr ""
@@ -456,6 +488,14 @@ msgstr ""
 
 #: src/routes/auth/register.tsx:210
 msgid "Check your email for a link to verify your account."
+msgstr ""
+
+#: src/utils/locale.ts:120
+msgid "Chinese (Simplified)"
+msgstr ""
+
+#: src/utils/locale.ts:121
+msgid "Chinese (Traditional)"
 msgstr ""
 
 #: src/components/level/combobox.tsx:15
@@ -664,11 +704,19 @@ msgstr ""
 msgid "Custom Sections"
 msgstr ""
 
+#: src/utils/locale.ts:77
+msgid "Czech"
+msgstr ""
+
 #: src/components/command-palette/pages/navigation.tsx:105
 #: src/components/command-palette/pages/navigation.tsx:110
 #: src/routes/dashboard/-components/sidebar.tsx:79
 #: src/routes/dashboard/settings/danger-zone.tsx:56
 msgid "Danger Zone"
+msgstr ""
+
+#: src/utils/locale.ts:78
+msgid "Danish"
 msgstr ""
 
 #: src/components/user/dropdown-menu.tsx:98
@@ -763,7 +811,7 @@ msgstr ""
 msgid "Disable Two-Factor Authentication"
 msgstr ""
 
-#: src/routes/dashboard/settings/ai.tsx:121
+#: src/routes/dashboard/settings/ai.tsx:140
 msgid "Disabled"
 msgstr ""
 
@@ -845,6 +893,10 @@ msgstr ""
 msgid "Duplicating your resume..."
 msgstr ""
 
+#: src/utils/locale.ts:101
+msgid "Dutch"
+msgstr ""
+
 #: src/utils/resume/section.tsx:95
 msgid "Education"
 msgstr ""
@@ -869,11 +921,15 @@ msgstr ""
 msgid "Enable 2FA"
 msgstr ""
 
+#: src/routes/dashboard/settings/ai.tsx:127
+msgid "Enable AI Features"
+msgstr ""
+
 #: src/dialogs/auth/enable-two-factor.tsx:149
 msgid "Enable Two-Factor Authentication"
 msgstr ""
 
-#: src/routes/dashboard/settings/ai.tsx:121
+#: src/routes/dashboard/settings/ai.tsx:140
 msgid "Enabled"
 msgstr ""
 
@@ -885,7 +941,7 @@ msgstr ""
 msgid "Enabling two-factor authentication..."
 msgstr ""
 
-#: src/utils/locale.ts:16
+#: src/utils/locale.ts:81
 msgid "English"
 msgstr ""
 
@@ -954,8 +1010,16 @@ msgstr ""
 msgid "Features"
 msgstr ""
 
+#: src/routes/dashboard/settings/ai.tsx:131
+msgid "Fill in all fields above to enable"
+msgstr ""
+
 #: src/routes/dashboard/resumes/index.tsx:91
 msgid "Filter by"
+msgstr ""
+
+#: src/utils/locale.ts:84
+msgid "Finnish"
 msgstr ""
 
 #: src/routes/_home/-sections/features.tsx:94
@@ -1013,6 +1077,10 @@ msgstr ""
 msgid "Free"
 msgstr ""
 
+#: src/utils/locale.ts:85
+msgid "French"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:253
 msgid "Full Width"
 msgstr ""
@@ -1021,7 +1089,7 @@ msgstr ""
 msgid "Generate a random name"
 msgstr ""
 
-#: src/utils/locale.ts:17
+#: src/utils/locale.ts:79
 msgid "German"
 msgstr ""
 
@@ -1039,6 +1107,10 @@ msgstr ""
 
 #: src/dialogs/resume/sections/education.tsx:203
 msgid "Grade"
+msgstr ""
+
+#: src/utils/locale.ts:80
+msgid "Greek"
 msgstr ""
 
 #: src/routes/_home/-sections/donate.tsx:192
@@ -1078,6 +1150,10 @@ msgstr ""
 msgid "Headline"
 msgstr ""
 
+#: src/utils/locale.ts:86
+msgid "Hebrew"
+msgstr ""
+
 #: src/routes/_home/-sections/donate.tsx:193
 msgid "Help me bring more experienced contributors on board, reducing the burden on a single maintainer and accelerating development."
 msgstr ""
@@ -1114,6 +1190,10 @@ msgstr ""
 msgid "Highlight"
 msgstr ""
 
+#: src/utils/locale.ts:87
+msgid "Hindi"
+msgstr ""
+
 #: src/components/command-palette/pages/navigation.tsx:32
 #: src/components/command-palette/pages/navigation.tsx:34
 msgid "Home"
@@ -1129,6 +1209,10 @@ msgstr ""
 
 #: src/routes/_home/-sections/faq.tsx:19
 msgid "How is my data protected?"
+msgstr ""
+
+#: src/utils/locale.ts:88
+msgid "Hungarian"
 msgstr ""
 
 #: src/components/level/combobox.tsx:20
@@ -1151,6 +1235,10 @@ msgstr ""
 
 #: src/dialogs/resume/import.tsx:270
 msgid "Importing..."
+msgstr ""
+
+#: src/utils/locale.ts:89
+msgid "Indonesian"
 msgstr ""
 
 #: src/utils/resume/section.tsx:118
@@ -1181,17 +1269,37 @@ msgstr ""
 msgid "Issuer"
 msgstr ""
 
+#: src/utils/locale.ts:90
+msgid "Italian"
+msgstr ""
+
 #: src/components/input/rich-input.tsx:335
 msgid "Italic"
+msgstr ""
+
+#: src/utils/locale.ts:91
+msgid "Japanese"
 msgstr ""
 
 #: src/components/input/rich-input.tsx:491
 msgid "Justify Align"
 msgstr ""
 
+#: src/utils/locale.ts:93
+msgid "Kannada"
+msgstr ""
+
 #: src/dialogs/resume/sections/interest.tsx:182
 #: src/dialogs/resume/sections/skill.tsx:227
 msgid "Keywords"
+msgstr ""
+
+#: src/utils/locale.ts:92
+msgid "Khmer"
+msgstr ""
+
+#: src/utils/locale.ts:94
+msgid "Korean"
 msgstr ""
 
 #: src/components/input/url-input.tsx:73
@@ -1226,6 +1334,10 @@ msgstr ""
 #. placeholder {0}: statistics.lastViewedAt.toDateString()
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:44
 msgid "Last viewed on {0}"
+msgstr ""
+
+#: src/utils/locale.ts:96
+msgid "Latvian"
 msgstr ""
 
 #: src/utils/resume/section.tsx:109
@@ -1276,6 +1388,10 @@ msgstr ""
 msgid "Linking your {providerName} account..."
 msgstr ""
 
+#: src/utils/locale.ts:95
+msgid "Lithuanian"
+msgstr ""
+
 #: src/components/command-palette/pages/resumes.tsx:60
 msgid "Loading resumes..."
 msgstr ""
@@ -1312,6 +1428,18 @@ msgstr ""
 msgid "Main"
 msgstr ""
 
+#: src/utils/locale.ts:99
+msgid "Malay"
+msgstr ""
+
+#: src/utils/locale.ts:97
+msgid "Malayalam"
+msgstr ""
+
+#: src/utils/locale.ts:98
+msgid "Marathi"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx:99
 msgid "Margin (Horizontal)"
 msgstr ""
@@ -1320,7 +1448,7 @@ msgstr ""
 msgid "Margin (Vertical)"
 msgstr ""
 
-#: src/routes/dashboard/settings/ai.tsx:60
+#: src/routes/dashboard/settings/ai.tsx:61
 msgid "Model"
 msgstr ""
 
@@ -1338,6 +1466,10 @@ msgstr ""
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx:50
 #: src/routes/dashboard/settings/profile.tsx:136
 msgid "Name"
+msgstr ""
+
+#: src/utils/locale.ts:100
+msgid "Nepali"
 msgstr ""
 
 #: src/dialogs/resume/sections/profile.tsx:168
@@ -1381,8 +1513,16 @@ msgstr ""
 msgid "Non reprehenderit elit commodo occaecat laborum Lorem minim eu cupidatat tempor officia anim deserunt."
 msgstr ""
 
+#: src/utils/locale.ts:102
+msgid "Norwegian"
+msgstr ""
+
 #: src/utils/resume/section.tsx:114
 msgid "Notes"
+msgstr ""
+
+#: src/utils/locale.ts:103
+msgid "Odia"
 msgstr ""
 
 #: src/routes/_home/-sections/features.tsx:76
@@ -1479,6 +1619,10 @@ msgstr ""
 msgid "Period"
 msgstr ""
 
+#: src/utils/locale.ts:83
+msgid "Persian"
+msgstr ""
+
 #: src/routes/_home/-sections/features.tsx:95
 msgid "Personalize your resume with any colors, fonts or designs, and make it your own."
 msgstr ""
@@ -1503,8 +1647,20 @@ msgstr ""
 msgid "Please enter the URL you want to link to:"
 msgstr ""
 
+#: src/utils/locale.ts:104
+msgid "Polish"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:260
 msgid "Portrait"
+msgstr ""
+
+#: src/utils/locale.ts:105
+msgid "Portuguese (Brazil)"
+msgstr ""
+
+#: src/utils/locale.ts:106
+msgid "Portuguese (Portugal)"
 msgstr ""
 
 #: src/dialogs/resume/sections/experience.tsx:167
@@ -1554,7 +1710,7 @@ msgstr ""
 msgid "Protect your resume with a password, and let only people with the password view it."
 msgstr ""
 
-#: src/routes/dashboard/settings/ai.tsx:53
+#: src/routes/dashboard/settings/ai.tsx:54
 msgid "Provider"
 msgstr ""
 
@@ -1673,8 +1829,16 @@ msgstr ""
 msgid "Right Align"
 msgstr ""
 
+#: src/utils/locale.ts:107
+msgid "Romanian"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:185
 msgid "Rotation"
+msgstr ""
+
+#: src/utils/locale.ts:108
+msgid "Russian"
 msgstr ""
 
 #: src/dialogs/resume/index.tsx:205
@@ -1740,6 +1904,10 @@ msgstr ""
 
 #: src/components/input/rich-input.tsx:643
 msgid "Separator"
+msgstr ""
+
+#: src/utils/locale.ts:111
+msgid "Serbian"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/sharing.tsx:57
@@ -1828,6 +1996,10 @@ msgstr ""
 msgid "Skills"
 msgstr ""
 
+#: src/utils/locale.ts:109
+msgid "Slovak"
+msgstr ""
+
 #: src/dialogs/resume/index.tsx:330
 msgid "Slug"
 msgstr ""
@@ -1853,6 +2025,10 @@ msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/page.tsx:194
 msgid "Spacing (Vertical)"
+msgstr ""
+
+#: src/utils/locale.ts:82
+msgid "Spanish"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx:64
@@ -1892,6 +2068,10 @@ msgstr ""
 msgid "Support the app by doing what you can!"
 msgstr ""
 
+#: src/utils/locale.ts:112
+msgid "Swedish"
+msgstr ""
+
 #: src/components/input/rich-input.tsx:582
 msgid "Table"
 msgstr ""
@@ -1902,6 +2082,14 @@ msgstr ""
 
 #: src/dialogs/resume/index.tsx:361
 msgid "Tags can be used to categorize your resume by keywords."
+msgstr ""
+
+#: src/utils/locale.ts:113
+msgid "Tamil"
+msgstr ""
+
+#: src/utils/locale.ts:114
+msgid "Telugu"
 msgstr ""
 
 #: src/utils/resume/section.tsx:108
@@ -1922,6 +2110,10 @@ msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/design.tsx:98
 msgid "Text Color"
+msgstr ""
+
+#: src/utils/locale.ts:115
+msgid "Thai"
 msgstr ""
 
 #: src/routes/dashboard/settings/api-keys.tsx:52
@@ -2020,6 +2212,10 @@ msgstr ""
 msgid "Translations"
 msgstr ""
 
+#: src/utils/locale.ts:116
+msgid "Turkish"
+msgstr ""
+
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:30
 msgid "Turn on public sharing to track how many times your resume has been viewed or downloaded. Only you can see your resume's statistics."
 msgstr ""
@@ -2052,6 +2248,10 @@ msgstr ""
 
 #: src/utils/resume/section.tsx:110
 msgid "Typography"
+msgstr ""
+
+#: src/utils/locale.ts:117
+msgid "Ukrainian"
 msgstr ""
 
 #: src/components/input/rich-input.tsx:347
@@ -2178,6 +2378,10 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
+#: src/utils/locale.ts:118
+msgid "Uzbek"
+msgstr ""
+
 #: src/components/input/rich-input.tsx:267
 msgid "Valid URLs must start with http:// or https://."
 msgstr ""
@@ -2210,6 +2414,10 @@ msgstr ""
 
 #: src/routes/auth/register.tsx:219
 msgid "Verifying your email is required when resetting your password."
+msgstr ""
+
+#: src/utils/locale.ts:119
+msgid "Vietnamese"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/statistics.tsx:42
@@ -2303,7 +2511,7 @@ msgstr ""
 msgid "Your data is secure, and never shared or sold to anyone."
 msgstr ""
 
-#: src/routes/dashboard/settings/ai.tsx:103
+#: src/routes/dashboard/settings/ai.tsx:106
 msgid "Your data is stored locally"
 msgstr ""
 
@@ -2369,7 +2577,7 @@ msgstr ""
 msgid "Zoom out"
 msgstr ""
 
-#: src/utils/locale.ts:18
+#: src/utils/locale.ts:122
 msgid "Zulu"
 msgstr ""
 
