@@ -204,7 +204,8 @@ class S3StorageService implements StorageService {
 
 	async healthcheck(): Promise<StorageHealthResult> {
 		try {
-			await this.client.list({ maxKeys: 1 });
+			await this.client.write("healthcheck", "OK");
+			await this.client.delete("healthcheck");
 
 			return {
 				type: "s3",
