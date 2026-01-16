@@ -3,6 +3,7 @@ import { Trans } from "@lingui/react/macro";
 import { BrainIcon, CheckCircleIcon, InfoIcon, XCircleIcon } from "@phosphor-icons/react";
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "motion/react";
+import { Switch } from "@/components/animate-ui/switch";
 import { Combobox, type ComboboxOption } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -79,7 +80,9 @@ function AIForm() {
 }
 
 function RouteComponent() {
-	const enabled = useAIStore((state) => state.isEnabled());
+	const enabled = useAIStore((state) => state.enabled);
+	const canEnable = useAIStore((state) => state.canEnable());
+	const setEnabled = useAIStore((state) => state.setEnabled);
 
 	return (
 		<div className="space-y-4">
@@ -115,6 +118,22 @@ function RouteComponent() {
 				<Separator />
 
 				<AIForm />
+
+				<Separator />
+
+				<div className="flex items-center justify-between">
+					<div className="space-y-1">
+						<Label htmlFor="enable-ai">
+							<Trans>Enable AI Features</Trans>
+						</Label>
+						{!canEnable && (
+							<p className="text-muted-foreground text-sm">
+								<Trans>Fill in all fields above to enable</Trans>
+							</p>
+						)}
+					</div>
+					<Switch id="enable-ai" checked={enabled} disabled={!canEnable} onCheckedChange={setEnabled} />
+				</div>
 
 				<p className={cn("flex items-center gap-x-2", enabled ? "text-fd-success" : "text-destructive")}>
 					{enabled ? <CheckCircleIcon /> : <XCircleIcon />}

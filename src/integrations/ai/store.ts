@@ -10,13 +10,15 @@ import { create } from "zustand/react";
 export type AIProvider = "openai" | "gemini" | "anthropic";
 
 type AIStoreState = {
+	enabled: boolean;
 	provider: AIProvider;
 	model: string;
 	apiKey: string;
 };
 
 type AIStoreActions = {
-	isEnabled: () => boolean;
+	canEnable: () => boolean;
+	setEnabled: (value: boolean) => void;
 	getModel: () => LanguageModel | null;
 	set: (fn: (draft: WritableDraft<AIStoreState>) => void) => void;
 	reset: () => void;
@@ -25,6 +27,7 @@ type AIStoreActions = {
 type AIStore = AIStoreState & AIStoreActions;
 
 const initialState: AIStoreState = {
+	enabled: false,
 	provider: "openai",
 	model: "",
 	apiKey: "",
@@ -35,9 +38,17 @@ export const useAIStore = create<AIStore>()(
 		immer((set, get) => ({
 			...initialState,
 
-			isEnabled: () => {
+			canEnable: () => {
 				const { provider, model, apiKey } = get();
 				return !!provider && !!model && !!apiKey;
+			},
+
+			setEnabled: (value: boolean) => {
+				const canEnable = get().canEnable();
+				if (value && !canEnable) return;
+				set((draft) => {
+					draft.enabled = value;
+				});
 			},
 
 			getModel: () => {
@@ -68,6 +79,7 @@ export const useAIStore = create<AIStore>()(
 			name: "ai-store",
 			storage: createJSONStorage(() => localStorage),
 			partialize: (state) => ({
+				enabled: state.enabled,
 				provider: state.provider,
 				model: state.model,
 				apiKey: state.apiKey,

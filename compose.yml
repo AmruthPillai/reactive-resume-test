@@ -12,6 +12,7 @@ services:
       - postgres_data:/var/lib/postgresql
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres", "-d", "postgres"]
+      start_period: 10s
       interval: 30s
       timeout: 10s
       retries: 3
@@ -28,6 +29,7 @@ services:
       - PROMETHEUS_DISABLE_COLLECT=true
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      start_period: 10s
       interval: 30s
       timeout: 10s
       retries: 3
@@ -43,6 +45,7 @@ services:
       - seaweedfs_data:/data
     healthcheck:
       test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:8888"]
+      start_period: 10s
       interval: 30s
       timeout: 10s
       retries: 3
@@ -99,6 +102,7 @@ services:
           "-e",
           "fetch('http://localhost:3000/api/health').then(r => r.ok ? process.exit(0) : process.exit(1)).catch(() => process.exit(1))",
         ]
+      start_period: 10s
       interval: 30s
       timeout: 10s
       retries: 3

@@ -2,7 +2,7 @@ name: reactive_resume
 
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:18
     restart: unless-stopped
     environment:
       POSTGRES_DB: postgres
@@ -14,6 +14,7 @@ services:
       - "5432:5432"
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres", "-d", "postgres"]
+      start_period: 10s
       interval: 30s
       timeout: 10s
       retries: 3
@@ -32,6 +33,7 @@ services:
       - "4000:3000"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      start_period: 10s
       interval: 30s
       timeout: 10s
       retries: 3
@@ -49,6 +51,7 @@ services:
       - "8333:8333"
     healthcheck:
       test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:8888"]
+      start_period: 10s
       interval: 30s
       timeout: 10s
       retries: 3
@@ -58,10 +61,11 @@ services:
     restart: on-failure
     entrypoint: >
       /bin/sh -c "
-        sleep 5;
-        mc alias set seaweedfs http://seaweedfs:8333 seaweedfs seaweedfs;
-        mc mb seaweedfs/reactive-resume;
-        exit 0;
+        until mc alias set seaweedfs http://seaweedfs:8333 seaweedfs seaweedfs; do
+          echo 'Waiting for SeaweedFS...';
+          sleep 2;
+        done;
+        mc mb seaweedfs/reactive-resume --ignore-existing;
       "
     depends_on:
       seaweedfs:
@@ -75,6 +79,12 @@ services:
     ports:
       - "1025:1025"
       - "8025:8025"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:8025/"]
+      start_period: 10s
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 volumes:
   postgres_data:
