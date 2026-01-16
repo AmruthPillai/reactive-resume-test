@@ -1,4 +1,5 @@
 import z from "zod";
+import { localeSchema as utilsLocaleSchema } from "@/utils/locale";
 import { templateSchema } from "../templates";
 
 export const iconSchema = z
@@ -7,8 +8,7 @@ export const iconSchema = z
 		"The icon to display for the custom field. Must be a valid icon name from @phosphor-icons/web icon set, or an empty string to hide. Default to '' (empty string) when unsure which icons are available.",
 	);
 
-export const localeSchema = z
-	.union([z.literal("en-US"), z.literal("de-DE"), z.literal("zu-ZA")])
+export const localeSchema = utilsLocaleSchema
 	.describe("The language used in the resume, used for displaying pre-translated section headings, if not overridden.")
 	.catch("en-US");
 

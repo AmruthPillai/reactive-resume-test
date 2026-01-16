@@ -41,6 +41,9 @@ const localClient = new Bun.SQL({ url: localUrl });
 // == Persistent mapping file path ==
 const USER_ID_MAP_FILE = "./scripts/migration/user-id-map.json";
 
+// == Progress checkpoint file path ==
+const PROGRESS_FILE = "./scripts/migration/resume-progress.json";
+
 // You may tune this for your use case
 // Reduced from 10000 to avoid PostgreSQL message format errors
 const BATCH_SIZE = 5000;
@@ -48,6 +51,59 @@ const BATCH_SIZE = 5000;
 // Chunk size for actual inserts - smaller to avoid PostgreSQL message size limits
 // Especially important for resumes as they contain large JSONB data
 const INSERT_CHUNK_SIZE = 1000;
+
+// == Progress checkpoint interface ==
+interface MigrationProgress {
+	currentOffset: number;
+	resumesCreated: number;
+	statisticsCreated: number;
+	skipped: number;
+	totalResumesProcessed: number;
+	errors: number;
+	lastUpdated: string;
+}
+
+// Flag to track if shutdown was requested
+let shutdownRequested = false;
+
+async function loadProgress(): Promise<MigrationProgress | null> {
+	try {
+		const file = Bun.file(PROGRESS_FILE);
+		if (await file.exists()) {
+			const text = await file.text();
+			const progress = JSON.parse(text) as MigrationProgress;
+			console.log(`📂 Found existing progress file. Last updated: ${progress.lastUpdated}`);
+			console.log(`   Resuming from offset ${progress.currentOffset}...`);
+			return progress;
+		}
+	} catch (e) {
+		console.warn("⚠️  Failed to load progress file, starting from beginning.", e);
+	}
+	return null;
+}
+
+async function saveProgress(progress: MigrationProgress): Promise<void> {
+	try {
+		progress.lastUpdated = new Date().toISOString();
+		await Bun.write(PROGRESS_FILE, JSON.stringify(progress, null, 2));
+		console.log(`💾 Progress saved at offset ${progress.currentOffset}`);
+	} catch (e) {
+		console.error("🚨 Failed to save progress:", e);
+	}
+}
+
+async function clearProgress(): Promise<void> {
+	try {
+		const file = Bun.file(PROGRESS_FILE);
+		if (await file.exists()) {
+			const fs = await import("node:fs/promises");
+			await fs.unlink(PROGRESS_FILE);
+			console.log("🗑️  Progress file cleared.");
+		}
+	} catch {
+		// Ignore errors when clearing
+	}
+}
 
 async function loadUserIdMapFromFile(): Promise<Map<string, string>> {
 	try {
@@ -84,10 +140,48 @@ export async function migrateResumes() {
 	let totalResumesProcessed = 0;
 	let errors = 0;
 
+	// Load saved progress if exists
+	const savedProgress = await loadProgress();
+	if (savedProgress) {
+		currentOffset = savedProgress.currentOffset;
+		resumesCreated = savedProgress.resumesCreated;
+		statisticsCreated = savedProgress.statisticsCreated;
+		skipped = savedProgress.skipped;
+		totalResumesProcessed = savedProgress.totalResumesProcessed;
+		errors = savedProgress.errors;
+	}
+
+	// Helper to get current progress object
+	const getCurrentProgress = (): MigrationProgress => ({
+		currentOffset,
+		resumesCreated,
+		statisticsCreated,
+		skipped,
+		totalResumesProcessed,
+		errors,
+		lastUpdated: new Date().toISOString(),
+	});
+
+	// Setup graceful shutdown handler
+	const handleShutdown = async () => {
+		if (shutdownRequested) return;
+		shutdownRequested = true;
+		console.log("\n⚠️  Shutdown requested. Saving progress...");
+		await saveProgress(getCurrentProgress());
+		console.log("👋 Exiting. Run the script again to resume from where you left off.");
+		process.exit(0);
+	};
+
+	process.on("SIGINT", handleShutdown);
+	process.on("SIGTERM", handleShutdown);
+
 	// Initialize the importer
 	const importer = new ReactiveResumeV4JSONImporter();
 
 	while (hasMore) {
+		// Check if shutdown was requested
+		if (shutdownRequested) break;
+
 		console.log(`📥 Fetching resumes batch from production database (OFFSET ${currentOffset})...`);
 
 		const resumes = (await productionDb.execute(sql`
@@ -293,7 +387,14 @@ export async function migrateResumes() {
 		currentOffset += resumes.length;
 		totalResumesProcessed += resumes.length;
 		console.log(`📦 Processed ${totalResumesProcessed} resumes so far...\n`);
+
+		// Save progress after each batch
+		await saveProgress(getCurrentProgress());
 	}
+
+	// Remove signal handlers
+	process.off("SIGINT", handleShutdown);
+	process.off("SIGTERM", handleShutdown);
 
 	const migrationEnd = performance.now();
 	const migrationDurationMs = migrationEnd - migrationStart;
@@ -307,10 +408,19 @@ export async function migrateResumes() {
 		`⏱️  Total migration time: ${migrationDurationMs.toFixed(1)} ms (${(migrationDurationMs / 1000).toFixed(2)} seconds)`,
 	);
 
-	console.log("✅ Resume migration complete!");
+	// Clear progress file on successful completion (only if not interrupted)
+	if (!shutdownRequested) {
+		await clearProgress();
+		console.log("✅ Resume migration complete!");
+	} else {
+		console.log("⏸️  Migration paused. Run again to resume.");
+	}
 }
 
 if (import.meta.main) {
+	// Reset shutdown flag for fresh run
+	shutdownRequested = false;
+
 	try {
 		await migrateResumes();
 	} finally {

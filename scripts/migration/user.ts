@@ -60,12 +60,68 @@ const localClient = new Bun.SQL({ url: localUrl });
 // == Persistent mapping file path ==
 const USER_ID_MAP_FILE = "./scripts/migration/user-id-map.json";
 
+// == Progress checkpoint file path ==
+const PROGRESS_FILE = "./scripts/migration/user-progress.json";
+
 // You may tune this for your use case
 // Reduced from 10000 to avoid PostgreSQL message format errors
 const BATCH_SIZE = 5000;
 
 // Chunk size for actual inserts - smaller to avoid PostgreSQL message size limits
 const INSERT_CHUNK_SIZE = 1000;
+
+// == Progress checkpoint interface ==
+interface MigrationProgress {
+	currentOffset: number;
+	usersCreated: number;
+	accountsCreated: number;
+	twoFactorCreated: number;
+	skipped: number;
+	totalUsersProcessed: number;
+	lastUpdated: string;
+}
+
+// Flag to track if shutdown was requested
+let shutdownRequested = false;
+
+async function loadProgress(): Promise<MigrationProgress | null> {
+	try {
+		const file = Bun.file(PROGRESS_FILE);
+		if (await file.exists()) {
+			const text = await file.text();
+			const progress = JSON.parse(text) as MigrationProgress;
+			console.log(`📂 Found existing progress file. Last updated: ${progress.lastUpdated}`);
+			console.log(`   Resuming from offset ${progress.currentOffset}...`);
+			return progress;
+		}
+	} catch (e) {
+		console.warn("⚠️  Failed to load progress file, starting from beginning.", e);
+	}
+	return null;
+}
+
+async function saveProgress(progress: MigrationProgress): Promise<void> {
+	try {
+		progress.lastUpdated = new Date().toISOString();
+		await Bun.write(PROGRESS_FILE, JSON.stringify(progress, null, 2));
+		console.log(`💾 Progress saved at offset ${progress.currentOffset}`);
+	} catch (e) {
+		console.error("🚨 Failed to save progress:", e);
+	}
+}
+
+async function clearProgress(): Promise<void> {
+	try {
+		const file = Bun.file(PROGRESS_FILE);
+		if (await file.exists()) {
+			const fs = await import("node:fs/promises");
+			await fs.unlink(PROGRESS_FILE);
+			console.log("🗑️  Progress file cleared.");
+		}
+	} catch {
+		// Ignore errors when clearing
+	}
+}
 
 async function loadUserIdMapFromFile(): Promise<Map<string, string>> {
 	try {
@@ -107,7 +163,46 @@ export async function migrateUsers() {
 	let skipped = 0;
 	let totalUsersProcessed = 0;
 
+	// Load saved progress if exists
+	const savedProgress = await loadProgress();
+	if (savedProgress) {
+		currentOffset = savedProgress.currentOffset;
+		usersCreated = savedProgress.usersCreated;
+		accountsCreated = savedProgress.accountsCreated;
+		twoFactorCreated = savedProgress.twoFactorCreated;
+		skipped = savedProgress.skipped;
+		totalUsersProcessed = savedProgress.totalUsersProcessed;
+	}
+
+	// Helper to get current progress object
+	const getCurrentProgress = (): MigrationProgress => ({
+		currentOffset,
+		usersCreated,
+		accountsCreated,
+		twoFactorCreated,
+		skipped,
+		totalUsersProcessed,
+		lastUpdated: new Date().toISOString(),
+	});
+
+	// Setup graceful shutdown handler
+	const handleShutdown = async () => {
+		if (shutdownRequested) return;
+		shutdownRequested = true;
+		console.log("\n⚠️  Shutdown requested. Saving progress...");
+		await saveProgress(getCurrentProgress());
+		await saveUserIdMapToFile(userIdMap);
+		console.log("👋 Exiting. Run the script again to resume from where you left off.");
+		process.exit(0);
+	};
+
+	process.on("SIGINT", handleShutdown);
+	process.on("SIGTERM", handleShutdown);
+
 	while (hasMore) {
+		// Check if shutdown was requested
+		if (shutdownRequested) break;
+
 		console.log(`📥 Fetching users batch from production database (OFFSET ${currentOffset})...`);
 
 		const users = (await productionDb.execute(sql`
@@ -302,6 +397,7 @@ export async function migrateUsers() {
 
 			// Save progress after each batch
 			await saveUserIdMapToFile(userIdMap);
+			await saveProgress(getCurrentProgress());
 		} catch (error) {
 			console.error(`🚨 Failed to bulk insert users batch:`, error);
 			// Continue with next batch even if this one fails
@@ -311,6 +407,10 @@ export async function migrateUsers() {
 		totalUsersProcessed += users.length;
 		console.log(`📦 Processed ${totalUsersProcessed} users so far...\n`);
 	}
+
+	// Remove signal handlers
+	process.off("SIGINT", handleShutdown);
+	process.off("SIGTERM", handleShutdown);
 
 	const migrationEnd = performance.now();
 	const migrationDurationMs = migrationEnd - migrationStart;
@@ -324,16 +424,25 @@ export async function migrateUsers() {
 		`⏱️  Total migration time: ${migrationDurationMs.toFixed(1)} ms (${(migrationDurationMs / 1000).toFixed(2)} seconds)`,
 	);
 
-	console.log("✅ User migration complete!");
-
 	// Final save of the mapping (ensures up-to-date state)
 	await saveUserIdMapToFile(userIdMap);
+
+	// Clear progress file on successful completion (only if not interrupted)
+	if (!shutdownRequested) {
+		await clearProgress();
+		console.log("✅ User migration complete!");
+	} else {
+		console.log("⏸️  Migration paused. Run again to resume.");
+	}
 
 	// Return the ID mapping for use in other migrations (e.g., resumes)
 	return userIdMap;
 }
 
 if (import.meta.main) {
+	// Reset shutdown flag for fresh run
+	shutdownRequested = false;
+
 	try {
 		await migrateUsers();
 	} finally {
