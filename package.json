@@ -24,7 +24,6 @@
 		"dev": "vite dev",
 		"docs": "cd docs && npx mint dev",
 		"knip": "knip",
-		"crowdin:sync": "crowdin pull && crowdin push",
 		"lingui:extract": "lingui extract --clean --overwrite",
 		"lint": "biome check --write .",
 		"start": "node -r reflect-metadata .output/server/index.mjs",

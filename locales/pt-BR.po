@@ -8,7 +8,7 @@ msgstr ""
 "Language: pt\n"
 "Project-Id-Version: reactive-resume\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-01-16 10:33\n"
+"PO-Revision-Date: 2026-01-17 10:55\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -21,22 +21,22 @@ msgstr ""
 #. js-lingui-explicit-id
 #: src/routes/dashboard/resumes/index.tsx:51
 msgid "Last Updated"
-msgstr ""
+msgstr "Última Atualização"
 
 #. js-lingui-explicit-id
 #: src/routes/dashboard/resumes/index.tsx:52
 msgid "Created"
-msgstr ""
+msgstr "Criado em"
 
 #. js-lingui-explicit-id
 #: src/routes/dashboard/resumes/index.tsx:53
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #. placeholder {0}: testimonials.length
 #: src/routes/_home/-sections/testimonials.tsx:134
 msgid "{0}+ testimonials and counting"
-msgstr ""
+msgstr "{0}+ depoimentos"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:160
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx:149
@@ -45,16 +45,16 @@ msgstr ""
 
 #: src/routes/_home/-sections/hero.tsx:56
 msgid "<0>Finally,</0><1>A free and open-source resume builder</1>"
-msgstr ""
+msgstr "<0>Finalmente,</0><1>Um gerador de currículo gratuito e de código aberto</1>"
 
 #: src/routes/_home/-sections/faq.tsx:62
 msgctxt "Every word needs to be wrapped in a tag"
 msgid "<0>Frequently</0><1>Asked</1><2>Questions</2>"
-msgstr ""
+msgstr "<0>Perguntas</0><1>Frequentes</1>"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/information.tsx:15
 msgid "<0>Thank you for using Reactive Resume! This app is a labor of love, created mostly in my spare time, with wonderful support from open-source contributors around the world.</0><1>If Reactive Resume has been helpful to you, and you'd like to help keep it free and open for everyone, please consider making a donation. Every little bit is appreciated!</1>"
-msgstr ""
+msgstr "<0>Obrigado por usar o Reactive Resume! Este aplicativo é um trabalho de amor, criado principalmente em meu tempo livre, com o maravilhoso apoio de colaboradores de código aberto de todo o mundo.</0><1>Se o Reactive Resume foi útil e você gostaria de ajudar a mantê-lo gratuito e aberto para todos, considere fazer uma doação. Cada ajuda é sempre bem-vinda!</1>"
 
 #: src/dialogs/api-key/create.tsx:129
 msgid "1 month"
@@ -131,80 +131,80 @@ msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/education.tsx:31
 msgid "Add a new education"
-msgstr ""
+msgstr "Adicionar formação"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/experience.tsx:31
 msgid "Add a new experience"
-msgstr ""
+msgstr "Adicionar experiência profissional"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/interests.tsx:31
 msgid "Add a new interest"
-msgstr ""
+msgstr "Adicionar interesse"
 
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-menu.tsx:120
 msgid "Add a new item"
-msgstr ""
+msgstr "Adicionar item"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/languages.tsx:31
 msgid "Add a new language"
-msgstr ""
+msgstr "Adicionar idioma"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/profiles.tsx:31
 msgid "Add a new profile"
-msgstr ""
+msgstr "Adicionar perfil"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/projects.tsx:36
 msgid "Add a new project"
-msgstr ""
+msgstr "Adicionar projeto"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/publications.tsx:31
 msgid "Add a new publication"
-msgstr ""
+msgstr "Adicionar publicação"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/references.tsx:31
 msgid "Add a new reference"
-msgstr ""
+msgstr "Adicionar referência"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/skills.tsx:31
 msgid "Add a new skill"
-msgstr ""
+msgstr "Adicionar competência"
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/volunteer.tsx:37
 msgid "Add a new volunteer experience"
-msgstr ""
+msgstr "Adicionar experiência de voluntariado"
 
 #: src/components/input/rich-input.tsx:599
 msgid "Add Column After"
-msgstr ""
+msgstr "Adicionar coluna depois"
 
 #: src/components/input/rich-input.tsx:595
 msgid "Add Column Before"
-msgstr ""
+msgstr "Adicionar coluna antes"
 
 #: src/routes/builder/$resumeId/-sidebar/right/sections/layout/pages.tsx:223
 msgid "Add Page"
-msgstr ""
+msgstr "Adicionar página"
 
 #: src/components/input/rich-input.tsx:608
 msgid "Add Row After"
-msgstr ""
+msgstr "Adicionar linha depois"
 
 #: src/components/input/rich-input.tsx:604
 msgid "Add Row Before"
-msgstr ""
+msgstr "Adicionar linha antes"
 
 #. placeholder {0}: passkey.createdAt.toLocaleDateString()
 #: src/routes/dashboard/settings/authentication/-components/passkeys.tsx:110
 msgid "Added on {0}"
-msgstr ""
+msgstr "Adicionado em {0}"
 
 #: src/routes/dashboard/settings/authentication/-components/passkeys.tsx:24
 msgid "Adding your passkey..."
-msgstr ""
+msgstr "Adicionando sua chave de acesso..."
 
 #: src/utils/locale.ts:70
 msgid "Afrikaans"
-msgstr ""
+msgstr "Africâner"
 
 #: src/dialogs/resume/import.tsx:213
 #: src/dialogs/resume/import.tsx:221
@@ -213,7 +213,7 @@ msgstr ""
 
 #: src/utils/locale.ts:110
 msgid "Albanian"
-msgstr ""
+msgstr "Albanês"
 
 #: src/routes/dashboard/settings/ai.tsx:110
 msgid "All data entered here is stored locally in your browser and is never sent to our servers. Your API keys and configuration remain private and secure on your device."
@@ -1467,7 +1467,7 @@ msgstr ""
 #: src/routes/builder/$resumeId/-sidebar/left/sections/basics.tsx:50
 #: src/routes/dashboard/settings/profile.tsx:136
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: src/utils/locale.ts:100
 msgid "Nepali"
@@ -2363,7 +2363,11 @@ msgstr ""
 
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:124
 msgid "URL"
-msgstr ""
+msgstr "URL"
+
+#: src/routes/auth/verify-2fa-backup.tsx:114
+msgid "Use Authenticator App"
+msgstr "Usar aplicativo de autenticação"
 
 #: src/dialogs/resume/sections/profile.tsx:185
 #: src/routes/auth/register.tsx:124
@@ -2377,7 +2381,7 @@ msgstr ""
 
 #: src/utils/locale.ts:118
 msgid "Uzbek"
-msgstr ""
+msgstr "Uzbeque"
 
 #: src/components/input/rich-input.tsx:267
 msgid "Valid URLs must start with http:// or https://."
@@ -2568,12 +2572,13 @@ msgstr ""
 
 #: src/routes/builder/$resumeId/-components/dock.tsx:70
 msgid "Zoom in"
-msgstr ""
+msgstr "Aumentar zoom"
 
 #: src/routes/builder/$resumeId/-components/dock.tsx:71
 msgid "Zoom out"
-msgstr ""
+msgstr "Diminuir zoom"
 
 #: src/utils/locale.ts:122
 msgid "Zulu"
-msgstr ""
+msgstr "Zulu"
+
