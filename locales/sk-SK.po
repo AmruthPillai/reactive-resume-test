@@ -296,7 +296,7 @@ msgid "Are you sure you want to delete this passkey?"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-components/header.tsx:102
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:91
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:79
 msgid "Are you sure you want to delete this resume?"
 msgstr ""
 
@@ -305,7 +305,7 @@ msgid "Are you sure you want to delete your account?"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-components/header.tsx:84
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:73
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:61
 msgid "Are you sure you want to lock this resume?"
 msgstr ""
 
@@ -462,7 +462,7 @@ msgstr ""
 msgid "Center Align"
 msgstr ""
 
-#: src/routes/builder/$resumeId/-components/dock.tsx:74
+#: src/routes/builder/$resumeId/-components/dock.tsx:73
 msgid "Center view"
 msgstr ""
 
@@ -585,7 +585,7 @@ msgstr ""
 msgid "Copy this secret key and use it in your applications to access your data."
 msgstr ""
 
-#: src/routes/builder/$resumeId/-components/dock.tsx:76
+#: src/routes/builder/$resumeId/-components/dock.tsx:75
 msgid "Copy URL"
 msgstr ""
 
@@ -745,7 +745,7 @@ msgstr ""
 #: src/routes/builder/$resumeId/-components/header.tsx:152
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:173
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:141
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:164
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:152
 #: src/routes/dashboard/settings/api-keys.tsx:39
 msgid "Delete"
 msgstr ""
@@ -783,7 +783,7 @@ msgid "Deleting your passkey..."
 msgstr ""
 
 #: src/routes/builder/$resumeId/-components/header.tsx:108
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:97
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:85
 msgid "Deleting your resume..."
 msgstr ""
 
@@ -849,15 +849,15 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:45
+#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:44
 msgid "Download a copy of your resume in JSON format. Use this file for backup or to import your resume into other applications, including AI assistants."
 msgstr ""
 
-#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:68
+#: src/routes/builder/$resumeId/-sidebar/right/sections/export.tsx:67
 msgid "Download a copy of your resume in PDF format. Use this file for printing or to easily share your resume with recruiters."
 msgstr ""
 
-#: src/routes/builder/$resumeId/-components/dock.tsx:78
+#: src/routes/builder/$resumeId/-components/dock.tsx:77
 msgid "Download PDF"
 msgstr ""
 
@@ -877,7 +877,7 @@ msgstr ""
 #: src/routes/builder/$resumeId/-components/header.tsx:140
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:147
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:132
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:152
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:140
 msgid "Duplicate"
 msgstr ""
 
@@ -1327,7 +1327,7 @@ msgstr ""
 msgid "Last downloaded on {0}"
 msgstr ""
 
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:117
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:105
 msgid "Last updated on {updatedAt}"
 msgstr ""
 
@@ -1408,7 +1408,7 @@ msgid "Location"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-components/header.tsx:145
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:157
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:145
 msgid "Lock"
 msgstr ""
 
@@ -1533,7 +1533,7 @@ msgstr ""
 msgid "Ongoing Maintenance"
 msgstr ""
 
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:139
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:127
 msgid "Open"
 msgstr ""
 
@@ -1802,7 +1802,7 @@ msgstr ""
 msgid "Reset your password"
 msgstr ""
 
-#: src/routes/builder/$resumeId/-components/dock.tsx:73
+#: src/routes/builder/$resumeId/-components/dock.tsx:72
 msgid "Reset zoom"
 msgstr ""
 
@@ -2151,7 +2151,7 @@ msgid "Then, enter the 6 digit code that the app provides to continue."
 msgstr ""
 
 #: src/routes/builder/$resumeId/-components/header.tsx:103
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:92
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:80
 msgid "This action cannot be undone."
 msgstr ""
 
@@ -2268,7 +2268,7 @@ msgstr ""
 
 #: src/routes/auth/resume-password.tsx:128
 #: src/routes/builder/$resumeId/-components/header.tsx:145
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:157
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:145
 msgid "Unlock"
 msgstr ""
 
@@ -2279,7 +2279,7 @@ msgstr ""
 #: src/routes/builder/$resumeId/-components/header.tsx:135
 #: src/routes/builder/$resumeId/-sidebar/left/sections/custom.tsx:142
 #: src/routes/builder/$resumeId/-sidebar/left/shared/section-item.tsx:127
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:147
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:135
 msgid "Update"
 msgstr ""
 
@@ -2457,7 +2457,7 @@ msgid "What's new in the latest version?"
 msgstr ""
 
 #: src/routes/builder/$resumeId/-components/header.tsx:85
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:74
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:62
 msgid "When locked, the resume cannot be updated or deleted."
 msgstr ""
 
@@ -2545,7 +2545,7 @@ msgid "Your resume has been created successfully."
 msgstr ""
 
 #: src/routes/builder/$resumeId/-components/header.tsx:114
-#: src/routes/dashboard/resumes/-components/resume-card.tsx:103
+#: src/routes/dashboard/resumes/-components/resume-card.tsx:91
 msgid "Your resume has been deleted successfully."
 msgstr ""
 
@@ -2569,11 +2569,11 @@ msgstr ""
 msgid "Your support ensures the project remains free and accessible for everyone, now and in the future."
 msgstr ""
 
-#: src/routes/builder/$resumeId/-components/dock.tsx:71
+#: src/routes/builder/$resumeId/-components/dock.tsx:70
 msgid "Zoom in"
 msgstr ""
 
-#: src/routes/builder/$resumeId/-components/dock.tsx:72
+#: src/routes/builder/$resumeId/-components/dock.tsx:71
 msgid "Zoom out"
 msgstr ""
 
