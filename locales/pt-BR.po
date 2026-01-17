@@ -8,7 +8,7 @@ msgstr ""
 "Language: pt\n"
 "Project-Id-Version: reactive-resume\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-01-17 10:55\n"
+"PO-Revision-Date: 2026-01-17 12:59\n"
 "Last-Translator: \n"
 "Language-Team: Portuguese, Brazilian\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -2364,10 +2364,6 @@ msgstr ""
 #: src/routes/builder/$resumeId/-sidebar/left/sections/picture.tsx:124
 msgid "URL"
 msgstr "URL"
-
-#: src/routes/auth/verify-2fa-backup.tsx:114
-msgid "Use Authenticator App"
-msgstr "Usar aplicativo de autenticação"
 
 #: src/dialogs/resume/sections/profile.tsx:185
 #: src/routes/auth/register.tsx:124
