@@ -62,8 +62,8 @@ const config = defineConfig({
 			plugins: ["plugins/0.reflect-metadata.ts", "plugins/1.migrate.ts"],
 		}),
 		VitePWA({
+			outDir: "public",
 			registerType: "autoUpdate",
-			outDir: ".output/public",
 			includeAssets: ["**/*"],
 			workbox: {
 				globPatterns: ["**/*"],

@@ -1,3 +1,4 @@
+dist
 .env*
 /data
 .nitro
@@ -5,7 +6,10 @@
 .vercel
 .cursor
 coverage
+.netlify
 .DS_Store
 .tanstack
 node_modules
 !.env.example
+public/sw.js
+public/workbox-*.js
