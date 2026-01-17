@@ -45,4 +45,4 @@ COPY --from=dependencies /tmp/prod/node_modules ./node_modules
 
 EXPOSE 3000/tcp
 
-ENTRYPOINT ["node", "-r", "reflect-metadata", ".output/server/index.mjs"]
+ENTRYPOINT ["node", ".output/server/index.mjs"]

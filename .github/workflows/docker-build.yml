@@ -160,3 +160,9 @@ jobs:
       - name: Inspect image
         run: |
           docker buildx imagetools inspect ghcr.io/${{ env.IMAGE }}:latest
+
+      - name: Redeploy Service
+        if: ${{ secrets.SERVICE_WEBHOOK_URL != '' }}
+        env:
+          SERVICE_WEBHOOK_URL: ${{ secrets.SERVICE_WEBHOOK_URL }}
+        run: curl -X POST --silent "$SERVICE_WEBHOOK_URL"

@@ -38,6 +38,7 @@ declare namespace NodeJS {
 		S3_REGION?: string;
 		S3_ENDPOINT?: string;
 		S3_BUCKET?: string;
+		S3_FORCE_PATH_STYLE?: string | boolean;
 
 		// Custom OAuth Provider
 		OAUTH_PROVIDER_NAME?: string;

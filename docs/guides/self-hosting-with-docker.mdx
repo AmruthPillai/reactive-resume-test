@@ -109,6 +109,9 @@ S3_SECRET_ACCESS_KEY=""
 S3_REGION="us-east-1"
 S3_ENDPOINT=""
 S3_BUCKET=""
+# Set to "true" for path-style URLs (https://endpoint/bucket), common with MinIO, SeaweedFS, etc.
+# Set to "false" for virtual-hosted-style URLs (https://bucket.endpoint), common with AWS S3, Cloudflare R2, etc.
+S3_FORCE_PATH_STYLE="false"
 
 # --- Feature Flags ---
 FLAG_DEBUG_PRINTER="false"
@@ -318,6 +321,9 @@ openssl rand -hex 32
       - **`S3_REGION`**
       - **`S3_ENDPOINT`** (for S3-compatible providers; may be blank for AWS depending on your setup)
       - **`S3_BUCKET`**
+      - **`S3_FORCE_PATH_STYLE`**: Controls how the bucket is addressed in URLs. Defaults to `"false"`.
+        - Set to `"true"` for **path-style** URLs (`https://s3-server.com/bucket`). Common with **MinIO**, **SeaweedFS**, and other self-hosted S3-compatible services.
+        - Set to `"false"` for **virtual-hosted-style** URLs (`https://bucket.s3-server.com`). Common with **AWS S3**, **Cloudflare R2**, and most cloud providers.
   </Accordion>
 
   <Accordion title="Feature Flags">
@@ -390,6 +396,12 @@ This process ensures your app, database, and printer are all up-to-date while ke
   <Accordion title="Emails aren't being delivered">
     - **Expected behavior**: if SMTP vars are empty, the app logs emails to the console instead.
     - **Fix**: configure SMTP and verify your provider's TLS/port settings.
+  </Accordion>
+
+  <Accordion title="S3 storage error: ENOTFOUND bucket.endpoint">
+    - **Common cause**: The S3 client is using virtual-hosted-style addressing (prepending the bucket name to the endpoint), but your S3-compatible storage expects path-style addressing.
+    - **Symptom**: Error message like `getaddrinfo ENOTFOUND mybucket.s3-server.com` when your endpoint is `s3-server.com`.
+    - **Fix**: Set `S3_FORCE_PATH_STYLE="true"` in your environment. This is required for most self-hosted S3-compatible services like MinIO, SeaweedFS, etc.
   </Accordion>
 </AccordionGroup>
 
