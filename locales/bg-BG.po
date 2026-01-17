@@ -8,7 +8,7 @@ msgstr ""
 "Language: bg\n"
 "Project-Id-Version: reactive-resume\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-01-16 10:32\n"
+"PO-Revision-Date: 2026-01-17 00:18\n"
 "Last-Translator: \n"
 "Language-Team: Bulgarian\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -206,10 +206,6 @@ msgstr "Добавяне на ключ за достъп..."
 msgid "Afrikaans"
 msgstr ""
 
-#: src/utils/locale.ts:70
-msgid "Afrikaans"
-msgstr ""
-
 #: src/dialogs/resume/import.tsx:213
 #: src/dialogs/resume/import.tsx:221
 msgid "AI"
@@ -230,10 +226,6 @@ msgstr "Разрешаване на публичен достъп"
 #: src/routes/auth/register.tsx:89
 msgid "Already have an account? <0><1>Sign in now <2/></1></0>"
 msgstr "Вече имате акаунт? <0><1>Влезте сега <2/></1></0>"
-
-#: src/utils/locale.ts:71
-msgid "Amharic"
-msgstr ""
 
 #: src/utils/locale.ts:71
 msgid "Amharic"
@@ -1480,10 +1472,6 @@ msgstr "Име"
 msgid "Nepali"
 msgstr ""
 
-#: src/utils/locale.ts:100
-msgid "Nepali"
-msgstr ""
-
 #: src/dialogs/resume/sections/profile.tsx:168
 msgid "Network"
 msgstr ""
@@ -2592,3 +2580,4 @@ msgstr ""
 #: src/utils/locale.ts:122
 msgid "Zulu"
 msgstr ""
+
