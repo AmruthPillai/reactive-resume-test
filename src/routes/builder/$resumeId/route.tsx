@@ -103,12 +103,18 @@ function BuilderLayout({ initialLayout, ...props }: BuilderLayoutProps) {
 					minSize={collapsedSidebarSize * 2}
 					collapsedSize={collapsedSidebarSize}
 					defaultSize={leftSidebarSize}
+					style={panelTransitionStyle}
 					className="z-20 h-[calc(100svh-3.5rem)]"
 				>
 					<BuilderSidebarLeft />
 				</ResizablePanel>
 				<ResizableSeparator withHandle className="z-20 border-r" />
-				<ResizablePanel id="artboard" defaultSize={artboardSize} className="h-[calc(100svh-3.5rem)]">
+				<ResizablePanel
+					id="artboard"
+					defaultSize={artboardSize}
+					style={panelTransitionStyle}
+					className="h-[calc(100svh-3.5rem)]"
+				>
 					<Outlet />
 				</ResizablePanel>
 				<ResizableSeparator withHandle className="z-20 border-l" />
@@ -120,6 +126,7 @@ function BuilderLayout({ initialLayout, ...props }: BuilderLayoutProps) {
 					minSize={collapsedSidebarSize * 2}
 					collapsedSize={collapsedSidebarSize}
 					defaultSize={rightSidebarSize}
+					style={panelTransitionStyle}
 					className="z-20 h-[calc(100svh-3.5rem)]"
 				>
 					<BuilderSidebarRight />

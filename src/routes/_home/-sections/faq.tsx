@@ -3,7 +3,10 @@ import { Trans } from "@lingui/react/macro";
 import { CaretRightIcon } from "@phosphor-icons/react";
 import { motion } from "motion/react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/animate-ui/accordion";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/utils/style";
+
+const crowdinUrl = "https://crowdin.com/project/reactive-resume";
 
 type FAQItemData = {
 	question: string;
@@ -25,7 +28,22 @@ const getFaqItems = (): FAQItemData[] => [
 	},
 	{
 		question: t`Is Reactive Resume available in multiple languages?`,
-		answer: t`Yes, Reactive Resume is available in multiple languages. You can choose your preferred language in the settings page, or using the language switcher in the top right corner. If you don't see your language, or you would like to improve the existing translations, you can contribute to the translations on Crowdin.`,
+		answer: (
+			<Trans>
+				Yes, Reactive Resume is available in multiple languages. You can choose your preferred language in the settings
+				page, or using the language switcher in the top right corner. If you don't see your language, or you would like
+				to improve the existing translations, you can{" "}
+				<a
+					href={crowdinUrl}
+					target="_blank"
+					rel="noopener noreferrer"
+					className={buttonVariants({ variant: "link", className: "h-auto px-0!" })}
+				>
+					contribute to the translations on Crowdin
+				</a>
+				.
+			</Trans>
+		),
 	},
 	{
 		question: t`What makes Reactive Resume different from other resume builders?`,

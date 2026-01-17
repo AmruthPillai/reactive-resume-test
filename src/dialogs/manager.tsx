@@ -24,8 +24,6 @@ import { useDialogStore } from "./store";
 export function DialogManager() {
 	const { open, activeDialog, onOpenChange } = useDialogStore();
 
-	if (!activeDialog) return null;
-
 	return match(activeDialog)
 		.with({ type: "auth.change-password" }, () => <ChangePasswordDialog open={open} onOpenChange={onOpenChange} />)
 		.with({ type: "auth.two-factor.enable" }, () => <EnableTwoFactorDialog open={open} onOpenChange={onOpenChange} />)
@@ -118,5 +116,5 @@ export function DialogManager() {
 		.with({ type: "resume.sections.custom.update" }, ({ data }) => (
 			<UpdateCustomSectionDialog open={open} onOpenChange={onOpenChange} data={data} />
 		))
-		.exhaustive();
+		.otherwise(() => null);
 }

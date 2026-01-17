@@ -67,16 +67,13 @@ function StatisticCard({ statistic, index }: StatisticCardProps) {
 			</motion.div>
 
 			{/* Value */}
-			<div className="relative flex items-baseline gap-x-1">
-				<CountUp
-					key={statistic.id}
-					separator=","
-					duration={0.8}
-					to={statistic.value}
-					className="font-bold text-5xl tracking-tight md:text-6xl"
-				/>
-				<span className="font-bold text-4xl text-primary">+</span>
-			</div>
+			<CountUp
+				key={statistic.id}
+				separator=","
+				duration={0.8}
+				to={statistic.value}
+				className="font-bold text-5xl tracking-tight md:text-6xl"
+			/>
 
 			{/* Label */}
 			<p className="relative font-medium text-base text-muted-foreground tracking-tight">{statistic.label}</p>
