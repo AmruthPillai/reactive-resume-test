@@ -55,16 +55,27 @@ const config = defineConfig({
 	plugins: [
 		lingui(),
 		tailwindcss(),
-		tanstackStart({ router: { semicolons: true, quoteStyle: "double" } }),
-		viteReact({ babel: { plugins: [["@lingui/babel-plugin-lingui-macro"]] } }),
 		nitro({
 			prerender: { routes: ["/"] },
 			plugins: ["plugins/1.migrate.ts"],
-			moduleSideEffects: ["reflect-metadata"],
 			rollupConfig: {
-				plugins: [{ name: "reflect-metadata", banner: "import 'reflect-metadata';" }],
+				output: {
+					// @ts-expect-error - nitro types are not up to date
+					banner: (params: { type: "chunk"; name: string; isEntry: boolean }) => {
+						if (params.isEntry) {
+							console.log("rollUp entry", params.name);
+							return "import 'reflect-metadata';";
+						}
+					},
+				},
 			},
 		}),
+		tanstackStart({
+			router: { semicolons: true, quoteStyle: "double" },
+			sitemap: { enabled: true, host: "https://rxresu.me" },
+			prerender: { enabled: true, autoStaticPathsDiscovery: true },
+		}),
+		viteReact({ babel: { plugins: [["@lingui/babel-plugin-lingui-macro"]] } }),
 		VitePWA({
 			outDir: "public",
 			registerType: "autoUpdate",

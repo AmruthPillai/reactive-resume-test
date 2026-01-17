@@ -26,5 +26,6 @@ async function migrateDatabase() {
 }
 
 export default definePlugin(async () => {
+	if (process.env.TSS_PRERENDERING === "true") return;
 	await migrateDatabase();
 });
