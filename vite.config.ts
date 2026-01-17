@@ -57,6 +57,7 @@ const config = defineConfig({
 		tailwindcss(),
 		nitro({
 			plugins: ["plugins/1.migrate.ts"],
+			inlineDynamicImports: true,
 			moduleSideEffects: ["reflect-metadata"],
 			rollupConfig: {
 				output: {
