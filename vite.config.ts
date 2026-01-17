@@ -57,6 +57,7 @@ const config = defineConfig({
 		tailwindcss(),
 		nitro({
 			plugins: ["plugins/1.migrate.ts"],
+			moduleSideEffects: ["reflect-metadata"],
 			rollupConfig: {
 				output: {
 					// @ts-expect-error - nitro types are not up to date
